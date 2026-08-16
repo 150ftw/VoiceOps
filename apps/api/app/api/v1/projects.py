@@ -141,7 +141,7 @@ async def detach_or_delete_project(
     """Detach a repository / delete a project from the workspace."""
     from sqlalchemy import delete
     from app.models.repository import Repository
-    from app.models.document_chunk import DocumentChunk
+    from app.models.document import Document, DocumentChunk
     from app.models.conversation import Conversation
     from app.models.message import Message
 
