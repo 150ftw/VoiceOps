@@ -301,21 +301,21 @@ export default function LandingPage() {
           Autonomous DevOps Voice Engine
         </p>
 
-        {/* Massive Centerpiece Display Headline with Interactive 3D Z-Index Layering */}
+        {/* Massive Centerpiece Display Headline with Ethereal Luminous V Logo Backdrop */}
         <div className="relative w-full max-w-5xl mx-auto flex items-center justify-center py-6 my-2 group cursor-pointer">
-          {/* Luminous V Logo: Behind text at rest (z-0), Pops in FRONT on Hover (z-20) */}
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0 group-hover:z-20 transition-all duration-500">
-            <div className="absolute w-80 sm:w-96 md:w-[480px] h-80 sm:h-96 md:h-[480px] bg-purple-600/35 rounded-full blur-[100px] group-hover:bg-purple-500/60 group-hover:scale-110 transition-all duration-700 animate-pulse-subtle" />
+          {/* Ethereal Luminous V Logo Backdrop: Stays smoothly in the ambient background */}
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none -z-0">
+            <div className="absolute w-80 sm:w-96 md:w-[480px] h-80 sm:h-96 md:h-[480px] bg-purple-600/30 rounded-full blur-[100px] group-hover:bg-purple-500/50 group-hover:scale-115 transition-all duration-700 animate-pulse-subtle" />
             <img
               src="/logo.png"
               alt="VoiceOps Logo Backdrop"
-              className="w-72 sm:w-96 md:w-[480px] lg:w-[540px] h-auto object-contain opacity-45 sm:opacity-55 group-hover:opacity-100 group-hover:scale-110 group-hover:drop-shadow-[0_0_110px_rgba(168,85,247,0.95)] transition-all duration-700 drop-shadow-[0_0_90px_rgba(168,85,247,0.8)]"
+              className="w-72 sm:w-96 md:w-[460px] lg:w-[520px] h-auto object-contain opacity-35 sm:opacity-45 group-hover:opacity-65 group-hover:scale-105 group-hover:drop-shadow-[0_0_80px_rgba(168,85,247,0.85)] transition-all duration-700 drop-shadow-[0_0_60px_rgba(168,85,247,0.5)]"
               style={{ animation: 'float 7s ease-in-out infinite' }}
             />
           </div>
 
-          {/* Foreground Glitch Typography: z-10 */}
-          <h1 className="relative z-10 text-6xl sm:text-8xl md:text-9xl lg:text-[10rem] font-glitch uppercase scale-y-95 w-full flex flex-col items-center justify-center gap-1 sm:gap-2 select-none text-center group-hover:opacity-90 transition-opacity duration-500">
+          {/* Foreground Glitch Typography */}
+          <h1 className="relative z-10 text-6xl sm:text-8xl md:text-9xl lg:text-[10rem] font-glitch uppercase scale-y-95 w-full flex flex-col items-center justify-center gap-1 sm:gap-2 select-none text-center">
             {/* VOICE Row */}
             <div className="flex items-center justify-center gap-0.5 sm:gap-1.5 md:gap-2 group-hover:gap-2 sm:group-hover:gap-3.5 md:group-hover:gap-5 transition-all duration-700 ease-out">
               {[
