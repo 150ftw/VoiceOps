@@ -10,9 +10,28 @@
     "test:backend": "cd apps/api && PYTHONPATH=. .venv/bin/pytest -v"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.40.0",
+    "@types/three": "^0.185.4",
+    "clsx": "^2.1.1",
+    "framer-motion": "^11.2.10",
+    "lucide-react": "^0.383.0",
     "next": "^14.2.35",
+    "ogl": "^1.0.11",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "react-markdown": "^10.1.0",
+    "remark-gfm": "^4.0.1",
+    "tailwind-merge": "^2.3.0",
+    "three": "^0.185.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "autoprefixer": "^10.4.19",
+    "postcss": "^8.4.38",
+    "tailwindcss": "^3.4.3",
+    "typescript": "^5.4.5"
   },
   "workspaces": [
     "apps/*",
