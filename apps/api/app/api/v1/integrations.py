@@ -120,6 +120,40 @@ async def list_github_repositories(
             detail="GitHub is not connected for this workspace",
         )
 
+    if token == "ghp_demo_mock_access_token_voiceops":
+        return [
+            GitHubRepoItem(
+                id=10101,
+                name="demo-app",
+                full_name="voiceops/demo-app",
+                private=False,
+                html_url="https://github.com/voiceops/demo-app",
+                description="Demo microservice repository with GitHub Actions CI/CD workflows",
+                default_branch="main",
+                updated_at="2026-08-16T12:00:00Z",
+            ),
+            GitHubRepoItem(
+                id=10102,
+                name="payments-service",
+                full_name="voiceops/payments-service",
+                private=True,
+                html_url="https://github.com/voiceops/payments-service",
+                description="High throughput Stripe and PayPal integration microservice",
+                default_branch="main",
+                updated_at="2026-08-15T18:30:00Z",
+            ),
+            GitHubRepoItem(
+                id=10103,
+                name="cloud-infrastructure",
+                full_name="voiceops/cloud-infrastructure",
+                private=True,
+                html_url="https://github.com/voiceops/cloud-infrastructure",
+                description="Terraform modules and Kubernetes helm charts for AWS EKS",
+                default_branch="main",
+                updated_at="2026-08-14T09:15:00Z",
+            ),
+        ]
+
     client = GitHubClient(token=token)
     try:
         repos = await client.list_user_repositories(token)
@@ -130,11 +164,11 @@ async def list_github_repositories(
                     id=r["id"],
                     name=r["name"],
                     full_name=r["full_name"],
-                    private=r["private"],
-                    html_url=r["html_url"],
+                    private=r.get("private", False),
+                    html_url=r.get("html_url", f"https://github.com/{r['full_name']}"),
                     description=r.get("description"),
                     default_branch=r.get("default_branch", "main"),
-                    updated_at=r.get("updated_at"),
+                    updated_at=str(r.get("updated_at") or ""),
                 )
             )
         return results
