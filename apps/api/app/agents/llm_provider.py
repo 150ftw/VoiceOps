@@ -34,9 +34,9 @@ class BaseLLMProvider(ABC):
 
 
 class OpenAILLMProvider(BaseLLMProvider):
-    def __init__(self, api_key: str, model: str = "gpt-4o"):
+    def __init__(self, api_key: str, model: str = "gpt-4o", base_url: Optional[str] = None):
         from openai import AsyncOpenAI
-        self.client = AsyncOpenAI(api_key=api_key)
+        self.client = AsyncOpenAI(api_key=api_key, base_url=base_url)
         self.model = model
 
     async def generate_response(
@@ -90,7 +90,20 @@ class OpenAILLMProvider(BaseLLMProvider):
             )
 
         except Exception as e:
-            logger.error("OpenAI API call failed", error=str(e))
+            # If tool calling is unsupported by custom provider, retry once without tools
+            if tools:
+                try:
+                    kwargs.pop("tools", None)
+                    kwargs.pop("tool_choice", None)
+                    resp = await self.client.chat.completions.create(**kwargs)
+                    choice = resp.choices[0]
+                    return LLMResponse(
+                        content=choice.message.content,
+                        finish_reason=choice.finish_reason,
+                    )
+                except Exception:
+                    pass
+            logger.error("LLM Provider API call failed", error=str(e))
             raise
 
 
@@ -733,15 +746,31 @@ class MockLLMProvider(BaseLLMProvider):
 
 
 def get_llm_provider() -> BaseLLMProvider:
-    """Factory function returning configured LLM provider."""
+    """Factory function returning configured LLM provider (NVIDIA NIM, OpenAI, Gemini, or Mock)."""
+    # 1. NVIDIA NIM / Mistral Nemotron
+    if settings.NVIDIA_API_KEY or (settings.OPENAI_API_KEY and settings.OPENAI_API_KEY.startswith("nvapi-")):
+        api_key = settings.NVIDIA_API_KEY or settings.OPENAI_API_KEY
+        model = settings.NVIDIA_MODEL or settings.OPENAI_MODEL or "mistralai/mistral-nemotron"
+        base_url = settings.NVIDIA_BASE_URL or "https://integrate.api.nvidia.com/v1"
+        return OpenAILLMProvider(
+            api_key=api_key,
+            model=model,
+            base_url=base_url,
+        )
+
+    # 2. Standard OpenAI or OpenAI-compatible endpoint
     if settings.OPENAI_API_KEY:
         return OpenAILLMProvider(
             api_key=settings.OPENAI_API_KEY,
             model=settings.OPENAI_MODEL,
+            base_url=settings.OPENAI_BASE_URL,
         )
+
+    # 3. Google Gemini
     if settings.GEMINI_API_KEY:
         return GeminiLLMProvider(
             api_key=settings.GEMINI_API_KEY,
             model=settings.GEMINI_MODEL,
         )
+
     return MockLLMProvider()

@@ -48,8 +48,13 @@ class Settings(BaseSettings):
     # AI Providers
     DEFAULT_LLM_PROVIDER: str = "openai"
     OPENAI_API_KEY: str = ""
+    OPENAI_BASE_URL: Optional[str] = None
     OPENAI_MODEL: str = "gpt-4o"
     OPENAI_EMBEDDING_MODEL: str = "text-embedding-3-small"
+
+    NVIDIA_API_KEY: str = ""
+    NVIDIA_BASE_URL: str = "https://integrate.api.nvidia.com/v1"
+    NVIDIA_MODEL: str = "mistralai/mistral-nemotron"
 
     GEMINI_API_KEY: str = ""
     GEMINI_MODEL: str = "gemini-1.5-pro"
