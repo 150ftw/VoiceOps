@@ -253,10 +253,10 @@ export default function LandingPage() {
         </div>
 
         {/* Hero Title */}
-        <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white max-w-4xl mx-auto leading-[1.08] drop-shadow-2xl">
-          Talk to your infrastructure. <br />
-          <span className="bg-gradient-to-r from-purple-300 via-fuchsia-300 to-indigo-300 bg-clip-text text-transparent">
-            Fix CI/CD in seconds.
+        <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white max-w-4xl mx-auto leading-[1.06] drop-shadow-2xl font-syne">
+          DevOps at the <br />
+          <span className="bg-gradient-to-r from-purple-300 via-fuchsia-300 to-pink-300 bg-clip-text text-transparent">
+            Speed of Sound.
           </span>
         </h1>
 
