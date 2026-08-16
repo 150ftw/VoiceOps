@@ -214,7 +214,7 @@ export const Header: React.FC<HeaderProps> = ({ activeProject, onSelectProject }
   };
 
   return (
-    <header className="h-16 border-b border-white/5 bg-[#090D16]/80 backdrop-blur-md px-6 flex items-center justify-between sticky top-0 z-40">
+    <header className="h-16 border-b border-white/5 bg-[#090D16] px-6 flex items-center justify-between sticky top-0 z-50 shadow-md">
       {/* Left: Workspace & Project Switchers */}
       <div className="flex items-center gap-4">
         {/* Workspace Pill */}
@@ -251,9 +251,9 @@ export const Header: React.FC<HeaderProps> = ({ activeProject, onSelectProject }
             <ChevronDown className={`w-3 h-3 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} />
           </button>
 
-          {/* Glassmorphic Dropdown Menu */}
+          {/* Opaque Dropdown Menu (No bleed-through) */}
           {isDropdownOpen && (
-            <div className="absolute right-0 mt-2 w-96 glass-panel rounded-3xl border border-white/10 shadow-2xl p-3 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+            <div className="absolute right-0 mt-2 w-[420px] bg-[#0c121e] border border-slate-700/80 shadow-2xl shadow-black rounded-3xl p-3.5 z-50 animate-in fade-in slide-in-from-top-2 duration-200 ring-1 ring-white/10">
               <div className="px-3 py-2 border-b border-white/10 flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Sliders className="w-3.5 h-3.5 text-indigo-400" />
@@ -262,17 +262,17 @@ export const Header: React.FC<HeaderProps> = ({ activeProject, onSelectProject }
                 <span className="text-[10px] text-slate-400 font-mono">Multi-Model Orchestrator</span>
               </div>
 
-              <div className="space-y-1.5 py-2">
+              <div className="space-y-2 py-2.5">
                 {modelOptions.map((opt) => {
                   const isSelected = selectedModel.id === opt.id;
                   return (
                     <button
                       key={opt.id}
                       onClick={() => handleSelectEngine(opt)}
-                      className={`w-full text-left p-3 rounded-2xl transition-all border flex items-start justify-between gap-3 ${
+                      className={`w-full text-left p-3.5 rounded-2xl transition-all border flex items-start justify-between gap-3 ${
                         isSelected
-                          ? 'bg-indigo-600/15 border-indigo-500/40 shadow-inner'
-                          : 'bg-white/[0.02] hover:bg-white/[0.06] border-white/5'
+                          ? 'bg-slate-900 border-indigo-500 shadow-md shadow-indigo-500/10'
+                          : 'bg-slate-950/90 hover:bg-slate-900 border-slate-800/80 hover:border-slate-700'
                       }`}
                     >
                       <div className="space-y-1">
@@ -287,14 +287,14 @@ export const Header: React.FC<HeaderProps> = ({ activeProject, onSelectProject }
                         </div>
                         <p className="text-[11px] text-slate-400 leading-snug">{opt.description}</p>
                         <div className="flex items-center gap-2 pt-1 font-mono text-[10px] text-slate-500">
-                          <span className="text-slate-400">{opt.latency}</span>
+                          <span className="text-slate-300 font-medium">{opt.latency}</span>
                           <span>&bull;</span>
                           <span>{opt.stt}</span>
                         </div>
                       </div>
 
                       {isSelected && (
-                        <div className="p-1 rounded-full bg-indigo-500/20 text-indigo-400 shrink-0">
+                        <div className="p-1.5 rounded-full bg-indigo-500/20 text-indigo-400 shrink-0 mt-0.5">
                           <Check className="w-3.5 h-3.5 stroke-[2.5]" />
                         </div>
                       )}
@@ -304,12 +304,12 @@ export const Header: React.FC<HeaderProps> = ({ activeProject, onSelectProject }
               </div>
 
               {/* Memory & Vector DB Indicator Footer */}
-              <div className="px-3 py-2.5 rounded-2xl bg-slate-950/80 border border-white/5 flex items-center justify-between text-[10px] text-slate-400 font-mono">
+              <div className="px-3.5 py-2.5 rounded-2xl bg-slate-950 border border-white/10 flex items-center justify-between text-[10px] text-slate-400 font-mono">
                 <div className="flex items-center gap-1.5">
                   <Database className="w-3.5 h-3.5 text-cyan-400" />
                   <span>Memory: Supabase pgvector 0.8.2 (1536-dim)</span>
                 </div>
-                <span className="text-emerald-400">Live</span>
+                <span className="text-emerald-400 font-semibold">Live</span>
               </div>
             </div>
           )}
