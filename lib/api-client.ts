@@ -27,12 +27,16 @@ export function getAuthToken(): string | null {
 export function setAuthToken(token: string) {
   if (typeof window !== 'undefined') {
     localStorage.setItem('voiceops_token', token);
+    // Also write a cookie so the edge middleware can protect dashboard routes
+    document.cookie = `voiceops_token=${token}; path=/; max-age=${60 * 60 * 24 * 7}; SameSite=Lax`;
   }
 }
 
 export function clearAuthToken() {
   if (typeof window !== 'undefined') {
     localStorage.removeItem('voiceops_token');
+    // Clear the middleware cookie too
+    document.cookie = 'voiceops_token=; path=/; max-age=0; SameSite=Lax';
   }
 }
 
@@ -61,8 +65,10 @@ export async function apiRequest<T = any>(
   });
 
   if (response.status === 401 && typeof window !== 'undefined' && !path.includes('/auth/login')) {
-    // Session expired
+    // Session expired — clear token and send to login
     clearAuthToken();
+    window.location.href = '/login';
+    return null as any;
   }
 
   if (!response.ok) {
