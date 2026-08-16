@@ -97,7 +97,7 @@ class OpenAILLMProvider(BaseLLMProvider):
 class MockLLMProvider(BaseLLMProvider):
     """
     Intelligent context-aware DevOps LLM provider for realistic repository investigations,
-    tool execution, diff analysis, approval workflows, and RAG doc retrieval.
+    codebase navigation, tool execution, diff analysis, approval workflows, and RAG doc retrieval.
     """
 
     async def generate_response(
@@ -124,7 +124,49 @@ class MockLLMProvider(BaseLLMProvider):
         repo_clean_name = repo_name.split("/")[-1].replace("-", " ").title()
 
         # ----------------------------------------------------------------------
-        # 1. REPOSITORY OVERVIEW & ABOUT INTENT ("What's this repo about?")
+        # 1. FILE TREE & CODE STRUCTURE INTENT ("Show files", "Directory structure")
+        # ----------------------------------------------------------------------
+        if any(w in last_msg for w in ["file", "folder", "tree", "structure", "directory", "list files", "layout"]):
+            if not has_tool_result and tools:
+                return LLMResponse(
+                    content=None,
+                    tool_calls=[
+                        LLMToolCall(
+                            id="call_list_files_1",
+                            name="list_repository_files",
+                            arguments={},
+                        )
+                    ],
+                    finish_reason="tool_calls",
+                )
+            else:
+                files_formatted = ""
+                if tool_results:
+                    try:
+                        data = json.loads(tool_results[0].get("content", "{}"))
+                        raw_files = data.get("files", [])
+                        if raw_files:
+                            files_formatted = "\n".join([f"  • `{f}`" for f in raw_files[:15]])
+                            if len(raw_files) > 15:
+                                files_formatted += f"\n  • ... and {len(raw_files) - 15} more files"
+                    except Exception:
+                        pass
+
+                default_files = "  • `README.md`\n  • `Dockerfile`\n  • `docker-compose.yml`\n  • `requirements.txt`\n  • `package.json`\n  • `.github/workflows/deploy.yml`\n  • `app/main.py`\n  • `app/api/routes.py`"
+                display_files = files_formatted if files_formatted else default_files
+
+                return LLMResponse(
+                    content=(
+                        f"### 📂 Repository File Structure: `{repo_name}`\n\n"
+                        f"Here are the discovered files in **`{repo_name}`**:\n\n"
+                        f"{display_files}\n\n"
+                        f"You can ask me to inspect any specific file, explain functions, or analyze CI/CD configs."
+                    ),
+                    finish_reason="stop",
+                )
+
+        # ----------------------------------------------------------------------
+        # 2. REPOSITORY OVERVIEW & ABOUT INTENT ("What's this repo about?")
         # ----------------------------------------------------------------------
         if any(w in last_msg for w in [
             "about", "what's this", "what is this", "overview", "summary",
@@ -143,16 +185,6 @@ class MockLLMProvider(BaseLLMProvider):
                     finish_reason="tool_calls",
                 )
             else:
-                readme_snippet = ""
-                if tool_results:
-                    try:
-                        raw_data = json.loads(tool_results[0].get("content", "{}"))
-                        content = raw_data.get("content", "")
-                        if content:
-                            readme_snippet = content[:300].strip()
-                    except Exception:
-                        pass
-
                 return LLMResponse(
                     content=(
                         f"### 📦 Repository Overview: `{repo_name}`\n\n"
@@ -164,13 +196,46 @@ class MockLLMProvider(BaseLLMProvider):
                         f"  - 🔍 **Pipeline Health:** Ask *\"Why did the latest build fail?\"*\n"
                         f"  - 📊 **Commit Diffs:** Ask *\"What changed between the last two commits?\"*\n"
                         f"  - 📖 **Runbook Search:** Ask *\"Search docs for deployment configuration\"*\n"
+                        f"  - 📂 **Codebase Navigation:** Ask *\"Show repository file tree\"*\n"
                         f"  - 🛡️ **Action Guardrails:** Ask *\"Can you open a GitHub issue for this bug?\"*"
                     ),
                     finish_reason="stop",
                 )
 
         # ----------------------------------------------------------------------
-        # 2. GITHUB ISSUE / ACTION CREATION INTENT (Requires Human Approval)
+        # 3. CODE IMPLEMENTATION / TECH STACK / DEPENDENCY INTENT
+        # ----------------------------------------------------------------------
+        if any(w in last_msg for w in [
+            "dependencies", "package", "library", "tech stack", "database", "schema",
+            "api", "endpoint", "auth", "authentication", "how do i run", "docker", "port"
+        ]):
+            if not has_tool_result and tools:
+                return LLMResponse(
+                    content=None,
+                    tool_calls=[
+                        LLMToolCall(
+                            id="call_rag_code_1",
+                            name="search_documentation",
+                            arguments={"query": last_msg},
+                        )
+                    ],
+                    finish_reason="tool_calls",
+                )
+            else:
+                return LLMResponse(
+                    content=(
+                        f"### 🛠️ Architecture & Technical Specs for `{repo_name}`\n\n"
+                        f"Based on the ingested repository knowledge base:\n\n"
+                        f"• **Core Frameworks:** Asynchronous REST API services with typed data validation & modular routes.\n"
+                        f"• **Database & State:** PostgreSQL database with `pgvector` semantic memory indexing and ACID transactions.\n"
+                        f"• **Containerization:** Configured via `Dockerfile` with multi-stage caching and `docker-compose.yml` local orchestration.\n"
+                        f"• **CI/CD Triggers:** Automated GitHub Actions pipeline (`.github/workflows/deploy.yml`) running linting, pytest suites, and Docker container build scans on every push to `main`."
+                    ),
+                    finish_reason="stop",
+                )
+
+        # ----------------------------------------------------------------------
+        # 4. GITHUB ISSUE / ACTION CREATION INTENT (Requires Human Approval)
         # ----------------------------------------------------------------------
         if any(w in last_msg for w in ["issue", "ticket", "open an issue", "create an issue", "report bug", "open issue"]):
             if not has_tool_result and tools:
@@ -204,7 +269,7 @@ class MockLLMProvider(BaseLLMProvider):
                 )
 
         # ----------------------------------------------------------------------
-        # 3. PULL REQUEST / PATCH INTENT (Requires Human Approval)
+        # 5. PULL REQUEST / PATCH INTENT (Requires Human Approval)
         # ----------------------------------------------------------------------
         if any(w in last_msg for w in ["pull request", " pr", "pr ", "patch", "fix pr", "create pr"]):
             if not has_tool_result and tools:
@@ -231,7 +296,7 @@ class MockLLMProvider(BaseLLMProvider):
                 )
 
         # ----------------------------------------------------------------------
-        # 4. DIFF / WHAT CHANGED BETWEEN BUILDS INTENT
+        # 6. DIFF / WHAT CHANGED BETWEEN BUILDS INTENT
         # ----------------------------------------------------------------------
         if any(w in last_msg for w in ["changed", "diff", "difference", "between", "commit", "changes"]):
             if not has_tool_result and tools:
@@ -259,7 +324,7 @@ class MockLLMProvider(BaseLLMProvider):
                 )
 
         # ----------------------------------------------------------------------
-        # 5. RAG / DOCUMENTATION SEARCH INTENT
+        # 7. RAG / DOCUMENTATION SEARCH INTENT
         # ----------------------------------------------------------------------
         if any(w in last_msg for w in ["search", "doc", "runbook", "guide", "procedure", "knowledge", "architecture"]):
             if not has_tool_result and tools:
@@ -294,7 +359,7 @@ class MockLLMProvider(BaseLLMProvider):
                 )
 
         # ----------------------------------------------------------------------
-        # 6. PIPELINE / WORKFLOW STATUS CHECK
+        # 8. PIPELINE / WORKFLOW STATUS CHECK
         # ----------------------------------------------------------------------
         if any(w in last_msg for w in ["status", "pipeline", "workflows", "all runs", "list", "build"]):
             if not has_tool_result and tools:
@@ -321,7 +386,7 @@ class MockLLMProvider(BaseLLMProvider):
                 )
 
         # ----------------------------------------------------------------------
-        # 7. DEPLOYMENT FAILURE / ERROR INVESTIGATION
+        # 9. DEPLOYMENT FAILURE / ERROR INVESTIGATION
         # ----------------------------------------------------------------------
         if any(w in last_msg for w in ["why", "fail", "error", "broken", "investigate", "crash"]):
             if not has_tool_result and tools:
@@ -349,13 +414,17 @@ class MockLLMProvider(BaseLLMProvider):
                 )
 
         # ----------------------------------------------------------------------
-        # 8. CONTEXT-AWARE GENERAL FALLBACK
+        # 10. CONTEXT-AWARE GENERAL FALLBACK
         # ----------------------------------------------------------------------
         return LLMResponse(
             content=(
                 f"I am VoiceOps AI, actively monitoring **`{repo_name}`**.\n\n"
-                f"I can inspect your GitHub Actions workflows, diagnose failure logs, compare commit diffs, "
-                f"and prepare approved GitHub issues or pull requests. What would you like to investigate in `{repo_name}`?"
+                f"I have ingested this repository into vector memory. You can ask me:\n"
+                f"• *\"Show repository files and folder tree\"*\n"
+                f"• *\"How does authentication or the database work in this repo?\"*\n"
+                f"• *\"Why did the latest CI/CD build fail?\"*\n"
+                f"• *\"Compare recent commit diffs\"*\n"
+                f"• *\"Open a GitHub issue or pull request\"*"
             ),
             finish_reason="stop",
         )

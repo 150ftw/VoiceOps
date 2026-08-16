@@ -233,6 +233,57 @@ class GetFileContentTool(BaseTool):
             )
 
 
+class ListRepositoryFilesTool(BaseTool):
+    name = "list_repository_files"
+    description = "List all files and directory structure in the connected GitHub repository."
+    is_write_action = False
+    parameters_schema = {
+        "type": "object",
+        "properties": {
+            "path": {"type": "string", "description": "Optional subdirectory path to list files from"},
+        },
+    }
+
+    async def execute(self, context: Dict[str, Any], path: Optional[str] = None) -> ToolResult:
+        token = context.get("github_token")
+        repo_full_name = context.get("repo_full_name") or "150ftw/Trucker-s-Dhaba"
+
+        if token and repo_full_name and token != "ghp_demo_mock_access_token_voiceops":
+            try:
+                owner, repo = repo_full_name.split("/", 1)
+                client = GitHubClient(token=token)
+                tree_data = await client.get_tree(token, owner, repo, recursive=True)
+                tree = tree_data.get("tree", [])
+                file_list = [item["path"] for item in tree if item.get("type") == "blob"]
+                if path:
+                    file_list = [f for f in file_list if f.startswith(path)]
+                return ToolResult(
+                    success=True,
+                    data={"repository": repo_full_name, "files": file_list[:80], "total_files": len(file_list)},
+                )
+            except Exception as e:
+                return ToolResult(success=False, error=str(e))
+        else:
+            mock_files = [
+                "README.md",
+                "Dockerfile",
+                "docker-compose.yml",
+                "package.json",
+                "requirements.txt",
+                ".github/workflows/deploy.yml",
+                "app/main.py",
+                "app/api/routes.py",
+                "app/models/schema.py",
+                "app/core/config.py",
+                "tests/test_app.py",
+                ".env.example",
+            ]
+            return ToolResult(
+                success=True,
+                data={"repository": repo_full_name, "files": mock_files, "total_files": len(mock_files)},
+            )
+
+
 class SearchDocumentationTool(BaseTool):
     name = "search_documentation"
     description = "Search project documentation, architecture runbooks, and setup guides using RAG vector similarity."
@@ -495,6 +546,7 @@ class ToolRegistry:
             GetWorkflowLogsTool(),
             CompareCommitsTool(),
             GetFileContentTool(),
+            ListRepositoryFilesTool(),
             SearchDocumentationTool(),
             ListPullRequestsTool(),
             ListIssuesTool(),

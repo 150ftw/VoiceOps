@@ -140,6 +140,13 @@ class GitHubClient:
             params["ref"] = ref
         return await self._request("GET", f"/repos/{owner}/{repo}/contents/{path}", token=token, params=params)
 
+    async def get_tree(
+        self, token: str, owner: str, repo: str, tree_sha: str = "main", recursive: bool = True
+    ) -> Dict[str, Any]:
+        """Fetch git tree representing all files and folders in repository."""
+        params = {"recursive": "1"} if recursive else {}
+        return await self._request("GET", f"/repos/{owner}/{repo}/git/trees/{tree_sha}", token=token, params=params)
+
     # --------------------------------------------------------------------------
     # Workflows & CI/CD Logs
     # --------------------------------------------------------------------------
