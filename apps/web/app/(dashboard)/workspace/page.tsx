@@ -190,6 +190,8 @@ export default function VoiceWorkspacePage() {
     const trimmed = textToSend.trim();
     if (!trimmed) return;
 
+    // Immediately clear chat input box synchronously
+    setTextInput('');
     stopSpeech();
 
     // Optimistically append user message to UI
@@ -233,7 +235,6 @@ export default function VoiceWorkspacePage() {
         console.error('REST fallback message error:', err);
       }
     }
-    setTextInput('');
   };
 
   const handleSpeakAloud = (text: string) => {
@@ -403,6 +404,12 @@ export default function VoiceWorkspacePage() {
                 type="text"
                 value={textInput}
                 onChange={(e) => setTextInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    handleSendText();
+                  }
+                }}
                 placeholder="Ask about repo structure, failed workflow runs, error logs, or deployment runbooks..."
                 className="w-full bg-slate-900/90 border border-slate-800 rounded-2xl pl-4 pr-12 py-3 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-indigo-500 shadow-inner"
               />
