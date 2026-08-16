@@ -314,20 +314,55 @@ export default function LandingPage() {
             />
           </div>
 
-          {/* Foreground Glitch Typography with Hover Character Expansion & Soft Cyberpunk Glitch FX */}
-          <h1 className="relative z-10 text-6xl sm:text-8xl md:text-9xl lg:text-[10rem] font-glitch text-purple-200/90 uppercase drop-shadow-[0_0_40px_rgba(168,85,247,0.35)] scale-y-95 w-full flex flex-col items-center justify-center gap-1 sm:gap-2 select-none text-center">
-            <span
-              data-text="VOICE"
-              className="glitch-text inline-block tracking-[0.04em] group-hover:tracking-[0.2em] sm:group-hover:tracking-[0.28em] -mr-[0.04em] group-hover:-mr-[0.2em] sm:group-hover:-mr-[0.28em] transition-all duration-700 ease-out group-hover:text-purple-100 group-hover:drop-shadow-[0_0_50px_rgba(192,132,252,0.6)]"
-            >
-              VOICE
-            </span>
-            <span
-              data-text="OPS"
-              className="glitch-text inline-block text-purple-300/90 tracking-[0.04em] group-hover:tracking-[0.22em] sm:group-hover:tracking-[0.32em] -mr-[0.04em] group-hover:-mr-[0.22em] sm:group-hover:-mr-[0.32em] transition-all duration-700 ease-out group-hover:text-purple-200 group-hover:drop-shadow-[0_0_50px_rgba(168,85,247,0.6)]"
-            >
-              OPS
-            </span>
+          {/* Foreground Glitch Typography with Asynchronous Per-Letter Glitch & Smooth Hover Expansion */}
+          <h1 className="relative z-10 text-6xl sm:text-8xl md:text-9xl lg:text-[10rem] font-glitch uppercase scale-y-95 w-full flex flex-col items-center justify-center gap-1 sm:gap-3 select-none text-center">
+            {/* VOICE Row */}
+            <div className="flex items-center justify-center gap-1 sm:gap-2 md:gap-3 group-hover:gap-4 sm:group-hover:gap-8 md:group-hover:gap-12 transition-all duration-700 ease-out">
+              {[
+                { char: 'V', delay: '0.1s', duration: '3.4s', color: 'text-purple-100/90' },
+                { char: 'O', delay: '1.4s', duration: '4.2s', color: 'text-purple-200/90' },
+                { char: 'I', delay: '0.6s', duration: '2.8s', color: 'text-purple-100/85' },
+                { char: 'C', delay: '2.1s', duration: '3.9s', color: 'text-purple-300/90' },
+                { char: 'E', delay: '0.9s', duration: '4.6s', color: 'text-purple-200/95' },
+              ].map((item, idx) => (
+                <span
+                  key={`voice-${idx}`}
+                  data-text={item.char}
+                  className={`glitch-letter inline-block ${item.color} drop-shadow-[0_0_35px_rgba(168,85,247,0.35)] transition-all duration-700 ease-out group-hover:scale-105`}
+                  style={
+                    {
+                      '--glitch-delay': item.delay,
+                      '--glitch-duration': item.duration,
+                    } as React.CSSProperties
+                  }
+                >
+                  {item.char}
+                </span>
+              ))}
+            </div>
+
+            {/* OPS Row */}
+            <div className="flex items-center justify-center gap-1 sm:gap-2 md:gap-3 group-hover:gap-5 sm:group-hover:gap-10 md:group-hover:gap-14 transition-all duration-700 ease-out">
+              {[
+                { char: 'O', delay: '1.1s', duration: '3.7s', color: 'text-purple-200/90' },
+                { char: 'P', delay: '1.8s', duration: '4.4s', color: 'text-purple-100/90' },
+                { char: 'S', delay: '0.4s', duration: '3.2s', color: 'text-purple-300/90' },
+              ].map((item, idx) => (
+                <span
+                  key={`ops-${idx}`}
+                  data-text={item.char}
+                  className={`glitch-letter inline-block ${item.color} drop-shadow-[0_0_35px_rgba(168,85,247,0.35)] transition-all duration-700 ease-out group-hover:scale-105`}
+                  style={
+                    {
+                      '--glitch-delay': item.delay,
+                      '--glitch-duration': item.duration,
+                    } as React.CSSProperties
+                  }
+                >
+                  {item.char}
+                </span>
+              ))}
+            </div>
           </h1>
         </div>
 
