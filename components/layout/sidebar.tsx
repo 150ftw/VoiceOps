@@ -20,7 +20,7 @@ import { cn } from '@/lib/utils';
 
 const navItems = [
   { label: 'Overview', href: '/overview', icon: LayoutDashboard },
-  { label: 'Voice Workspace', href: '/workspace', icon: Mic, highlight: true },
+  { label: 'Workspace', href: '/workspace', icon: Mic, highlight: true },
   { label: 'Projects & Repos', href: '/projects', icon: FolderGit2 },
   { label: 'Conversations', href: '/conversations', icon: MessageSquare },
   { label: 'Knowledge Base', href: '/knowledge', icon: BookOpen },

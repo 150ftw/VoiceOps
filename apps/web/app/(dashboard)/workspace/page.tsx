@@ -69,24 +69,9 @@ export default function VoiceWorkspacePage() {
           const ws = user.workspaces[0];
           let projs = await apiRequest(`/projects?workspace_id=${ws.id}`).catch(() => []);
 
-          // Auto-provision starter project if empty
+          // No projects — user needs to connect a repo from Projects page
           if (!projs || projs.length === 0) {
-            const newProj = await apiRequest('/projects', {
-              method: 'POST',
-              body: JSON.stringify({
-                workspace_id: ws.id,
-                name: 'Trucker S Dhaba',
-                slug: `trucker-dhaba-${Date.now().toString(36)}`,
-                description: 'Authentic Roadside Highway Dhaba Web Service',
-                default_branch: 'main',
-                repository_full_name: 'shivamsharma/Trucker-s-Dhaba',
-                github_repo_id: 123456,
-              }),
-            }).catch(() => null);
-
-            if (newProj) {
-              projs = [newProj];
-            }
+            projs = [];
           }
 
           if (projs && projs.length > 0) {
@@ -282,14 +267,14 @@ export default function VoiceWorkspacePage() {
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
             <span className="text-xs font-bold text-slate-100 tracking-tight">
-              {project?.name || "Trucker's Dhaba"}
+              {project?.name || 'No project selected'}
             </span>
           </div>
           <span className="text-slate-600 font-mono text-xs">&bull;</span>
           <div className="flex items-center gap-1.5 text-xs text-slate-400 font-mono">
             <GitBranch className="w-3 h-3 text-slate-500" />
             <span className="text-slate-200 font-medium">
-              {project?.repository?.repo_full_name || 'shivamsharma/Trucker-s-Dhaba'}
+              {project?.repository?.repo_full_name || '— connect a repo'}
             </span>
             <span className="text-slate-600">({project?.default_branch || 'main'})</span>
           </div>

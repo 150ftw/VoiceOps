@@ -76,10 +76,10 @@ export default function LandingPage() {
     }
     checkAuth();
 
-    // Show telemetry popup after 5 seconds
+    // Show telemetry popup after 10 seconds
     const timer = setTimeout(() => {
       setShowTelemetryBox(true);
-    }, 5000);
+    }, 10000);
     return () => clearTimeout(timer);
   }, []);
 

@@ -244,9 +244,9 @@ export const Header: React.FC<HeaderProps> = ({ activeProject, onSelectProject }
         {/* Project Selector */}
         <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-xs text-indigo-300">
           <FolderGit2 className="w-3.5 h-3.5 text-indigo-400" />
-          <span className="font-semibold">{activeProject?.name || 'Trucker S Dhaba'}</span>
+          <span className="font-semibold">{activeProject?.name || 'No project'}</span>
           <span className="px-1.5 py-0.5 rounded text-[10px] bg-slate-900 text-slate-400 font-mono">
-            {activeProject?.repository?.repo_full_name || 'shivamsharma/Trucker-s-Dhaba'}
+            {activeProject?.repository?.repo_full_name || '—'}
           </span>
         </div>
       </div>

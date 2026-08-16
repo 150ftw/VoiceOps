@@ -54,12 +54,43 @@ def get_engine_args(db_url: str) -> dict:
     return engine_kwargs
 
 
-# Choose Database URL
-active_db_url = settings.DATABASE_URL
-if os.getenv("VERCEL") or settings.USE_SQLITE_FALLBACK:
-    active_db_url = "sqlite+aiosqlite:////tmp/voiceops.db"
-elif "localhost" in settings.DATABASE_URL and not os.getenv("DATABASE_URL") and not os.getenv("POSTGRES_URL"):
-    active_db_url = "sqlite+aiosqlite:////tmp/voiceops.db"
+# Choose Database URL — always prefer Supabase/Postgres if configured
+def _resolve_db_url() -> str:
+    """
+    Resolution priority:
+    1. Explicit USE_SQLITE_FALLBACK=True  → SQLite (local dev without DB)
+    2. Running on Vercel with no Supabase URL → SQLite
+    3. DATABASE_URL contains supabase.co or postgres host → use it directly
+    4. DATABASE_URL is a localhost postgres → still use it (real local Postgres)
+    5. Otherwise → SQLite fallback
+    """
+    if settings.USE_SQLITE_FALLBACK:
+        return "sqlite+aiosqlite:////tmp/voiceops.db"
+
+    db_url = settings.DATABASE_URL
+
+    # If URL points to Supabase or any cloud Postgres, always use it
+    if "supabase.co" in db_url or "pooler.supabase.com" in db_url:
+        return db_url
+
+    # Non-localhost postgres (any cloud provider) — use it
+    if db_url.startswith("postgresql") and "localhost" not in db_url and "127.0.0.1" not in db_url:
+        return db_url
+
+    # Vercel environment with no cloud DB → fall back to SQLite
+    if os.getenv("VERCEL"):
+        return "sqlite+aiosqlite:////tmp/voiceops.db"
+
+    # Local postgres or local dev without a cloud DB
+    # If DATABASE_URL is explicitly pointing to a local postgres, honour it
+    if db_url.startswith("postgresql"):
+        return db_url
+
+    # Default: SQLite for pure local dev
+    return "sqlite+aiosqlite:////tmp/voiceops.db"
+
+
+active_db_url = _resolve_db_url()
 
 engine: AsyncEngine = create_async_engine(
     active_db_url,
