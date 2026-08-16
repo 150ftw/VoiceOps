@@ -111,27 +111,54 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#090D16] flex items-center justify-center p-6 relative overflow-hidden">
-      <div className="absolute w-96 h-96 bg-indigo-600/15 rounded-full blur-3xl pointer-events-none -top-20 -left-20" />
-      <div className="absolute w-96 h-96 bg-cyan-600/10 rounded-full blur-3xl pointer-events-none -bottom-20 -right-20" />
+    <div className="min-h-screen bg-[#030206] flex flex-col items-center justify-center p-6 relative overflow-hidden select-none">
+      {/* Ambient Radial Matrix Mesh */}
+      <div className="absolute inset-0 bg-[radial-gradient(rgba(168,85,247,0.08)_1px,transparent_1px)] [background-size:32px_32px] pointer-events-none" />
+      <div className="absolute w-[500px] h-[500px] bg-purple-600/15 rounded-full blur-[120px] pointer-events-none -top-24 -left-24 animate-pulse-subtle" />
+      <div className="absolute w-[450px] h-[450px] bg-fuchsia-600/10 rounded-full blur-[140px] pointer-events-none -bottom-24 -right-24" />
 
-      <div className="w-full max-w-md glass-panel p-8 rounded-3xl border border-white/10 shadow-2xl relative z-10 space-y-6">
-        {/* Brand */}
-        <div className="text-center space-y-2">
-          <Link href="/" className="inline-block">
-            <img
-              src="/logo.png"
-              alt="VoiceOps Logo"
-              className="w-14 h-14 mx-auto object-contain drop-shadow-[0_0_20px_rgba(168,85,247,0.7)] hover:scale-105 transition-transform"
-            />
+      {/* Top Floating Back Link */}
+      <div className="absolute top-6 left-6 z-20">
+        <Link
+          href="/"
+          className="flex items-center gap-2 font-mono text-xs text-slate-400 hover:text-purple-300 transition-colors px-3 py-1.5 rounded-full bg-[#090514]/80 border border-purple-500/20 backdrop-blur-md"
+        >
+          <span>←</span>
+          <span className="uppercase tracking-wider">Back to Terminal</span>
+        </Link>
+      </div>
+
+      {/* Main Authentication Card */}
+      <div className="w-full max-w-md bg-[#07040f]/90 border border-purple-500/25 rounded-3xl p-8 sm:p-10 shadow-[0_0_80px_rgba(147,51,234,0.18)] backdrop-blur-2xl relative z-10 space-y-6 overflow-hidden">
+        {/* Top Laser Rim Glow */}
+        <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-purple-400 to-transparent opacity-75" />
+
+        {/* Brand Header */}
+        <div className="text-center space-y-3">
+          <Link href="/" className="inline-block group">
+            <div className="relative">
+              <div className="absolute -inset-4 bg-purple-600/30 rounded-full blur-xl group-hover:bg-purple-500/50 transition-all duration-500" />
+              <img
+                src="/logo.png"
+                alt="VoiceOps Logo"
+                className="relative w-14 h-14 mx-auto object-contain drop-shadow-[0_0_25px_rgba(168,85,247,0.8)] group-hover:scale-110 transition-transform duration-300"
+              />
+            </div>
           </Link>
-          <h1 className="text-xl font-extrabold text-white tracking-tight">Sign in to VoiceOps</h1>
-          <p className="text-xs text-purple-300/80 font-mono uppercase tracking-wider">Voice-Powered Autonomous DevOps</p>
+          <div className="space-y-1">
+            <h1 className="text-2xl font-extrabold text-white tracking-tight">
+              Sign in to VoiceOps
+            </h1>
+            <p className="text-[11px] font-mono text-purple-300/80 uppercase tracking-widest">
+              Voice-Powered Autonomous DevOps
+            </p>
+          </div>
         </div>
 
         {error && (
-          <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs">
-            {error}
+          <div className="p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 font-mono text-xs flex items-center gap-2">
+            <span className="text-rose-400">⚠️</span>
+            <span>{error}</span>
           </div>
         )}
 
@@ -140,12 +167,12 @@ export default function LoginPage() {
           type="button"
           onClick={handleGitHubLogin}
           disabled={isGitHubLoading}
-          className="w-full py-2.5 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 hover:border-slate-600 text-white font-medium text-xs flex items-center justify-center gap-2.5 transition-all shadow-md active:scale-98 disabled:opacity-60"
+          className="w-full py-3 px-4 rounded-xl bg-[#0b0716] hover:bg-[#130b24] border border-purple-500/25 hover:border-purple-400/60 text-white font-mono text-xs uppercase tracking-wider flex items-center justify-center gap-3 transition-all shadow-lg active:scale-[0.99] disabled:opacity-60 group cursor-pointer"
         >
           {isGitHubLoading ? (
-            <Loader2 className="w-4 h-4 animate-spin text-indigo-400" />
+            <Loader2 className="w-4 h-4 animate-spin text-purple-400" />
           ) : (
-            <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+            <svg className="w-4 h-4 fill-current text-white group-hover:text-purple-300 transition-colors" viewBox="0 0 24 24">
               <path
                 fillRule="evenodd"
                 clipRule="evenodd"
@@ -156,59 +183,86 @@ export default function LoginPage() {
           <span>Continue with GitHub</span>
         </button>
 
-        {/* Divider */}
-        <div className="flex items-center gap-3">
-          <div className="flex-1 h-px bg-white/10" />
-          <span className="text-[11px] uppercase tracking-wider text-slate-500 font-mono">or email</span>
-          <div className="flex-1 h-px bg-white/10" />
+        {/* Laser Divider */}
+        <div className="flex items-center gap-3 py-1">
+          <div className="flex-1 h-px bg-gradient-to-r from-transparent via-purple-500/25 to-transparent" />
+          <span className="text-[10px] uppercase tracking-widest text-purple-300/60 font-mono">
+            or continue with email
+          </span>
+          <div className="flex-1 h-px bg-gradient-to-r from-transparent via-purple-500/25 to-transparent" />
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4 text-xs">
-          <div>
-            <label className="block text-slate-300 mb-1 font-medium">Email Address</label>
+        {/* Input Form */}
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="space-y-1.5">
+            <label className="block font-mono text-[11px] uppercase tracking-wider text-slate-300">
+              01 // Work Email
+            </label>
             <div className="relative">
-              <Mail className="w-4 h-4 text-slate-500 absolute left-3.5 top-3" />
+              <Mail className="w-4 h-4 text-purple-400/60 absolute left-3.5 top-3.5" />
               <input
                 type="email"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="developer@example.com"
-                className="w-full bg-slate-900 border border-slate-800 rounded-xl pl-10 pr-3.5 py-2.5 text-slate-100 placeholder-slate-500 focus:outline-none focus:border-indigo-500"
+                placeholder="developer@company.com"
+                className="w-full bg-[#0b0716] border border-purple-500/20 focus:border-purple-400 focus:ring-1 focus:ring-purple-400/50 rounded-xl pl-10 pr-3.5 py-3 text-sm text-slate-100 placeholder-slate-600 focus:outline-none transition-all"
               />
             </div>
           </div>
 
-          <div>
-            <label className="block text-slate-300 mb-1 font-medium">Password</label>
+          <div className="space-y-1.5">
+            <div className="flex items-center justify-between">
+              <label className="block font-mono text-[11px] uppercase tracking-wider text-slate-300">
+                02 // Master Password
+              </label>
+              <span className="font-mono text-[10px] text-purple-400/80 hover:text-purple-300 cursor-pointer">
+                Forgot?
+              </span>
+            </div>
             <div className="relative">
-              <Lock className="w-4 h-4 text-slate-500 absolute left-3.5 top-3" />
+              <Lock className="w-4 h-4 text-purple-400/60 absolute left-3.5 top-3.5" />
               <input
                 type="password"
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
-                className="w-full bg-slate-900 border border-slate-800 rounded-xl pl-10 pr-3.5 py-2.5 text-slate-100 placeholder-slate-500 focus:outline-none focus:border-indigo-500"
+                placeholder="••••••••••••"
+                className="w-full bg-[#0b0716] border border-purple-500/20 focus:border-purple-400 focus:ring-1 focus:ring-purple-400/50 rounded-xl pl-10 pr-3.5 py-3 text-sm text-slate-100 placeholder-slate-600 focus:outline-none transition-all"
               />
             </div>
           </div>
 
+          {/* Submit Button */}
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold shadow-lg glow-indigo transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+            className="w-full py-3.5 rounded-xl bg-gradient-to-r from-purple-600 via-fuchsia-600 to-purple-600 hover:brightness-110 active:scale-[0.99] text-white font-mono text-xs uppercase tracking-widest shadow-[0_0_30px_rgba(168,85,247,0.4)] transition-all disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer mt-2"
           >
-            {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <span>Sign In</span>}
+            {isLoading ? (
+              <Loader2 className="w-4 h-4 animate-spin" />
+            ) : (
+              <span className="font-bold">Sign In ↗</span>
+            )}
           </button>
         </form>
 
-        <div className="text-center text-xs text-slate-400">
+        {/* Footer Switcher */}
+        <div className="text-center font-mono text-xs text-slate-400 pt-2 border-t border-purple-500/15">
           Don&apos;t have an account?{' '}
-          <Link href="/register" className="text-indigo-400 hover:text-indigo-300 font-semibold">
-            Create account
+          <Link href="/register" className="text-purple-300 hover:text-white font-bold transition-colors">
+            Create Account →
           </Link>
         </div>
+      </div>
+
+      {/* Security & Compliance Badges */}
+      <div className="flex flex-wrap items-center justify-center gap-4 mt-8 font-mono text-[10px] text-slate-500 uppercase tracking-widest z-10">
+        <span>🔒 AES-256 ENCRYPTED</span>
+        <span>•</span>
+        <span>⚡ PGVECTOR RAG READY</span>
+        <span>•</span>
+        <span>🛡️ AIR-GAPPED DIFFS</span>
       </div>
 
       {/* GitHub OAuth Setup Modal (if not configured yet) */}
