@@ -22,87 +22,91 @@ export const VoiceVisualizer: React.FC<VoiceVisualizerProps> = ({
   onToggleRecord,
   onInterrupt,
 }) => {
-  // Generate 20 dynamic audio equalizer bars
-  const bars = Array.from({ length: 20 }).map((_, i) => {
-    const time = Date.now() / 150;
+  // Generate 24 dynamic audio equalizer bars
+  const bars = Array.from({ length: 24 }).map((_, i) => {
+    const time = Date.now() / 120;
     if (isRecording) {
-      const dynamic = Math.sin(i * 0.4 + time) * 0.5 + 0.5;
-      return Math.max(12, Math.min(100, (audioLevel * dynamic * 1.4) + 10));
+      const dynamic = Math.sin(i * 0.35 + time) * 0.5 + 0.5;
+      return Math.max(10, Math.min(100, (audioLevel * dynamic * 1.5) + 12));
     }
     if (isSpeaking) {
-      const wave = Math.sin(i * 0.5 + time) * Math.cos(i * 0.2 + time);
-      return Math.max(18, Math.abs(wave) * 85 + 15);
+      const wave = Math.sin(i * 0.45 + time) * Math.cos(i * 0.25 + time);
+      return Math.max(15, Math.abs(wave) * 80 + 20);
     }
     if (agentState === 'thinking' || agentState === 'executing_tool') {
-      return Math.max(10, Math.sin(i * 0.6 + time * 1.5) * 35 + 35);
+      return Math.max(8, Math.sin(i * 0.5 + time * 1.2) * 30 + 30);
     }
-    return 8;
+    return 6;
   });
 
   const getStatusInfo = () => {
     if (isSpeaking) {
       return {
-        label: 'Synthesizing Voice Output',
-        color: 'text-indigo-400 border-indigo-500/30 bg-indigo-500/10',
+        label: 'Streaming Voice Feedback',
         badge: 'Speaking',
+        badgeClass: 'bg-indigo-500/15 text-indigo-300 border-indigo-500/30',
+        dotClass: 'bg-indigo-400 animate-ping',
       };
     }
     if (agentState === 'thinking' || agentState === 'executing_tool') {
       return {
-        label: 'Investigating Codebase & Tools',
-        color: 'text-cyan-400 border-cyan-500/30 bg-cyan-500/10',
-        badge: 'Analyzing',
+        label: 'Investigating Codebase & Repos',
+        badge: 'Reasoning',
+        badgeClass: 'bg-cyan-500/15 text-cyan-300 border-cyan-500/30',
+        dotClass: 'bg-cyan-400 animate-pulse',
       };
     }
     if (isRecording) {
       return {
-        label: 'Listening via Web Audio',
-        color: 'text-rose-400 border-rose-500/30 bg-rose-500/10',
+        label: 'Listening via Microphone',
         badge: 'Recording',
+        badgeClass: 'bg-rose-500/15 text-rose-300 border-rose-500/30',
+        dotClass: 'bg-rose-400 animate-ping',
       };
     }
     return {
-      label: 'Studio Ready &bull; Click to Speak',
-      color: 'text-emerald-400 border-emerald-500/30 bg-emerald-500/10',
+      label: 'Studio Ready',
       badge: 'Online',
+      badgeClass: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
+      dotClass: 'bg-emerald-400',
     };
   };
 
   const status = getStatusInfo();
 
   return (
-    <div className="rounded-3xl bg-[#090E1A] border border-white/[0.08] shadow-2xl p-5 relative overflow-hidden flex flex-col justify-between select-none">
+    <div className="rounded-3xl bg-[#080B14] border border-white/[0.07] shadow-2xl p-5 relative overflow-hidden flex flex-col justify-between select-none">
       {/* Studio Header Bar */}
-      <div className="flex items-center justify-between pb-3 border-b border-white/[0.06]">
+      <div className="flex items-center justify-between pb-3 border-b border-white/[0.05]">
         <div className="flex items-center gap-2">
           <div className="w-2 h-2 rounded-full bg-indigo-400 animate-pulse" />
-          <span className="text-[11px] font-mono font-bold tracking-wider text-slate-300 uppercase">
-            VoiceOps Studio Engine
+          <span className="text-[10px] font-mono font-bold tracking-wider text-slate-300 uppercase">
+            VoiceOps Voice Engine
           </span>
         </div>
-        <span className={cn('px-2.5 py-0.5 rounded-full text-[10px] font-mono border flex items-center gap-1.5', status.color)}>
-          <span className="w-1.5 h-1.5 rounded-full bg-current animate-ping" />
+        <span className={cn('px-2.5 py-0.5 rounded-full text-[10px] font-mono border flex items-center gap-1.5 font-medium', status.badgeClass)}>
+          <span className={cn('w-1.5 h-1.5 rounded-full', status.dotClass)} />
           <span>{status.badge}</span>
         </span>
       </div>
 
-      {/* Center Interactive Microphone Orb */}
-      <div className="my-6 flex flex-col items-center justify-center relative">
-        {/* Glowing background halo */}
+      {/* Organic Living AI Voice Core */}
+      <div className="my-7 flex flex-col items-center justify-center relative">
+        {/* Ambient Backlight Glow */}
         <div
           className={cn(
-            'absolute w-44 h-44 rounded-full filter blur-3xl transition-all duration-700 pointer-events-none -z-10',
+            'absolute w-40 h-40 rounded-full filter blur-3xl transition-all duration-700 pointer-events-none -z-10',
             isRecording
-              ? 'bg-rose-600/30 scale-125'
+              ? 'bg-rose-500/25 scale-125'
               : isSpeaking
-              ? 'bg-indigo-600/35 scale-125'
+              ? 'bg-indigo-500/30 scale-125'
               : agentState === 'thinking'
-              ? 'bg-cyan-600/25 scale-110'
+              ? 'bg-cyan-500/25 scale-110'
               : 'bg-indigo-600/15'
           )}
         />
 
-        {/* Concentric glowing rings */}
+        {/* Concentric Pulsing Audio Waves */}
         {(isRecording || isSpeaking) && (
           <>
             <div className="absolute w-28 h-28 rounded-full border border-indigo-500/30 animate-ping pointer-events-none" />
@@ -110,21 +114,21 @@ export const VoiceVisualizer: React.FC<VoiceVisualizerProps> = ({
           </>
         )}
 
-        {/* Main Glowing Action Button */}
+        {/* Main Action Button */}
         {isSpeaking ? (
           <button
             onClick={onInterrupt}
-            className="w-20 h-20 rounded-2xl bg-rose-600 hover:bg-rose-500 flex flex-col items-center justify-center text-white shadow-xl glow-rose transition-all duration-200 group active:scale-95 border border-rose-400/40"
+            className="w-20 h-20 rounded-3xl bg-rose-600 hover:bg-rose-500 flex flex-col items-center justify-center text-white shadow-xl glow-rose transition-all duration-200 group active:scale-95 border border-rose-400/40"
             title="Interrupt AI Speaking"
           >
             <Square className="w-6 h-6 fill-current transition-transform group-hover:scale-110" />
-            <span className="text-[9px] font-mono uppercase tracking-wider mt-1 opacity-90">Stop</span>
+            <span className="text-[9px] font-mono uppercase tracking-wider mt-1 opacity-90 font-bold">Interrupt</span>
           </button>
         ) : (
           <button
             onClick={onToggleRecord}
             className={cn(
-              'w-20 h-20 rounded-2xl flex flex-col items-center justify-center text-white shadow-2xl transition-all duration-300 group active:scale-95 border',
+              'w-20 h-20 rounded-3xl flex flex-col items-center justify-center text-white shadow-2xl transition-all duration-300 group active:scale-95 border',
               isRecording
                 ? 'bg-rose-600 hover:bg-rose-500 border-rose-400/50 glow-rose'
                 : 'bg-gradient-to-tr from-indigo-600 via-indigo-500 to-cyan-500 hover:from-indigo-500 hover:to-cyan-400 border-white/20 glow-indigo'
@@ -134,55 +138,49 @@ export const VoiceVisualizer: React.FC<VoiceVisualizerProps> = ({
             {isRecording ? (
               <>
                 <MicOff className="w-7 h-7 transition-transform group-hover:scale-110" />
-                <span className="text-[9px] font-mono uppercase tracking-wider mt-1 opacity-90">Mute</span>
+                <span className="text-[9px] font-mono uppercase tracking-wider mt-1 opacity-90 font-bold">Mute</span>
               </>
             ) : (
               <>
                 <Mic className="w-7 h-7 transition-transform group-hover:scale-110" />
-                <span className="text-[9px] font-mono uppercase tracking-wider mt-1 opacity-90">Speak</span>
+                <span className="text-[9px] font-mono uppercase tracking-wider mt-1 opacity-90 font-bold">Speak</span>
               </>
             )}
           </button>
         )}
 
-        {/* Status line */}
-        <p className="text-xs text-slate-300 font-medium mt-4 text-center">
-          {isRecording
-            ? 'Listening... Click to finish'
-            : isSpeaking
-            ? 'Speaking response...'
-            : agentState === 'thinking'
-            ? 'Investigating repository...'
-            : 'Click microphone or type below'}
+        {/* Status text */}
+        <p className="text-xs text-slate-300 font-medium mt-4 text-center tracking-tight">
+          {status.label}
         </p>
       </div>
 
       {/* Audio Spectrum Graphic Visualizer */}
-      <div className="pt-2 border-t border-white/[0.06] space-y-2">
+      <div className="pt-2 border-t border-white/[0.05] space-y-2">
         <div className="flex items-center justify-between text-[10px] font-mono text-slate-400">
           <span className="flex items-center gap-1.5">
             <Radio className="w-3 h-3 text-indigo-400" />
-            <span>Audio Spectrum</span>
+            <span>Audio Waveform</span>
           </span>
           <span className="text-slate-500">
-            {isRecording ? `Gain: ${audioLevel}%` : isSpeaking ? 'TTS Active' : '0.0 dB'}
+            {isRecording ? `Gain: ${audioLevel}%` : isSpeaking ? 'TTS Streaming' : 'Ready'}
           </span>
         </div>
 
-        <div className="flex items-end justify-between gap-1 h-8 bg-slate-950/80 p-1.5 rounded-xl border border-white/[0.04]">
+        <div className="flex items-end justify-between gap-1 h-8 bg-slate-950/90 p-1.5 rounded-xl border border-white/[0.03]">
           {bars.map((h, idx) => (
             <div
               key={idx}
               style={{ height: `${h}%` }}
               className={cn(
-                'flex-1 rounded-sm transition-all duration-75 min-h-[3px]',
+                'flex-1 rounded-sm transition-all duration-75 min-h-[2px]',
                 isRecording
                   ? 'bg-gradient-to-t from-rose-600 to-rose-400'
                   : isSpeaking
                   ? 'bg-gradient-to-t from-indigo-600 via-indigo-400 to-cyan-400'
                   : agentState === 'thinking'
                   ? 'bg-gradient-to-t from-cyan-600 to-cyan-400 animate-pulse'
-                  : 'bg-slate-800/80'
+                  : 'bg-slate-800/60'
               )}
             />
           ))}
