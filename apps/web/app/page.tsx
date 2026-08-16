@@ -377,33 +377,6 @@ export default function LandingPage() {
           Talk to your infrastructure. Fix CI/CD in seconds.
         </p>
 
-        {/* Interactive Clickable Prompt Pills */}
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-2.5 max-w-3xl mx-auto">
-          {[
-            "Why did my production deployment fail?",
-            "Rollback latest container release",
-            "Fix memory leak in redis worker",
-            "Run security audit on IAM roles",
-          ].map((promptText) => (
-            <button
-              key={promptText}
-              onClick={() => {
-                setSelectedPrompt(promptText);
-                const el = document.getElementById("console-preview");
-                el?.scrollIntoView({ behavior: "smooth" });
-              }}
-              className={`px-4 py-2 rounded-full font-mono text-[11px] uppercase tracking-wider transition-all duration-300 flex items-center gap-2 border ${
-                selectedPrompt === promptText
-                  ? "bg-purple-500/25 text-white border-purple-400 shadow-[0_0_20px_rgba(168,85,247,0.5)] scale-105"
-                  : "bg-[#090514]/80 text-slate-400 border-purple-500/20 hover:border-purple-400/60 hover:text-purple-200 hover:scale-102"
-              }`}
-            >
-              <span className="text-purple-400">⚡</span>
-              <span>{promptText}</span>
-            </button>
-          ))}
-        </div>
-
         {/* Bottom 3-Column Editorial Metadata Bar */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-6xl mt-14 pt-8 border-t border-purple-500/20 text-left font-mono text-[11px]">
           <div className="space-y-1">
@@ -645,6 +618,35 @@ export default function LandingPage() {
                 </div>
               </div>
             )}
+
+            {/* Quick Interactive Prompt Selector Chips inside Console */}
+            <div className="pt-4 border-t border-purple-500/15 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+              <div className="flex items-center gap-2 text-[10px] font-mono text-purple-300/80 uppercase tracking-widest shrink-0">
+                <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-ping" />
+                <span>Voice Queries:</span>
+              </div>
+              <div className="flex flex-wrap items-center gap-2">
+                {[
+                  "Why did my latest deployment to production fail?",
+                  "Rollback latest container release",
+                  "Fix memory leak in redis worker",
+                  "Run security audit on IAM roles",
+                ].map((promptText) => (
+                  <button
+                    key={promptText}
+                    onClick={() => setSelectedPrompt(promptText)}
+                    className={`px-3 py-1.5 rounded-full font-mono text-[10px] uppercase tracking-wider transition-all duration-300 flex items-center gap-1.5 border cursor-pointer ${
+                      selectedPrompt === promptText
+                        ? "bg-purple-500/30 text-white border-purple-400 shadow-[0_0_15px_rgba(168,85,247,0.5)] scale-102"
+                        : "bg-[#090514]/90 text-slate-400 border-purple-500/20 hover:border-purple-400/60 hover:text-purple-200 hover:scale-102"
+                    }`}
+                  >
+                    <span className="text-purple-400">⚡</span>
+                    <span>{promptText}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>
