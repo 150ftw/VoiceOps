@@ -245,10 +245,10 @@ export default function LandingPage() {
       {/* Hero Section */}
       <section className="relative pt-16 pb-12 px-6 max-w-6xl mx-auto text-center space-y-7 z-10">
         {/* Hero Title */}
-        <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-white max-w-4xl mx-auto leading-[1.08] drop-shadow-2xl font-outfit">
+        <h1 className="text-4xl sm:text-6xl lg:text-7xl font-normal tracking-wider text-white max-w-4xl mx-auto leading-[1.15] drop-shadow-2xl font-glitch uppercase">
           DevOps at the <br />
           <span className="bg-gradient-to-r from-purple-300 via-fuchsia-300 to-indigo-200 bg-clip-text text-transparent">
-            speed of sound.
+            speed of sound
           </span>
         </h1>
 

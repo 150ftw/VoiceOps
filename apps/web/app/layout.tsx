@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Inter, JetBrains_Mono, Outfit, Plus_Jakarta_Sans } from 'next/font/google';
+import { Inter, JetBrains_Mono, Outfit, Rubik_Glitch } from 'next/font/google';
 import './globals.css';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
@@ -10,10 +10,10 @@ const outfit = Outfit({
   weight: ['400', '500', '600', '700', '800'],
   display: 'swap',
 });
-const jakarta = Plus_Jakarta_Sans({
+const rubikGlitch = Rubik_Glitch({
   subsets: ['latin'],
-  variable: '--font-jakarta',
-  weight: ['500', '600', '700', '800'],
+  variable: '--font-glitch',
+  weight: '400',
   display: 'swap',
 });
 
@@ -31,7 +31,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body
-        className={`${inter.variable} ${mono.variable} ${outfit.variable} ${jakarta.variable} font-sans bg-[#030206] text-slate-100 min-h-screen`}
+        className={`${inter.variable} ${mono.variable} ${outfit.variable} ${rubikGlitch.variable} font-sans bg-[#030206] text-slate-100 min-h-screen`}
       >
         {children}
       </body>

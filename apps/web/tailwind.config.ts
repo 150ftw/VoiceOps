@@ -15,6 +15,8 @@ const config: Config = {
         mono: ['var(--font-mono)', 'monospace'],
         outfit: ['var(--font-outfit)', 'sans-serif'],
         jakarta: ['var(--font-jakarta)', 'sans-serif'],
+        glitch: ['"Rubik Glitch"', 'var(--font-glitch)', 'cursive', 'sans-serif'],
+        glitchPop: ['"Rubik Glitch Pop"', 'var(--font-glitch-pop)', 'cursive', 'sans-serif'],
       },
       colors: {
         background: '#030206',
