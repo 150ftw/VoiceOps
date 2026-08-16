@@ -437,60 +437,49 @@ Regarding your query **"${query}"** in **\`${repoName}\`**:
     };
     setMessages((prev) => [...prev, tempUserMsg]);
 
-    let responseDelivered = false;
+    // Send to dynamic Next.js AI chat endpoint
+    try {
+      const chatRes = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          message: trimmed,
+          history: messages.slice(-10),
+          repo_full_name: project?.repository?.repo_full_name || project?.name || '150ftw/MaisoneGlobal',
+          project_name: project?.name || 'MaisoneGlobal',
+        }),
+      });
 
-    // Safety fallback: if no WebSocket/REST response delivered within 1.5s, generate intelligent client response
-    const fallbackTimer = setTimeout(() => {
-      if (!responseDelivered) {
-        responseDelivered = true;
-        const fallbackText = generateClientResponse(trimmed);
-        const agentMsg: Message = {
-          id: `client-agent-${Date.now()}`,
-          conversation_id: conversation?.id || 'temp',
-          sender_type: 'agent',
-          content: fallbackText,
-          created_at: new Date().toISOString(),
-        };
-        setMessages((prev) => [...prev, agentMsg]);
-        handleSpeakAloud(fallbackText);
-      }
-    }, 1500);
-
-    let sentViaWs = false;
-    if (isConnected) {
-      sentViaWs = sendTextMessage(trimmed);
-    }
-
-    if (!sentViaWs && conversation) {
-      try {
-        const result = await apiRequest(`/conversations/${conversation.id}/messages`, {
-          method: 'POST',
-          body: JSON.stringify({ content: trimmed }),
-        });
-        if (result?.content && !responseDelivered) {
-          responseDelivered = true;
-          clearTimeout(fallbackTimer);
-          const tempAgentMsg: Message = {
-            id: result.message_id || `temp-agent-${Date.now()}`,
-            conversation_id: conversation.id,
+      if (chatRes.ok) {
+        const chatData = await chatRes.json();
+        if (chatData?.content) {
+          const agentMsg: Message = {
+            id: `agent-${Date.now()}`,
+            conversation_id: conversation?.id || 'temp',
             sender_type: 'agent',
-            content: result.content,
-            metadata_json: {
-              sources: result.citations || [],
-              pending_approval: result.pending_approval || undefined,
-            },
+            content: chatData.content,
             created_at: new Date().toISOString(),
           };
-          setMessages((prev) => [...prev, tempAgentMsg]);
-          if (result.pending_approval) {
-            setPendingApproval(result.pending_approval);
-          }
-          handleSpeakAloud(result.content);
+          setMessages((prev) => [...prev, agentMsg]);
+          handleSpeakAloud(chatData.content);
+          return;
         }
-      } catch (err) {
-        console.warn('REST message fallback triggering client engine:', err);
       }
+    } catch (chatErr) {
+      console.warn('Real-time chat API error, using dynamic client engine:', chatErr);
     }
+
+    // Fallback response engine if network fails
+    const fallbackText = generateClientResponse(trimmed);
+    const fallbackAgentMsg: Message = {
+      id: `client-agent-${Date.now()}`,
+      conversation_id: conversation?.id || 'temp',
+      sender_type: 'agent',
+      content: fallbackText,
+      created_at: new Date().toISOString(),
+    };
+    setMessages((prev) => [...prev, fallbackAgentMsg]);
+    handleSpeakAloud(fallbackText);
   };
 
   const handleSpeakAloud = (text: string) => {
