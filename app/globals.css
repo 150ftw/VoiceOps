@@ -1,0 +1,110 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik+Glitch&family=Rubik+Glitch+Pop&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 270 50% 3%;
+  --foreground: 270 20% 95%;
+  --card: 270 45% 5%;
+  --card-foreground: 270 20% 95%;
+  --popover: 270 45% 5%;
+  --popover-foreground: 270 15% 65%;
+  --primary: 270 90% 65%;
+  --primary-foreground: 0 0% 100%;
+  --muted: 270 30% 10%;
+  --muted-foreground: 270 15% 55%;
+  --accent: 270 30% 15%;
+  --accent-foreground: 270 20% 98%;
+  --destructive: 0 63% 31%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 270 30% 15%;
+  --input: 270 30% 15%;
+  --ring: 270 90% 65%;
+}
+
+body {
+  background-color: #030206;
+  color: #f3f4f6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "rlig" 1, "calt" 1;
+}
+
+::selection {
+  background-color: rgba(168, 85, 247, 0.35);
+  color: #f3e8ff;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #030206;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1e1333;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #341f54;
+}
+
+/* Glassmorphism & Glow Effects */
+.glass-panel {
+  background: rgba(13, 8, 24, 0.75);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-panel-hover {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-panel-hover:hover {
+  background: rgba(20, 12, 38, 0.85);
+  border-color: rgba(168, 85, 247, 0.35);
+  box-shadow: 0 0 25px rgba(168, 85, 247, 0.2);
+}
+
+.glow-purple {
+  box-shadow: 0 0 35px rgba(168, 85, 247, 0.35);
+}
+
+.glow-indigo {
+  box-shadow: 0 0 35px rgba(139, 92, 246, 0.35);
+}
+
+.glow-emerald {
+  box-shadow: 0 0 35px rgba(16, 185, 129, 0.35);
+}
+
+.glow-rose {
+  box-shadow: 0 0 35px rgba(244, 63, 94, 0.35);
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 0.3;
+  }
+  100% {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
+}
+
+.animate-pulse-ring {
+  animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
