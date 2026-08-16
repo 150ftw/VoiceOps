@@ -200,9 +200,16 @@ export default function LandingPage() {
         {/* Center Logo in Rubik Glitch */}
         <Link
           href="/"
-          className="text-lg sm:text-2xl font-glitch text-purple-200 hover:text-white tracking-widest transition-colors uppercase select-none"
+          className="flex items-center gap-2.5 group"
         >
-          VOICEOPS
+          <img
+            src="/logo.png"
+            alt="VoiceOps Logo"
+            className="w-7 h-7 sm:w-8 sm:h-8 object-contain drop-shadow-[0_0_15px_rgba(168,85,247,0.6)] group-hover:scale-105 transition-transform"
+          />
+          <span className="text-lg sm:text-2xl font-glitch text-purple-200 group-hover:text-white tracking-widest transition-colors uppercase select-none">
+            VOICEOPS
+          </span>
         </Link>
 
         {/* Right Actions */}
@@ -233,7 +240,10 @@ export default function LandingPage() {
       {isMenuOpen && (
         <div className="fixed inset-0 z-50 bg-[#030206]/95 backdrop-blur-2xl p-8 flex flex-col justify-between animate-in fade-in duration-200">
           <div className="flex items-center justify-between border-b border-purple-500/20 pb-4">
-            <span className="text-xl font-glitch text-purple-300">VOICEOPS</span>
+            <div className="flex items-center gap-2.5">
+              <img src="/logo.png" alt="VoiceOps Logo" className="w-6 h-6 object-contain" />
+              <span className="text-xl font-glitch text-purple-300">VOICEOPS</span>
+            </div>
             <button
               onClick={() => setIsMenuOpen(false)}
               className="p-2 text-purple-300 hover:text-white"
@@ -551,8 +561,12 @@ export default function LandingPage() {
       {/* Footer */}
       <footer className="border-t border-purple-500/10 bg-[#010103] py-12 px-6 relative z-10 text-xs text-slate-500 font-mono">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2 text-slate-300 font-bold">
-            <Zap className="w-4 h-4 text-purple-400" />
+          <div className="flex items-center gap-2.5 text-slate-300 font-bold">
+            <img
+              src="/logo.png"
+              alt="VoiceOps Logo"
+              className="w-5 h-5 object-contain drop-shadow-[0_0_10px_rgba(168,85,247,0.5)]"
+            />
             <span className="font-glitch text-sm">VOICEOPS</span>
             <span className="text-slate-600 font-normal">&bull; Autonomous DevOps Engineering</span>
           </div>

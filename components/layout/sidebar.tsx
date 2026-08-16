@@ -35,10 +35,12 @@ export const Sidebar: React.FC = () => {
   return (
     <aside className="w-60 shrink-0 bg-[#040209] border-r border-purple-500/15 flex flex-col h-screen sticky top-0 select-none">
       {/* Brand Logo */}
-      <div className="h-16 flex items-center gap-3 px-5 border-b border-purple-500/15">
-        <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-purple-600 via-purple-500 to-fuchsia-400 flex items-center justify-center text-white shadow-lg glow-purple">
-          <Zap className="w-4 h-4 fill-current" />
-        </div>
+      <Link href="/" className="h-16 flex items-center gap-3 px-5 border-b border-purple-500/15 hover:bg-purple-950/20 transition-colors">
+        <img
+          src="/logo.png"
+          alt="VoiceOps Logo"
+          className="w-8 h-8 object-contain drop-shadow-[0_0_12px_rgba(168,85,247,0.6)]"
+        />
         <div>
           <div className="flex items-center gap-1.5">
             <span className="font-extrabold text-sm tracking-tight text-white">
@@ -48,11 +50,9 @@ export const Sidebar: React.FC = () => {
               AI
             </span>
           </div>
-          <span className="block text-[9px] uppercase font-mono tracking-wider text-slate-500 font-medium">
-            DevOps Intelligence
-          </span>
+          <p className="text-[10px] text-slate-400 font-mono">Autonomous DevOps</p>
         </div>
-      </div>
+      </Link>
 
       {/* Navigation Links */}
       <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">

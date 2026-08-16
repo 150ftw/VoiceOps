@@ -118,11 +118,15 @@ export default function LoginPage() {
       <div className="w-full max-w-md glass-panel p-8 rounded-3xl border border-white/10 shadow-2xl relative z-10 space-y-6">
         {/* Brand */}
         <div className="text-center space-y-2">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-indigo-600 to-cyan-500 mx-auto flex items-center justify-center text-white shadow-lg glow-indigo">
-            <Zap className="w-6 h-6 fill-current" />
-          </div>
+          <Link href="/" className="inline-block">
+            <img
+              src="/logo.png"
+              alt="VoiceOps Logo"
+              className="w-14 h-14 mx-auto object-contain drop-shadow-[0_0_20px_rgba(168,85,247,0.7)] hover:scale-105 transition-transform"
+            />
+          </Link>
           <h1 className="text-xl font-extrabold text-white tracking-tight">Sign in to VoiceOps</h1>
-          <p className="text-xs text-slate-400">Voice-Powered AI DevOps Assistant</p>
+          <p className="text-xs text-purple-300/80 font-mono uppercase tracking-wider">Voice-Powered Autonomous DevOps</p>
         </div>
 
         {error && (
