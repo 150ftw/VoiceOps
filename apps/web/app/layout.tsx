@@ -1,19 +1,19 @@
 import type { Metadata } from 'next';
-import { Inter, JetBrains_Mono, Syne, Space_Grotesk } from 'next/font/google';
+import { Inter, JetBrains_Mono, Outfit, Plus_Jakarta_Sans } from 'next/font/google';
 import './globals.css';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 const mono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mono' });
-const syne = Syne({
+const outfit = Outfit({
   subsets: ['latin'],
-  variable: '--font-syne',
-  weight: ['600', '700', '800'],
+  variable: '--font-outfit',
+  weight: ['400', '500', '600', '700', '800'],
   display: 'swap',
 });
-const display = Space_Grotesk({
+const jakarta = Plus_Jakarta_Sans({
   subsets: ['latin'],
-  variable: '--font-display',
-  weight: ['500', '600', '700'],
+  variable: '--font-jakarta',
+  weight: ['500', '600', '700', '800'],
   display: 'swap',
 });
 
@@ -31,7 +31,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body
-        className={`${inter.variable} ${mono.variable} ${syne.variable} ${display.variable} font-sans bg-[#030206] text-slate-100 min-h-screen`}
+        className={`${inter.variable} ${mono.variable} ${outfit.variable} ${jakarta.variable} font-sans bg-[#030206] text-slate-100 min-h-screen`}
       >
         {children}
       </body>

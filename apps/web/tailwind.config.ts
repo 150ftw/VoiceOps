@@ -13,8 +13,8 @@ const config: Config = {
       fontFamily: {
         sans: ['var(--font-sans)', 'sans-serif'],
         mono: ['var(--font-mono)', 'monospace'],
-        syne: ['var(--font-syne)', 'sans-serif'],
-        display: ['var(--font-display)', 'sans-serif'],
+        outfit: ['var(--font-outfit)', 'sans-serif'],
+        jakarta: ['var(--font-jakarta)', 'sans-serif'],
       },
       colors: {
         background: '#030206',
