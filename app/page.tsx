@@ -302,14 +302,14 @@ export default function LandingPage() {
         </p>
 
         {/* Massive Centerpiece Display Headline with Luminous V Logo Backdrop */}
-        <div className="relative w-full max-w-5xl mx-auto flex items-center justify-center py-6 my-2">
+        <div className="relative w-full max-w-5xl mx-auto flex items-center justify-center py-6 my-2 group cursor-pointer">
           {/* Giant Luminous V Logo Backdrop behind typography */}
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <div className="absolute w-80 sm:w-96 md:w-[480px] h-80 sm:h-96 md:h-[480px] bg-purple-600/35 rounded-full blur-[100px] animate-pulse-subtle" />
+            <div className="absolute w-80 sm:w-96 md:w-[480px] h-80 sm:h-96 md:h-[480px] bg-purple-600/35 rounded-full blur-[100px] group-hover:bg-purple-500/50 group-hover:scale-110 transition-all duration-700 animate-pulse-subtle" />
             <img
               src="/logo.png"
               alt="VoiceOps Logo Backdrop"
-              className="w-72 sm:w-96 md:w-[480px] lg:w-[540px] h-auto object-contain opacity-45 sm:opacity-55 drop-shadow-[0_0_90px_rgba(168,85,247,0.8)]"
+              className="w-72 sm:w-96 md:w-[480px] lg:w-[540px] h-auto object-contain opacity-45 sm:opacity-55 group-hover:opacity-75 group-hover:scale-105 transition-all duration-700 drop-shadow-[0_0_90px_rgba(168,85,247,0.8)]"
               style={{ animation: 'float 7s ease-in-out infinite' }}
             />
           </div>
@@ -320,10 +320,14 @@ export default function LandingPage() {
             style={{ animation: 'scan 5s ease-in-out infinite' }}
           />
 
-          {/* Foreground Glitch Typography */}
-          <h1 className="relative z-10 text-6xl sm:text-8xl md:text-9xl lg:text-[10rem] font-glitch text-purple-100 tracking-[0.04em] sm:tracking-[0.06em] leading-[0.9] uppercase drop-shadow-[0_0_60px_rgba(168,85,247,0.5)] scale-y-95 w-full text-center select-none">
-            VOICE <br />
-            <span className="text-purple-200">OPS</span>
+          {/* Foreground Glitch Typography with Hover Character Expansion */}
+          <h1 className="relative z-10 text-6xl sm:text-8xl md:text-9xl lg:text-[10rem] font-glitch text-purple-100 uppercase drop-shadow-[0_0_60px_rgba(168,85,247,0.5)] scale-y-95 w-full text-center select-none flex flex-col items-center justify-center gap-1 sm:gap-2">
+            <span className="block tracking-[0.04em] group-hover:tracking-[0.16em] sm:group-hover:tracking-[0.24em] transition-all duration-700 ease-out group-hover:text-white group-hover:drop-shadow-[0_0_80px_rgba(233,213,255,0.9)]">
+              VOICE
+            </span>
+            <span className="block text-purple-200 tracking-[0.04em] group-hover:tracking-[0.18em] sm:group-hover:tracking-[0.26em] transition-all duration-700 ease-out group-hover:text-purple-100 group-hover:drop-shadow-[0_0_80px_rgba(168,85,247,0.9)]">
+              OPS
+            </span>
           </h1>
         </div>
 
