@@ -85,7 +85,7 @@ async def init_db_schema():
             await conn.run_sync(Base.metadata.create_all)
         logger.info("Database schema initialized successfully")
     except Exception as e:
-        logger.warn("Database schema auto-init skipped or existing", error=str(e))
+        logger.warning("Database schema auto-init skipped or existing", error=str(e))
 
 
 async def get_db() -> AsyncGenerator[AsyncSession, None]:

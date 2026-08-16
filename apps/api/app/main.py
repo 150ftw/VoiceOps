@@ -80,6 +80,13 @@ app.include_router(observability_router, prefix=api_v1_prefix)
 app.include_router(websocket_router)
 
 
+@app.get("/")
+@app.get("/api")
 @app.get("/health")
 async def root_health():
-    return {"status": "ok", "app": settings.APP_NAME, "version": "1.0.0"}
+    return {
+        "status": "ok",
+        "app": settings.APP_NAME,
+        "version": "1.0.0",
+        "message": "VoiceOps API Engine Running"
+    }
