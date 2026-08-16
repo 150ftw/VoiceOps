@@ -38,10 +38,13 @@ import {
   ChevronDown,
   Globe,
   Boxes,
+  Sliders,
+  Shield,
+  Unlink,
+  Server,
 } from 'lucide-react';
 import { apiRequest, clearAuthToken, getAuthToken } from '@/lib/api-client';
-import { HeroBackground } from '@/components/landing/hero-background';
-import { Hero3DExperience } from '@/components/landing/hero-3d-experience';
+import { SeniorHeroVisual } from '@/components/landing/senior-hero-visual';
 
 export default function LandingPage() {
   const [currentUser, setCurrentUser] = useState<any>(null);
@@ -119,23 +122,23 @@ export default function LandingPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#04060C] text-slate-100 selection:bg-indigo-500/30 selection:text-indigo-200 relative overflow-hidden font-sans antialiased">
-      {/* 2D Background Ambient Video Matrix */}
-      <HeroBackground />
+    <div className="min-h-screen bg-[#020408] text-slate-100 selection:bg-indigo-500/30 selection:text-indigo-200 relative overflow-hidden font-sans antialiased">
+      {/* High-End 3D Perspective Wave Grid & Radial Lighting */}
+      <SeniorHeroVisual />
 
       {/* Floating Header Navigation */}
       <header className="sticky top-4 z-50 max-w-6xl mx-auto px-4 sm:px-6">
-        <nav className="h-16 rounded-2xl bg-[#080D1A]/85 backdrop-blur-xl border border-white/10 px-5 flex items-center justify-between shadow-2xl shadow-black/80">
+        <nav className="h-16 rounded-2xl bg-[#060A14]/80 backdrop-blur-xl border border-white/[0.08] px-5 flex items-center justify-between shadow-2xl shadow-black/90">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-cyan-400 flex items-center justify-center text-white shadow-lg glow-indigo">
+            <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-cyan-400 flex items-center justify-center text-white shadow-lg glow-indigo">
               <Zap className="w-4 h-4 fill-current" />
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-base font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-100 to-slate-400 bg-clip-text text-transparent">
+              <span className="text-sm font-extrabold tracking-tight text-white">
                 VoiceOps
               </span>
-              <span className="px-2 py-0.5 rounded-full text-[9px] font-mono uppercase bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
-                v1.0
+              <span className="px-1.5 py-0.2 rounded-full text-[9px] font-mono uppercase bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 font-bold">
+                2.0
               </span>
             </div>
           </div>
@@ -203,21 +206,18 @@ export default function LandingPage() {
         </nav>
       </header>
 
-      {/* Hero Section with Interactive 3D WebGL Hologram Core */}
-      <section className="relative pt-12 pb-16 px-6 max-w-6xl mx-auto text-center space-y-7 min-h-[600px] flex flex-col justify-center items-center">
-        {/* 3D WebGL Neural Core Canvas (Three.js) */}
-        <Hero3DExperience />
-
+      {/* Hero Section */}
+      <section className="relative pt-16 pb-12 px-6 max-w-6xl mx-auto text-center space-y-7 z-10">
         {/* Shimmer Announcement Pill */}
-        <div className="relative z-10 inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-slate-950/80 border border-slate-700/60 shadow-2xl text-slate-300 text-xs font-medium backdrop-blur-md">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.03] border border-white/[0.08] shadow-2xl text-slate-300 text-xs font-medium backdrop-blur-md">
           <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-          <span className="text-slate-200">Autonomous DevOps Intelligence</span>
+          <span className="text-slate-200">Autonomous DevOps Voice Intelligence</span>
           <span className="text-slate-600">&bull;</span>
-          <span className="text-indigo-400 font-mono text-[11px]">pgvector Memory + Whisper v3</span>
+          <span className="text-indigo-400 font-mono text-[11px]">pgvector Memory &bull; Whisper v3</span>
         </div>
 
         {/* Hero Title */}
-        <h1 className="relative z-10 text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white max-w-4xl mx-auto leading-[1.08] drop-shadow-2xl">
+        <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white max-w-4xl mx-auto leading-[1.08]">
           Talk to your infrastructure. <br />
           <span className="bg-gradient-to-r from-indigo-300 via-cyan-300 to-emerald-300 bg-clip-text text-transparent">
             Fix CI/CD in seconds.
@@ -225,15 +225,15 @@ export default function LandingPage() {
         </h1>
 
         {/* Hero Subtitle */}
-        <p className="relative z-10 text-sm sm:text-base text-slate-300 max-w-2xl mx-auto leading-relaxed font-normal drop-shadow-md">
+        <p className="text-sm sm:text-base text-slate-400 max-w-2xl mx-auto leading-relaxed font-normal">
           VoiceOps listens, traverses full GitHub repository trees, isolates build error stack traces, and prepares cryptographically approved fixes &mdash; without touching a terminal.
         </p>
 
-        {/* Action Buttons */}
-        <div className="relative z-10 pt-2 flex flex-col sm:flex-row items-center justify-center gap-4">
+        {/* Dual Action Buttons */}
+        <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3.5">
           <Link
             href="/workspace"
-            className="w-full sm:w-auto px-7 py-3.5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs sm:text-sm shadow-2xl glow-indigo transition-all flex items-center justify-center gap-2.5 transform hover:-translate-y-0.5 border border-indigo-400/30"
+            className="w-full sm:w-auto px-7 py-3.5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs sm:text-sm shadow-xl glow-indigo transition-all flex items-center justify-center gap-2.5 transform hover:-translate-y-0.5 border border-indigo-400/30"
           >
             <Mic className="w-4 h-4" />
             <span>Launch Live Voice Workspace</span>
@@ -245,7 +245,7 @@ export default function LandingPage() {
             className={`w-full sm:w-auto px-6 py-3.5 rounded-2xl border text-xs sm:text-sm font-semibold transition-all flex items-center justify-center gap-2.5 backdrop-blur-md ${
               isPlayingVoice
                 ? 'bg-rose-500/20 border-rose-500/50 text-rose-300 shadow-xl glow-rose'
-                : 'bg-slate-900/90 hover:bg-slate-850 border-slate-700/80 text-slate-200 hover:text-white'
+                : 'bg-white/[0.04] hover:bg-white/[0.08] border-white/[0.08] text-slate-200 hover:text-white'
             }`}
           >
             {isPlayingVoice ? (
@@ -262,29 +262,33 @@ export default function LandingPage() {
           </button>
         </div>
 
-        {/* 3D Telemetry Stats Grid */}
-        <div className="relative z-10 grid grid-cols-2 sm:grid-cols-4 gap-3 pt-6 max-w-3xl mx-auto w-full">
-          <div className="p-3 rounded-2xl bg-slate-950/80 border border-white/[0.08] backdrop-blur-md shadow-lg">
-            <p className="text-[10px] font-mono uppercase text-slate-500">Voice Latency</p>
-            <p className="text-sm font-extrabold text-cyan-300 mt-0.5">~180 ms</p>
+        {/* Telemetry Metric Cards */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-6 max-w-4xl mx-auto w-full">
+          <div className="p-4 rounded-2xl bg-[#060A14] border border-white/[0.06] shadow-xl text-left">
+            <p className="text-[10px] font-mono uppercase tracking-wider text-slate-500 font-semibold">Voice Latency</p>
+            <p className="text-base font-extrabold text-cyan-300 mt-0.5 font-mono">~180 ms</p>
+            <p className="text-[10px] text-slate-500 mt-0.5">Streaming STT &bull; Whisper v3</p>
           </div>
-          <div className="p-3 rounded-2xl bg-slate-950/80 border border-white/[0.08] backdrop-blur-md shadow-lg">
-            <p className="text-[10px] font-mono uppercase text-slate-500">Vector Embeddings</p>
-            <p className="text-sm font-extrabold text-indigo-300 mt-0.5">1536-dim pgvector</p>
+          <div className="p-4 rounded-2xl bg-[#060A14] border border-white/[0.06] shadow-xl text-left">
+            <p className="text-[10px] font-mono uppercase tracking-wider text-slate-500 font-semibold">Vector Memory</p>
+            <p className="text-base font-extrabold text-indigo-300 mt-0.5 font-mono">1536-dim</p>
+            <p className="text-[10px] text-slate-500 mt-0.5">Supabase pgvector HNSW</p>
           </div>
-          <div className="p-3 rounded-2xl bg-slate-950/80 border border-white/[0.08] backdrop-blur-md shadow-lg">
-            <p className="text-[10px] font-mono uppercase text-slate-500">Multi-Model LLM</p>
-            <p className="text-sm font-extrabold text-purple-300 mt-0.5">Gemini &bull; GPT-4o</p>
+          <div className="p-4 rounded-2xl bg-[#060A14] border border-white/[0.06] shadow-xl text-left">
+            <p className="text-[10px] font-mono uppercase tracking-wider text-slate-500 font-semibold">Context Window</p>
+            <p className="text-base font-extrabold text-purple-300 mt-0.5 font-mono">1M Tokens</p>
+            <p className="text-[10px] text-slate-500 mt-0.5">Gemini 1.5 Pro &bull; Multi-Model</p>
           </div>
-          <div className="p-3 rounded-2xl bg-slate-950/80 border border-white/[0.08] backdrop-blur-md shadow-lg">
-            <p className="text-[10px] font-mono uppercase text-slate-500">Guardrail Enforced</p>
-            <p className="text-sm font-extrabold text-emerald-300 mt-0.5">Zero Auto-Writes</p>
+          <div className="p-4 rounded-2xl bg-[#060A14] border border-white/[0.06] shadow-xl text-left">
+            <p className="text-[10px] font-mono uppercase tracking-wider text-slate-500 font-semibold">Guardrail Safety</p>
+            <p className="text-base font-extrabold text-emerald-300 mt-0.5 font-mono">Enforced</p>
+            <p className="text-[10px] text-slate-500 mt-0.5">Cryptographic 1-click Approval</p>
           </div>
         </div>
 
-        {/* Prompt Pills */}
-        <div className="relative z-10 pt-4 flex flex-wrap items-center justify-center gap-2 text-xs">
-          <span className="text-slate-400 font-mono text-[11px]">Try Asking:</span>
+        {/* Quick Question Chips */}
+        <div className="pt-3 flex flex-wrap items-center justify-center gap-2 text-xs">
+          <span className="text-slate-500 font-mono text-[11px]">Interactive Prompts:</span>
           {interactivePrompts.map((p) => (
             <button
               key={p.title}
@@ -294,7 +298,7 @@ export default function LandingPage() {
                 const el = document.getElementById('console-preview');
                 if (el) el.scrollIntoView({ behavior: 'smooth' });
               }}
-              className="px-3 py-1 rounded-xl bg-slate-900/80 hover:bg-indigo-500/20 hover:border-indigo-500/40 border border-slate-800 text-slate-300 hover:text-white transition-all text-xs font-mono backdrop-blur-sm"
+              className="px-3 py-1 rounded-xl bg-white/[0.03] hover:bg-indigo-500/20 hover:border-indigo-500/40 border border-white/[0.06] text-slate-300 hover:text-white transition-all text-xs font-mono"
             >
               {p.title} &rarr;
             </button>
@@ -303,17 +307,17 @@ export default function LandingPage() {
       </section>
 
       {/* Interactive DevOps Studio Console Simulation */}
-      <section id="console-preview" className="py-16 px-6 max-w-5xl mx-auto relative z-10">
-        <div className="rounded-3xl bg-[#080D1A] border border-white/[0.08] shadow-2xl overflow-hidden">
-          {/* Console Header Bar */}
-          <div className="px-5 py-3.5 bg-slate-950 border-b border-white/5 flex flex-wrap items-center justify-between gap-3">
+      <section id="console-preview" className="py-12 px-6 max-w-5xl mx-auto relative z-10">
+        <div className="rounded-3xl bg-[#060A14] border border-white/[0.08] shadow-2xl overflow-hidden">
+          {/* macOS Terminal Window Header */}
+          <div className="px-5 py-3.5 bg-[#03060E] border-b border-white/[0.06] flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-center gap-2 text-xs font-mono text-slate-400">
               <span className="w-2.5 h-2.5 rounded-full bg-rose-500/80" />
               <span className="w-2.5 h-2.5 rounded-full bg-amber-500/80" />
               <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80" />
-              <span className="ml-2 font-semibold text-slate-300">Live Studio Session</span>
+              <span className="ml-2 font-semibold text-slate-200">VoiceOps Studio Session</span>
               <span className="text-slate-600">&bull;</span>
-              <span className="text-indigo-400">150ftw/demo-app</span>
+              <span className="text-indigo-400">150ftw/demo-app (main)</span>
             </div>
 
             {/* Interactive Tab Switcher */}
@@ -389,7 +393,7 @@ export default function LandingPage() {
 
             {/* Tab 1: Diagnostics */}
             {activeTab === 'diagnosis' && (
-              <div className="p-4 rounded-2xl bg-slate-950/90 border border-white/5 space-y-3 font-mono text-xs">
+              <div className="p-4 rounded-2xl bg-[#03060E] border border-white/[0.06] space-y-3 font-mono text-xs">
                 <div className="flex items-center justify-between text-slate-400 pb-2 border-b border-white/5">
                   <span className="flex items-center gap-1.5 text-rose-400 font-bold">
                     <AlertTriangle className="w-3.5 h-3.5" />
@@ -414,7 +418,7 @@ export default function LandingPage() {
 
             {/* Tab 2: Diff Comparison */}
             {activeTab === 'diff' && (
-              <div className="p-4 rounded-2xl bg-slate-950/90 border border-white/5 space-y-3 font-mono text-xs">
+              <div className="p-4 rounded-2xl bg-[#03060E] border border-white/[0.06] space-y-3 font-mono text-xs">
                 <div className="flex items-center justify-between text-slate-400 pb-2 border-b border-white/5">
                   <span className="flex items-center gap-1.5 text-indigo-300 font-bold">
                     <GitPullRequest className="w-3.5 h-3.5 text-indigo-400" />
@@ -438,7 +442,7 @@ export default function LandingPage() {
 
             {/* Tab 3: RAG Runbook */}
             {activeTab === 'rag' && (
-              <div className="p-4 rounded-2xl bg-slate-950/90 border border-white/5 space-y-3 text-xs">
+              <div className="p-4 rounded-2xl bg-[#03060E] border border-white/[0.06] space-y-3 text-xs">
                 <div className="flex items-center justify-between text-slate-400 pb-2 border-b border-white/5 font-mono">
                   <span className="flex items-center gap-1.5 text-cyan-300 font-bold">
                     <Database className="w-3.5 h-3.5 text-cyan-400" />
@@ -460,7 +464,7 @@ export default function LandingPage() {
 
             {/* Tab 4: Security Approval */}
             {activeTab === 'approval' && (
-              <div className="p-4 rounded-2xl bg-slate-950/90 border border-indigo-500/30 space-y-3 text-xs">
+              <div className="p-4 rounded-2xl bg-[#03060E] border border-indigo-500/30 space-y-3 text-xs">
                 <div className="flex items-center justify-between text-slate-400 pb-2 border-b border-white/5">
                   <span className="flex items-center gap-1.5 text-amber-300 font-bold font-mono">
                     <ShieldCheck className="w-3.5 h-3.5 text-amber-400" />
@@ -514,9 +518,9 @@ export default function LandingPage() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Card 1 */}
-          <div className="p-6 rounded-3xl bg-[#080D1A] border border-white/[0.08] shadow-xl space-y-4 hover:border-indigo-500/30 transition-all group">
+          <div className="p-6 rounded-3xl bg-[#060A14] border border-white/[0.06] shadow-xl space-y-4 hover:border-indigo-500/30 transition-all group">
             <div className="w-10 h-10 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 group-hover:scale-110 transition-transform">
               <Mic className="w-5 h-5" />
             </div>
@@ -529,7 +533,7 @@ export default function LandingPage() {
           </div>
 
           {/* Card 2 */}
-          <div className="p-6 rounded-3xl bg-[#080D1A] border border-white/[0.08] shadow-xl space-y-4 hover:border-cyan-500/30 transition-all group">
+          <div className="p-6 rounded-3xl bg-[#060A14] border border-white/[0.06] shadow-xl space-y-4 hover:border-cyan-500/30 transition-all group">
             <div className="w-10 h-10 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 group-hover:scale-110 transition-transform">
               <Database className="w-5 h-5" />
             </div>
@@ -542,7 +546,7 @@ export default function LandingPage() {
           </div>
 
           {/* Card 3 */}
-          <div className="p-6 rounded-3xl bg-[#080D1A] border border-white/[0.08] shadow-xl space-y-4 hover:border-emerald-500/30 transition-all group">
+          <div className="p-6 rounded-3xl bg-[#060A14] border border-white/[0.06] shadow-xl space-y-4 hover:border-emerald-500/30 transition-all group">
             <div className="w-10 h-10 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 group-hover:scale-110 transition-transform">
               <ShieldCheck className="w-5 h-5" />
             </div>
@@ -568,7 +572,7 @@ export default function LandingPage() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="p-5 rounded-2xl bg-[#080D1A] border border-cyan-500/20 space-y-2 shadow-lg">
+          <div className="p-5 rounded-2xl bg-[#060A14] border border-cyan-500/20 space-y-2 shadow-lg">
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-white">Gemini 1.5 Pro</span>
               <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
@@ -578,7 +582,7 @@ export default function LandingPage() {
             </p>
           </div>
 
-          <div className="p-5 rounded-2xl bg-[#080D1A] border border-emerald-500/20 space-y-2 shadow-lg">
+          <div className="p-5 rounded-2xl bg-[#060A14] border border-emerald-500/20 space-y-2 shadow-lg">
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-white">GPT-4o</span>
               <span className="w-2 h-2 rounded-full bg-emerald-400" />
@@ -588,7 +592,7 @@ export default function LandingPage() {
             </p>
           </div>
 
-          <div className="p-5 rounded-2xl bg-[#080D1A] border border-amber-500/20 space-y-2 shadow-lg">
+          <div className="p-5 rounded-2xl bg-[#060A14] border border-amber-500/20 space-y-2 shadow-lg">
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-white">Claude 3.5 Sonnet</span>
               <span className="w-2 h-2 rounded-full bg-amber-400" />
@@ -598,7 +602,7 @@ export default function LandingPage() {
             </p>
           </div>
 
-          <div className="p-5 rounded-2xl bg-[#080D1A] border border-purple-500/20 space-y-2 shadow-lg">
+          <div className="p-5 rounded-2xl bg-[#060A14] border border-purple-500/20 space-y-2 shadow-lg">
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-white">DeepSeek R1</span>
               <span className="w-2 h-2 rounded-full bg-purple-400" />
@@ -644,7 +648,7 @@ export default function LandingPage() {
             return (
               <div
                 key={idx}
-                className="rounded-2xl bg-[#080D1A] border border-white/[0.06] overflow-hidden transition-all"
+                className="rounded-2xl bg-[#060A14] border border-white/[0.06] overflow-hidden transition-all"
               >
                 <button
                   onClick={() => setOpenFaq(isOpen ? null : idx)}
@@ -669,7 +673,7 @@ export default function LandingPage() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-white/5 bg-[#030408] py-12 px-6 relative z-10 text-xs text-slate-500">
+      <footer className="border-t border-white/5 bg-[#010204] py-12 px-6 relative z-10 text-xs text-slate-500">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2 text-slate-300 font-bold">
             <Zap className="w-4 h-4 text-indigo-400" />
