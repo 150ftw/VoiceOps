@@ -122,13 +122,13 @@ export default function LandingPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#020408] text-slate-100 selection:bg-indigo-500/30 selection:text-indigo-200 relative overflow-hidden font-sans antialiased">
-      {/* React Bits WebGL Scanner Field Background */}
-      <div className="absolute inset-0 h-[880px] pointer-events-none z-0 overflow-hidden">
+    <div className="min-h-screen bg-[#030206] text-slate-100 selection:bg-purple-500/30 selection:text-purple-200 relative overflow-hidden font-sans antialiased">
+      {/* React Bits WebGL Scanner Field Background - Purple & Black Theme */}
+      <div className="absolute inset-0 h-[900px] pointer-events-none z-0 overflow-hidden">
         <Scanner
-          color1="#4F46E5"
-          color2="#06B6D4"
-          color3="#FFFFFF"
+          color1="#6B21A8" // Deep royal purple
+          color2="#C084FC" // Electric lavender / violet
+          color3="#FFFFFF" // Bright peaks
           speed={0.4}
           sweepSpeed={0.2}
           sweepWidth={1.6}
@@ -144,48 +144,48 @@ export default function LandingPage() {
           brightness={0.9}
           contrast={1.15}
           softness={1.4}
-          vignette={0.5}
+          vignette={0.55}
           scanline={true}
           grain={true}
           grainIntensity={0.04}
-          opacity={0.75}
+          opacity={0.8}
           mouseInteraction={true}
           mouseRadius={0.5}
           mouseStrength={0.5}
         />
         {/* Soft gradient mask overlays */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#020408]/40 via-transparent to-[#020408] pointer-events-none" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,#020408_90%)] pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#030206]/30 via-transparent to-[#030206] pointer-events-none" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,#030206_90%)] pointer-events-none" />
       </div>
 
       {/* Floating Header Navigation */}
       <header className="sticky top-4 z-50 max-w-6xl mx-auto px-4 sm:px-6">
-        <nav className="h-16 rounded-2xl bg-[#060A14]/80 backdrop-blur-xl border border-white/[0.08] px-5 flex items-center justify-between shadow-2xl shadow-black/90">
+        <nav className="h-16 rounded-2xl bg-[#090514]/80 backdrop-blur-xl border border-white/[0.08] px-5 flex items-center justify-between shadow-2xl shadow-black/90">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-cyan-400 flex items-center justify-center text-white shadow-lg glow-indigo">
+            <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-purple-600 via-purple-500 to-fuchsia-400 flex items-center justify-center text-white shadow-lg glow-purple">
               <Zap className="w-4 h-4 fill-current" />
             </div>
             <div className="flex items-center gap-2">
               <span className="text-sm font-extrabold tracking-tight text-white">
                 VoiceOps
               </span>
-              <span className="px-1.5 py-0.2 rounded-full text-[9px] font-mono uppercase bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 font-bold">
+              <span className="px-1.5 py-0.2 rounded-full text-[9px] font-mono uppercase bg-purple-500/20 text-purple-300 border border-purple-500/30 font-bold">
                 2.0
               </span>
             </div>
           </div>
 
           <div className="hidden md:flex items-center gap-7 text-xs font-medium text-slate-400">
-            <a href="#console-preview" className="hover:text-white transition-colors">
+            <a href="#console-preview" className="hover:text-purple-300 transition-colors">
               Studio Console
             </a>
-            <a href="#capabilities" className="hover:text-white transition-colors">
+            <a href="#capabilities" className="hover:text-purple-300 transition-colors">
               Capabilities
             </a>
-            <a href="#architecture" className="hover:text-white transition-colors">
+            <a href="#architecture" className="hover:text-purple-300 transition-colors">
               Architecture
             </a>
-            <a href="#faq" className="hover:text-white transition-colors">
+            <a href="#faq" className="hover:text-purple-300 transition-colors">
               FAQ
             </a>
           </div>
@@ -205,7 +205,7 @@ export default function LandingPage() {
               <div className="flex items-center gap-2.5">
                 <Link
                   href="/workspace"
-                  className="flex items-center gap-1.5 px-4 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold shadow-lg glow-indigo transition-all transform hover:-translate-y-0.5"
+                  className="flex items-center gap-1.5 px-4 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold shadow-lg glow-purple transition-all transform hover:-translate-y-0.5"
                 >
                   <Mic className="w-3.5 h-3.5" />
                   <span>Workspace</span>
@@ -228,7 +228,7 @@ export default function LandingPage() {
                 </Link>
                 <Link
                   href="/register"
-                  className="px-4 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold shadow-md glow-indigo transition-all transform hover:-translate-y-0.5"
+                  className="px-4 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold shadow-md glow-purple transition-all transform hover:-translate-y-0.5"
                 >
                   Get Started
                 </Link>
@@ -241,17 +241,17 @@ export default function LandingPage() {
       {/* Hero Section */}
       <section className="relative pt-16 pb-12 px-6 max-w-6xl mx-auto text-center space-y-7 z-10">
         {/* Shimmer Announcement Pill */}
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.03] border border-white/[0.08] shadow-2xl text-slate-300 text-xs font-medium backdrop-blur-md">
-          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/30 shadow-2xl text-purple-200 text-xs font-medium backdrop-blur-md">
+          <span className="w-2 h-2 rounded-full bg-purple-400 animate-pulse" />
           <span className="text-slate-200">Autonomous DevOps Voice Intelligence</span>
-          <span className="text-slate-600">&bull;</span>
-          <span className="text-indigo-400 font-mono text-[11px]">pgvector Memory &bull; Whisper v3</span>
+          <span className="text-purple-600">&bull;</span>
+          <span className="text-purple-300 font-mono text-[11px]">pgvector Memory &bull; Whisper v3</span>
         </div>
 
         {/* Hero Title */}
         <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white max-w-4xl mx-auto leading-[1.08] drop-shadow-2xl">
           Talk to your infrastructure. <br />
-          <span className="bg-gradient-to-r from-indigo-300 via-cyan-300 to-emerald-300 bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-purple-300 via-fuchsia-300 to-indigo-300 bg-clip-text text-transparent">
             Fix CI/CD in seconds.
           </span>
         </h1>
@@ -265,7 +265,7 @@ export default function LandingPage() {
         <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3.5">
           <Link
             href="/workspace"
-            className="w-full sm:w-auto px-7 py-3.5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs sm:text-sm shadow-xl glow-indigo transition-all flex items-center justify-center gap-2.5 transform hover:-translate-y-0.5 border border-indigo-400/30"
+            className="w-full sm:w-auto px-7 py-3.5 rounded-2xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs sm:text-sm shadow-xl glow-purple transition-all flex items-center justify-center gap-2.5 transform hover:-translate-y-0.5 border border-purple-400/30"
           >
             <Mic className="w-4 h-4" />
             <span>Launch Live Voice Workspace</span>
@@ -287,7 +287,7 @@ export default function LandingPage() {
               </>
             ) : (
               <>
-                <Play className="w-4 h-4 text-indigo-400 fill-current" />
+                <Play className="w-4 h-4 text-purple-400 fill-current" />
                 <span>Hear AI Voice Response</span>
               </>
             )}
@@ -296,23 +296,23 @@ export default function LandingPage() {
 
         {/* Telemetry Metric Cards */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-6 max-w-4xl mx-auto w-full">
-          <div className="p-4 rounded-2xl bg-[#060A14]/90 border border-white/[0.08] backdrop-blur-md shadow-xl text-left">
-            <p className="text-[10px] font-mono uppercase tracking-wider text-slate-500 font-semibold">Voice Latency</p>
-            <p className="text-base font-extrabold text-cyan-300 mt-0.5 font-mono">~180 ms</p>
+          <div className="p-4 rounded-2xl bg-[#090514]/90 border border-purple-500/20 backdrop-blur-md shadow-xl text-left">
+            <p className="text-[10px] font-mono uppercase tracking-wider text-purple-400 font-semibold">Voice Latency</p>
+            <p className="text-base font-extrabold text-purple-200 mt-0.5 font-mono">~180 ms</p>
             <p className="text-[10px] text-slate-500 mt-0.5">Streaming STT &bull; Whisper v3</p>
           </div>
-          <div className="p-4 rounded-2xl bg-[#060A14]/90 border border-white/[0.08] backdrop-blur-md shadow-xl text-left">
-            <p className="text-[10px] font-mono uppercase tracking-wider text-slate-500 font-semibold">Vector Memory</p>
-            <p className="text-base font-extrabold text-indigo-300 mt-0.5 font-mono">1536-dim</p>
+          <div className="p-4 rounded-2xl bg-[#090514]/90 border border-purple-500/20 backdrop-blur-md shadow-xl text-left">
+            <p className="text-[10px] font-mono uppercase tracking-wider text-purple-400 font-semibold">Vector Memory</p>
+            <p className="text-base font-extrabold text-purple-200 mt-0.5 font-mono">1536-dim</p>
             <p className="text-[10px] text-slate-500 mt-0.5">Supabase pgvector HNSW</p>
           </div>
-          <div className="p-4 rounded-2xl bg-[#060A14]/90 border border-white/[0.08] backdrop-blur-md shadow-xl text-left">
-            <p className="text-[10px] font-mono uppercase tracking-wider text-slate-500 font-semibold">Context Window</p>
-            <p className="text-base font-extrabold text-purple-300 mt-0.5 font-mono">1M Tokens</p>
+          <div className="p-4 rounded-2xl bg-[#090514]/90 border border-purple-500/20 backdrop-blur-md shadow-xl text-left">
+            <p className="text-[10px] font-mono uppercase tracking-wider text-purple-400 font-semibold">Context Window</p>
+            <p className="text-base font-extrabold text-fuchsia-300 mt-0.5 font-mono">1M Tokens</p>
             <p className="text-[10px] text-slate-500 mt-0.5">Gemini 1.5 Pro &bull; Multi-Model</p>
           </div>
-          <div className="p-4 rounded-2xl bg-[#060A14]/90 border border-white/[0.08] backdrop-blur-md shadow-xl text-left">
-            <p className="text-[10px] font-mono uppercase tracking-wider text-slate-500 font-semibold">Guardrail Safety</p>
+          <div className="p-4 rounded-2xl bg-[#090514]/90 border border-purple-500/20 backdrop-blur-md shadow-xl text-left">
+            <p className="text-[10px] font-mono uppercase tracking-wider text-purple-400 font-semibold">Guardrail Safety</p>
             <p className="text-base font-extrabold text-emerald-300 mt-0.5 font-mono">Enforced</p>
             <p className="text-[10px] text-slate-500 mt-0.5">Cryptographic 1-click Approval</p>
           </div>
@@ -330,7 +330,7 @@ export default function LandingPage() {
                 const el = document.getElementById('console-preview');
                 if (el) el.scrollIntoView({ behavior: 'smooth' });
               }}
-              className="px-3 py-1 rounded-xl bg-white/[0.03] hover:bg-indigo-500/20 hover:border-indigo-500/40 border border-white/[0.06] text-slate-300 hover:text-white transition-all text-xs font-mono"
+              className="px-3 py-1 rounded-xl bg-purple-500/10 hover:bg-purple-500/20 hover:border-purple-500/40 border border-purple-500/20 text-purple-200 hover:text-white transition-all text-xs font-mono"
             >
               {p.title} &rarr;
             </button>
@@ -340,26 +340,26 @@ export default function LandingPage() {
 
       {/* Interactive DevOps Studio Console Simulation */}
       <section id="console-preview" className="py-12 px-6 max-w-5xl mx-auto relative z-10">
-        <div className="rounded-3xl bg-[#060A14] border border-white/[0.08] shadow-2xl overflow-hidden">
+        <div className="rounded-3xl bg-[#080412] border border-purple-500/20 shadow-2xl overflow-hidden">
           {/* macOS Terminal Window Header */}
-          <div className="px-5 py-3.5 bg-[#03060E] border-b border-white/[0.06] flex flex-wrap items-center justify-between gap-3">
+          <div className="px-5 py-3.5 bg-[#040209] border-b border-white/[0.06] flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-center gap-2 text-xs font-mono text-slate-400">
               <span className="w-2.5 h-2.5 rounded-full bg-rose-500/80" />
               <span className="w-2.5 h-2.5 rounded-full bg-amber-500/80" />
               <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80" />
               <span className="ml-2 font-semibold text-slate-200">VoiceOps Studio Session</span>
               <span className="text-slate-600">&bull;</span>
-              <span className="text-indigo-400">150ftw/demo-app (main)</span>
+              <span className="text-purple-400">150ftw/demo-app (main)</span>
             </div>
 
             {/* Interactive Tab Switcher */}
-            <div className="flex items-center gap-1.5 p-1 rounded-xl bg-slate-900/90 border border-white/5 text-xs font-medium">
+            <div className="flex items-center gap-1.5 p-1 rounded-xl bg-[#0f0821] border border-purple-500/20 text-xs font-medium">
               <button
                 onClick={() => setActiveTab('diagnosis')}
                 className={`px-3 py-1 rounded-lg transition-all ${
                   activeTab === 'diagnosis'
-                    ? 'bg-indigo-600 text-white shadow-md'
-                    : 'text-slate-400 hover:text-slate-200'
+                    ? 'bg-purple-600 text-white shadow-md glow-purple'
+                    : 'text-slate-400 hover:text-purple-200'
                 }`}
               >
                 Log Diagnostics
@@ -368,8 +368,8 @@ export default function LandingPage() {
                 onClick={() => setActiveTab('diff')}
                 className={`px-3 py-1 rounded-lg transition-all ${
                   activeTab === 'diff'
-                    ? 'bg-indigo-600 text-white shadow-md'
-                    : 'text-slate-400 hover:text-slate-200'
+                    ? 'bg-purple-600 text-white shadow-md glow-purple'
+                    : 'text-slate-400 hover:text-purple-200'
                 }`}
               >
                 Diff Comparison
@@ -378,8 +378,8 @@ export default function LandingPage() {
                 onClick={() => setActiveTab('rag')}
                 className={`px-3 py-1 rounded-lg transition-all ${
                   activeTab === 'rag'
-                    ? 'bg-indigo-600 text-white shadow-md'
-                    : 'text-slate-400 hover:text-slate-200'
+                    ? 'bg-purple-600 text-white shadow-md glow-purple'
+                    : 'text-slate-400 hover:text-purple-200'
                 }`}
               >
                 Runbook RAG
@@ -388,8 +388,8 @@ export default function LandingPage() {
                 onClick={() => setActiveTab('approval')}
                 className={`px-3 py-1 rounded-lg transition-all ${
                   activeTab === 'approval'
-                    ? 'bg-indigo-600 text-white shadow-md'
-                    : 'text-slate-400 hover:text-slate-200'
+                    ? 'bg-purple-600 text-white shadow-md glow-purple'
+                    : 'text-slate-400 hover:text-purple-200'
                 }`}
               >
                 Security Guardrail
@@ -402,10 +402,10 @@ export default function LandingPage() {
             {/* User Prompt Simulation */}
             <div className="flex justify-end">
               <div className="flex items-start gap-2.5 max-w-lg">
-                <div className="p-3.5 rounded-2xl bg-indigo-600 text-white text-xs font-mono leading-relaxed shadow-lg">
+                <div className="p-3.5 rounded-2xl bg-purple-600 text-white text-xs font-mono leading-relaxed shadow-lg glow-purple">
                   &ldquo;{selectedPrompt}&rdquo;
                 </div>
-                <div className="w-8 h-8 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-xs font-bold text-slate-300 shrink-0">
+                <div className="w-8 h-8 rounded-xl bg-slate-900 border border-purple-500/30 flex items-center justify-center text-xs font-bold text-purple-300 shrink-0">
                   You
                 </div>
               </div>
@@ -413,11 +413,11 @@ export default function LandingPage() {
 
             {/* AI Agent Telemetry Steps */}
             <div className="space-y-2 font-mono text-xs max-w-2xl">
-              <div className="flex items-center gap-2 text-cyan-400">
+              <div className="flex items-center gap-2 text-purple-300">
                 <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
                 <span>Analyzed GitHub Actions workflow run #1245 (Docker Build &amp; Deploy)</span>
               </div>
-              <div className="flex items-center gap-2 text-cyan-400">
+              <div className="flex items-center gap-2 text-purple-300">
                 <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
                 <span>Isolated stack trace error in pip install -r requirements.txt (Line 14)</span>
               </div>
@@ -425,7 +425,7 @@ export default function LandingPage() {
 
             {/* Tab 1: Diagnostics */}
             {activeTab === 'diagnosis' && (
-              <div className="p-4 rounded-2xl bg-[#03060E] border border-white/[0.06] space-y-3 font-mono text-xs">
+              <div className="p-4 rounded-2xl bg-[#040209] border border-purple-500/20 space-y-3 font-mono text-xs">
                 <div className="flex items-center justify-between text-slate-400 pb-2 border-b border-white/5">
                   <span className="flex items-center gap-1.5 text-rose-400 font-bold">
                     <AlertTriangle className="w-3.5 h-3.5" />
@@ -433,7 +433,7 @@ export default function LandingPage() {
                   </span>
                   <span className="text-[10px] text-slate-500">Exit Code: 1</span>
                 </div>
-                <div className="bg-[#05070D] p-3 rounded-xl border border-white/5 text-[11px] space-y-1 text-slate-300 leading-relaxed">
+                <div className="bg-[#070310] p-3 rounded-xl border border-purple-500/15 text-[11px] space-y-1 text-slate-300 leading-relaxed">
                   <p className="text-slate-500"># Workflow Run #1245 &bull; Job: docker_build</p>
                   <p className="text-rose-400 font-bold">
                     ERROR: Failed building wheel for bcrypt (Legacy C-extension build failed)
@@ -450,15 +450,15 @@ export default function LandingPage() {
 
             {/* Tab 2: Diff Comparison */}
             {activeTab === 'diff' && (
-              <div className="p-4 rounded-2xl bg-[#03060E] border border-white/[0.06] space-y-3 font-mono text-xs">
+              <div className="p-4 rounded-2xl bg-[#040209] border border-purple-500/20 space-y-3 font-mono text-xs">
                 <div className="flex items-center justify-between text-slate-400 pb-2 border-b border-white/5">
-                  <span className="flex items-center gap-1.5 text-indigo-300 font-bold">
-                    <GitPullRequest className="w-3.5 h-3.5 text-indigo-400" />
+                  <span className="flex items-center gap-1.5 text-purple-300 font-bold">
+                    <GitPullRequest className="w-3.5 h-3.5 text-purple-400" />
                     <span>Proposed Patch Diff &bull; Dockerfile</span>
                   </span>
                   <span className="text-[10px] text-emerald-400">+1 / -1 lines</span>
                 </div>
-                <div className="bg-[#05070D] p-3 rounded-xl border border-white/5 text-[11px] space-y-1 font-mono leading-relaxed">
+                <div className="bg-[#070310] p-3 rounded-xl border border-purple-500/15 text-[11px] space-y-1 font-mono leading-relaxed">
                   <p className="text-slate-500">@@ -1,3 +1,3 @@</p>
                   <p className="text-rose-400 bg-rose-500/10 px-2 py-0.5 rounded">
                     - FROM python:3.13-rc-slim AS base
@@ -474,15 +474,15 @@ export default function LandingPage() {
 
             {/* Tab 3: RAG Runbook */}
             {activeTab === 'rag' && (
-              <div className="p-4 rounded-2xl bg-[#03060E] border border-white/[0.06] space-y-3 text-xs">
+              <div className="p-4 rounded-2xl bg-[#040209] border border-purple-500/20 space-y-3 text-xs">
                 <div className="flex items-center justify-between text-slate-400 pb-2 border-b border-white/5 font-mono">
-                  <span className="flex items-center gap-1.5 text-cyan-300 font-bold">
-                    <Database className="w-3.5 h-3.5 text-cyan-400" />
+                  <span className="flex items-center gap-1.5 text-purple-300 font-bold">
+                    <Database className="w-3.5 h-3.5 text-purple-400" />
                     <span>pgvector Runbook Match &bull; 94.2% Similarity</span>
                   </span>
                   <span className="text-[10px] text-slate-500">Runbook ID: DOC-204</span>
                 </div>
-                <div className="p-3.5 rounded-xl bg-slate-900/80 border border-white/5 space-y-2 leading-relaxed">
+                <div className="p-3.5 rounded-xl bg-[#0f0821] border border-purple-500/20 space-y-2 leading-relaxed">
                   <p className="font-bold text-white">Docker Build Standards &bull; Production Runbook</p>
                   <p className="text-slate-300 text-[11px]">
                     &ldquo;All microservices deployed to AWS EKS production cluster must pin LTS Python 3.11 runtimes. Python 3.13 Release Candidate base images are strictly prohibited in production.&rdquo;
@@ -496,7 +496,7 @@ export default function LandingPage() {
 
             {/* Tab 4: Security Approval */}
             {activeTab === 'approval' && (
-              <div className="p-4 rounded-2xl bg-[#03060E] border border-indigo-500/30 space-y-3 text-xs">
+              <div className="p-4 rounded-2xl bg-[#040209] border border-purple-500/30 space-y-3 text-xs">
                 <div className="flex items-center justify-between text-slate-400 pb-2 border-b border-white/5">
                   <span className="flex items-center gap-1.5 text-amber-300 font-bold font-mono">
                     <ShieldCheck className="w-3.5 h-3.5 text-amber-400" />
@@ -507,7 +507,7 @@ export default function LandingPage() {
                   </span>
                 </div>
                 <p className="text-slate-300 leading-relaxed">
-                  VoiceOps wants to open a pull request <code className="text-indigo-300 bg-slate-900 px-1 py-0.5 rounded font-mono">patch/fix-python-base-image</code> on <code className="text-indigo-300 bg-slate-900 px-1 py-0.5 rounded font-mono">150ftw/demo-app</code>.
+                  VoiceOps wants to open a pull request <code className="text-purple-300 bg-slate-900 px-1 py-0.5 rounded font-mono">patch/fix-python-base-image</code> on <code className="text-purple-300 bg-slate-900 px-1 py-0.5 rounded font-mono">150ftw/demo-app</code>.
                 </p>
 
                 <div className="flex items-center gap-3 pt-2">
@@ -552,8 +552,8 @@ export default function LandingPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Card 1 */}
-          <div className="p-6 rounded-3xl bg-[#060A14] border border-white/[0.06] shadow-xl space-y-4 hover:border-indigo-500/30 transition-all group">
-            <div className="w-10 h-10 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 group-hover:scale-110 transition-transform">
+          <div className="p-6 rounded-3xl bg-[#080412] border border-purple-500/20 shadow-xl space-y-4 hover:border-purple-500/40 transition-all group">
+            <div className="w-10 h-10 rounded-2xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 group-hover:scale-110 transition-transform">
               <Mic className="w-5 h-5" />
             </div>
             <div className="space-y-1.5">
@@ -565,8 +565,8 @@ export default function LandingPage() {
           </div>
 
           {/* Card 2 */}
-          <div className="p-6 rounded-3xl bg-[#060A14] border border-white/[0.06] shadow-xl space-y-4 hover:border-cyan-500/30 transition-all group">
-            <div className="w-10 h-10 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 group-hover:scale-110 transition-transform">
+          <div className="p-6 rounded-3xl bg-[#080412] border border-purple-500/20 shadow-xl space-y-4 hover:border-purple-500/40 transition-all group">
+            <div className="w-10 h-10 rounded-2xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 group-hover:scale-110 transition-transform">
               <Database className="w-5 h-5" />
             </div>
             <div className="space-y-1.5">
@@ -578,8 +578,8 @@ export default function LandingPage() {
           </div>
 
           {/* Card 3 */}
-          <div className="p-6 rounded-3xl bg-[#060A14] border border-white/[0.06] shadow-xl space-y-4 hover:border-emerald-500/30 transition-all group">
-            <div className="w-10 h-10 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 group-hover:scale-110 transition-transform">
+          <div className="p-6 rounded-3xl bg-[#080412] border border-purple-500/20 shadow-xl space-y-4 hover:border-purple-500/40 transition-all group">
+            <div className="w-10 h-10 rounded-2xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 group-hover:scale-110 transition-transform">
               <ShieldCheck className="w-5 h-5" />
             </div>
             <div className="space-y-1.5">
@@ -604,37 +604,37 @@ export default function LandingPage() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="p-5 rounded-2xl bg-[#060A14] border border-cyan-500/20 space-y-2 shadow-lg">
+          <div className="p-5 rounded-2xl bg-[#080412] border border-purple-500/25 space-y-2 shadow-lg">
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-white">Gemini 1.5 Pro</span>
-              <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+              <span className="w-2 h-2 rounded-full bg-purple-400 animate-pulse" />
             </div>
             <p className="text-[11px] text-slate-400">
               1,000,000 token context window for massive multi-file AST traversal and monolithic workflow logs.
             </p>
           </div>
 
-          <div className="p-5 rounded-2xl bg-[#060A14] border border-emerald-500/20 space-y-2 shadow-lg">
+          <div className="p-5 rounded-2xl bg-[#080412] border border-purple-500/25 space-y-2 shadow-lg">
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-white">GPT-4o</span>
-              <span className="w-2 h-2 rounded-full bg-emerald-400" />
+              <span className="w-2 h-2 rounded-full bg-fuchsia-400" />
             </div>
             <p className="text-[11px] text-slate-400">
               Omni-architecture with high-precision tool calling for automated pull request synthesis.
             </p>
           </div>
 
-          <div className="p-5 rounded-2xl bg-[#060A14] border border-amber-500/20 space-y-2 shadow-lg">
+          <div className="p-5 rounded-2xl bg-[#080412] border border-purple-500/25 space-y-2 shadow-lg">
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-white">Claude 3.5 Sonnet</span>
-              <span className="w-2 h-2 rounded-full bg-amber-400" />
+              <span className="w-2 h-2 rounded-full bg-indigo-400" />
             </div>
             <p className="text-[11px] text-slate-400">
               State-of-the-art code diff analysis and deep semantic syntax diagnostics.
             </p>
           </div>
 
-          <div className="p-5 rounded-2xl bg-[#060A14] border border-purple-500/20 space-y-2 shadow-lg">
+          <div className="p-5 rounded-2xl bg-[#080412] border border-purple-500/25 space-y-2 shadow-lg">
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-white">DeepSeek R1</span>
               <span className="w-2 h-2 rounded-full bg-purple-400" />
@@ -680,7 +680,7 @@ export default function LandingPage() {
             return (
               <div
                 key={idx}
-                className="rounded-2xl bg-[#060A14] border border-white/[0.06] overflow-hidden transition-all"
+                className="rounded-2xl bg-[#080412] border border-purple-500/15 overflow-hidden transition-all"
               >
                 <button
                   onClick={() => setOpenFaq(isOpen ? null : idx)}
@@ -689,7 +689,7 @@ export default function LandingPage() {
                   <span>{item.q}</span>
                   <ChevronDown
                     className={`w-4 h-4 text-slate-400 transition-transform duration-200 ${
-                      isOpen ? 'rotate-180 text-indigo-400' : ''
+                      isOpen ? 'rotate-180 text-purple-400' : ''
                     }`}
                   />
                 </button>
@@ -705,26 +705,26 @@ export default function LandingPage() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-white/5 bg-[#010204] py-12 px-6 relative z-10 text-xs text-slate-500">
+      <footer className="border-t border-purple-500/10 bg-[#010103] py-12 px-6 relative z-10 text-xs text-slate-500">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2 text-slate-300 font-bold">
-            <Zap className="w-4 h-4 text-indigo-400" />
+            <Zap className="w-4 h-4 text-purple-400" />
             <span>VoiceOps</span>
             <span className="text-slate-600 font-normal">&bull; Autonomous DevOps Engineering</span>
           </div>
 
           <div className="flex items-center gap-6 text-slate-400">
-            <Link href="/workspace" className="hover:text-white transition-colors">
+            <Link href="/workspace" className="hover:text-purple-300 transition-colors">
               Workspace
             </Link>
-            <Link href="/projects" className="hover:text-white transition-colors">
+            <Link href="/projects" className="hover:text-purple-300 transition-colors">
               Projects
             </Link>
             <a
               href="https://github.com/150ftw/VoiceOps"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-white transition-colors"
+              className="hover:text-purple-300 transition-colors"
             >
               GitHub
             </a>

@@ -339,10 +339,10 @@ export const Header: React.FC<HeaderProps> = ({ activeProject, onSelectProject }
             className="flex items-center gap-2.5 px-3 py-1.5 rounded-2xl hover:bg-white/[0.06] border border-transparent hover:border-white/10 transition-all group"
           >
             <div className="relative">
-              <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-indigo-600 to-indigo-500 flex items-center justify-center text-xs font-bold text-white shadow-md">
+              <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-purple-600 via-purple-500 to-fuchsia-400 flex items-center justify-center text-xs font-bold text-white shadow-md glow-purple">
                 {currentUser?.full_name?.charAt(0) || 'U'}
               </div>
-              <span className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-[#090D16]" />
+              <span className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-[#040209]" />
             </div>
 
             <div className="hidden md:flex flex-col text-left">
@@ -356,17 +356,17 @@ export const Header: React.FC<HeaderProps> = ({ activeProject, onSelectProject }
 
             <ChevronDown
               className={`w-3.5 h-3.5 text-slate-400 group-hover:text-slate-200 transition-transform duration-200 ${
-                isAccountDropdownOpen ? 'rotate-180 text-white' : ''
+                isAccountDropdownOpen ? 'rotate-180 text-purple-300' : ''
               }`}
             />
           </button>
 
           {/* Opaque Account Dropdown Menu */}
           {isAccountDropdownOpen && (
-            <div className="absolute right-0 mt-2 w-80 bg-[#0c121e] border border-slate-700/80 shadow-2xl shadow-black rounded-3xl p-3.5 z-50 animate-in fade-in slide-in-from-top-2 duration-200 ring-1 ring-white/10">
+            <div className="absolute right-0 mt-2 w-80 bg-[#080412] border border-purple-500/30 shadow-2xl shadow-black rounded-3xl p-3.5 z-50 animate-in fade-in slide-in-from-top-2 duration-200 ring-1 ring-purple-500/20">
               {/* User Profile Header Card */}
-              <div className="p-3 rounded-2xl bg-slate-950/90 border border-white/10 flex items-center gap-3">
-                <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-cyan-500 flex items-center justify-center text-sm font-bold text-white shadow-md glow-indigo shrink-0">
+              <div className="p-3 rounded-2xl bg-[#040209] border border-purple-500/20 flex items-center gap-3">
+                <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-purple-600 via-purple-500 to-fuchsia-400 flex items-center justify-center text-sm font-bold text-white shadow-md glow-purple shrink-0">
                   {currentUser?.full_name?.charAt(0) || 'U'}
                 </div>
                 <div className="min-w-0 flex-1">
@@ -386,9 +386,9 @@ export const Header: React.FC<HeaderProps> = ({ activeProject, onSelectProject }
                 <Link
                   href="/settings"
                   onClick={() => setIsAccountDropdownOpen(false)}
-                  className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-slate-300 hover:text-white hover:bg-white/[0.06] transition-colors"
+                  className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-slate-300 hover:text-white hover:bg-purple-500/10 transition-colors"
                 >
-                  <Settings className="w-4 h-4 text-indigo-400" />
+                  <Settings className="w-4 h-4 text-purple-400" />
                   <span className="font-medium">Preferences & Settings</span>
                 </Link>
 

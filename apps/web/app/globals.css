@@ -3,36 +3,36 @@
 @tailwind utilities;
 
 :root {
-  --background: 224 71% 4%;
-  --foreground: 213 31% 91%;
-  --card: 224 71% 6%;
-  --card-foreground: 213 31% 91%;
-  --popover: 224 71% 6%;
-  --popover-foreground: 215 20.2% 65.1%;
-  --primary: 239 84% 67%;
+  --background: 270 50% 3%;
+  --foreground: 270 20% 95%;
+  --card: 270 45% 5%;
+  --card-foreground: 270 20% 95%;
+  --popover: 270 45% 5%;
+  --popover-foreground: 270 15% 65%;
+  --primary: 270 90% 65%;
   --primary-foreground: 0 0% 100%;
-  --muted: 223 47% 11%;
-  --muted-foreground: 215.4 16.3% 56.9%;
-  --accent: 216 34% 17%;
-  --accent-foreground: 210 40% 98%;
+  --muted: 270 30% 10%;
+  --muted-foreground: 270 15% 55%;
+  --accent: 270 30% 15%;
+  --accent-foreground: 270 20% 98%;
   --destructive: 0 63% 31%;
   --destructive-foreground: 210 40% 98%;
-  --border: 216 34% 17%;
-  --input: 216 34% 17%;
-  --ring: 239 84% 67%;
+  --border: 270 30% 15%;
+  --input: 270 30% 15%;
+  --ring: 270 90% 65%;
 }
 
 body {
-  background-color: #090D16;
-  color: #f1f5f9;
+  background-color: #030206;
+  color: #f3f4f6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-feature-settings: "rlig" 1, "calt" 1;
 }
 
 ::selection {
-  background-color: rgba(99, 102, 241, 0.3);
-  color: #c7d2fe;
+  background-color: rgba(168, 85, 247, 0.35);
+  color: #f3e8ff;
 }
 
 /* Custom Scrollbar */
@@ -42,23 +42,23 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #090D16;
+  background: #030206;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1E283D;
+  background: #1e1333;
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #2A364F;
+  background: #341f54;
 }
 
 /* Glassmorphism & Glow Effects */
 .glass-panel {
-  background: rgba(21, 28, 44, 0.7);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(13, 8, 24, 0.75);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
@@ -67,13 +67,17 @@ body {
 }
 
 .glass-panel-hover:hover {
-  background: rgba(26, 35, 54, 0.85);
-  border-color: rgba(99, 102, 241, 0.3);
-  box-shadow: 0 0 20px rgba(99, 102, 241, 0.15);
+  background: rgba(20, 12, 38, 0.85);
+  border-color: rgba(168, 85, 247, 0.35);
+  box-shadow: 0 0 25px rgba(168, 85, 247, 0.2);
+}
+
+.glow-purple {
+  box-shadow: 0 0 35px rgba(168, 85, 247, 0.35);
 }
 
 .glow-indigo {
-  box-shadow: 0 0 35px rgba(99, 102, 241, 0.35);
+  box-shadow: 0 0 35px rgba(139, 92, 246, 0.35);
 }
 
 .glow-emerald {

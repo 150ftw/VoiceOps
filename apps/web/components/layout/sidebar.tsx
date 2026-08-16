@@ -33,10 +33,10 @@ export const Sidebar: React.FC = () => {
   const pathname = usePathname();
 
   return (
-    <aside className="w-60 shrink-0 bg-[#06080F] border-r border-white/[0.06] flex flex-col h-screen sticky top-0 select-none">
+    <aside className="w-60 shrink-0 bg-[#040209] border-r border-purple-500/15 flex flex-col h-screen sticky top-0 select-none">
       {/* Brand Logo */}
-      <div className="h-16 flex items-center gap-3 px-5 border-b border-white/[0.06]">
-        <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-cyan-400 flex items-center justify-center text-white shadow-lg glow-indigo">
+      <div className="h-16 flex items-center gap-3 px-5 border-b border-purple-500/15">
+        <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-purple-600 via-purple-500 to-fuchsia-400 flex items-center justify-center text-white shadow-lg glow-purple">
           <Zap className="w-4 h-4 fill-current" />
         </div>
         <div>
@@ -44,7 +44,7 @@ export const Sidebar: React.FC = () => {
             <span className="font-extrabold text-sm tracking-tight text-white">
               VoiceOps
             </span>
-            <span className="px-1.5 py-0.2 rounded-full text-[8px] font-mono uppercase bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+            <span className="px-1.5 py-0.2 rounded-full text-[8px] font-mono uppercase bg-purple-500/20 text-purple-300 border border-purple-500/30">
               AI
             </span>
           </div>
@@ -70,21 +70,21 @@ export const Sidebar: React.FC = () => {
               className={cn(
                 'flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium transition-all duration-150 group relative',
                 isActive
-                  ? 'bg-indigo-600/15 text-indigo-200 border border-indigo-500/30 shadow-sm'
+                  ? 'bg-purple-600/15 text-purple-200 border border-purple-500/30 shadow-sm'
                   : 'text-slate-400 hover:text-slate-100 hover:bg-white/[0.04]',
-                item.highlight && !isActive && 'text-indigo-300 bg-indigo-500/[0.04] hover:bg-indigo-500/10'
+                item.highlight && !isActive && 'text-purple-300 bg-purple-500/[0.04] hover:bg-purple-500/10'
               )}
             >
               {isActive && (
-                <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 rounded-r bg-indigo-500" />
+                <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 rounded-r bg-purple-500" />
               )}
               <Icon
                 className={cn(
                   'w-4 h-4 transition-colors',
                   isActive
-                    ? 'text-indigo-400'
+                    ? 'text-purple-400'
                     : item.highlight
-                    ? 'text-indigo-400'
+                    ? 'text-purple-400'
                     : 'text-slate-400 group-hover:text-slate-200'
                 )}
               />
@@ -98,7 +98,7 @@ export const Sidebar: React.FC = () => {
       </nav>
 
       {/* Footer / Guardrail Safety Card */}
-      <div className="p-3.5 m-3 rounded-2xl bg-[#090E1A] border border-white/[0.06] shadow-sm space-y-1.5">
+      <div className="p-3.5 m-3 rounded-2xl bg-[#090514] border border-purple-500/20 shadow-sm space-y-1.5">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-200">
             <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
