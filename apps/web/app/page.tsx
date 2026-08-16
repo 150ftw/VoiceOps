@@ -288,9 +288,10 @@ export default function LandingPage() {
           Autonomous DevOps Voice Engine
         </p>
 
-        {/* Massive Centerpiece Display Headline in Rubik Glitch */}
-        <h1 className="text-6xl sm:text-8xl md:text-9xl lg:text-[11.5rem] font-glitch text-purple-200/95 tracking-[0.05em] sm:tracking-[0.12em] leading-none uppercase drop-shadow-[0_0_50px_rgba(168,85,247,0.35)] scale-y-95 my-2">
-          VOICEOPS
+        {/* Massive Centerpiece Display Headline in Rubik Glitch on separate lines */}
+        <h1 className="text-6xl sm:text-8xl md:text-9xl lg:text-[10rem] font-glitch text-purple-200/95 tracking-[0.05em] sm:tracking-[0.14em] leading-[0.9] uppercase drop-shadow-[0_0_60px_rgba(168,85,247,0.4)] scale-y-95 my-2">
+          VOICE <br />
+          <span className="text-purple-300">OPS</span>
         </h1>
 
         {/* Secondary Subtitle */}
