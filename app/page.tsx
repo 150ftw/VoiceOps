@@ -499,12 +499,13 @@ export default function LandingPage() {
           <div className="p-6 space-y-6">
             {/* User Prompt Simulation */}
             <div className="flex justify-end">
-              <div className="flex items-start gap-2.5 max-w-lg">
-                <div className="p-3.5 rounded-2xl bg-purple-600 text-white text-xs font-mono leading-relaxed shadow-lg glow-purple">
-                  &ldquo;{selectedPrompt}&rdquo;
+              <div className="flex items-center gap-2.5 max-w-xl">
+                <div className="px-4 py-2.5 rounded-2xl bg-purple-600/90 text-white text-xs font-mono leading-relaxed shadow-lg glow-purple border border-purple-400/30 flex items-center gap-2">
+                  <Mic className="w-3.5 h-3.5 text-purple-200 animate-pulse shrink-0" />
+                  <span>&ldquo;{selectedPrompt}&rdquo;</span>
                 </div>
-                <div className="w-8 h-8 rounded-xl bg-slate-900 border border-purple-500/30 flex items-center justify-center text-xs font-bold text-purple-300 shrink-0 font-mono">
-                  You
+                <div className="w-7 h-7 rounded-full bg-[#130926] border border-purple-500/40 flex items-center justify-center text-[10px] font-bold text-purple-300 shrink-0 font-mono shadow-md">
+                  YOU
                 </div>
               </div>
             </div>
