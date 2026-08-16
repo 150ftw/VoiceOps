@@ -56,7 +56,7 @@ export default function LandingPage() {
   const [selectedPrompt, setSelectedPrompt] = useState<string>("Why did my latest deployment to production fail?");
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [showTelemetryBox, setShowTelemetryBox] = useState(true);
+  const [showTelemetryBox, setShowTelemetryBox] = useState(false);
 
   useEffect(() => {
     async function checkAuth() {
@@ -72,6 +72,12 @@ export default function LandingPage() {
       setIsLoadingUser(false);
     }
     checkAuth();
+
+    // Show telemetry popup after 5 seconds
+    const timer = setTimeout(() => {
+      setShowTelemetryBox(true);
+    }, 5000);
+    return () => clearTimeout(timer);
   }, []);
 
   const handleSignOut = () => {
