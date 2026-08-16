@@ -44,7 +44,7 @@ import {
   Server,
 } from 'lucide-react';
 import { apiRequest, clearAuthToken, getAuthToken } from '@/lib/api-client';
-import { SeniorHeroVisual } from '@/components/landing/senior-hero-visual';
+import Scanner from '@/components/landing/Scanner';
 
 export default function LandingPage() {
   const [currentUser, setCurrentUser] = useState<any>(null);
@@ -123,8 +123,40 @@ export default function LandingPage() {
 
   return (
     <div className="min-h-screen bg-[#020408] text-slate-100 selection:bg-indigo-500/30 selection:text-indigo-200 relative overflow-hidden font-sans antialiased">
-      {/* High-End 3D Perspective Wave Grid & Radial Lighting */}
-      <SeniorHeroVisual />
+      {/* React Bits WebGL Scanner Field Background */}
+      <div className="absolute inset-0 h-[880px] pointer-events-none z-0 overflow-hidden">
+        <Scanner
+          color1="#4F46E5"
+          color2="#06B6D4"
+          color3="#FFFFFF"
+          speed={0.4}
+          sweepSpeed={0.2}
+          sweepWidth={1.6}
+          sweepFalloff={5.0}
+          scale={1.4}
+          frequency={2}
+          ripple={0.2}
+          bandDensity={10}
+          lineSharpness={5.0}
+          glow={0.25}
+          scanDirection="vertical"
+          colorSpread={0.7}
+          brightness={0.9}
+          contrast={1.15}
+          softness={1.4}
+          vignette={0.5}
+          scanline={true}
+          grain={true}
+          grainIntensity={0.04}
+          opacity={0.75}
+          mouseInteraction={true}
+          mouseRadius={0.5}
+          mouseStrength={0.5}
+        />
+        {/* Soft gradient mask overlays */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#020408]/40 via-transparent to-[#020408] pointer-events-none" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,#020408_90%)] pointer-events-none" />
+      </div>
 
       {/* Floating Header Navigation */}
       <header className="sticky top-4 z-50 max-w-6xl mx-auto px-4 sm:px-6">
@@ -217,7 +249,7 @@ export default function LandingPage() {
         </div>
 
         {/* Hero Title */}
-        <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white max-w-4xl mx-auto leading-[1.08]">
+        <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white max-w-4xl mx-auto leading-[1.08] drop-shadow-2xl">
           Talk to your infrastructure. <br />
           <span className="bg-gradient-to-r from-indigo-300 via-cyan-300 to-emerald-300 bg-clip-text text-transparent">
             Fix CI/CD in seconds.
@@ -225,7 +257,7 @@ export default function LandingPage() {
         </h1>
 
         {/* Hero Subtitle */}
-        <p className="text-sm sm:text-base text-slate-400 max-w-2xl mx-auto leading-relaxed font-normal">
+        <p className="text-sm sm:text-base text-slate-300 max-w-2xl mx-auto leading-relaxed font-normal drop-shadow-md">
           VoiceOps listens, traverses full GitHub repository trees, isolates build error stack traces, and prepares cryptographically approved fixes &mdash; without touching a terminal.
         </p>
 
@@ -264,22 +296,22 @@ export default function LandingPage() {
 
         {/* Telemetry Metric Cards */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-6 max-w-4xl mx-auto w-full">
-          <div className="p-4 rounded-2xl bg-[#060A14] border border-white/[0.06] shadow-xl text-left">
+          <div className="p-4 rounded-2xl bg-[#060A14]/90 border border-white/[0.08] backdrop-blur-md shadow-xl text-left">
             <p className="text-[10px] font-mono uppercase tracking-wider text-slate-500 font-semibold">Voice Latency</p>
             <p className="text-base font-extrabold text-cyan-300 mt-0.5 font-mono">~180 ms</p>
             <p className="text-[10px] text-slate-500 mt-0.5">Streaming STT &bull; Whisper v3</p>
           </div>
-          <div className="p-4 rounded-2xl bg-[#060A14] border border-white/[0.06] shadow-xl text-left">
+          <div className="p-4 rounded-2xl bg-[#060A14]/90 border border-white/[0.08] backdrop-blur-md shadow-xl text-left">
             <p className="text-[10px] font-mono uppercase tracking-wider text-slate-500 font-semibold">Vector Memory</p>
             <p className="text-base font-extrabold text-indigo-300 mt-0.5 font-mono">1536-dim</p>
             <p className="text-[10px] text-slate-500 mt-0.5">Supabase pgvector HNSW</p>
           </div>
-          <div className="p-4 rounded-2xl bg-[#060A14] border border-white/[0.06] shadow-xl text-left">
+          <div className="p-4 rounded-2xl bg-[#060A14]/90 border border-white/[0.08] backdrop-blur-md shadow-xl text-left">
             <p className="text-[10px] font-mono uppercase tracking-wider text-slate-500 font-semibold">Context Window</p>
             <p className="text-base font-extrabold text-purple-300 mt-0.5 font-mono">1M Tokens</p>
             <p className="text-[10px] text-slate-500 mt-0.5">Gemini 1.5 Pro &bull; Multi-Model</p>
           </div>
-          <div className="p-4 rounded-2xl bg-[#060A14] border border-white/[0.06] shadow-xl text-left">
+          <div className="p-4 rounded-2xl bg-[#060A14]/90 border border-white/[0.08] backdrop-blur-md shadow-xl text-left">
             <p className="text-[10px] font-mono uppercase tracking-wider text-slate-500 font-semibold">Guardrail Safety</p>
             <p className="text-base font-extrabold text-emerald-300 mt-0.5 font-mono">Enforced</p>
             <p className="text-[10px] text-slate-500 mt-0.5">Cryptographic 1-click Approval</p>
