@@ -32,7 +32,7 @@ export function HeroBackground() {
     };
     window.addEventListener('resize', handleResize);
 
-    // Particle nodes
+    // Particle nodes in purple/violet theme
     const particleCount = Math.min(65, Math.floor(width / 22));
     const particles: Array<{
       x: number;
@@ -44,7 +44,7 @@ export function HeroBackground() {
       color: string;
     }> = [];
 
-    const colors = ['#6366f1', '#38bdf8', '#34d399', '#a855f7'];
+    const colors = ['#a855f7', '#c084fc', '#7c3aed', '#e879f9', '#818cf8'];
 
     for (let i = 0; i < particleCount; i++) {
       particles.push({
@@ -72,15 +72,21 @@ export function HeroBackground() {
       time += 0.015;
       ctx.clearRect(0, 0, width, height);
 
-      // Draw flowing sine waves (representing voice frequencies & CI/CD signals)
+      // Draw flowing sine waves in purple spectrum
       for (let w = 0; w < 3; w++) {
         ctx.beginPath();
         ctx.lineWidth = 1.2;
         const gradient = ctx.createLinearGradient(0, 0, width, 0);
-        gradient.addColorStop(0, 'rgba(99, 102, 241, 0)');
-        gradient.addColorStop(0.3, w === 0 ? 'rgba(99, 102, 241, 0.12)' : 'rgba(56, 189, 248, 0.08)');
-        gradient.addColorStop(0.7, w === 1 ? 'rgba(52, 211, 153, 0.10)' : 'rgba(168, 85, 247, 0.08)');
-        gradient.addColorStop(1, 'rgba(99, 102, 241, 0)');
+        gradient.addColorStop(0, 'rgba(168, 85, 247, 0)');
+        gradient.addColorStop(
+          0.3,
+          w === 0 ? 'rgba(168, 85, 247, 0.14)' : 'rgba(192, 132, 252, 0.10)'
+        );
+        gradient.addColorStop(
+          0.7,
+          w === 1 ? 'rgba(232, 121, 249, 0.12)' : 'rgba(124, 58, 237, 0.10)'
+        );
+        gradient.addColorStop(1, 'rgba(168, 85, 247, 0)');
         ctx.strokeStyle = gradient;
 
         const baseHeight = height * (0.28 + w * 0.18);
@@ -131,8 +137,8 @@ export function HeroBackground() {
             ctx.beginPath();
             ctx.moveTo(p.x, p.y);
             ctx.lineTo(p2.x, p2.y);
-            ctx.strokeStyle = '#6366f1';
-            ctx.globalAlpha = (1 - dist / 130) * 0.12;
+            ctx.strokeStyle = '#a855f7';
+            ctx.globalAlpha = (1 - dist / 130) * 0.15;
             ctx.stroke();
           }
         }
@@ -153,38 +159,42 @@ export function HeroBackground() {
 
   return (
     <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden select-none">
-      {/* Background Looping Ambient Tech Video */}
+      {/* Background Looping Ambient Tech Video with Purple Color Shift */}
       {!videoError && (
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          onLoadedData={() => setVideoLoaded(true)}
-          onError={() => setVideoError(true)}
-          className={`absolute inset-0 w-full h-full object-cover opacity-20 mix-blend-screen transition-opacity duration-1000 scale-105 filter blur-[1px] ${
-            videoLoaded ? 'opacity-25' : 'opacity-0'
-          }`}
-        >
-          <source src={videoSources[0]} type="video/mp4" />
-        </video>
+        <div className="absolute inset-0 w-full h-full">
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            onLoadedData={() => setVideoLoaded(true)}
+            onError={() => setVideoError(true)}
+            className={`absolute inset-0 w-full h-full object-cover opacity-20 mix-blend-screen transition-opacity duration-1000 scale-105 filter blur-[1px] hue-rotate-[240deg] contrast-125 ${
+              videoLoaded ? 'opacity-25' : 'opacity-0'
+            }`}
+          >
+            <source src={videoSources[0]} type="video/mp4" />
+          </video>
+          {/* Violet Glow Film */}
+          <div className="absolute inset-0 bg-purple-900/10 mix-blend-color" />
+        </div>
       )}
 
-      {/* Interactive Web Audio / Cyber Particle Canvas */}
+      {/* Interactive Purple Sine Waves & Constellation Canvas */}
       <canvas
         ref={canvasRef}
-        className="absolute inset-0 w-full h-full opacity-70 mix-blend-screen"
+        className="absolute inset-0 w-full h-full opacity-75 mix-blend-screen"
       />
 
-      {/* Layered Lighting Radial Vignette */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#05070D]/40 via-[#05070D]/85 to-[#05070D] pointer-events-none" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-[#05070D]/50 to-[#05070D]" />
+      {/* Layered Obsidian Lighting Radial Vignette */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#030206]/50 via-[#030206]/85 to-[#030206] pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-[#030206]/50 to-[#030206]" />
 
-      {/* Cyber Grid Lines */}
+      {/* Subtle Purple Cyber Grid Lines */}
       <div
-        className="absolute inset-0 opacity-[0.035]"
+        className="absolute inset-0 opacity-[0.03]"
         style={{
-          backgroundImage: `linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px)`,
+          backgroundImage: `linear-gradient(to right, #c084fc 1px, transparent 1px), linear-gradient(to bottom, #c084fc 1px, transparent 1px)`,
           backgroundSize: '48px 48px',
         }}
       />

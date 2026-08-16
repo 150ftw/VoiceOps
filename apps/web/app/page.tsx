@@ -45,6 +45,7 @@ import {
 } from 'lucide-react';
 import { apiRequest, clearAuthToken, getAuthToken } from '@/lib/api-client';
 import Scanner from '@/components/landing/Scanner';
+import { HeroBackground } from '@/components/landing/hero-background';
 
 export default function LandingPage() {
   const [currentUser, setCurrentUser] = useState<any>(null);
@@ -123,6 +124,9 @@ export default function LandingPage() {
 
   return (
     <div className="min-h-screen bg-[#030206] text-slate-100 selection:bg-purple-500/30 selection:text-purple-200 relative overflow-hidden font-sans antialiased">
+      {/* Background Ambient Video & Purple Sine Wavefield */}
+      <HeroBackground />
+
       {/* React Bits WebGL Scanner Field Background - Purple & Black Theme */}
       <div className="absolute inset-0 h-[900px] pointer-events-none z-0 overflow-hidden">
         <Scanner
