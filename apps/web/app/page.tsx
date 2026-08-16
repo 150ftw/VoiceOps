@@ -244,14 +244,6 @@ export default function LandingPage() {
 
       {/* Hero Section */}
       <section className="relative pt-16 pb-12 px-6 max-w-6xl mx-auto text-center space-y-7 z-10">
-        {/* Shimmer Announcement Pill */}
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/30 shadow-2xl text-purple-200 text-xs font-medium backdrop-blur-md">
-          <span className="w-2 h-2 rounded-full bg-purple-400 animate-pulse" />
-          <span className="text-slate-200">Autonomous DevOps Voice Intelligence</span>
-          <span className="text-purple-600">&bull;</span>
-          <span className="text-purple-300 font-mono text-[11px]">pgvector Memory &bull; Whisper v3</span>
-        </div>
-
         {/* Hero Title */}
         <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white max-w-4xl mx-auto leading-[1.06] drop-shadow-2xl font-syne">
           DevOps at the <br />
