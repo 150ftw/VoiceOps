@@ -314,10 +314,10 @@ export default function LandingPage() {
             />
           </div>
 
-          {/* Foreground Glitch Typography with Asynchronous Per-Letter Glitch & Smooth Hover Expansion */}
-          <h1 className="relative z-10 text-6xl sm:text-8xl md:text-9xl lg:text-[10rem] font-glitch uppercase scale-y-95 w-full flex flex-col items-center justify-center gap-1 sm:gap-3 select-none text-center">
+          {/* Foreground Glitch Typography with Asynchronous Per-Letter Glitch & Refined Hover Expansion */}
+          <h1 className="relative z-10 text-6xl sm:text-8xl md:text-9xl lg:text-[10rem] font-glitch uppercase scale-y-95 w-full flex flex-col items-center justify-center gap-1 sm:gap-2 select-none text-center">
             {/* VOICE Row */}
-            <div className="flex items-center justify-center gap-1 sm:gap-2 md:gap-3 group-hover:gap-4 sm:group-hover:gap-8 md:group-hover:gap-12 transition-all duration-700 ease-out">
+            <div className="flex items-center justify-center gap-0.5 sm:gap-1.5 md:gap-2 group-hover:gap-2 sm:group-hover:gap-3.5 md:group-hover:gap-5 transition-all duration-700 ease-out">
               {[
                 { char: 'V', delay: '0.1s', duration: '3.4s', color: 'text-purple-100/90' },
                 { char: 'O', delay: '1.4s', duration: '4.2s', color: 'text-purple-200/90' },
@@ -328,7 +328,7 @@ export default function LandingPage() {
                 <span
                   key={`voice-${idx}`}
                   data-text={item.char}
-                  className={`glitch-letter inline-block ${item.color} drop-shadow-[0_0_35px_rgba(168,85,247,0.35)] transition-all duration-700 ease-out group-hover:scale-105`}
+                  className={`glitch-letter inline-block ${item.color} drop-shadow-[0_0_35px_rgba(168,85,247,0.35)] transition-all duration-700 ease-out group-hover:scale-102`}
                   style={
                     {
                       '--glitch-delay': item.delay,
@@ -342,7 +342,7 @@ export default function LandingPage() {
             </div>
 
             {/* OPS Row */}
-            <div className="flex items-center justify-center gap-1 sm:gap-2 md:gap-3 group-hover:gap-5 sm:group-hover:gap-10 md:group-hover:gap-14 transition-all duration-700 ease-out">
+            <div className="flex items-center justify-center gap-0.5 sm:gap-1.5 md:gap-2 group-hover:gap-2 sm:group-hover:gap-3.5 md:group-hover:gap-5 transition-all duration-700 ease-out">
               {[
                 { char: 'O', delay: '1.1s', duration: '3.7s', color: 'text-purple-200/90' },
                 { char: 'P', delay: '1.8s', duration: '4.4s', color: 'text-purple-100/90' },
@@ -351,7 +351,7 @@ export default function LandingPage() {
                 <span
                   key={`ops-${idx}`}
                   data-text={item.char}
-                  className={`glitch-letter inline-block ${item.color} drop-shadow-[0_0_35px_rgba(168,85,247,0.35)] transition-all duration-700 ease-out group-hover:scale-105`}
+                  className={`glitch-letter inline-block ${item.color} drop-shadow-[0_0_35px_rgba(168,85,247,0.35)] transition-all duration-700 ease-out group-hover:scale-102`}
                   style={
                     {
                       '--glitch-delay': item.delay,
