@@ -598,7 +598,82 @@ class MockLLMProvider(BaseLLMProvider):
                 )
 
         # ----------------------------------------------------------------------
-        # 9. DEPLOYMENT FAILURE / ERROR INVESTIGATION
+        # 9. CI/CD PIPELINES, WORKFLOWS, RUNS & ACTIONS INTENT
+        # ----------------------------------------------------------------------
+        if any(w in last_msg for w in [
+            "pipeline", "pipelines", "workflow", "workflows", "ci/cd", "ci-cd",
+            "ci ", " cd", "action", "actions", "run", "runs", "build run", "pipeline run",
+            "github action", "github actions", "job", "jobs"
+        ]):
+            if not has_tool_result and tools:
+                return LLMResponse(
+                    content=None,
+                    tool_calls=[
+                        LLMToolCall(
+                            id="call_list_workflows_1",
+                            name="list_workflow_runs",
+                            arguments={"limit": 5},
+                        )
+                    ],
+                    finish_reason="tool_calls",
+                )
+            else:
+                runs_summary = ""
+                if tool_results:
+                    try:
+                        data = json.loads(tool_results[0].get("content", "{}"))
+                        runs = data.get("workflow_runs", [])
+                        if runs:
+                            runs_lines = []
+                            for r in runs:
+                                status_icon = "✅" if r.get("conclusion") == "success" else "❌" if r.get("conclusion") == "failure" else "🔄"
+                                runs_lines.append(
+                                    f"• {status_icon} **{r.get('name', 'CI/CD Pipeline')}** (#{r.get('id', '')}) on `{r.get('head_branch', 'main')}`: "
+                                    f"`{r.get('status', 'completed')}` ({r.get('conclusion', 'unknown')})"
+                                )
+                            runs_summary = "\n".join(runs_lines)
+                    except Exception:
+                        pass
+
+                if runs_summary:
+                    return LLMResponse(
+                        content=(
+                            f"### 🚀 CI/CD Pipeline Runs: `{repo_name}`\n\n"
+                            f"Here are the recent GitHub Actions pipeline runs discovered for **`{repo_name}`**:\n\n"
+                            f"{runs_summary}\n\n"
+                            f"Would you like me to inspect the detailed step execution logs for any specific run (e.g. *\"Investigate run logs\"*) or analyze build failures?"
+                        ),
+                        finish_reason="stop",
+                    )
+                else:
+                    return LLMResponse(
+                        content=(
+                            f"### ⚙️ CI/CD Pipeline Status: `{repo_name}`\n\n"
+                            f"I scanned GitHub Actions and repository workflows for **`{repo_name}`**:\n\n"
+                            f"• **Current Status:** No active GitHub Actions workflow runs or pipeline definitions (`.github/workflows/*.yml`) were detected in this repository.\n"
+                            f"• **Available Automations:** You can configure automated testing, linting, and continuous deployment by adding a workflow file.\n\n"
+                            f"💡 **Recommended Setup:**\n"
+                            f"```yaml\n"
+                            f"# .github/workflows/ci.yml\n"
+                            f"name: CI Pipeline\n"
+                            f"on: [push, pull_request]\n"
+                            f"jobs:\n"
+                            f"  test:\n"
+                            f"    runs-on: ubuntu-latest\n"
+                            f"    steps:\n"
+                            f"      - uses: actions/checkout@v4\n"
+                            f"      - name: Install & Test\n"
+                            f"        run: | \n"
+                            f"          npm install\n"
+                            f"          npm test\n"
+                            f"```\n\n"
+                            f"Would you like me to prepare a Pull Request to set up an automated CI/CD pipeline for this repository?"
+                        ),
+                        finish_reason="stop",
+                    )
+
+        # ----------------------------------------------------------------------
+        # 10. DEPLOYMENT FAILURE / ERROR INVESTIGATION
         # ----------------------------------------------------------------------
         if any(w in last_msg for w in ["why", "fail", "error", "broken", "investigate", "crash", "bug"]):
             if not has_tool_result and tools:
@@ -616,7 +691,8 @@ class MockLLMProvider(BaseLLMProvider):
             else:
                 return LLMResponse(
                     content=(
-                        f"I analyzed the build logs for `{repo_name}` for workflow run (#1245):\n\n"
+                        f"### 🔍 Build Logs Analysis: `{repo_name}`\n\n"
+                        f"I analyzed the execution logs for `{repo_name}` for workflow run (#1245):\n\n"
                         f"• **Failed Step:** `pip install -r requirements.txt` / `npm build`\n"
                         f"• **Error Trace:** `TypeError: bcrypt 3.2.0 is incompatible with Python 3.13 runtime`\n"
                         f"• **Root Cause:** Base image upgraded without upgrading pinned dependencies.\n"
@@ -626,14 +702,14 @@ class MockLLMProvider(BaseLLMProvider):
                 )
 
         # ----------------------------------------------------------------------
-        # 10. DIRECT REPOSITORY QUESTION ANSWERING
+        # 11. GENERAL INTELLIGENT REPOSITORY ANSWERING
         # ----------------------------------------------------------------------
         if is_trucker_dhaba:
             return LLMResponse(
                 content=(
                     f"### 🥘 `{repo_name}` - Trucker's Dhaba\n\n"
                     f"Regarding your query **\"{raw_last_msg}\"**:\n\n"
-                    f"• **File & Code Context:** The repository is built with **Vite**, **HTML5** (`index.html`), **JavaScript** (`app.js`), and **CSS** (`styles.css`).\n"
+                    f"• **File & Code Context:** Built with **Vite**, **HTML5** (`index.html`), **JavaScript** (`app.js`), and **CSS** (`styles.css`).\n"
                     f"• **Key Features:** Roadside Dhaba food menu catalog, live cart checkout system, dynamic category filters, and responsive layout.\n"
                     f"• **Available Files to Inspect:** `index.html`, `app.js`, `styles.css`, `package.json`, `vite.config.js`.\n\n"
                     f"You can ask me to inspect any of these files in depth (e.g. *\"What's in index.html?\"* or *\"Show app.js functions\"*)!"
@@ -643,11 +719,14 @@ class MockLLMProvider(BaseLLMProvider):
 
         return LLMResponse(
             content=(
-                f"### 🔍 `{repo_name}` Investigation\n\n"
-                f"Regarding **\"{raw_last_msg}\"** in `{repo_name}`:\n\n"
-                f"• **Branch:** Tracking `main` branch.\n"
-                f"• **Codebase Ingested:** 1536-dim semantic chunks indexed in Supabase `pgvector`.\n"
-                f"• **Actions Available:** You can ask me to inspect specific files (`index.html`, `app.js`, `package.json`, `Dockerfile`), view commit diffs, or investigate CI/CD pipeline runs."
+                f"### 💡 `{repo_name}` Analysis\n\n"
+                f"Regarding **\"{raw_last_msg}\"**:\n\n"
+                f"• **Repository Context:** `{repo_name}` is active and indexed in your VoiceOps workspace.\n"
+                f"• **Codebase Health:** Tracking branch `main` with semantic embeddings ready for instant querying.\n\n"
+                f"You can ask me to:\n"
+                f"1. Inspect specific files or functions (e.g. *\"Show repository files\"* or *\"Explain package.json\"*)\n"
+                f"2. Check or create CI/CD pipelines and deployment workflows\n"
+                f"3. Generate Pull Requests or report issues directly to GitHub."
             ),
             finish_reason="stop",
         )
