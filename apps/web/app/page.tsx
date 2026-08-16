@@ -409,26 +409,23 @@ export default function LandingPage() {
         {/* Floating Circular Interactive CTA & Audio Meter */}
         <div className="w-full max-w-6xl flex flex-col sm:flex-row items-center justify-between gap-6 pt-10">
           {/* Bottom-Left Multi-Bar Audio Level Waveform with Neural Synth */}
-          <div className="flex items-center gap-3 font-mono text-xs text-purple-300 p-2.5 px-4 rounded-2xl bg-[#090514]/80 border border-purple-500/25 backdrop-blur-md">
-            <div className="flex items-end gap-1 h-6">
-              {[8, 16, 24, 12, 20, 14, 22, 10, 18, 12].map((h, i) => (
-                <span
-                  key={i}
-                  className="w-1 bg-gradient-to-t from-purple-600 to-fuchsia-300 rounded-full transition-all duration-150"
-                  style={{
-                    height: isPlayingVoice ? `${Math.max(4, (h * 1.2) % 24)}px` : `${Math.max(3, h * 0.35)}px`,
-                    animation: isPlayingVoice ? `wave ${(0.6 + (i % 5) * 0.12).toFixed(2)}s ease-in-out infinite` : 'none',
-                  }}
-                />
-              ))}
+          <button
+            onClick={toggleMockVoice}
+            className="flex items-center gap-3 font-mono text-xs text-purple-300 p-2.5 px-5 rounded-full bg-[#090514]/90 border border-purple-500/30 hover:border-purple-400/70 hover:bg-purple-950/40 backdrop-blur-md transition-all shadow-lg group cursor-pointer"
+          >
+            <div className="flex items-end gap-1 h-5 origin-bottom">
+              <span className="w-1 bg-purple-400 animate-[wave_0.8s_ease-in-out_infinite] h-3 rounded-full origin-bottom" />
+              <span className="w-1 bg-purple-300 animate-[wave_1.2s_ease-in-out_infinite_0.2s] h-5 rounded-full origin-bottom" />
+              <span className="w-1 bg-purple-500 animate-[wave_0.9s_ease-in-out_infinite_0.4s] h-2 rounded-full origin-bottom" />
+              <span className="w-1 bg-fuchsia-400 animate-[wave_1.1s_ease-in-out_infinite_0.1s] h-4 rounded-full origin-bottom" />
+              <span className="w-1 bg-purple-300 animate-[wave_0.7s_ease-in-out_infinite_0.3s] h-3 rounded-full origin-bottom" />
+              <span className="w-1 bg-purple-400 animate-[wave_1.0s_ease-in-out_infinite_0.15s] h-5 rounded-full origin-bottom" />
+              <span className="w-1 bg-fuchsia-300 animate-[wave_0.85s_ease-in-out_infinite_0.35s] h-3 rounded-full origin-bottom" />
             </div>
-            <button
-              onClick={toggleMockVoice}
-              className="text-[11px] uppercase tracking-wider hover:text-white transition-colors flex items-center gap-1.5"
-            >
-              <span>{isPlayingVoice ? '◼ Pause Neural Audio' : '▶ Play Voice Demo'}</span>
-            </button>
-          </div>
+            <span className="text-[11px] uppercase tracking-widest text-purple-200 group-hover:text-white transition-colors">
+              {isPlayingVoice ? '◼ Pause Voice Demo' : '▶ Play Voice Demo'}
+            </span>
+          </button>
 
           {/* Bottom-Right Circular Magnetic Button */}
           <Link
