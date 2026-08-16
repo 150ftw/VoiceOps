@@ -79,7 +79,7 @@ export default function VoiceWorkspacePage() {
                 slug: `trucker-dhaba-${Date.now().toString(36)}`,
                 description: 'Authentic Roadside Highway Dhaba Web Service',
                 default_branch: 'main',
-                repository_full_name: '150ftw/Trucker-s-Dhaba',
+                repository_full_name: 'shivamsharma/Trucker-s-Dhaba',
                 github_repo_id: 123456,
               }),
             }).catch(() => null);
@@ -289,7 +289,7 @@ export default function VoiceWorkspacePage() {
           <div className="flex items-center gap-1.5 text-xs text-slate-400 font-mono">
             <GitBranch className="w-3 h-3 text-slate-500" />
             <span className="text-slate-200 font-medium">
-              {project?.repository?.repo_full_name || '150ftw/Trucker-s-Dhaba'}
+              {project?.repository?.repo_full_name || 'shivamsharma/Trucker-s-Dhaba'}
             </span>
             <span className="text-slate-600">({project?.default_branch || 'main'})</span>
           </div>

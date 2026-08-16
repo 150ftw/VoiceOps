@@ -200,7 +200,7 @@ class MockLLMProvider(BaseLLMProvider):
         # Extract active repository context from system message
         system_msgs = [m for m in messages if m.get("role") == "system"]
         sys_content = system_msgs[0].get("content", "") if system_msgs else ""
-        repo_name = "150ftw/Trucker-s-Dhaba"
+        repo_name = "shivamsharma/Trucker-s-Dhaba"
         for line in sys_content.splitlines():
             if "Linked GitHub Repository:" in line:
                 parsed_repo = line.split(":", 1)[-1].strip()

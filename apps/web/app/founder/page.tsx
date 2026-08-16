@@ -17,6 +17,7 @@ import {
   GitBranch,
 } from 'lucide-react';
 import logoImg from '@/public/logo.png';
+import founderImg from '@/public/founder.png';
 
 export default function FounderPage() {
   return (
@@ -64,21 +65,25 @@ export default function FounderPage() {
           <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-purple-400 to-transparent opacity-80" />
 
           <div className="flex flex-col md:flex-row items-center md:items-start gap-8 md:gap-12">
-            {/* Avatar Holographic Shield */}
+            {/* Avatar — Real Founder Photo */}
             <div className="relative shrink-0 group">
-              <div className="absolute -inset-4 bg-purple-600/30 rounded-3xl blur-2xl group-hover:bg-purple-500/50 transition-all duration-500" />
-              <div className="relative w-36 h-36 sm:w-44 sm:h-44 rounded-3xl bg-gradient-to-br from-purple-900/60 via-[#0a0518] to-purple-950/80 border-2 border-purple-400/40 p-1 flex items-center justify-center shadow-2xl overflow-hidden">
-                <div className="w-full h-full rounded-[22px] bg-[#0c061a] flex flex-col items-center justify-center p-4 text-center">
-                  <span className="text-4xl sm:text-5xl font-glitch text-purple-200 drop-shadow-[0_0_20px_rgba(168,85,247,0.8)]">
-                    SS
-                  </span>
-                  <span className="text-[10px] font-mono uppercase tracking-widest text-purple-400 mt-2">
-                    @150ftw
-                  </span>
-                </div>
+              {/* Ambient glow behind photo */}
+              <div className="absolute -inset-5 bg-purple-600/25 rounded-[2rem] blur-2xl group-hover:bg-purple-500/40 transition-all duration-500" />
+              {/* Outer holographic ring */}
+              <div className="relative w-40 h-40 sm:w-52 sm:h-52 rounded-[1.75rem] border-2 border-purple-400/50 shadow-[0_0_50px_rgba(168,85,247,0.35)] overflow-hidden bg-[#0c061a]">
+                <Image
+                  src={founderImg}
+                  alt="Shivam Sharma — Founder of VoiceOps"
+                  fill
+                  priority
+                  className="object-cover object-top scale-105 group-hover:scale-110 transition-transform duration-500"
+                />
+                {/* Subtle holographic overlay on hover */}
+                <div className="absolute inset-0 bg-gradient-to-t from-purple-950/60 via-transparent to-transparent opacity-60 group-hover:opacity-30 transition-opacity duration-500" />
               </div>
-              <div className="absolute -bottom-2.5 inset-x-0 flex justify-center">
-                <span className="px-3 py-0.5 rounded-full bg-purple-950 border border-purple-400/60 font-mono text-[9px] uppercase tracking-widest text-purple-200 shadow-md">
+              {/* FOUNDER badge */}
+              <div className="absolute -bottom-3 inset-x-0 flex justify-center">
+                <span className="px-3 py-0.5 rounded-full bg-purple-950/95 border border-purple-400/60 font-mono text-[9px] uppercase tracking-widest text-purple-200 shadow-md backdrop-blur-sm">
                   ● FOUNDER
                 </span>
               </div>
@@ -99,7 +104,7 @@ export default function FounderPage() {
                   Shivam Sharma
                 </h1>
                 <p className="font-mono text-sm sm:text-base text-purple-300/90 tracking-wide">
-                  Building Voice-Native Autonomous Infrastructure &bull; 150ftw
+                  Building Voice-Native Autonomous Infrastructure &bull; Shivam Sharma
                 </p>
               </div>
 
@@ -130,16 +135,16 @@ export default function FounderPage() {
               {/* Social & Repository Links */}
               <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 pt-4 font-mono text-xs">
                 <a
-                  href="https://github.com/150ftw"
+                  href="https://github.com/shivamsharma"
                   target="_blank"
                   rel="noreferrer"
                   className="px-4 py-2 rounded-xl bg-[#0e071e] hover:bg-[#1a0e36] border border-purple-500/30 text-white flex items-center gap-2 transition-all shadow-md group cursor-pointer"
                 >
                   <Github className="w-4 h-4 text-purple-300 group-hover:text-white" />
-                  <span>GitHub @150ftw ↗</span>
+                  <span>GitHub // Shivam Sharma ↗</span>
                 </a>
                 <a
-                  href="https://github.com/150ftw/VoiceOps"
+                  href="https://github.com/shivamsharma/VoiceOps"
                   target="_blank"
                   rel="noreferrer"
                   className="px-4 py-2 rounded-xl bg-[#0e071e] hover:bg-[#1a0e36] border border-purple-500/30 text-purple-200 flex items-center gap-2 transition-all shadow-md group cursor-pointer"
@@ -253,7 +258,7 @@ export default function FounderPage() {
               Founder
             </Link>
             <a
-              href="https://github.com/150ftw/VoiceOps"
+              href="https://github.com/shivamsharma/VoiceOps"
               target="_blank"
               rel="noreferrer"
               className="hover:text-purple-300 transition-colors"

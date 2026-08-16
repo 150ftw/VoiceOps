@@ -204,8 +204,8 @@ export default function LandingPage() {
         changes: "+1 / -1 lines",
         lines: [
           { type: "header", text: "@@ -18,3 +18,3 @@" },
-          { type: "del", text: "- image: ghcr.io/150ftw/voiceops-api:v2.4.2" },
-          { type: "add", text: "+ image: ghcr.io/150ftw/voiceops-api:v2.4.1" },
+          { type: "del", text: "- image: ghcr.io/shivamsharma/voiceops-api:v2.4.2" },
+          { type: "add", text: "+ image: ghcr.io/shivamsharma/voiceops-api:v2.4.1" },
           { type: "ctx", text: "  imagePullPolicy: IfNotPresent" },
           { type: "ctx", text: "  replicas: 12" },
         ],
@@ -452,7 +452,7 @@ export default function LandingPage() {
                   image: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=600&h=400&fit=crop&auto=format',
                 },
                 {
-                  link: 'https://github.com/150ftw/VoiceOps',
+                  link: 'https://github.com/shivamsharma/VoiceOps',
                   text: 'GitHub Repository',
                   image: 'https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?q=80&w=600&h=400&fit=crop&auto=format',
                 },
@@ -626,7 +626,7 @@ export default function LandingPage() {
               <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80" />
               <span className="ml-2 font-semibold text-slate-200 font-mono">VoiceOps Studio Session</span>
               <span className="text-slate-600">&bull;</span>
-              <span className="text-purple-400 font-mono">150ftw/demo-app (main)</span>
+              <span className="text-purple-400 font-mono">shivamsharma/demo-app (main)</span>
             </div>
 
             {/* Interactive Tab Switcher */}
@@ -868,7 +868,7 @@ export default function LandingPage() {
               Founder
             </Link>
             <a
-              href="https://github.com/150ftw/VoiceOps"
+              href="https://github.com/shivamsharma/VoiceOps"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-purple-300 transition-colors uppercase"

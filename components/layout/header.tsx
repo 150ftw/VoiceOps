@@ -246,7 +246,7 @@ export const Header: React.FC<HeaderProps> = ({ activeProject, onSelectProject }
           <FolderGit2 className="w-3.5 h-3.5 text-indigo-400" />
           <span className="font-semibold">{activeProject?.name || 'Trucker S Dhaba'}</span>
           <span className="px-1.5 py-0.5 rounded text-[10px] bg-slate-900 text-slate-400 font-mono">
-            {activeProject?.repository?.repo_full_name || '150ftw/Trucker-s-Dhaba'}
+            {activeProject?.repository?.repo_full_name || 'shivamsharma/Trucker-s-Dhaba'}
           </span>
         </div>
       </div>

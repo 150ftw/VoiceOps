@@ -191,7 +191,7 @@ class GetFileContentTool(BaseTool):
 
     async def execute(self, context: Dict[str, Any], path: str, ref: Optional[str] = None) -> ToolResult:
         token = context.get("github_token")
-        repo_full_name = context.get("repo_full_name") or "150ftw/Trucker-s-Dhaba"
+        repo_full_name = context.get("repo_full_name") or "shivamsharma/Trucker-s-Dhaba"
 
         if token and repo_full_name and token != "ghp_demo_mock_access_token_voiceops":
             try:
@@ -246,7 +246,7 @@ class ListRepositoryFilesTool(BaseTool):
 
     async def execute(self, context: Dict[str, Any], path: Optional[str] = None) -> ToolResult:
         token = context.get("github_token")
-        repo_full_name = context.get("repo_full_name") or "150ftw/Trucker-s-Dhaba"
+        repo_full_name = context.get("repo_full_name") or "shivamsharma/Trucker-s-Dhaba"
 
         if token and repo_full_name and token != "ghp_demo_mock_access_token_voiceops":
             try:
