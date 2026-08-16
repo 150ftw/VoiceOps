@@ -301,15 +301,18 @@ export default function LandingPage() {
           Autonomous DevOps Voice Engine
         </p>
 
-        {/* Massive Centerpiece Display Headline with Luminous Holographic Aura */}
-        <div className="relative w-full max-w-5xl mx-auto flex items-center justify-center py-6 my-2 group cursor-pointer">
-          {/* Holographic Glowing Crest Backdrop (mix-blend-screen removes dark robotic facets completely) */}
+        {/* Massive Centerpiece Display Headline with Dynamic Responsive Holographic Aura */}
+        <div className="relative w-full max-w-5xl mx-auto flex items-center justify-center py-8 my-2 group cursor-pointer">
+          {/* Dynamic Holographic Crest Backdrop: Surges, Expands, and Illuminates on Hover */}
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none -z-0">
-            <div className="absolute w-80 sm:w-96 md:w-[500px] h-80 sm:h-96 md:h-[500px] bg-purple-600/30 rounded-full blur-[100px] group-hover:bg-purple-500/50 group-hover:scale-115 transition-all duration-700 animate-pulse-subtle" />
+            {/* Pulsing Ambient Radial Orb */}
+            <div className="absolute w-72 sm:w-96 md:w-[480px] h-72 sm:h-96 md:h-[480px] bg-purple-600/30 rounded-full blur-[90px] group-hover:w-[580px] group-hover:h-[580px] group-hover:bg-purple-500/55 group-hover:blur-[120px] transition-all duration-700 ease-out animate-pulse-subtle" />
+
+            {/* Glowing Crystalline Hologram */}
             <img
               src="/logo.png"
               alt="VoiceOps Logo Backdrop"
-              className="w-72 sm:w-96 md:w-[440px] lg:w-[480px] h-auto object-contain mix-blend-screen opacity-40 sm:opacity-50 group-hover:opacity-75 group-hover:scale-105 transition-all duration-700 drop-shadow-[0_0_60px_rgba(168,85,247,0.7)]"
+              className="w-72 sm:w-96 md:w-[460px] lg:w-[500px] h-auto object-contain mix-blend-screen opacity-40 sm:opacity-50 scale-95 group-hover:scale-130 group-hover:opacity-100 group-hover:brightness-125 group-hover:-translate-y-4 transition-all duration-700 ease-out drop-shadow-[0_0_50px_rgba(168,85,247,0.6)] group-hover:drop-shadow-[0_0_120px_rgba(192,132,252,0.95)]"
               style={{ animation: 'float 7s ease-in-out infinite' }}
             />
           </div>
