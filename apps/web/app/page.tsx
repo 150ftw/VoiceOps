@@ -40,12 +40,12 @@ import {
   Boxes,
   Sliders,
   Shield,
-  Unlink,
-  Server,
+  Menu,
+  X,
 } from 'lucide-react';
 import { apiRequest, clearAuthToken, getAuthToken } from '@/lib/api-client';
-import Scanner from '@/components/landing/Scanner';
 import { HeroBackground } from '@/components/landing/hero-background';
+import Scanner from '@/components/landing/Scanner';
 
 export default function LandingPage() {
   const [currentUser, setCurrentUser] = useState<any>(null);
@@ -55,6 +55,8 @@ export default function LandingPage() {
   const [mockApprovalDone, setMockApprovalDone] = useState(false);
   const [selectedPrompt, setSelectedPrompt] = useState<string>("Why did my latest deployment to production fail?");
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [showTelemetryBox, setShowTelemetryBox] = useState(true);
 
   useEffect(() => {
     async function checkAuth() {
@@ -123,16 +125,16 @@ export default function LandingPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#030206] text-slate-100 selection:bg-purple-500/30 selection:text-purple-200 relative overflow-hidden font-sans antialiased">
-      {/* Background Ambient Video & Purple Sine Wavefield */}
+    <div className="min-h-screen bg-[#030206] text-slate-100 selection:bg-purple-500/30 selection:text-purple-200 relative overflow-x-hidden font-sans antialiased">
+      {/* Background Looping Ambient Video & Particle Sine Wavefield */}
       <HeroBackground />
 
-      {/* React Bits WebGL Scanner Field Background - Purple & Black Theme */}
-      <div className="absolute inset-0 h-[900px] pointer-events-none z-0 overflow-hidden">
+      {/* React Bits WebGL Scanner Field Background */}
+      <div className="absolute inset-0 h-[1000px] pointer-events-none z-0 overflow-hidden">
         <Scanner
-          color1="#6B21A8" // Deep royal purple
-          color2="#C084FC" // Electric lavender / violet
-          color3="#FFFFFF" // Bright peaks
+          color1="#581C87"
+          color2="#C084FC"
+          color3="#FFFFFF"
           speed={0.45}
           sweepSpeed={0.3}
           sweepWidth={0.9}
@@ -152,190 +154,236 @@ export default function LandingPage() {
           scanline={true}
           grain={true}
           grainIntensity={0.04}
-          opacity={0.85}
+          opacity={0.8}
           mouseInteraction={true}
           mouseRadius={0.5}
           mouseStrength={0.5}
         />
-        {/* Soft gradient mask overlays */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#030206]/30 via-transparent to-[#030206] pointer-events-none" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,#030206_90%)] pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#030206]/40 via-transparent to-[#030206] pointer-events-none" />
       </div>
 
-      {/* Floating Header Navigation */}
-      <header className="sticky top-4 z-50 max-w-6xl mx-auto px-4 sm:px-6">
-        <nav className="h-16 rounded-2xl bg-[#090514]/80 backdrop-blur-xl border border-white/[0.08] px-5 flex items-center justify-between shadow-2xl shadow-black/90">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-purple-600 via-purple-500 to-fuchsia-400 flex items-center justify-center text-white shadow-lg glow-purple">
-              <Zap className="w-4 h-4 fill-current" />
+      {/* Editorial Luxury Header */}
+      <header className="relative z-50 w-full px-6 sm:px-12 pt-6 flex items-center justify-between font-mono text-xs text-purple-200/80">
+        {/* Left Actions */}
+        <div className="flex items-center gap-6">
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="flex items-center gap-2 hover:text-white transition-colors group tracking-widest uppercase font-semibold"
+          >
+            <div className="flex flex-col gap-1 w-4">
+              <span className="w-full h-0.5 bg-purple-300 group-hover:bg-white transition-colors" />
+              <span className="w-3 h-0.5 bg-purple-300 group-hover:bg-white transition-colors" />
             </div>
-            <div className="flex items-center gap-2">
-              <span className="text-sm font-extrabold tracking-tight text-white">
-                VoiceOps
-              </span>
-              <span className="px-1.5 py-0.2 rounded-full text-[9px] font-mono uppercase bg-purple-500/20 text-purple-300 border border-purple-500/30 font-bold">
-                2.0
-              </span>
-            </div>
+            <span>Menu</span>
+          </button>
+
+          <a
+            href="#console-preview"
+            className="hidden sm:inline-block hover:text-white transition-colors tracking-widest uppercase"
+          >
+            Studio
+          </a>
+          <a
+            href="#capabilities"
+            className="hidden sm:inline-block hover:text-white transition-colors tracking-widest uppercase"
+          >
+            Capabilities
+          </a>
+        </div>
+
+        {/* Center Logo in Rubik Glitch */}
+        <Link
+          href="/"
+          className="text-lg sm:text-2xl font-glitch text-purple-200 hover:text-white tracking-widest transition-colors uppercase select-none"
+        >
+          VOICEOPS
+        </Link>
+
+        {/* Right Actions */}
+        <div className="flex items-center gap-4">
+          <span className="hidden md:inline-block text-[11px] text-purple-400/80 uppercase tracking-widest font-mono">
+            V2.0 &bull; LIVE
+          </span>
+
+          {currentUser ? (
+            <Link
+              href="/workspace"
+              className="px-4 py-1.5 rounded-full bg-purple-200 hover:bg-white text-slate-950 font-bold tracking-wider text-[11px] uppercase transition-all shadow-lg glow-purple"
+            >
+              Workspace
+            </Link>
+          ) : (
+            <Link
+              href="/register"
+              className="px-4 py-1.5 rounded-full bg-purple-200 hover:bg-white text-slate-950 font-bold tracking-wider text-[11px] uppercase transition-all shadow-lg glow-purple"
+            >
+              Get Started
+            </Link>
+          )}
+        </div>
+      </header>
+
+      {/* Slide-out Menu Overlay */}
+      {isMenuOpen && (
+        <div className="fixed inset-0 z-50 bg-[#030206]/95 backdrop-blur-2xl p-8 flex flex-col justify-between animate-in fade-in duration-200">
+          <div className="flex items-center justify-between border-b border-purple-500/20 pb-4">
+            <span className="text-xl font-glitch text-purple-300">VOICEOPS</span>
+            <button
+              onClick={() => setIsMenuOpen(false)}
+              className="p-2 text-purple-300 hover:text-white"
+            >
+              <X className="w-6 h-6" />
+            </button>
           </div>
 
-          <div className="hidden md:flex items-center gap-7 text-xs font-medium text-slate-400">
-            <a href="#console-preview" className="hover:text-purple-300 transition-colors">
-              Studio Console
+          <div className="space-y-6 font-syne text-2xl sm:text-4xl text-slate-200 max-w-lg mx-auto text-center">
+            <Link
+              href="/workspace"
+              onClick={() => setIsMenuOpen(false)}
+              className="block hover:text-purple-400 transition-colors"
+            >
+              Live Voice Workspace
+            </Link>
+            <Link
+              href="/projects"
+              onClick={() => setIsMenuOpen(false)}
+              className="block hover:text-purple-400 transition-colors"
+            >
+              Repositories &amp; Projects
+            </Link>
+            <Link
+              href="/knowledge"
+              onClick={() => setIsMenuOpen(false)}
+              className="block hover:text-purple-400 transition-colors"
+            >
+              pgvector Knowledge Base
+            </Link>
+            <a
+              href="#architecture"
+              onClick={() => setIsMenuOpen(false)}
+              className="block hover:text-purple-400 transition-colors"
+            >
+              Architecture &amp; Security
             </a>
-            <a href="#capabilities" className="hover:text-purple-300 transition-colors">
-              Capabilities
-            </a>
-            <a href="#architecture" className="hover:text-purple-300 transition-colors">
-              Architecture
-            </a>
-            <a href="#faq" className="hover:text-purple-300 transition-colors">
-              FAQ
-            </a>
-          </div>
-
-          <div className="flex items-center gap-3">
             <a
               href="https://github.com/150ftw/VoiceOps"
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-xs font-medium text-slate-300 transition-colors border border-white/5"
+              className="block hover:text-purple-400 transition-colors text-lg font-mono text-purple-400"
             >
-              <Github className="w-3.5 h-3.5" />
-              <span>GitHub</span>
+              GitHub Repository &rarr;
             </a>
-
-            {currentUser ? (
-              <div className="flex items-center gap-2.5">
-                <Link
-                  href="/workspace"
-                  className="flex items-center gap-1.5 px-4 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold shadow-lg glow-purple transition-all transform hover:-translate-y-0.5"
-                >
-                  <Mic className="w-3.5 h-3.5" />
-                  <span>Workspace</span>
-                </Link>
-                <button
-                  onClick={handleSignOut}
-                  title="Sign Out"
-                  className="p-2 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 hover:text-rose-400 transition-colors text-xs"
-                >
-                  <LogOut className="w-3.5 h-3.5" />
-                </button>
-              </div>
-            ) : (
-              <div className="flex items-center gap-2.5">
-                <Link
-                  href="/login"
-                  className="px-3 py-1.5 text-xs font-medium text-slate-300 hover:text-white transition-colors"
-                >
-                  Sign In
-                </Link>
-                <Link
-                  href="/register"
-                  className="px-4 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold shadow-md glow-purple transition-all transform hover:-translate-y-0.5"
-                >
-                  Get Started
-                </Link>
-              </div>
-            )}
           </div>
-        </nav>
-      </header>
 
-      {/* Hero Section */}
-      <section className="relative pt-16 pb-12 px-6 max-w-6xl mx-auto text-center space-y-7 z-10">
-        {/* Hero Title */}
-        <h1 className="text-4xl sm:text-6xl lg:text-7xl font-normal tracking-wider text-white max-w-4xl mx-auto leading-[1.15] drop-shadow-2xl font-glitch uppercase">
-          DevOps at the <br />
-          <span className="bg-gradient-to-r from-purple-300 via-fuchsia-300 to-indigo-200 bg-clip-text text-transparent">
-            speed of sound
-          </span>
-        </h1>
+          <div className="text-center font-mono text-xs text-purple-400/60">
+            &copy; 2026 VoiceOps Autonomous DevOps Platform
+          </div>
+        </div>
+      )}
 
-        {/* Hero Subtitle */}
-        <p className="text-sm sm:text-base text-slate-300 max-w-2xl mx-auto leading-relaxed font-normal drop-shadow-md">
-          VoiceOps listens, traverses full GitHub repository trees, isolates build error stack traces, and prepares cryptographically approved fixes &mdash; without touching a terminal.
+      {/* Hero Section — Editorial Brutalist Showcase */}
+      <section className="relative pt-20 pb-16 px-6 sm:px-12 max-w-7xl mx-auto flex flex-col items-center justify-center min-h-[75vh] text-center z-10 select-none">
+        {/* Top Sub-Header */}
+        <p className="font-mono text-xs sm:text-sm text-purple-300/90 tracking-[0.25em] uppercase mb-4">
+          Autonomous DevOps Voice Engine
         </p>
 
-        {/* Dual Action Buttons */}
-        <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3.5">
+        {/* Massive Centerpiece Display Headline in Rubik Glitch */}
+        <h1 className="text-6xl sm:text-8xl md:text-9xl lg:text-[11.5rem] font-glitch text-purple-200/95 tracking-[0.05em] sm:tracking-[0.12em] leading-none uppercase drop-shadow-[0_0_50px_rgba(168,85,247,0.35)] scale-y-95 my-2">
+          VOICEOPS
+        </h1>
+
+        {/* Secondary Subtitle */}
+        <p className="font-mono text-xs sm:text-sm text-purple-300/80 max-w-xl mx-auto tracking-widest uppercase mt-4">
+          Talk to your infrastructure. Fix CI/CD in seconds.
+        </p>
+
+        {/* Bottom 3-Column Editorial Metadata Bar */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-6xl mt-16 pt-8 border-t border-purple-500/20 text-left font-mono text-[11px]">
+          <div className="space-y-1">
+            <p className="text-purple-400 font-bold uppercase tracking-wider">01 // INTELLIGENCE</p>
+            <p className="text-slate-400 leading-relaxed uppercase">
+              Gemini 1.5 Pro (1M Context) &bull; GPT-4o Omni Function Calling &bull; Deep Code AST
+            </p>
+          </div>
+
+          <div className="space-y-1 md:text-center">
+            <p className="text-purple-400 font-bold uppercase tracking-wider">02 // REAL-TIME VOICE</p>
+            <p className="text-slate-400 leading-relaxed uppercase">
+              180ms Latency &bull; Whisper v3 Streaming STT &bull; ElevenLabs Neural TTS
+            </p>
+          </div>
+
+          <div className="space-y-1 md:text-right">
+            <p className="text-purple-400 font-bold uppercase tracking-wider">03 // GUARDRAILS</p>
+            <p className="text-slate-400 leading-relaxed uppercase">
+              Cryptographic Human Confirmation &bull; Zero Unauthorized Repository Writes
+            </p>
+          </div>
+        </div>
+
+        {/* Floating Circular Interactive CTA & Audio Meter */}
+        <div className="w-full max-w-6xl flex flex-col sm:flex-row items-center justify-between gap-6 pt-12">
+          {/* Bottom-Left Audio Level Waveform */}
+          <div className="flex items-center gap-3 font-mono text-xs text-purple-300">
+            <div className="flex items-end gap-1 h-5">
+              <span className="w-1 bg-purple-400 animate-[wave_0.8s_ease-in-out_infinite] h-3 rounded-full" />
+              <span className="w-1 bg-purple-300 animate-[wave_1.2s_ease-in-out_infinite_0.2s] h-5 rounded-full" />
+              <span className="w-1 bg-purple-500 animate-[wave_0.9s_ease-in-out_infinite_0.4s] h-2 rounded-full" />
+              <span className="w-1 bg-fuchsia-400 animate-[wave_1.1s_ease-in-out_infinite_0.1s] h-4 rounded-full" />
+              <span className="w-1 bg-purple-300 animate-[wave_0.7s_ease-in-out_infinite_0.3s] h-3 rounded-full" />
+            </div>
+            <button
+              onClick={toggleMockVoice}
+              className="text-[11px] uppercase tracking-wider hover:text-white transition-colors"
+            >
+              {isPlayingVoice ? 'Synthesizing Audio...' : 'Play Audio Demo'}
+            </button>
+          </div>
+
+          {/* Bottom-Right Circular Magnetic Button */}
           <Link
             href="/workspace"
-            className="w-full sm:w-auto px-7 py-3.5 rounded-2xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs sm:text-sm shadow-xl glow-purple transition-all flex items-center justify-center gap-2.5 transform hover:-translate-y-0.5 border border-purple-400/30"
+            className="group relative w-36 h-36 rounded-full border border-purple-400/40 hover:border-purple-300 flex items-center justify-center text-center p-4 transition-all duration-300 hover:scale-105 hover:bg-purple-950/30 glow-purple"
           >
-            <Mic className="w-4 h-4" />
-            <span>Launch Live Voice Workspace</span>
-            <ArrowRight className="w-4 h-4" />
+            <div className="absolute inset-0 rounded-full border border-purple-500/20 animate-spin [animation-duration:12s] pointer-events-none" />
+            <div className="space-y-1 font-mono text-[10px] uppercase tracking-widest text-purple-200 group-hover:text-white">
+              <p>Launch</p>
+              <p className="font-bold text-xs text-white">Studio ↗</p>
+            </div>
           </Link>
-
-          <button
-            onClick={toggleMockVoice}
-            className={`w-full sm:w-auto px-6 py-3.5 rounded-2xl border text-xs sm:text-sm font-semibold transition-all flex items-center justify-center gap-2.5 backdrop-blur-md ${
-              isPlayingVoice
-                ? 'bg-rose-500/20 border-rose-500/50 text-rose-300 shadow-xl glow-rose'
-                : 'bg-white/[0.04] hover:bg-white/[0.08] border-white/[0.08] text-slate-200 hover:text-white'
-            }`}
-          >
-            {isPlayingVoice ? (
-              <>
-                <Volume2 className="w-4 h-4 text-rose-400 animate-pulse" />
-                <span>Playing AI Voice Synthesis...</span>
-              </>
-            ) : (
-              <>
-                <Play className="w-4 h-4 text-purple-400 fill-current" />
-                <span>Hear AI Voice Response</span>
-              </>
-            )}
-          </button>
         </div>
 
-        {/* Telemetry Metric Cards */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-6 max-w-4xl mx-auto w-full">
-          <div className="p-4 rounded-2xl bg-[#090514]/90 border border-purple-500/20 backdrop-blur-md shadow-xl text-left">
-            <p className="text-[10px] font-mono uppercase tracking-wider text-purple-400 font-semibold">Voice Latency</p>
-            <p className="text-base font-extrabold text-purple-200 mt-0.5 font-mono">~180 ms</p>
-            <p className="text-[10px] text-slate-500 mt-0.5">Streaming STT &bull; Whisper v3</p>
+        {/* Bottom Left Cookies / Telemetry Brutalist Box */}
+        {showTelemetryBox && (
+          <div className="fixed bottom-6 left-6 z-40 w-72 p-4 rounded-2xl bg-[#090514]/95 border border-purple-500/30 backdrop-blur-xl shadow-2xl font-mono text-left animate-in slide-in-from-bottom-3 duration-300">
+            <div className="flex items-center justify-between text-xs font-bold text-purple-300 pb-2 border-b border-purple-500/20">
+              <span className="tracking-wider uppercase">SYSTEM TELEMETRY</span>
+              <button
+                onClick={() => setShowTelemetryBox(false)}
+                className="hover:text-white text-purple-400 transition-colors"
+              >
+                [X]
+              </button>
+            </div>
+            <p className="text-[10px] text-slate-300 mt-2 leading-relaxed uppercase">
+              Streaming full-duplex WebSocket connected. 1536-dim embeddings synchronized.
+            </p>
+            <div className="pt-3 flex items-center justify-between">
+              <Link
+                href="/workspace"
+                className="text-[10px] font-bold text-purple-200 hover:text-white underline uppercase tracking-wider"
+              >
+                CONNECT MIC &rarr;
+              </Link>
+              <span className="text-[9px] text-emerald-400">● 100% OPERATIONAL</span>
+            </div>
           </div>
-          <div className="p-4 rounded-2xl bg-[#090514]/90 border border-purple-500/20 backdrop-blur-md shadow-xl text-left">
-            <p className="text-[10px] font-mono uppercase tracking-wider text-purple-400 font-semibold">Vector Memory</p>
-            <p className="text-base font-extrabold text-purple-200 mt-0.5 font-mono">1536-dim</p>
-            <p className="text-[10px] text-slate-500 mt-0.5">Supabase pgvector HNSW</p>
-          </div>
-          <div className="p-4 rounded-2xl bg-[#090514]/90 border border-purple-500/20 backdrop-blur-md shadow-xl text-left">
-            <p className="text-[10px] font-mono uppercase tracking-wider text-purple-400 font-semibold">Context Window</p>
-            <p className="text-base font-extrabold text-fuchsia-300 mt-0.5 font-mono">1M Tokens</p>
-            <p className="text-[10px] text-slate-500 mt-0.5">Gemini 1.5 Pro &bull; Multi-Model</p>
-          </div>
-          <div className="p-4 rounded-2xl bg-[#090514]/90 border border-purple-500/20 backdrop-blur-md shadow-xl text-left">
-            <p className="text-[10px] font-mono uppercase tracking-wider text-purple-400 font-semibold">Guardrail Safety</p>
-            <p className="text-base font-extrabold text-emerald-300 mt-0.5 font-mono">Enforced</p>
-            <p className="text-[10px] text-slate-500 mt-0.5">Cryptographic 1-click Approval</p>
-          </div>
-        </div>
-
-        {/* Quick Question Chips */}
-        <div className="pt-3 flex flex-wrap items-center justify-center gap-2 text-xs">
-          <span className="text-slate-500 font-mono text-[11px]">Interactive Prompts:</span>
-          {interactivePrompts.map((p) => (
-            <button
-              key={p.title}
-              onClick={() => {
-                setSelectedPrompt(p.query);
-                setActiveTab(p.tab);
-                const el = document.getElementById('console-preview');
-                if (el) el.scrollIntoView({ behavior: 'smooth' });
-              }}
-              className="px-3 py-1 rounded-xl bg-purple-500/10 hover:bg-purple-500/20 hover:border-purple-500/40 border border-purple-500/20 text-purple-200 hover:text-white transition-all text-xs font-mono"
-            >
-              {p.title} &rarr;
-            </button>
-          ))}
-        </div>
+        )}
       </section>
 
       {/* Interactive DevOps Studio Console Simulation */}
-      <section id="console-preview" className="py-12 px-6 max-w-5xl mx-auto relative z-10">
+      <section id="console-preview" className="py-16 px-6 max-w-5xl mx-auto relative z-10">
         <div className="rounded-3xl bg-[#080412] border border-purple-500/20 shadow-2xl overflow-hidden">
           {/* macOS Terminal Window Header */}
           <div className="px-5 py-3.5 bg-[#040209] border-b border-white/[0.06] flex flex-wrap items-center justify-between gap-3">
@@ -343,13 +391,13 @@ export default function LandingPage() {
               <span className="w-2.5 h-2.5 rounded-full bg-rose-500/80" />
               <span className="w-2.5 h-2.5 rounded-full bg-amber-500/80" />
               <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80" />
-              <span className="ml-2 font-semibold text-slate-200">VoiceOps Studio Session</span>
+              <span className="ml-2 font-semibold text-slate-200 font-mono">VoiceOps Studio Session</span>
               <span className="text-slate-600">&bull;</span>
-              <span className="text-purple-400">150ftw/demo-app (main)</span>
+              <span className="text-purple-400 font-mono">150ftw/demo-app (main)</span>
             </div>
 
             {/* Interactive Tab Switcher */}
-            <div className="flex items-center gap-1.5 p-1 rounded-xl bg-[#0f0821] border border-purple-500/20 text-xs font-medium">
+            <div className="flex items-center gap-1.5 p-1 rounded-xl bg-[#0f0821] border border-purple-500/20 text-xs font-medium font-mono">
               <button
                 onClick={() => setActiveTab('diagnosis')}
                 className={`px-3 py-1 rounded-lg transition-all ${
@@ -358,7 +406,7 @@ export default function LandingPage() {
                     : 'text-slate-400 hover:text-purple-200'
                 }`}
               >
-                Log Diagnostics
+                Diagnostics
               </button>
               <button
                 onClick={() => setActiveTab('diff')}
@@ -368,7 +416,7 @@ export default function LandingPage() {
                     : 'text-slate-400 hover:text-purple-200'
                 }`}
               >
-                Diff Comparison
+                Diff
               </button>
               <button
                 onClick={() => setActiveTab('rag')}
@@ -378,7 +426,7 @@ export default function LandingPage() {
                     : 'text-slate-400 hover:text-purple-200'
                 }`}
               >
-                Runbook RAG
+                Runbooks
               </button>
               <button
                 onClick={() => setActiveTab('approval')}
@@ -388,7 +436,7 @@ export default function LandingPage() {
                     : 'text-slate-400 hover:text-purple-200'
                 }`}
               >
-                Security Guardrail
+                Guardrails
               </button>
             </div>
           </div>
@@ -401,7 +449,7 @@ export default function LandingPage() {
                 <div className="p-3.5 rounded-2xl bg-purple-600 text-white text-xs font-mono leading-relaxed shadow-lg glow-purple">
                   &ldquo;{selectedPrompt}&rdquo;
                 </div>
-                <div className="w-8 h-8 rounded-xl bg-slate-900 border border-purple-500/30 flex items-center justify-center text-xs font-bold text-purple-300 shrink-0">
+                <div className="w-8 h-8 rounded-xl bg-slate-900 border border-purple-500/30 flex items-center justify-center text-xs font-bold text-purple-300 shrink-0 font-mono">
                   You
                 </div>
               </div>
@@ -425,7 +473,7 @@ export default function LandingPage() {
                 <div className="flex items-center justify-between text-slate-400 pb-2 border-b border-white/5">
                   <span className="flex items-center gap-1.5 text-rose-400 font-bold">
                     <AlertTriangle className="w-3.5 h-3.5" />
-                    <span>Root Cause Isolated: Python 3.13 / bcrypt Dependency Mismatch</span>
+                    <span>Root Cause: Python 3.13 / bcrypt Dependency Mismatch</span>
                   </span>
                   <span className="text-[10px] text-slate-500">Exit Code: 1</span>
                 </div>
@@ -478,32 +526,26 @@ export default function LandingPage() {
                   </span>
                   <span className="text-[10px] text-slate-500">Runbook ID: DOC-204</span>
                 </div>
-                <div className="p-3.5 rounded-xl bg-[#0f0821] border border-purple-500/20 space-y-2 leading-relaxed">
+                <div className="p-3.5 rounded-xl bg-[#0f0821] border border-purple-500/20 space-y-2 leading-relaxed font-mono">
                   <p className="font-bold text-white">Docker Build Standards &bull; Production Runbook</p>
                   <p className="text-slate-300 text-[11px]">
-                    &ldquo;All microservices deployed to AWS EKS production cluster must pin LTS Python 3.11 runtimes. Python 3.13 Release Candidate base images are strictly prohibited in production.&rdquo;
+                    &ldquo;All microservices deployed to AWS EKS production cluster must pin LTS Python 3.11 runtimes.&rdquo;
                   </p>
-                  <div className="flex items-center gap-2 pt-1 font-mono text-[10px] text-slate-500">
-                    <span>Source: /docs/runbooks/docker_standards.md</span>
-                  </div>
                 </div>
               </div>
             )}
 
             {/* Tab 4: Security Approval */}
             {activeTab === 'approval' && (
-              <div className="p-4 rounded-2xl bg-[#040209] border border-purple-500/30 space-y-3 text-xs">
+              <div className="p-4 rounded-2xl bg-[#040209] border border-purple-500/30 space-y-3 text-xs font-mono">
                 <div className="flex items-center justify-between text-slate-400 pb-2 border-b border-white/5">
-                  <span className="flex items-center gap-1.5 text-amber-300 font-bold font-mono">
+                  <span className="flex items-center gap-1.5 text-amber-300 font-bold">
                     <ShieldCheck className="w-3.5 h-3.5 text-amber-400" />
-                    <span>Cryptographic Developer Approval Required</span>
-                  </span>
-                  <span className="text-[10px] px-2 py-0.5 rounded bg-amber-500/10 text-amber-300 border border-amber-500/20 font-mono">
-                    Pending Confirmation
+                    <span>Cryptographic Approval Required</span>
                   </span>
                 </div>
                 <p className="text-slate-300 leading-relaxed">
-                  VoiceOps wants to open a pull request <code className="text-purple-300 bg-slate-900 px-1 py-0.5 rounded font-mono">patch/fix-python-base-image</code> on <code className="text-purple-300 bg-slate-900 px-1 py-0.5 rounded font-mono">150ftw/demo-app</code>.
+                  VoiceOps wants to open a pull request <code className="text-purple-300 bg-slate-900 px-1 py-0.5 rounded">patch/fix-python-base-image</code>.
                 </p>
 
                 <div className="flex items-center gap-3 pt-2">
@@ -517,17 +559,8 @@ export default function LandingPage() {
                     }`}
                   >
                     <Check className="w-3.5 h-3.5" />
-                    <span>{mockApprovalDone ? 'Pull Request #42 Created!' : 'Approve & Create PR'}</span>
+                    <span>{mockApprovalDone ? 'PR Created!' : 'Approve & Create PR'}</span>
                   </button>
-
-                  {!mockApprovalDone && (
-                    <button
-                      onClick={() => setSelectedPrompt("Why did my latest deployment to production fail?")}
-                      className="px-4 py-2 rounded-xl text-xs font-semibold text-slate-400 hover:text-white bg-slate-900 border border-white/10 transition-colors"
-                    >
-                      Reject
-                    </button>
-                  )}
                 </div>
               </div>
             )}
@@ -535,198 +568,33 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Feature Bento Grid */}
-      <section id="capabilities" className="py-16 px-6 max-w-6xl mx-auto space-y-10 relative z-10">
-        <div className="text-center space-y-2 max-w-xl mx-auto">
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
-            Built for High-Stakes Incident Response
-          </h2>
-          <p className="text-xs sm:text-sm text-slate-400">
-            Engineered from ground up with real-time streaming voice, vector knowledge retrieval, and cryptographic safety guardrails.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {/* Card 1 */}
-          <div className="p-6 rounded-3xl bg-[#080412] border border-purple-500/20 shadow-xl space-y-4 hover:border-purple-500/40 transition-all group">
-            <div className="w-10 h-10 rounded-2xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 group-hover:scale-110 transition-transform">
-              <Mic className="w-5 h-5" />
-            </div>
-            <div className="space-y-1.5">
-              <h3 className="text-sm font-bold text-white">Streaming Voice with Interruption</h3>
-              <p className="text-xs text-slate-400 leading-relaxed">
-                Full-duplex WebSocket architecture allows you to speak naturally and interrupt AI reasoning whenever needed &mdash; just like chatting with a senior teammate on Slack huddles.
-              </p>
-            </div>
-          </div>
-
-          {/* Card 2 */}
-          <div className="p-6 rounded-3xl bg-[#080412] border border-purple-500/20 shadow-xl space-y-4 hover:border-purple-500/40 transition-all group">
-            <div className="w-10 h-10 rounded-2xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 group-hover:scale-110 transition-transform">
-              <Database className="w-5 h-5" />
-            </div>
-            <div className="space-y-1.5">
-              <h3 className="text-sm font-bold text-white">pgvector Semantic Runbooks</h3>
-              <p className="text-xs text-slate-400 leading-relaxed">
-                Indexes PDF, Markdown, and text architecture documents into 1536-dimensional embeddings for grounded responses with citations.
-              </p>
-            </div>
-          </div>
-
-          {/* Card 3 */}
-          <div className="p-6 rounded-3xl bg-[#080412] border border-purple-500/20 shadow-xl space-y-4 hover:border-purple-500/40 transition-all group">
-            <div className="w-10 h-10 rounded-2xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 group-hover:scale-110 transition-transform">
-              <ShieldCheck className="w-5 h-5" />
-            </div>
-            <div className="space-y-1.5">
-              <h3 className="text-sm font-bold text-white">Cryptographic Safety Guardrails</h3>
-              <p className="text-xs text-slate-400 leading-relaxed">
-                Zero unauthorized repository writes or deployments. Dangerous actions require explicit human confirmation and are recorded in immutable audit logs.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Architecture & Multi-Model Multi-Orchestrator Section */}
-      <section id="architecture" className="py-16 px-6 max-w-6xl mx-auto space-y-10 relative z-10">
-        <div className="text-center space-y-2 max-w-xl mx-auto">
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
-            Multi-Model AI Orchestrator
-          </h2>
-          <p className="text-xs sm:text-sm text-slate-400">
-            Seamlessly switch between leading frontier models tailored for large codebase traversal and function execution.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="p-5 rounded-2xl bg-[#080412] border border-purple-500/25 space-y-2 shadow-lg">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-white">Gemini 1.5 Pro</span>
-              <span className="w-2 h-2 rounded-full bg-purple-400 animate-pulse" />
-            </div>
-            <p className="text-[11px] text-slate-400">
-              1,000,000 token context window for massive multi-file AST traversal and monolithic workflow logs.
-            </p>
-          </div>
-
-          <div className="p-5 rounded-2xl bg-[#080412] border border-purple-500/25 space-y-2 shadow-lg">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-white">GPT-4o</span>
-              <span className="w-2 h-2 rounded-full bg-fuchsia-400" />
-            </div>
-            <p className="text-[11px] text-slate-400">
-              Omni-architecture with high-precision tool calling for automated pull request synthesis.
-            </p>
-          </div>
-
-          <div className="p-5 rounded-2xl bg-[#080412] border border-purple-500/25 space-y-2 shadow-lg">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-white">Claude 3.5 Sonnet</span>
-              <span className="w-2 h-2 rounded-full bg-indigo-400" />
-            </div>
-            <p className="text-[11px] text-slate-400">
-              State-of-the-art code diff analysis and deep semantic syntax diagnostics.
-            </p>
-          </div>
-
-          <div className="p-5 rounded-2xl bg-[#080412] border border-purple-500/25 space-y-2 shadow-lg">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-white">DeepSeek R1</span>
-              <span className="w-2 h-2 rounded-full bg-purple-400" />
-            </div>
-            <p className="text-[11px] text-slate-400">
-              Deep reasoning chains for race conditions and distributed microservice failures.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ Accordion Section */}
-      <section id="faq" className="py-16 px-6 max-w-4xl mx-auto space-y-8 relative z-10">
-        <div className="text-center space-y-2">
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
-            Frequently Asked Questions
-          </h2>
-          <p className="text-xs sm:text-sm text-slate-400">
-            Everything you need to know about VoiceOps architecture, safety, and integration.
-          </p>
-        </div>
-
-        <div className="space-y-3">
-          {[
-            {
-              q: "How does VoiceOps connect to my GitHub repository?",
-              a: "VoiceOps uses official GitHub OAuth 2.0 with minimal required permissions. It reads file structures, workflow run logs, and commit trees on demand, caching semantic embeddings in Supabase pgvector.",
-            },
-            {
-              q: "Can the AI execute dangerous code or delete branches automatically?",
-              a: "Never. All mutation actions (such as opening pull requests, creating issues, or re-triggering workflows) are gated by our cryptographic Approval Manager and require explicit confirmation in the studio.",
-            },
-            {
-              q: "Can I use VoiceOps completely hands-free with microphone audio?",
-              a: "Yes! VoiceOps features full streaming voice STT and instant TTS playback. You can speak naturally, and interrupt the agent at any point with the microphone orb.",
-            },
-            {
-              q: "How do I add my own team runbooks and documentation?",
-              a: "Navigate to the Knowledge Base page and drag-and-drop your team's Markdown, PDF, or text documents. They are automatically chunked and indexed into pgvector for grounded retrieval.",
-            },
-          ].map((item, idx) => {
-            const isOpen = openFaq === idx;
-            return (
-              <div
-                key={idx}
-                className="rounded-2xl bg-[#080412] border border-purple-500/15 overflow-hidden transition-all"
-              >
-                <button
-                  onClick={() => setOpenFaq(isOpen ? null : idx)}
-                  className="w-full p-4 text-left flex items-center justify-between text-xs sm:text-sm font-semibold text-slate-200 hover:text-white"
-                >
-                  <span>{item.q}</span>
-                  <ChevronDown
-                    className={`w-4 h-4 text-slate-400 transition-transform duration-200 ${
-                      isOpen ? 'rotate-180 text-purple-400' : ''
-                    }`}
-                  />
-                </button>
-                {isOpen && (
-                  <div className="px-4 pb-4 text-xs text-slate-400 leading-relaxed border-t border-white/[0.04] pt-3">
-                    {item.a}
-                  </div>
-                )}
-              </div>
-            );
-          })}
-        </div>
-      </section>
-
       {/* Footer */}
-      <footer className="border-t border-purple-500/10 bg-[#010103] py-12 px-6 relative z-10 text-xs text-slate-500">
+      <footer className="border-t border-purple-500/10 bg-[#010103] py-12 px-6 relative z-10 text-xs text-slate-500 font-mono">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2 text-slate-300 font-bold">
             <Zap className="w-4 h-4 text-purple-400" />
-            <span>VoiceOps</span>
+            <span className="font-glitch text-sm">VOICEOPS</span>
             <span className="text-slate-600 font-normal">&bull; Autonomous DevOps Engineering</span>
           </div>
 
           <div className="flex items-center gap-6 text-slate-400">
-            <Link href="/workspace" className="hover:text-purple-300 transition-colors">
+            <Link href="/workspace" className="hover:text-purple-300 transition-colors uppercase">
               Workspace
             </Link>
-            <Link href="/projects" className="hover:text-purple-300 transition-colors">
+            <Link href="/projects" className="hover:text-purple-300 transition-colors uppercase">
               Projects
             </Link>
             <a
               href="https://github.com/150ftw/VoiceOps"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-purple-300 transition-colors"
+              className="hover:text-purple-300 transition-colors uppercase"
             >
               GitHub
             </a>
           </div>
 
-          <p className="text-[11px] font-mono text-slate-600">
+          <p className="text-[11px] text-slate-600">
             &copy; 2026 VoiceOps Monorepo. All rights reserved.
           </p>
         </div>
