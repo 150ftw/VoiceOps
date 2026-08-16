@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import {
   FolderGit2,
   Plus,
@@ -15,6 +16,13 @@ import {
   Globe,
   Sparkles,
   ArrowRight,
+  MoreVertical,
+  ChevronDown,
+  Trash2,
+  RefreshCw,
+  BookOpen,
+  Terminal,
+  Unlink,
 } from 'lucide-react';
 import { Project, Workspace } from '@voiceops/shared';
 import { apiRequest } from '@/lib/api-client';
@@ -31,6 +39,7 @@ interface GitHubRepoItem {
 }
 
 export default function ProjectsPage() {
+  const router = useRouter();
   const [workspace, setWorkspace] = useState<Workspace | null>(null);
   const [projects, setProjects] = useState<Project[]>([]);
   const [githubRepos, setGithubRepos] = useState<GitHubRepoItem[]>([]);
@@ -39,6 +48,9 @@ export default function ProjectsPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [isCreating, setIsCreating] = useState(false);
   const [importingRepoId, setImportingRepoId] = useState<number | null>(null);
+  const [activeDropdownId, setActiveDropdownId] = useState<string | null>(null);
+  const [syncingProjectId, setSyncingProjectId] = useState<string | null>(null);
+  const [detachingProjectId, setDetachingProjectId] = useState<string | null>(null);
 
   // Form state
   const [name, setName] = useState('');
@@ -47,6 +59,19 @@ export default function ProjectsPage() {
   const [repoFullName, setRepoFullName] = useState('');
   const [githubRepoId, setGithubRepoId] = useState<number | null>(null);
   const [defaultBranch, setDefaultBranch] = useState('main');
+
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
+
+  // Close dropdown on click outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setActiveDropdownId(null);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const loadProjects = async (wsId: string) => {
     try {
@@ -129,6 +154,42 @@ export default function ProjectsPage() {
     }
   };
 
+  const handleDetachRepo = async (projectId: string) => {
+    if (!workspace) return;
+    if (!confirm('Are you sure you want to detach this repository from VoiceOps?')) return;
+
+    setDetachingProjectId(projectId);
+    setActiveDropdownId(null);
+    try {
+      await apiRequest(`/projects/${projectId}`, { method: 'DELETE' });
+      await loadProjects(workspace.id);
+    } catch (err: any) {
+      alert(err.message || 'Failed to detach repository');
+    } finally {
+      setDetachingProjectId(null);
+    }
+  };
+
+  const handleSyncProject = async (projectId: string) => {
+    setSyncingProjectId(projectId);
+    setActiveDropdownId(null);
+    try {
+      const res = await apiRequest(`/projects/${projectId}/sync-repo`, { method: 'POST' });
+      alert(`Synced ${res.files_indexed || 0} files and ${res.chunks_created || 0} chunks into pgvector!`);
+    } catch (err: any) {
+      alert(err.message || 'Failed to sync repository');
+    } finally {
+      setSyncingProjectId(null);
+    }
+  };
+
+  const handleInvestigate = (projectId: string) => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('voiceops_active_project_id', projectId);
+    }
+    router.push(`/workspace?project_id=${projectId}`);
+  };
+
   const handleCreateProject = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!workspace || !name.trim() || !slug.trim()) return;
@@ -167,12 +228,12 @@ export default function ProjectsPage() {
   );
 
   return (
-    <div className="max-w-6xl mx-auto space-y-6">
+    <div className="max-w-6xl mx-auto space-y-6 antialiased" ref={dropdownRef}>
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-xl font-extrabold text-white tracking-tight">Projects & Repositories</h1>
           <p className="text-xs text-slate-400 mt-0.5">
-            Configure codebases and link GitHub repositories for agentic CI/CD investigation.
+            Configure codebases, manage linked GitHub repositories, and trigger AI investigations.
           </p>
         </div>
 
@@ -189,7 +250,7 @@ export default function ProjectsPage() {
 
       {/* GitHub Auto-Discovery Repositories Banner / Grid */}
       {githubConnected && (
-        <div className="glass-panel p-6 rounded-3xl border border-white/10 space-y-4 shadow-xl">
+        <div className="rounded-3xl bg-[#080B14] p-6 border border-white/[0.08] space-y-4 shadow-xl">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-white shrink-0">
@@ -204,7 +265,7 @@ export default function ProjectsPage() {
                   </span>
                 </div>
                 <p className="text-xs text-slate-400">
-                  Select any repository below to instantly import and inspect with VoiceOps AI.
+                  Select any repository below to investigate or manage attachments with VoiceOps AI.
                 </p>
               </div>
             </div>
@@ -217,7 +278,7 @@ export default function ProjectsPage() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search repos..."
-                className="w-full bg-slate-900 border border-slate-800 rounded-xl pl-9 pr-3 py-1.5 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-indigo-500"
+                className="w-full bg-[#0C121E] border border-slate-800 rounded-xl pl-9 pr-3 py-1.5 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-indigo-500"
               />
             </div>
           </div>
@@ -234,21 +295,23 @@ export default function ProjectsPage() {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 pt-1">
               {filteredGitHubRepos.map((repo) => {
-                const isAlreadyLinked = projects.some(
+                const linkedProject = projects.find(
                   (p) => p.repository?.repo_full_name?.toLowerCase() === repo.full_name.toLowerCase()
                 );
+                const isAlreadyLinked = Boolean(linkedProject);
                 const isImporting = importingRepoId === repo.id;
+                const isDropdownOpen = activeDropdownId === `repo-${repo.id}`;
 
                 return (
                   <div
                     key={repo.id}
-                    className="p-4 rounded-2xl bg-slate-950/60 hover:bg-slate-900/80 border border-white/5 hover:border-indigo-500/30 transition-all flex flex-col justify-between space-y-3 group"
+                    className="p-4 rounded-2xl bg-[#090E1A] hover:bg-[#0D1424] border border-white/[0.06] hover:border-indigo-500/30 transition-all flex flex-col justify-between space-y-3 group relative"
                   >
                     <div className="space-y-1.5">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-1.5 font-bold text-xs text-slate-100 group-hover:text-indigo-300 transition-colors">
                           <FolderGit2 className="w-3.5 h-3.5 text-indigo-400" />
-                          <span className="truncate max-w-[170px]">{repo.name}</span>
+                          <span className="truncate max-w-[160px]">{repo.name}</span>
                         </div>
                         <span className="flex items-center gap-1 text-[10px] text-slate-400 px-1.5 py-0.5 rounded bg-white/5">
                           {repo.private ? <Lock className="w-2.5 h-2.5 text-amber-400" /> : <Globe className="w-2.5 h-2.5 text-slate-400" />}
@@ -261,31 +324,73 @@ export default function ProjectsPage() {
                       </p>
                     </div>
 
-                    <div className="pt-2 border-t border-white/5 flex items-center justify-between text-[11px]">
+                    <div className="pt-2 border-t border-white/[0.04] flex items-center justify-between text-[11px] relative">
                       <span className="font-mono text-slate-500 flex items-center gap-1">
                         <GitBranch className="w-3 h-3" />
                         <span>{repo.default_branch || 'main'}</span>
                       </span>
 
-                      {isAlreadyLinked ? (
-                        <Link
-                          href={`/workspace?project_id=${projects.find(p => p.repository?.repo_full_name?.toLowerCase() === repo.full_name.toLowerCase())?.id || ''}`}
-                          onClick={() => {
-                            const p = projects.find(p => p.repository?.repo_full_name?.toLowerCase() === repo.full_name.toLowerCase());
-                            if (p && typeof window !== 'undefined') {
-                              localStorage.setItem('voiceops_active_project_id', p.id);
-                            }
-                          }}
-                          className="flex items-center gap-1 text-[10px] text-emerald-400 hover:text-emerald-300 font-semibold px-2 py-0.5 rounded bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/20 transition-all"
-                        >
-                          <CheckCircle2 className="w-3 h-3" />
-                          <span>Investigate &rarr;</span>
-                        </Link>
+                      {isAlreadyLinked && linkedProject ? (
+                        <div className="relative">
+                          {/* Manage Dropdown Trigger */}
+                          <button
+                            type="button"
+                            onClick={() => setActiveDropdownId(isDropdownOpen ? null : `repo-${repo.id}`)}
+                            className="flex items-center gap-1.5 text-[11px] text-slate-200 font-semibold px-2.5 py-1 rounded-xl bg-indigo-600/20 hover:bg-indigo-600/30 border border-indigo-500/30 transition-all"
+                          >
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                            <span>Manage</span>
+                            <ChevronDown className={`w-3 h-3 text-indigo-300 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
+                          </button>
+
+                          {/* Action Dropdown Menu */}
+                          {isDropdownOpen && (
+                            <div className="absolute right-0 bottom-full mb-1.5 w-52 bg-[#0c121e] border border-slate-700 shadow-2xl rounded-2xl p-2 z-50 animate-in fade-in zoom-in-95 duration-150 ring-1 ring-white/10 text-xs">
+                              <button
+                                onClick={() => handleInvestigate(linkedProject.id)}
+                                className="w-full flex items-center gap-2 px-2.5 py-2 rounded-xl text-emerald-300 hover:bg-emerald-500/10 transition-colors font-medium text-left"
+                              >
+                                <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
+                                <span>Investigate Codebase</span>
+                              </button>
+
+                              <button
+                                onClick={() => handleSyncProject(linkedProject.id)}
+                                disabled={syncingProjectId === linkedProject.id}
+                                className="w-full flex items-center gap-2 px-2.5 py-2 rounded-xl text-cyan-300 hover:bg-cyan-500/10 transition-colors font-medium text-left"
+                              >
+                                <RefreshCw className={`w-3.5 h-3.5 text-cyan-400 ${syncingProjectId === linkedProject.id ? 'animate-spin' : ''}`} />
+                                <span>Sync pgvector</span>
+                              </button>
+
+                              <a
+                                href={repo.html_url}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="w-full flex items-center gap-2 px-2.5 py-2 rounded-xl text-slate-300 hover:bg-white/5 transition-colors font-medium text-left"
+                              >
+                                <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
+                                <span>View on GitHub</span>
+                              </a>
+
+                              <div className="h-px bg-white/10 my-1" />
+
+                              <button
+                                onClick={() => handleDetachRepo(linkedProject.id)}
+                                disabled={detachingProjectId === linkedProject.id}
+                                className="w-full flex items-center gap-2 px-2.5 py-2 rounded-xl text-rose-400 hover:bg-rose-500/10 transition-colors font-medium text-left"
+                              >
+                                <Unlink className="w-3.5 h-3.5 text-rose-400" />
+                                <span>Detach Repository</span>
+                              </button>
+                            </div>
+                          )}
+                        </div>
                       ) : (
                         <button
                           onClick={() => handleQuickImport(repo)}
                           disabled={isImporting}
-                          className="px-2.5 py-1 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-[10px] flex items-center gap-1 shadow-sm transition-all disabled:opacity-50"
+                          className="px-2.5 py-1 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-[10px] flex items-center gap-1 shadow-sm transition-all disabled:opacity-50"
                         >
                           {isImporting ? (
                             <Loader2 className="w-3 h-3 animate-spin" />
@@ -307,7 +412,7 @@ export default function ProjectsPage() {
       {/* Main Grid: Manual Form & Existing Active Projects */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Create / Customize Project Form (1 col) */}
-        <div className="glass-panel p-6 rounded-3xl border border-white/10 space-y-4">
+        <div className="rounded-3xl bg-[#080B14] p-6 border border-white/[0.08] space-y-4">
           <div className="flex items-center gap-2 font-bold text-sm text-white">
             <Plus className="w-4 h-4 text-indigo-400" />
             <span>Create Custom Project</span>
@@ -323,7 +428,7 @@ export default function ProjectsPage() {
                     if (selected) handleSelectRepo(selected);
                   }}
                   value={repoFullName}
-                  className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3.5 py-2.5 text-slate-100 focus:outline-none focus:border-indigo-500 font-mono text-xs"
+                  className="w-full bg-[#0C121E] border border-slate-800 rounded-xl px-3.5 py-2.5 text-slate-100 focus:outline-none focus:border-indigo-500 font-mono text-xs"
                 >
                   <option value="">-- Choose from your GitHub repos --</option>
                   {githubRepos.map((r) => (
@@ -338,7 +443,7 @@ export default function ProjectsPage() {
                   value={repoFullName}
                   onChange={(e) => setRepoFullName(e.target.value)}
                   placeholder="e.g. acme-corp/payments-service"
-                  className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3.5 py-2.5 text-slate-100 placeholder-slate-500 focus:outline-none focus:border-indigo-500 font-mono"
+                  className="w-full bg-[#0C121E] border border-slate-800 rounded-xl px-3.5 py-2.5 text-slate-100 placeholder-slate-500 focus:outline-none focus:border-indigo-500 font-mono"
                 />
               )}
             </div>
@@ -354,7 +459,7 @@ export default function ProjectsPage() {
                   if (!slug) setSlug(e.target.value.toLowerCase().replace(/[^a-z0-9]/g, '-'));
                 }}
                 placeholder="e.g. Payments Microservice"
-                className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3.5 py-2.5 text-slate-100 placeholder-slate-500 focus:outline-none focus:border-indigo-500"
+                className="w-full bg-[#0C121E] border border-slate-800 rounded-xl px-3.5 py-2.5 text-slate-100 placeholder-slate-500 focus:outline-none focus:border-indigo-500"
               />
             </div>
 
@@ -366,7 +471,7 @@ export default function ProjectsPage() {
                 value={slug}
                 onChange={(e) => setSlug(e.target.value)}
                 placeholder="payments-microservice"
-                className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3.5 py-2.5 text-slate-100 placeholder-slate-500 focus:outline-none focus:border-indigo-500 font-mono"
+                className="w-full bg-[#0C121E] border border-slate-800 rounded-xl px-3.5 py-2.5 text-slate-100 placeholder-slate-500 focus:outline-none focus:border-indigo-500 font-mono"
               />
             </div>
 
@@ -377,7 +482,7 @@ export default function ProjectsPage() {
                 onChange={(e) => setDescription(e.target.value)}
                 rows={2}
                 placeholder="Core payment gateway service with Docker & GitHub Actions"
-                className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3.5 py-2.5 text-slate-100 placeholder-slate-500 focus:outline-none focus:border-indigo-500"
+                className="w-full bg-[#0C121E] border border-slate-800 rounded-xl px-3.5 py-2.5 text-slate-100 placeholder-slate-500 focus:outline-none focus:border-indigo-500"
               />
             </div>
 
@@ -401,57 +506,117 @@ export default function ProjectsPage() {
           </div>
 
           {projects.length === 0 ? (
-            <div className="glass-panel p-8 rounded-3xl border border-white/5 text-center text-xs text-slate-400">
+            <div className="rounded-3xl bg-[#080B14] p-8 border border-white/[0.06] text-center text-xs text-slate-400">
               No projects created yet. Import a repository from above or use the form to get started.
             </div>
           ) : (
-            projects.map((proj) => (
-              <div
-                key={proj.id}
-                className="p-5 rounded-2xl glass-panel border border-white/5 hover:border-indigo-500/30 transition-all space-y-3 shadow-lg"
-              >
-                <div className="flex items-start justify-between">
-                  <div className="space-y-1">
-                    <div className="flex items-center gap-2">
-                      <FolderGit2 className="w-4 h-4 text-indigo-400" />
-                      <h3 className="text-sm font-bold text-slate-100">{proj.name}</h3>
-                      <span className="px-2 py-0.5 rounded text-[10px] bg-slate-800 text-slate-300 font-mono">
-                        {proj.slug}
-                      </span>
+            projects.map((proj) => {
+              const isDropdownOpen = activeDropdownId === `proj-${proj.id}`;
+
+              return (
+                <div
+                  key={proj.id}
+                  className="p-5 rounded-2xl bg-[#080B14] border border-white/[0.06] hover:border-indigo-500/30 transition-all space-y-3 shadow-lg relative"
+                >
+                  <div className="flex items-start justify-between">
+                    <div className="space-y-1">
+                      <div className="flex items-center gap-2">
+                        <FolderGit2 className="w-4 h-4 text-indigo-400" />
+                        <h3 className="text-sm font-bold text-slate-100">{proj.name}</h3>
+                        <span className="px-2 py-0.5 rounded text-[10px] bg-slate-800 text-slate-300 font-mono">
+                          {proj.slug}
+                        </span>
+                      </div>
+                      {proj.description && (
+                        <p className="text-xs text-slate-400">{proj.description}</p>
+                      )}
                     </div>
-                    {proj.description && (
-                      <p className="text-xs text-slate-400">{proj.description}</p>
-                    )}
+
+                    {/* Manage Dropdown on Active Project Card */}
+                    <div className="relative">
+                      <button
+                        type="button"
+                        onClick={() => setActiveDropdownId(isDropdownOpen ? null : `proj-${proj.id}`)}
+                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold shadow-md glow-indigo transition-all"
+                      >
+                        <span>Manage</span>
+                        <ChevronDown className={`w-3.5 h-3.5 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
+                      </button>
+
+                      {isDropdownOpen && (
+                        <div className="absolute right-0 top-full mt-1.5 w-52 bg-[#0c121e] border border-slate-700 shadow-2xl rounded-2xl p-2 z-50 animate-in fade-in zoom-in-95 duration-150 ring-1 ring-white/10 text-xs">
+                          <button
+                            onClick={() => handleInvestigate(proj.id)}
+                            className="w-full flex items-center gap-2 px-2.5 py-2 rounded-xl text-emerald-300 hover:bg-emerald-500/10 transition-colors font-medium text-left"
+                          >
+                            <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
+                            <span>Investigate Codebase</span>
+                          </button>
+
+                          <button
+                            onClick={() => handleSyncProject(proj.id)}
+                            disabled={syncingProjectId === proj.id}
+                            className="w-full flex items-center gap-2 px-2.5 py-2 rounded-xl text-cyan-300 hover:bg-cyan-500/10 transition-colors font-medium text-left"
+                          >
+                            <RefreshCw className={`w-3.5 h-3.5 text-cyan-400 ${syncingProjectId === proj.id ? 'animate-spin' : ''}`} />
+                            <span>Sync pgvector</span>
+                          </button>
+
+                          <Link
+                            href="/knowledge"
+                            className="w-full flex items-center gap-2 px-2.5 py-2 rounded-xl text-indigo-300 hover:bg-indigo-500/10 transition-colors font-medium text-left"
+                          >
+                            <BookOpen className="w-3.5 h-3.5 text-indigo-400" />
+                            <span>View Runbooks</span>
+                          </Link>
+
+                          {proj.repository?.repo_full_name && (
+                            <a
+                              href={`https://github.com/${proj.repository.repo_full_name}`}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="w-full flex items-center gap-2 px-2.5 py-2 rounded-xl text-slate-300 hover:bg-white/5 transition-colors font-medium text-left"
+                            >
+                              <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
+                              <span>View on GitHub</span>
+                            </a>
+                          )}
+
+                          <div className="h-px bg-white/10 my-1" />
+
+                          <button
+                            onClick={() => handleDetachRepo(proj.id)}
+                            disabled={detachingProjectId === proj.id}
+                            className="w-full flex items-center gap-2 px-2.5 py-2 rounded-xl text-rose-400 hover:bg-rose-500/10 transition-colors font-medium text-left"
+                          >
+                            <Unlink className="w-3.5 h-3.5 text-rose-400" />
+                            <span>Detach Repository</span>
+                          </button>
+                        </div>
+                      )}
+                    </div>
                   </div>
 
-                  <Link
-                    href="/workspace"
-                    className="px-3 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold flex items-center gap-1.5 shadow-md glow-indigo transition-all"
-                  >
-                    <span>Investigate</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </Link>
-                </div>
-
-                <div className="pt-2 border-t border-white/5 flex items-center justify-between text-xs">
-                  <div className="flex items-center gap-2 font-mono text-slate-400">
-                    <GitBranch className="w-3.5 h-3.5 text-slate-500" />
-                    <span className="text-slate-300 font-medium">
-                      {proj.repository?.repo_full_name || 'No repository linked'}
-                    </span>
-                    {proj.repository && (
-                      <span className="px-1.5 py-0.5 rounded text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                        Linked
+                  <div className="pt-2 border-t border-white/[0.04] flex items-center justify-between text-xs">
+                    <div className="flex items-center gap-2 font-mono text-slate-400">
+                      <GitBranch className="w-3.5 h-3.5 text-slate-500" />
+                      <span className="text-slate-300 font-medium">
+                        {proj.repository?.repo_full_name || 'No repository linked'}
                       </span>
-                    )}
-                  </div>
+                      {proj.repository && (
+                        <span className="px-1.5 py-0.5 rounded text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                          Linked
+                        </span>
+                      )}
+                    </div>
 
-                  <span className="text-slate-500 text-[11px] font-mono">
-                    branch: {proj.default_branch}
-                  </span>
+                    <span className="text-slate-500 text-[11px] font-mono">
+                      branch: {proj.default_branch}
+                    </span>
+                  </div>
                 </div>
-              </div>
-            ))
+              );
+            })
           )}
         </div>
       </div>

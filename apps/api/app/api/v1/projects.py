@@ -129,3 +129,49 @@ async def connect_repository(
     )
 
     return repo
+
+
+@router.delete("/{project_id}")
+@router.post("/{project_id}/detach")
+async def detach_or_delete_project(
+    project_id: uuid.UUID,
+    current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+):
+    """Detach a repository / delete a project from the workspace."""
+    from sqlalchemy import delete
+    from app.models.repository import Repository
+    from app.models.document_chunk import DocumentChunk
+    from app.models.conversation import Conversation
+    from app.models.message import Message
+
+    stmt = select(Project).where(Project.id == project_id)
+    res = await db.execute(stmt)
+    proj = res.scalar_one_or_none()
+
+    if not proj:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Project not found")
+
+    await require_workspace_role(["owner", "admin", "developer"])(proj.workspace_id, current_user, db)
+
+    # Delete related document chunks in pgvector
+    stmt_chunks = delete(DocumentChunk).where(DocumentChunk.project_id == project_id)
+    await db.execute(stmt_chunks)
+
+    # Delete related conversations & messages
+    stmt_convs = select(Conversation.id).where(Conversation.project_id == project_id)
+    res_convs = await db.execute(stmt_convs)
+    conv_ids = res_convs.scalars().all()
+    if conv_ids:
+        await db.execute(delete(Message).where(Message.conversation_id.in_(conv_ids)))
+        await db.execute(delete(Conversation).where(Conversation.project_id == project_id))
+
+    # Delete repository connection
+    await db.execute(delete(Repository).where(Repository.project_id == project_id))
+
+    # Delete project record
+    await db.delete(proj)
+    await db.commit()
+
+    return {"message": "Project and repository detached successfully"}
+
