@@ -416,33 +416,72 @@ class MockLLMProvider(BaseLLMProvider):
         # ----------------------------------------------------------------------
         if any(w in last_msg for w in [
             "about", "what's this", "what is this", "overview", "summary",
-            "explain this repo", "tell me about", "what does this do", "purpose", "theme"
+            "explain this repo", "tell me about", "what does this do", "purpose", "theme", "whole repo"
         ]):
-            if is_trucker_dhaba:
+            if not has_tool_result and tools:
                 return LLMResponse(
-                    content=(
-                        f"### 📦 Repository Overview: `{repo_name}`\n\n"
-                        f"**`{repo_name}`** is an interactive web application for **Trucker's Dhaba**, a roadside highway restaurant and food ordering service.\n\n"
-                        f"#### 🚀 Application Architecture:\n"
-                        f"• **Frontend UI:** Fast Single Page Application bundled with **Vite** (`index.html`, `styles.css`, `app.js`).\n"
-                        f"• **Food Menu & Ordering:** Interactive Punjabi dhaba menu (Parathas, Dal Makhani, Kadai Paneer, Lassi, Chai) with category filtering and instant shopping cart calculations.\n"
-                        f"• **Theme & Styling:** Custom warm highway aesthetic featuring authentic dhaba background visuals, responsive food cards, and mobile-friendly touch targets.\n"
-                        f"• **Dev & Build Scripts:** Configured via `package.json` with `npm run dev` (Vite dev server) and `npm run build`.\n\n"
-                        f"Ask me to inspect `index.html`, `app.js`, `styles.css`, or run a CI/CD investigation!"
-                    ),
-                    finish_reason="stop",
+                    content=None,
+                    tool_calls=[
+                        LLMToolCall(
+                            id="call_overview_files_1",
+                            name="list_repository_files",
+                            arguments={},
+                        )
+                    ],
+                    finish_reason="tool_calls",
                 )
             else:
+                files_found: List[str] = []
+                if tool_results:
+                    try:
+                        data = json.loads(tool_results[0].get("content", "{}"))
+                        files_found = data.get("files", [])
+                    except Exception:
+                        pass
+
+                files_preview = ""
+                if files_found:
+                    files_preview = ", ".join([f"`{f}`" for f in files_found[:8]])
+                    if len(files_found) > 8:
+                        files_preview += f", and {len(files_found) - 8} more files"
+
+                has_pkg = any("package.json" in f for f in files_found)
+                has_html = any("index.html" in f or ".html" in f for f in files_found)
+                has_py = any(".py" in f or "requirements.txt" in f for f in files_found)
+                has_docker = any("docker" in f.lower() for f in files_found)
+                has_actions = any(".github" in f or "workflow" in f.lower() for f in files_found)
+
+                tech_stack = []
+                if has_pkg:
+                    tech_stack.append("**Node.js / JavaScript / TypeScript ecosystem** (`package.json`)")
+                if has_html:
+                    tech_stack.append("**HTML5 Single-Page Web Frontend**")
+                if has_py:
+                    tech_stack.append("**Python Backend Services & Data Pipelines**")
+                if has_docker:
+                    tech_stack.append("**Dockerized Container Architecture**")
+                if not tech_stack:
+                    tech_stack.append("**Modern Full-Stack Web Architecture**")
+
+                tech_list = "\n".join([f"• {t}" for t in tech_stack])
+                files_section = f"\n• **Discovered Key Files:** {files_preview}" if files_preview else ""
+
                 return LLMResponse(
                     content=(
-                        f"### 📦 Repository Overview: `{repo_name}`\n\n"
-                        f"**`{repo_name}`** is an active software project connected to your VoiceOps workspace.\n\n"
-                        f"• **Role:** {repo_clean_name} software service.\n"
-                        f"• **Branch Tracking:** Connected to `main` branch.\n"
-                        f"• **VoiceOps Capabilities Active:**\n"
-                        f"  - 🔍 **File Inspection:** Ask *\"Explain index.html\"* or *\"What is in package.json?\"*\n"
-                        f"  - 📊 **Pipeline Health:** Ask *\"Why did the latest CI/CD build fail?\"*\n"
-                        f"  - 📖 **Runbook Search:** Ask *\"Search docs for deployment configuration\"*"
+                        f"### 📦 Comprehensive Repository Analysis: `{repo_name}`\n\n"
+                        f"**`{repo_name}`** is an active software project connected to your VoiceOps autonomous DevOps studio.\n\n"
+                        f"#### 🏗️ Architecture & Core Components:\n"
+                        f"{tech_list}{files_section}\n"
+                        f"• **Branch & Versioning:** Actively synced to branch `main`.\n"
+                        f"• **Vector Memory Ingestion:** Ingested into Supabase `pgvector` (1536-dimensional semantic embeddings) for instant AI code retrieval.\n\n"
+                        f"#### 🔍 Key Modules & Capabilities:\n"
+                        f"1. **Frontend Presentation & Interaction:** Implements responsive UI components, user navigation, and client-side state handling.\n"
+                        f"2. **API & Data Processing:** Handles backend business logic, external API integrations, and database operations.\n"
+                        f"3. **Build & Package Automation:** Configured for automated dependency resolution, bundling, and environment deployment.\n\n"
+                        f"#### 💡 What You Can Ask Next:\n"
+                        f"• *\"Inspect index.html or package.json\"* to examine specific code and dependencies\n"
+                        f"• *\"What CI/CD pipelines are running?\"* to check GitHub Actions health\n"
+                        f"• *\"How do I run this repository locally?\"* for local environment setup instructions"
                     ),
                     finish_reason="stop",
                 )
