@@ -1,7 +1,7 @@
 'use client';
 
-import React from 'react';
-import { Bot, User, Volume2, ShieldCheck } from 'lucide-react';
+import React, { useState } from 'react';
+import { Bot, User, Volume2, ShieldCheck, Copy, Check, Sparkles } from 'lucide-react';
 import { Message, PendingApproval } from '@voiceops/shared';
 import { formatDate } from '@/lib/utils';
 import { CitationsCard } from './citations-card';
@@ -19,38 +19,50 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
   onSpeak,
   onRespondApproval,
 }) => {
+  const [copied, setCopied] = useState(false);
   const isUser = message.sender_type === 'user';
   const sources = message.metadata?.sources || message.metadata_json?.sources || [];
   const pendingApproval: PendingApproval | undefined =
     message.metadata?.pending_approval || message.metadata_json?.pending_approval;
 
+  const handleCopy = () => {
+    navigator.clipboard.writeText(message.content);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
   return (
-    <div className={`flex gap-3.5 my-4 ${isUser ? 'flex-row-reverse' : 'flex-row'}`}>
+    <div className={`flex gap-3.5 my-5 ${isUser ? 'flex-row-reverse' : 'flex-row'} group`}>
       {/* Avatar Icon */}
       <div
-        className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 shadow-md ${
+        className={`w-9 h-9 rounded-2xl flex items-center justify-center shrink-0 shadow-md ${
           isUser
-            ? 'bg-gradient-to-tr from-slate-700 to-slate-600 text-slate-200'
-            : 'bg-gradient-to-tr from-indigo-600 to-indigo-500 text-white glow-indigo'
+            ? 'bg-slate-800 border border-slate-700 text-slate-200'
+            : 'bg-gradient-to-tr from-indigo-600 to-indigo-500 text-white shadow-lg glow-indigo'
         }`}
       >
-        {isUser ? <User className="w-5 h-5" /> : <Bot className="w-5 h-5" />}
+        {isUser ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
       </div>
 
       {/* Message Content Body */}
       <div className={`max-w-2xl flex flex-col ${isUser ? 'items-end' : 'items-start'}`}>
-        <div className="flex items-center gap-2 mb-1 px-1">
-          <span className="text-xs font-semibold text-slate-300">
-            {isUser ? 'You' : 'VoiceOps'}
+        <div className="flex items-center gap-2 mb-1.5 px-1 text-[11px]">
+          <span className="font-semibold text-slate-300">
+            {isUser ? 'You' : 'VoiceOps AI'}
           </span>
-          <span className="text-[10px] text-slate-500">{formatDate(message.created_at)}</span>
+          {!isUser && (
+            <span className="px-2 py-0.2 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-[9px] font-mono text-indigo-300">
+              pgvector
+            </span>
+          )}
+          <span className="text-slate-500 font-mono text-[10px]">{formatDate(message.created_at)}</span>
         </div>
 
         <div
-          className={`p-4 rounded-2xl text-sm leading-relaxed ${
+          className={`p-5 rounded-3xl text-xs sm:text-sm leading-relaxed ${
             isUser
-              ? 'bg-indigo-600/90 text-white rounded-tr-none shadow-md'
-              : 'glass-panel text-slate-200 rounded-tl-none border border-white/10 shadow-lg'
+              ? 'bg-gradient-to-r from-indigo-600 to-indigo-500 text-white rounded-tr-sm shadow-md'
+              : 'bg-[#090E1A] text-slate-200 rounded-tl-sm border border-white/[0.08] shadow-2xl space-y-3'
           }`}
         >
           <MarkdownContent content={message.content} isUser={isUser} />
@@ -69,15 +81,27 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
           {!isUser && sources.length > 0 && <CitationsCard sources={sources} />}
         </div>
 
-        {/* Audio Replay action for Agent messages */}
-        {!isUser && onSpeak && (
-          <div className="flex items-center gap-2 mt-1.5 px-1">
+        {/* Action toolbar for Agent messages */}
+        {!isUser && (
+          <div className="flex items-center gap-3 mt-1.5 px-1 opacity-80 group-hover:opacity-100 transition-opacity">
+            {onSpeak && (
+              <button
+                onClick={() => onSpeak(message.content)}
+                className="flex items-center gap-1.5 text-[11px] text-slate-400 hover:text-indigo-400 transition-colors font-mono"
+                title="Read response aloud"
+              >
+                <Volume2 className="w-3.5 h-3.5" />
+                <span>Read aloud</span>
+              </button>
+            )}
+
             <button
-              onClick={() => onSpeak(message.content)}
-              className="flex items-center gap-1 text-[11px] text-slate-400 hover:text-indigo-400 transition-colors"
+              onClick={handleCopy}
+              className="flex items-center gap-1 text-[11px] text-slate-400 hover:text-slate-200 transition-colors font-mono"
+              title="Copy markdown content"
             >
-              <Volume2 className="w-3.5 h-3.5" />
-              <span>Read aloud</span>
+              {copied ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+              <span>{copied ? 'Copied' : 'Copy'}</span>
             </button>
           </div>
         )}
