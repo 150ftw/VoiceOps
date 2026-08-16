@@ -21,21 +21,40 @@ from app.core.redis import close_redis_pool, get_redis_pool
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup
-    setup_logging()
-    logger.info("Starting VoiceOps API server", environment=settings.ENVIRONMENT)
+    try:
+        setup_logging()
+    except Exception:
+        pass
+
+    try:
+        logger.info("Starting VoiceOps API server", environment=settings.ENVIRONMENT)
+    except Exception:
+        pass
+
     try:
         await init_db_schema()
     except Exception as e:
-        logger.warning("Database schema initialization skipped", error=str(e))
+        try:
+            logger.warning("Database schema initialization skipped", error=str(e))
+        except Exception:
+            pass
 
     try:
-        await get_redis_pool()
+        if not os.getenv("VERCEL"):
+            await get_redis_pool()
     except Exception as e:
-        logger.warning("Redis initial connection warning", error=str(e))
+        try:
+            logger.warning("Redis initial connection warning", error=str(e))
+        except Exception:
+            pass
+
     yield
+
     # Shutdown
-    logger.info("Shutting down VoiceOps API server")
-    await close_redis_pool()
+    try:
+        await close_redis_pool()
+    except Exception:
+        pass
 
 
 app = FastAPI(

@@ -56,8 +56,10 @@ def get_engine_args(db_url: str) -> dict:
 
 # Choose Database URL
 active_db_url = settings.DATABASE_URL
-if settings.USE_SQLITE_FALLBACK:
-    active_db_url = "sqlite+aiosqlite:///./voiceops.db"
+if os.getenv("VERCEL") or settings.USE_SQLITE_FALLBACK:
+    active_db_url = "sqlite+aiosqlite:////tmp/voiceops.db"
+elif "localhost" in settings.DATABASE_URL and not os.getenv("DATABASE_URL") and not os.getenv("POSTGRES_URL"):
+    active_db_url = "sqlite+aiosqlite:////tmp/voiceops.db"
 
 engine: AsyncEngine = create_async_engine(
     active_db_url,
