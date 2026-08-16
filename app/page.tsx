@@ -447,8 +447,8 @@ export default function LandingPage() {
                   image: 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?q=80&w=600&h=400&fit=crop&auto=format',
                 },
                 {
-                  link: '#capabilities',
-                  text: 'Architecture & Security',
+                  link: '/founder',
+                  text: 'Founder // Shivam Sharma',
                   image: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=600&h=400&fit=crop&auto=format',
                 },
                 {
@@ -854,12 +854,18 @@ export default function LandingPage() {
             <span className="text-slate-600 font-normal">&bull; Autonomous DevOps Engineering</span>
           </div>
 
-          <div className="flex items-center gap-6 text-slate-400">
+          <div className="flex flex-wrap items-center gap-6 text-slate-400">
             <Link href="/workspace" className="hover:text-purple-300 transition-colors uppercase">
               Workspace
             </Link>
             <Link href="/projects" className="hover:text-purple-300 transition-colors uppercase">
               Projects
+            </Link>
+            <Link href="/knowledge" className="hover:text-purple-300 transition-colors uppercase">
+              Knowledge
+            </Link>
+            <Link href="/founder" className="text-purple-300 font-bold hover:text-white transition-colors uppercase">
+              Founder
             </Link>
             <a
               href="https://github.com/150ftw/VoiceOps"
@@ -867,7 +873,7 @@ export default function LandingPage() {
               rel="noopener noreferrer"
               className="hover:text-purple-300 transition-colors uppercase"
             >
-              GitHub
+              GitHub ↗
             </a>
           </div>
 
