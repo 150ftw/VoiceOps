@@ -2,6 +2,8 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
+import logoImg from '../public/logo.png';
 import {
   Mic,
   Zap,
@@ -228,8 +230,8 @@ export default function LandingPage() {
           {/* Top Bar with Logo and Close Button */}
           <div className="h-20 px-6 sm:px-12 flex items-center justify-between border-b border-purple-500/20 bg-[#030206]/90 backdrop-blur-md">
             <div className="flex items-center gap-3">
-              <img
-                src="/logo.png"
+              <Image
+                src={logoImg}
                 alt="VoiceOps Logo"
                 className="w-8 h-8 object-contain drop-shadow-[0_0_12px_rgba(168,85,247,0.6)]"
               />
@@ -309,9 +311,10 @@ export default function LandingPage() {
             <div className="absolute w-72 sm:w-96 md:w-[480px] h-72 sm:h-96 md:h-[480px] bg-purple-600/30 rounded-full blur-[90px] group-hover:w-[580px] group-hover:h-[580px] group-hover:bg-purple-500/55 group-hover:blur-[120px] transition-all duration-700 ease-out animate-pulse-subtle" />
 
             {/* Glowing Crystalline Hologram */}
-            <img
-              src="/logo.png"
+            <Image
+              src={logoImg}
               alt="VoiceOps Logo Backdrop"
+              priority
               className="w-72 sm:w-96 md:w-[460px] lg:w-[500px] h-auto object-contain mix-blend-screen opacity-40 sm:opacity-50 scale-95 group-hover:scale-130 group-hover:opacity-100 group-hover:brightness-125 group-hover:-translate-y-4 transition-all duration-700 ease-out drop-shadow-[0_0_50px_rgba(168,85,247,0.6)] group-hover:drop-shadow-[0_0_120px_rgba(192,132,252,0.95)]"
               style={{ animation: 'float 7s ease-in-out infinite' }}
             />
@@ -650,8 +653,8 @@ export default function LandingPage() {
       <footer className="border-t border-purple-500/10 bg-[#010103] py-12 px-6 relative z-10 text-xs text-slate-500 font-mono">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2.5 text-slate-300 font-bold">
-            <img
-              src="/logo.png"
+            <Image
+              src={logoImg}
               alt="VoiceOps Logo"
               className="w-5 h-5 object-contain drop-shadow-[0_0_10px_rgba(168,85,247,0.5)]"
             />

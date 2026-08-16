@@ -2,7 +2,9 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import logoImg from '@/public/logo.png';
 import {
   Zap,
   Lock,
@@ -142,9 +144,10 @@ export default function RegisterPage() {
           <Link href="/" className="inline-block group">
             <div className="relative">
               <div className="absolute -inset-4 bg-purple-600/30 rounded-full blur-xl group-hover:bg-purple-500/50 transition-all duration-500" />
-              <img
-                src="/logo.png"
+              <Image
+                src={logoImg}
                 alt="VoiceOps Logo"
+                priority
                 className="relative w-14 h-14 mx-auto object-contain drop-shadow-[0_0_25px_rgba(168,85,247,0.8)] group-hover:scale-110 transition-transform duration-300"
               />
             </div>
