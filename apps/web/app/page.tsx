@@ -360,33 +360,6 @@ export default function LandingPage() {
             </div>
           </Link>
         </div>
-
-        {/* Bottom Left Cookies / Telemetry Brutalist Box */}
-        {showTelemetryBox && (
-          <div className="fixed bottom-6 left-6 z-40 w-72 p-4 rounded-2xl bg-[#090514]/95 border border-purple-500/30 backdrop-blur-xl shadow-2xl font-mono text-left animate-in slide-in-from-bottom-3 duration-300">
-            <div className="flex items-center justify-between text-xs font-bold text-purple-300 pb-2 border-b border-purple-500/20">
-              <span className="tracking-wider uppercase">SYSTEM TELEMETRY</span>
-              <button
-                onClick={() => setShowTelemetryBox(false)}
-                className="hover:text-white text-purple-400 transition-colors"
-              >
-                [X]
-              </button>
-            </div>
-            <p className="text-[10px] text-slate-300 mt-2 leading-relaxed uppercase">
-              Streaming full-duplex WebSocket connected. 1536-dim embeddings synchronized.
-            </p>
-            <div className="pt-3 flex items-center justify-between">
-              <Link
-                href="/workspace"
-                className="text-[10px] font-bold text-purple-200 hover:text-white underline uppercase tracking-wider"
-              >
-                CONNECT MIC &rarr;
-              </Link>
-              <span className="text-[9px] text-emerald-400">● 100% OPERATIONAL</span>
-            </div>
-          </div>
-        )}
       </section>
 
       {/* Interactive DevOps Studio Console Simulation */}
@@ -606,6 +579,34 @@ export default function LandingPage() {
           </p>
         </div>
       </footer>
+
+      {/* Root-Level Floating System Telemetry Pop-up (z-[9999] over all content) */}
+      {showTelemetryBox && (
+        <div className="fixed bottom-6 left-6 z-[9999] w-80 p-4 rounded-2xl bg-[#090514]/98 border border-purple-500/40 backdrop-blur-2xl shadow-[0_15px_60px_rgba(0,0,0,0.95)] font-mono text-left animate-in fade-in slide-in-from-bottom-5 duration-500">
+          <div className="flex items-center justify-between text-xs font-bold text-purple-300 pb-2 border-b border-purple-500/25">
+            <span className="tracking-wider uppercase">SYSTEM TELEMETRY</span>
+            <button
+              onClick={() => setShowTelemetryBox(false)}
+              className="hover:text-white text-purple-400 transition-colors p-1"
+              title="Close"
+            >
+              [X]
+            </button>
+          </div>
+          <p className="text-[11px] text-slate-300 mt-2.5 leading-relaxed uppercase">
+            Streaming full-duplex WebSocket connected. 1536-dim embeddings synchronized.
+          </p>
+          <div className="pt-3.5 flex items-center justify-between">
+            <Link
+              href="/workspace"
+              className="text-[11px] font-bold text-purple-200 hover:text-white underline uppercase tracking-wider"
+            >
+              CONNECT MIC &rarr;
+            </Link>
+            <span className="text-[10px] text-emerald-400 font-semibold">● 100% OPERATIONAL</span>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
