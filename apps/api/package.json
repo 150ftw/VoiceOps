@@ -1,0 +1,7 @@
+{
+  "name": "voiceops-api",
+  "private": true,
+  "scripts": {
+    "build": "npm --prefix apps/web run build"
+  }
+}
