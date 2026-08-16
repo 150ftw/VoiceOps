@@ -59,15 +59,16 @@ export default function IntegrationsPage() {
       const urlData = await apiRequest('/auth/github/url').catch(() => null);
       if (urlData?.configured && urlData?.auth_url) {
         window.location.href = urlData.auth_url;
-      } else {
-        setMessage({
-          text: 'GitHub OAuth App is in Demo Mode. Connect with a Personal Access Token below for custom live repositories.',
-          type: 'success',
-        });
+        return;
       }
-    } catch (err: any) {
-      setMessage({ text: err.message || 'Failed to initiate GitHub OAuth', type: 'error' });
+    } catch {
+      // ignore
     }
+
+    const clientId = process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID || 'Ov23livqbvm2o1wqn6oE';
+    const redirectUri = `${window.location.origin}/callback/github`;
+    const scope = 'user:email,repo,workflow,read:org';
+    window.location.href = `https://github.com/login/oauth/authorize?client_id=${clientId}&scope=${encodeURIComponent(scope)}&redirect_uri=${encodeURIComponent(redirectUri)}`;
   };
 
   const handleConnectPAT = async (e: React.FormEvent) => {

@@ -30,15 +30,17 @@ function LoginContent() {
       const urlData = await apiRequest('/auth/github/url').catch(() => null);
       if (urlData?.configured && urlData?.auth_url) {
         window.location.href = urlData.auth_url;
-      } else {
-        // Fallback — still redirect but show error about missing config
-        setError('GitHub OAuth is not configured. Please contact the administrator.');
-        setIsLoading(false);
+        return;
       }
-    } catch (err: any) {
-      setError(err.message || 'Failed to initiate GitHub login.');
-      setIsLoading(false);
+    } catch {
+      // ignore and use direct OAuth URL
     }
+
+    // Direct GitHub OAuth authorization URL
+    const clientId = process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID || 'Ov23livqbvm2o1wqn6oE';
+    const redirectUri = `${window.location.origin}/callback/github`;
+    const scope = 'user:email,repo,workflow,read:org';
+    window.location.href = `https://github.com/login/oauth/authorize?client_id=${clientId}&scope=${encodeURIComponent(scope)}&redirect_uri=${encodeURIComponent(redirectUri)}`;
   };
 
   return (
