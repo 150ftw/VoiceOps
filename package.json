@@ -9,6 +9,11 @@
     "lint": "npm --prefix apps/web run lint",
     "test:backend": "cd apps/api && PYTHONPATH=. .venv/bin/pytest -v"
   },
+  "dependencies": {
+    "next": "^14.2.35",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
   "workspaces": [
     "apps/*",
     "packages/*"
