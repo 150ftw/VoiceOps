@@ -296,31 +296,34 @@ export default function LandingPage() {
 
       {/* Hero Section — Editorial Brutalist Showcase */}
       <section className="relative pt-24 pb-16 px-6 sm:px-12 max-w-6xl mx-auto flex flex-col items-center justify-center min-h-[75vh] text-center z-10 select-none">
-        {/* Floating 3D Crystalline Logo Hologram */}
-        <div className="relative mb-4 group cursor-pointer">
-          <div className="absolute -inset-6 bg-purple-600/30 rounded-full blur-2xl group-hover:bg-purple-500/50 transition-all duration-700 animate-pulse-subtle" />
-          <img
-            src="/logo.png"
-            alt="VoiceOps Holographic Logo"
-            className="relative w-16 h-16 sm:w-20 sm:h-20 mx-auto object-contain drop-shadow-[0_0_35px_rgba(168,85,247,0.85)] group-hover:scale-110 transition-transform duration-500"
-            style={{ animation: 'float 6s ease-in-out infinite' }}
-          />
-        </div>
-
         {/* Top Sub-Header */}
-        <p className="font-mono text-xs sm:text-sm text-purple-300/90 tracking-[0.25em] uppercase mb-2">
+        <p className="font-mono text-xs sm:text-sm text-purple-300/90 tracking-[0.25em] uppercase mb-4">
           Autonomous DevOps Voice Engine
         </p>
 
-        {/* Massive Centerpiece Display Headline with Laser Scan Beam */}
-        <div className="relative w-full max-w-4xl mx-auto overflow-hidden py-1">
+        {/* Massive Centerpiece Display Headline with Luminous V Logo Backdrop */}
+        <div className="relative w-full max-w-5xl mx-auto flex items-center justify-center py-6 my-2">
+          {/* Giant Luminous V Logo Backdrop behind typography */}
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <div className="absolute w-80 sm:w-96 md:w-[480px] h-80 sm:h-96 md:h-[480px] bg-purple-600/35 rounded-full blur-[100px] animate-pulse-subtle" />
+            <img
+              src="/logo.png"
+              alt="VoiceOps Logo Backdrop"
+              className="w-72 sm:w-96 md:w-[480px] lg:w-[540px] h-auto object-contain opacity-45 sm:opacity-55 drop-shadow-[0_0_90px_rgba(168,85,247,0.8)]"
+              style={{ animation: 'float 7s ease-in-out infinite' }}
+            />
+          </div>
+
+          {/* Laser Scan Beam */}
           <div
             className="absolute inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-fuchsia-400 to-transparent blur-[1px] opacity-80 pointer-events-none z-20"
             style={{ animation: 'scan 5s ease-in-out infinite' }}
           />
-          <h1 className="text-6xl sm:text-8xl md:text-9xl lg:text-[10rem] font-glitch text-purple-200/95 tracking-[0.04em] sm:tracking-[0.06em] leading-[0.9] uppercase drop-shadow-[0_0_60px_rgba(168,85,247,0.4)] scale-y-95 my-2 w-full text-center">
+
+          {/* Foreground Glitch Typography */}
+          <h1 className="relative z-10 text-6xl sm:text-8xl md:text-9xl lg:text-[10rem] font-glitch text-purple-100 tracking-[0.04em] sm:tracking-[0.06em] leading-[0.9] uppercase drop-shadow-[0_0_60px_rgba(168,85,247,0.5)] scale-y-95 w-full text-center select-none">
             VOICE <br />
-            <span className="text-purple-300">OPS</span>
+            <span className="text-purple-200">OPS</span>
           </h1>
         </div>
 
