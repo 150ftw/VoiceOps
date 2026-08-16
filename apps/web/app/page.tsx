@@ -28,6 +28,14 @@ import {
   FileCode2,
   GitPullRequest,
   AlertTriangle,
+  Volume2,
+  VolumeX,
+  Code2,
+  Workflow,
+  Search,
+  KeyRound,
+  ExternalLink,
+  ChevronDown,
 } from 'lucide-react';
 import { apiRequest, clearAuthToken, getAuthToken } from '@/lib/api-client';
 
@@ -37,6 +45,8 @@ export default function LandingPage() {
   const [activeTab, setActiveTab] = useState<'diagnosis' | 'diff' | 'rag' | 'approval'>('diagnosis');
   const [isPlayingVoice, setIsPlayingVoice] = useState(false);
   const [mockApprovalDone, setMockApprovalDone] = useState(false);
+  const [selectedPrompt, setSelectedPrompt] = useState<string>("Why did my latest deployment to production fail?");
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   useEffect(() => {
     async function checkAuth() {
@@ -60,41 +70,71 @@ export default function LandingPage() {
   };
 
   const toggleMockVoice = () => {
-    setIsPlayingVoice(!isPlayingVoice);
-    if (!isPlayingVoice && typeof window !== 'undefined' && 'speechSynthesis' in window) {
+    if (isPlayingVoice) {
+      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+      setIsPlayingVoice(false);
+      return;
+    }
+
+    setIsPlayingVoice(true);
+    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
       window.speechSynthesis.cancel();
       const utterance = new SpeechSynthesisUtterance(
-        "I analyzed workflow run 1245. The Docker build failed due to Python 3.13 bcrypt incompatibility. Shall I open a GitHub issue with the patch?"
+        "I analyzed workflow run 1245 for demo-app. The Docker build failed due to Python 3.13 bcrypt incompatibility. Would you like me to open a pull request to patch it?"
       );
       utterance.rate = 1.05;
       utterance.onend = () => setIsPlayingVoice(false);
+      utterance.onerror = () => setIsPlayingVoice(false);
       window.speechSynthesis.speak(utterance);
-    } else if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
     }
   };
 
+  const interactivePrompts = [
+    {
+      title: "Pipeline Failure",
+      query: "Why did my latest deployment to production fail?",
+      tab: "diagnosis" as const,
+    },
+    {
+      title: "Commit Comparison",
+      query: "What changed between the last passing and failed build?",
+      tab: "diff" as const,
+    },
+    {
+      title: "Runbook Search",
+      query: "Search documentation for Docker compilation procedures",
+      tab: "rag" as const,
+    },
+    {
+      title: "Trigger Patch PR",
+      query: "Prepare an approved PR to downgrade Docker base image",
+      tab: "approval" as const,
+    },
+  ];
+
   return (
-    <div className="min-h-screen bg-[#07090E] text-slate-100 selection:bg-indigo-500/30 selection:text-indigo-200 relative overflow-hidden font-sans">
-      {/* Ambient Backdrop Mesh Lights */}
+    <div className="min-h-screen bg-[#05070D] text-slate-100 selection:bg-indigo-500/30 selection:text-indigo-200 relative overflow-hidden font-sans antialiased">
+      {/* Dynamic Ambient Background Illumination */}
       <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
-        <div className="absolute top-[-10%] left-[20%] w-[650px] h-[550px] bg-gradient-to-br from-indigo-600/18 via-purple-600/12 to-transparent rounded-full blur-[140px]" />
-        <div className="absolute top-[35%] right-[-5%] w-[550px] h-[550px] bg-gradient-to-bl from-cyan-500/15 via-indigo-600/10 to-transparent rounded-full blur-[130px]" />
-        <div className="absolute bottom-[10%] left-[5%] w-[600px] h-[500px] bg-gradient-to-tr from-emerald-500/10 via-indigo-900/15 to-transparent rounded-full blur-[150px]" />
-        
-        {/* Subtle grid pattern overlay */}
-        <div 
-          className="absolute inset-0 opacity-[0.03]"
+        <div className="absolute top-[-15%] left-[25%] w-[750px] h-[650px] bg-gradient-to-br from-indigo-600/15 via-purple-600/10 to-transparent rounded-full blur-[160px]" />
+        <div className="absolute top-[40%] right-[-10%] w-[600px] h-[600px] bg-gradient-to-bl from-cyan-500/12 via-indigo-600/8 to-transparent rounded-full blur-[140px]" />
+        <div className="absolute bottom-[5%] left-[10%] w-[650px] h-[550px] bg-gradient-to-tr from-emerald-500/10 via-indigo-950/20 to-transparent rounded-full blur-[160px]" />
+
+        {/* Subtle grid pattern matrix */}
+        <div
+          className="absolute inset-0 opacity-[0.025]"
           style={{
             backgroundImage: `linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px)`,
-            backgroundSize: '48px 48px',
+            backgroundSize: '40px 40px',
           }}
         />
       </div>
 
-      {/* Floating Glass Navbar */}
+      {/* Floating Header Navigation */}
       <header className="sticky top-4 z-50 max-w-6xl mx-auto px-4 sm:px-6">
-        <nav className="h-16 rounded-2xl bg-[#0c121e]/85 backdrop-blur-xl border border-white/10 px-5 flex items-center justify-between shadow-2xl shadow-black/60">
+        <nav className="h-16 rounded-2xl bg-[#090E1A]/85 backdrop-blur-xl border border-white/10 px-5 flex items-center justify-between shadow-2xl shadow-black/80">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-cyan-400 flex items-center justify-center text-white shadow-lg glow-indigo">
               <Zap className="w-4 h-4 fill-current" />
@@ -103,7 +143,7 @@ export default function LandingPage() {
               <span className="text-base font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-100 to-slate-400 bg-clip-text text-transparent">
                 VoiceOps
               </span>
-              <span className="px-2 py-0.5 rounded-full text-[9px] font-mono uppercase bg-indigo-500/15 text-indigo-300 border border-indigo-500/30">
+              <span className="px-2 py-0.5 rounded-full text-[9px] font-mono uppercase bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
                 v1.0
               </span>
             </div>
@@ -111,7 +151,7 @@ export default function LandingPage() {
 
           <div className="hidden md:flex items-center gap-7 text-xs font-medium text-slate-400">
             <a href="#console-preview" className="hover:text-white transition-colors">
-              Live Console
+              Studio Console
             </a>
             <a href="#capabilities" className="hover:text-white transition-colors">
               Capabilities
@@ -119,38 +159,35 @@ export default function LandingPage() {
             <a href="#architecture" className="hover:text-white transition-colors">
               Architecture
             </a>
-            <a 
-              href="https://github.com/150ftw/VoiceOps" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="flex items-center gap-1.5 hover:text-white transition-colors"
-            >
-              <Github className="w-3.5 h-3.5" />
-              <span>GitHub</span>
+            <a href="#faq" className="hover:text-white transition-colors">
+              FAQ
             </a>
           </div>
 
           <div className="flex items-center gap-3">
+            <a
+              href="https://github.com/150ftw/VoiceOps"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-xs font-medium text-slate-300 transition-colors border border-white/5"
+            >
+              <Github className="w-3.5 h-3.5" />
+              <span>GitHub</span>
+            </a>
+
             {currentUser ? (
               <div className="flex items-center gap-2.5">
-                <Link
-                  href="/overview"
-                  className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-xs font-semibold text-slate-300 transition-colors border border-white/5"
-                >
-                  <LayoutDashboard className="w-3.5 h-3.5 text-indigo-400" />
-                  <span>Dashboard</span>
-                </Link>
                 <Link
                   href="/workspace"
                   className="flex items-center gap-1.5 px-4 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold shadow-lg glow-indigo transition-all transform hover:-translate-y-0.5"
                 >
                   <Mic className="w-3.5 h-3.5" />
-                  <span>Open Workspace</span>
+                  <span>Workspace</span>
                 </Link>
                 <button
                   onClick={handleSignOut}
                   title="Sign Out"
-                  className="p-2 rounded-xl bg-slate-900/80 border border-slate-800 text-slate-400 hover:text-rose-400 transition-colors text-xs"
+                  className="p-2 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 hover:text-rose-400 transition-colors text-xs"
                 >
                   <LogOut className="w-3.5 h-3.5" />
                 </button>
@@ -159,7 +196,7 @@ export default function LandingPage() {
               <div className="flex items-center gap-2.5">
                 <Link
                   href="/login"
-                  className="px-3.5 py-1.5 text-xs font-medium text-slate-300 hover:text-white transition-colors"
+                  className="px-3 py-1.5 text-xs font-medium text-slate-300 hover:text-white transition-colors"
                 >
                   Sign In
                 </Link>
@@ -176,36 +213,36 @@ export default function LandingPage() {
       </header>
 
       {/* Hero Section */}
-      <section className="relative pt-16 pb-20 px-6 max-w-6xl mx-auto text-center space-y-7">
-        {/* Status Pill */}
-        <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-slate-900/90 border border-slate-700/60 shadow-lg text-slate-300 text-xs font-medium">
+      <section className="relative pt-16 pb-16 px-6 max-w-6xl mx-auto text-center space-y-7">
+        {/* Shimmer Announcement Pill */}
+        <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-slate-900/90 border border-slate-700/60 shadow-lg text-slate-300 text-xs font-medium backdrop-blur-md">
           <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-          <span className="text-slate-300">Live Agentic DevOps Intelligence</span>
+          <span className="text-slate-200">Autonomous DevOps Intelligence</span>
           <span className="text-slate-600">&bull;</span>
-          <span className="text-indigo-400 font-mono text-[11px]">pgvector + Whisper v3</span>
+          <span className="text-indigo-400 font-mono text-[11px]">pgvector Memory + Whisper v3</span>
         </div>
 
-        {/* Main Headline */}
+        {/* Hero Title */}
         <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white max-w-4xl mx-auto leading-[1.08]">
-          DevOps at the <br />
+          Talk to your infrastructure. <br />
           <span className="bg-gradient-to-r from-indigo-300 via-cyan-300 to-emerald-300 bg-clip-text text-transparent">
-            speed of voice.
+            Fix CI/CD in seconds.
           </span>
         </h1>
 
-        {/* Subtitle */}
+        {/* Hero Subtitle */}
         <p className="text-sm sm:text-base text-slate-400 max-w-2xl mx-auto leading-relaxed font-normal">
-          Inspect broken CI/CD pipelines, pinpoint stack trace root causes, query architecture runbooks with pgvector, and safely execute approved GitHub actions — entirely hands-free.
+          VoiceOps listens, traverses full GitHub repository trees, isolates build error stack traces, and prepares cryptographically approved fixes &mdash; without touching a terminal.
         </p>
 
-        {/* Hero CTAs */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 pt-2">
+        {/* Interactive Voice Orb & Action Bar */}
+        <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link
             href="/workspace"
-            className="w-full sm:w-auto px-7 py-3.5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs sm:text-sm shadow-xl glow-indigo transition-all flex items-center justify-center gap-2 transform hover:-translate-y-0.5"
+            className="w-full sm:w-auto px-7 py-3.5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs sm:text-sm shadow-xl glow-indigo transition-all flex items-center justify-center gap-2.5 transform hover:-translate-y-0.5"
           >
             <Mic className="w-4 h-4" />
-            <span>Launch Voice Workspace</span>
+            <span>Launch Live Voice Workspace</span>
             <ArrowRight className="w-4 h-4" />
           </Link>
 
@@ -219,31 +256,59 @@ export default function LandingPage() {
           >
             {isPlayingVoice ? (
               <>
-                <Radio className="w-4 h-4 text-rose-400 animate-pulse" />
-                <span>Playing Voice Feedback...</span>
+                <Volume2 className="w-4 h-4 text-rose-400 animate-pulse" />
+                <span>Playing AI Voice Synthesis...</span>
               </>
             ) : (
               <>
                 <Play className="w-3.5 h-3.5 text-indigo-400 fill-current" />
-                <span>Hear AI Voice Demo</span>
+                <span>Hear AI Voice Response</span>
               </>
             )}
           </button>
         </div>
 
-        {/* Active Repos Banner Ticker */}
-        <div className="pt-8 flex flex-wrap items-center justify-center gap-3 text-xs text-slate-500 font-mono">
-          <span className="text-slate-400">Supported Environments:</span>
-          <span className="px-2.5 py-1 rounded-lg bg-white/[0.03] border border-white/5 text-slate-300">GitHub Actions</span>
-          <span className="px-2.5 py-1 rounded-lg bg-white/[0.03] border border-white/5 text-slate-300">Docker & K8s</span>
-          <span className="px-2.5 py-1 rounded-lg bg-white/[0.03] border border-white/5 text-slate-300">Supabase pgvector</span>
-          <span className="px-2.5 py-1 rounded-lg bg-white/[0.03] border border-white/5 text-slate-300">Next.js & FastAPI</span>
+        {/* Interactive Audio Spectrum Waves */}
+        <div className="pt-4 flex items-center justify-center gap-1.5 h-8">
+          {[40, 65, 85, 30, 95, 60, 45, 80, 55, 90, 70, 40, 85, 60, 30, 75].map((h, i) => (
+            <span
+              key={i}
+              className={`w-1 rounded-full transition-all duration-300 ${
+                isPlayingVoice
+                  ? 'bg-gradient-to-t from-indigo-500 to-cyan-400 animate-pulse'
+                  : 'bg-slate-800'
+              }`}
+              style={{
+                height: isPlayingVoice ? `${Math.max(12, h * 0.35)}px` : '6px',
+                animationDelay: `${i * 60}ms`,
+              }}
+            />
+          ))}
+        </div>
+
+        {/* Quick Sample Queries */}
+        <div className="pt-2 flex flex-wrap items-center justify-center gap-2 max-w-2xl mx-auto">
+          <span className="text-slate-500 font-mono text-[11px] mr-1">Try Asking:</span>
+          {interactivePrompts.map((p) => (
+            <button
+              key={p.title}
+              onClick={() => {
+                setSelectedPrompt(p.query);
+                setActiveTab(p.tab);
+                const el = document.getElementById('console-preview');
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="px-3 py-1 rounded-xl bg-white/[0.03] hover:bg-indigo-500/15 border border-white/5 hover:border-indigo-500/30 text-slate-300 hover:text-white text-[11px] transition-all font-mono"
+            >
+              {p.title} &rarr;
+            </button>
+          ))}
         </div>
       </section>
 
       {/* Interactive Studio Console Simulation */}
-      <section id="console-preview" className="max-w-5xl mx-auto px-4 sm:px-6 py-6">
-        <div className="rounded-3xl bg-[#0B101D] border border-slate-700/70 shadow-2xl shadow-black/90 overflow-hidden ring-1 ring-white/10">
+      <section id="console-preview" className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
+        <div className="rounded-3xl bg-[#090E1A] border border-slate-700/70 shadow-2xl shadow-black overflow-hidden ring-1 ring-white/10">
           {/* Console Header Bar */}
           <div className="px-5 py-3.5 bg-slate-950/90 border-b border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div className="flex items-center gap-3">
@@ -253,7 +318,7 @@ export default function LandingPage() {
                 <span className="w-3 h-3 rounded-full bg-emerald-500/80" />
               </div>
               <span className="text-xs font-mono text-slate-400 font-medium">
-                VoiceOps Interactive Console &bull; <code className="text-indigo-300">150ftw/demo-app</code>
+                Live Studio Session &bull; <code className="text-indigo-300">150ftw/demo-app</code>
               </span>
             </div>
 
@@ -302,7 +367,7 @@ export default function LandingPage() {
             </div>
           </div>
 
-          {/* Interactive Content View */}
+          {/* Console Body View */}
           <div className="p-6 sm:p-8 space-y-6">
             {activeTab === 'diagnosis' && (
               <div className="space-y-4 animate-in fade-in duration-200">
@@ -312,7 +377,7 @@ export default function LandingPage() {
                     You
                   </div>
                   <div className="p-3.5 rounded-2xl bg-indigo-600 text-white text-xs max-w-lg leading-relaxed shadow-md">
-                    &ldquo;VoiceOps, why did the latest deployment pipeline fail?&rdquo;
+                    &ldquo;{selectedPrompt}&rdquo;
                   </div>
                 </div>
 
@@ -320,11 +385,11 @@ export default function LandingPage() {
                 <div className="p-3.5 rounded-2xl bg-slate-950/90 border border-white/5 space-y-2 font-mono text-xs">
                   <div className="flex items-center gap-2 text-cyan-400">
                     <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                    <span>Analyzed GitHub Actions run #1245 (Docker Build & Deploy)</span>
+                    <span>Analyzed GitHub Actions workflow run #1245 (Docker Build & Deploy)</span>
                   </div>
                   <div className="flex items-center gap-2 text-slate-400">
                     <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                    <span>Isolated stack trace error in <code>pip install -r requirements.txt</code></span>
+                    <span>Isolated stack trace error in <code>pip install -r requirements.txt</code> (Line 14)</span>
                   </div>
                 </div>
 
@@ -335,13 +400,13 @@ export default function LandingPage() {
                   </div>
                   <div className="p-5 rounded-2xl bg-slate-950/90 border border-slate-800 text-xs text-slate-200 max-w-2xl space-y-3 leading-relaxed">
                     <p className="font-medium text-slate-100">
-                      The build failed during containerized dependency compilation:
+                      The workflow failure occurred during containerized dependency installation:
                     </p>
                     <div className="p-3 rounded-xl bg-rose-950/30 border border-rose-500/30 font-mono text-[11px] text-rose-300">
                       TypeError: bcrypt==3.2.0 is incompatible with Python 3.13 runtime (Missing C-extension wheels).
                     </div>
                     <p className="text-slate-300">
-                      <strong>Root Cause:</strong> The base image in <code>Dockerfile</code> was bumped to Python 3.13 without upgrading pinned requirements.<br />
+                      <strong>Root Cause:</strong> The base image in <code>Dockerfile</code> was upgraded to Python 3.13 without upgrading pinned dependencies.<br />
                       <strong>Recommended Fix:</strong> Upgrade <code>bcrypt &ge; 4.0.0</code> or revert base image to <code>python:3.11-slim</code>.
                     </p>
                   </div>
@@ -359,7 +424,7 @@ export default function LandingPage() {
                     </span>
                     <span className="text-slate-500">File: Dockerfile</span>
                   </div>
-                  <pre className="p-3 rounded-xl bg-slate-900/90 font-mono text-xs leading-relaxed text-slate-300 overflow-x-auto">
+                  <pre className="p-3.5 rounded-xl bg-slate-900/90 font-mono text-xs leading-relaxed text-slate-300 overflow-x-auto">
                     <span className="text-rose-400">- FROM python:3.11-slim</span>
                     {'\n'}
                     <span className="text-emerald-400">+ FROM python:3.13-slim</span>
@@ -387,8 +452,8 @@ export default function LandingPage() {
                     </span>
                     <span className="text-slate-500">devops_runbook.md</span>
                   </div>
-                  <blockquote className="border-l-2 border-cyan-500 pl-3 py-1 text-xs text-slate-300 italic bg-cyan-500/[0.04] rounded-r-lg">
-                    &ldquo;When Docker builds encounter C-extension compilation crashes, ensure base Python runtime matches binary wheel specifications before deployment.&rdquo;
+                  <blockquote className="border-l-2 border-cyan-500 pl-3 py-1.5 text-xs text-slate-300 italic bg-cyan-500/[0.04] rounded-r-lg">
+                    &ldquo;When Docker builds encounter C-extension compilation crashes, ensure base Python runtime matches binary wheel specifications before blue/green deployment.&rdquo;
                   </blockquote>
                   <p className="text-xs text-slate-400">
                     VoiceOps automatically cross-references runbooks in pgvector to provide verified remediation steps.
@@ -408,12 +473,12 @@ export default function LandingPage() {
                       </h4>
                     </div>
                     <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-amber-500/20 text-amber-300 border border-amber-500/30">
-                      POST /repos/150ftw/demo-app/issues
+                      POST /repos/150ftw/demo-app/pulls
                     </span>
                   </div>
 
                   <p className="text-xs text-slate-300">
-                    VoiceOps prepared a new GitHub Issue: <strong>Fix Python 3.13 bcrypt incompatibility in Dockerfile</strong>
+                    VoiceOps prepared a new Pull Request: <strong>fix: downgrade Docker base image to python:3.11-slim</strong>
                   </p>
 
                   <div className="pt-2 flex items-center gap-3">
@@ -429,7 +494,7 @@ export default function LandingPage() {
                       {mockApprovalDone ? (
                         <>
                           <Check className="w-3.5 h-3.5" />
-                          <span>✓ Action Executed on GitHub</span>
+                          <span>✓ Pull Request #48 Created on GitHub</span>
                         </>
                       ) : (
                         <span>Approve & Execute</span>
@@ -453,16 +518,16 @@ export default function LandingPage() {
       <section id="capabilities" className="max-w-6xl mx-auto px-6 py-20 space-y-12">
         <div className="text-center space-y-3">
           <h2 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
-            Engineered for Mission-Critical DevOps
+            Engineered for Production DevOps
           </h2>
           <p className="text-xs sm:text-sm text-slate-400 max-w-lg mx-auto leading-relaxed">
-            A stateful agentic system connected directly to your repositories, CI/CD runners, and vector knowledge base.
+            Connected directly to GitHub Actions, repository trees, and vector memory.
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {/* Feature 1 */}
-          <div className="p-7 rounded-3xl bg-[#0c121e] border border-white/10 hover:border-indigo-500/40 transition-all space-y-3.5 shadow-xl group">
+          <div className="p-7 rounded-3xl bg-[#090E1A] border border-white/10 hover:border-indigo-500/40 transition-all space-y-3.5 shadow-xl group">
             <div className="w-11 h-11 rounded-2xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400 group-hover:scale-105 transition-transform">
               <Mic className="w-5 h-5" />
             </div>
@@ -473,7 +538,7 @@ export default function LandingPage() {
           </div>
 
           {/* Feature 2 */}
-          <div className="p-7 rounded-3xl bg-[#0c121e] border border-white/10 hover:border-cyan-500/40 transition-all space-y-3.5 shadow-xl group">
+          <div className="p-7 rounded-3xl bg-[#090E1A] border border-white/10 hover:border-cyan-500/40 transition-all space-y-3.5 shadow-xl group">
             <div className="w-11 h-11 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 group-hover:scale-105 transition-transform">
               <Terminal className="w-5 h-5" />
             </div>
@@ -484,7 +549,7 @@ export default function LandingPage() {
           </div>
 
           {/* Feature 3 */}
-          <div className="p-7 rounded-3xl bg-[#0c121e] border border-white/10 hover:border-emerald-500/40 transition-all space-y-3.5 shadow-xl group">
+          <div className="p-7 rounded-3xl bg-[#090E1A] border border-white/10 hover:border-emerald-500/40 transition-all space-y-3.5 shadow-xl group">
             <div className="w-11 h-11 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 group-hover:scale-105 transition-transform">
               <Database className="w-5 h-5" />
             </div>
@@ -495,7 +560,7 @@ export default function LandingPage() {
           </div>
 
           {/* Feature 4 */}
-          <div className="p-7 rounded-3xl bg-[#0c121e] border border-white/10 hover:border-amber-500/40 transition-all space-y-3.5 shadow-xl group">
+          <div className="p-7 rounded-3xl bg-[#090E1A] border border-white/10 hover:border-amber-500/40 transition-all space-y-3.5 shadow-xl group">
             <div className="w-11 h-11 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 group-hover:scale-105 transition-transform">
               <ShieldCheck className="w-5 h-5" />
             </div>
@@ -506,7 +571,7 @@ export default function LandingPage() {
           </div>
 
           {/* Feature 5 */}
-          <div className="p-7 rounded-3xl bg-[#0c121e] border border-white/10 hover:border-rose-500/40 transition-all space-y-3.5 shadow-xl group">
+          <div className="p-7 rounded-3xl bg-[#090E1A] border border-white/10 hover:border-rose-500/40 transition-all space-y-3.5 shadow-xl group">
             <div className="w-11 h-11 rounded-2xl bg-rose-500/10 border border-rose-500/30 flex items-center justify-center text-rose-400 group-hover:scale-105 transition-transform">
               <Lock className="w-5 h-5" />
             </div>
@@ -517,7 +582,7 @@ export default function LandingPage() {
           </div>
 
           {/* Feature 6 */}
-          <div className="p-7 rounded-3xl bg-[#0c121e] border border-white/10 hover:border-purple-500/40 transition-all space-y-3.5 shadow-xl group">
+          <div className="p-7 rounded-3xl bg-[#090E1A] border border-white/10 hover:border-purple-500/40 transition-all space-y-3.5 shadow-xl group">
             <div className="w-11 h-11 rounded-2xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400 group-hover:scale-105 transition-transform">
               <Layers className="w-5 h-5" />
             </div>
@@ -529,13 +594,13 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* System Architecture Flow */}
+      {/* Architecture Section */}
       <section id="architecture" className="max-w-5xl mx-auto px-6 py-12 space-y-8">
-        <div className="p-8 rounded-3xl bg-[#0c121e] border border-white/10 shadow-2xl space-y-6">
+        <div className="p-8 rounded-3xl bg-[#090E1A] border border-white/10 shadow-2xl space-y-6">
           <div className="flex items-center gap-3 border-b border-white/5 pb-4">
             <Cpu className="w-5 h-5 text-indigo-400" />
             <div>
-              <h3 className="text-sm font-bold text-white">Full-Duplex VoiceOps Architecture</h3>
+              <h3 className="text-sm font-bold text-white">Full-Duplex VoiceOps System Architecture</h3>
               <p className="text-xs text-slate-400">Deterministic tool execution with real-time audio pipeline</p>
             </div>
           </div>
@@ -565,9 +630,59 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* FAQ Section */}
+      <section id="faq" className="max-w-4xl mx-auto px-6 py-12 space-y-6">
+        <div className="text-center space-y-2">
+          <h2 className="text-xl sm:text-2xl font-bold text-white">Frequently Asked Questions</h2>
+          <p className="text-xs text-slate-400">Everything you need to know about VoiceOps</p>
+        </div>
+
+        <div className="space-y-3">
+          {[
+            {
+              q: "How does VoiceOps connect to my GitHub repositories?",
+              a: "VoiceOps uses official GitHub OAuth (or Personal Access Tokens) encrypted at rest using AES-128-CBC. It reads GitHub Actions workflow logs, runs, and repository files via the REST API.",
+            },
+            {
+              q: "Can the AI make unapproved changes or commits to my codebase?",
+              a: "Never. VoiceOps enforces strict cryptographic security guardrails. Any write operation (such as opening a Pull Request, creating an Issue, or retrying a build) pauses and requires explicit one-click developer approval before execution.",
+            },
+            {
+              q: "What AI models are supported?",
+              a: "VoiceOps features a Multi-Model Orchestrator supporting Google Gemini 1.5 Pro, OpenAI GPT-4o, Anthropic Claude 3.5 Sonnet, and DeepSeek R1.",
+            },
+            {
+              q: "How does the pgvector Knowledge Base work?",
+              a: "When you link a repository, VoiceOps parses documentation, Dockerfiles, and manifests into semantic embeddings stored in Supabase pgvector for sub-second similarity matching.",
+            },
+          ].map((item, idx) => {
+            const isOpen = openFaq === idx;
+            return (
+              <div
+                key={idx}
+                className="rounded-2xl bg-[#090E1A] border border-white/10 overflow-hidden transition-all"
+              >
+                <button
+                  onClick={() => setOpenFaq(isOpen ? null : idx)}
+                  className="w-full p-4 text-left flex items-center justify-between text-xs font-semibold text-slate-200 hover:text-white"
+                >
+                  <span>{item.q}</span>
+                  <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+                </button>
+                {isOpen && (
+                  <div className="px-4 pb-4 text-xs text-slate-400 leading-relaxed border-t border-white/5 pt-2">
+                    {item.a}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
       {/* CTA Footer Banner */}
       <section className="max-w-4xl mx-auto px-6 py-16 text-center space-y-6">
-        <div className="p-10 rounded-3xl bg-gradient-to-b from-indigo-900/30 to-slate-950 border border-indigo-500/30 shadow-2xl space-y-5">
+        <div className="p-10 rounded-3xl bg-gradient-to-b from-indigo-950/40 via-slate-900/60 to-slate-950 border border-indigo-500/30 shadow-2xl space-y-5">
           <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
             Ready to debug your infrastructure with voice?
           </h2>
