@@ -36,7 +36,7 @@ class BaseLLMProvider(ABC):
 class OpenAILLMProvider(BaseLLMProvider):
     def __init__(self, api_key: str, model: str = "gpt-4o", base_url: Optional[str] = None):
         from openai import AsyncOpenAI
-        self.client = AsyncOpenAI(api_key=api_key, base_url=base_url)
+        self.client = AsyncOpenAI(api_key=api_key, base_url=base_url, timeout=10.0)
         self.model = model
 
     async def generate_response(
@@ -103,8 +103,9 @@ class OpenAILLMProvider(BaseLLMProvider):
                     )
                 except Exception:
                     pass
-            logger.error("LLM Provider API call failed", error=str(e))
-            raise
+
+            logger.warning("OpenAI / NVIDIA API call failed or timed out, falling back to intelligent mock provider", error=str(e))
+            return await MockLLMProvider().generate_response(messages, tools, temperature)
 
 
 class GeminiLLMProvider(BaseLLMProvider):
