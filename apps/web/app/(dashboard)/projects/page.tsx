@@ -268,10 +268,19 @@ export default function ProjectsPage() {
                       </span>
 
                       {isAlreadyLinked ? (
-                        <span className="flex items-center gap-1 text-[10px] text-emerald-400 font-semibold px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20">
+                        <Link
+                          href={`/workspace?project_id=${projects.find(p => p.repository?.repo_full_name?.toLowerCase() === repo.full_name.toLowerCase())?.id || ''}`}
+                          onClick={() => {
+                            const p = projects.find(p => p.repository?.repo_full_name?.toLowerCase() === repo.full_name.toLowerCase());
+                            if (p && typeof window !== 'undefined') {
+                              localStorage.setItem('voiceops_active_project_id', p.id);
+                            }
+                          }}
+                          className="flex items-center gap-1 text-[10px] text-emerald-400 hover:text-emerald-300 font-semibold px-2 py-0.5 rounded bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/20 transition-all"
+                        >
                           <CheckCircle2 className="w-3 h-3" />
-                          <span>Linked</span>
-                        </span>
+                          <span>Investigate &rarr;</span>
+                        </Link>
                       ) : (
                         <button
                           onClick={() => handleQuickImport(repo)}

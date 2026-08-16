@@ -78,7 +78,9 @@ export default function VoiceWorkspacePage() {
           }
 
           if (projs && projs.length > 0) {
-            const currentProj = projs[0];
+            const urlParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
+            const targetProjId = urlParams?.get('project_id') || (typeof window !== 'undefined' ? localStorage.getItem('voiceops_active_project_id') : null);
+            const currentProj = projs.find((p: any) => p.id === targetProjId) || projs[0];
             setProject(currentProj);
 
             // Get or create conversation
