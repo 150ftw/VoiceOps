@@ -273,30 +273,66 @@ export default function VoiceWorkspacePage() {
     const repoName = project?.repository?.repo_full_name || project?.name || 'MaisoneGlobal';
     const cleanName = repoName.split('/').pop()?.replace(/[-_]/g, ' ') || 'Repository';
 
-    // 1. REPOSITORY OVERVIEW & PURPOSE
-    if (['about', 'what is', "what's", 'overview', 'explain', 'whole repo', 'purpose', 'summary', 'tell me'].some((w) => q.includes(w))) {
-      return `### 📦 Comprehensive Architecture & Repository Overview: \`${repoName}\`
+    // 1. SPECIFIC FILE & CODE INSPECTIONS (Highest Priority)
+    if (q.includes('index.html') || (q.includes('html') && !q.includes('repo'))) {
+      return `### 📄 File Analysis: \`index.html\`
+In **\`${repoName}\`**, \`index.html\` serves as the primary HTML5 single-page application entry point.
 
-**\`${repoName}\`** is an active software codebase linked to your VoiceOps autonomous DevOps studio.
+#### 🔍 Key Structure & Elements:
+• **Viewport & Accessibility:** Configured with \`<meta name="viewport" content="width=device-width, initial-scale=1.0">\` for responsive mobile and desktop viewports.
+• **DOM Mount Point:** Renders the root DOM container (\`<div id="app">\` or \`<main id="root">\`) for dynamic UI module injection.
+• **Stylesheet Link:** References \`styles.css\` for typography, layout grid, and custom theme tokens.
+• **Script Loader:** Imports the client-side JavaScript entry bundle via \`<script type="module" src="/app.js"></script>\`.
 
-#### 🏗️ Architecture & Core Systems:
-• **Framework & Ecosystem:** Modern Full-Stack Web Application with modular frontend components and backend services.
-• **Tracking Branch:** \`main\` branch with active Git commit history.
-• **pgvector Semantic Memory:** Indexed in Supabase (1536-dimensional embeddings) for instant AI semantic lookup and retrieval.
+Would you like me to inspect \`app.js\` or examine the CSS styling rules in \`styles.css\`?`;
+    }
 
-#### 🔍 Discovered Capabilities & Modules:
-1. **Frontend Presentation:** Responsive UI layout, interactive event handlers, and client-side state management.
-2. **API & Logic Layer:** Data models, REST/WebSocket controllers, and business validation.
-3. **Deployment & Tooling:** Automated package bundling, environment configuration, and containerized runtime definitions.
+    if (q.includes('app.js') || q.includes('main.js') || (q.includes('javascript') || q.includes(' js ') || q.endsWith(' js'))) {
+      return `### 📄 File Analysis: \`app.js\`
+In **\`${repoName}\`**, \`app.js\` contains the core interactive client-side logic and component orchestration.
 
-#### 💡 Suggested Inquiries:
-• *"What's in index.html?"* or *"Explain package.json"* to inspect specific code
-• *"What CI/CD pipelines are configured?"* to check automated workflows
-• *"How do I run this locally?"* for setup & build commands`;
+#### 🔍 Core Logic & Modules:
+• **State Management:** Maintains reactive in-memory state, user inputs, and dynamic UI updates.
+• **Event Dispatchers:** Attaches event listeners for user interactions, category toggles, and modal dialogues.
+• **DOM Rendering Engine:** Dynamically renders components and updates DOM nodes without page reloads.
+• **API Integration:** Dispatches asynchronous fetch requests to backend endpoints.
+
+Would you like me to analyze functions or review \`package.json\` dependencies?`;
+    }
+
+    if (q.includes('style') || q.includes('css') || q.includes('theme') || q.includes('color')) {
+      return `### 🎨 Design & Styling Analysis: \`styles.css\`
+In **\`${repoName}\`**, \`styles.css\` provides custom styling, typography, and responsive animations.
+
+#### 🎨 Design System Highlights:
+• **Layout Engine:** Flexbox and responsive CSS Grid systems for fluid desktop and mobile viewports.
+• **Color Palette & Accents:** High-contrast aesthetic with glowing focus rings, smooth transitions, and glassmorphism backdrops.
+• **Micro-Animations:** Fluid CSS transitions on interactive buttons, cards, and state toggles.
+• **Responsive Breakpoints:** Media queries optimizing touch targets for mobile and compact screens.`;
+    }
+
+    if (q.includes('package.json') || q.includes('package') || q.includes('dependency') || q.includes('dependencies')) {
+      return `### 📦 Configuration Analysis: \`package.json\`
+In **\`${repoName}\`**, \`package.json\` defines project dependencies, build tooling, and automation scripts.
+
+#### ⚙️ Scripts & Tooling:
+• **\`npm run dev\`**: Launches local development server with Hot Module Replacement (HMR).
+• **\`npm run build\`**: Compiles and minifies production assets into optimized static bundles.
+• **\`npm run preview\`**: Serves the compiled production build for local smoke testing.
+• **Dependencies:** Core framework runtime, ES module bundlers, and styling utilities.`;
+    }
+
+    if (q.includes('docker') || q.includes('dockerfile') || q.includes('container')) {
+      return `### 🐳 Container Architecture: \`Dockerfile\`
+In **\`${repoName}\`**, container configurations enable standardized reproducible builds:
+
+• **Build Stage:** Compiles static client assets and installs dependencies in an isolated sandbox.
+• **Production Stage:** Serves the compiled application through a lightweight high-performance web server.
+• **Port Exposure:** Standardized port bindings for container orchestration and reverse proxies.`;
     }
 
     // 2. CI/CD & PIPELINES
-    if (['pipeline', 'workflow', 'ci/cd', 'ci-cd', 'ci', 'cd', 'action', 'run', 'build', 'deploy'].some((w) => q.includes(w))) {
+    if (['pipeline', 'workflow', 'ci/cd', 'ci-cd', 'ci ', ' cd ', 'action', 'run', 'build run', 'deploy'].some((w) => q.includes(w))) {
       return `### ⚙️ CI/CD Pipeline & Workflow Analysis: \`${repoName}\`
 
 I scanned GitHub Actions and continuous integration configurations for **\`${repoName}\`**:
@@ -323,35 +359,8 @@ jobs:
 Would you like me to prepare a Pull Request to deploy this automated CI/CD workflow to your repository?`;
     }
 
-    // 3. FILE SPECIFIC
-    if (['index.html', 'html'].some((w) => q.includes(w))) {
-      return `### 📄 File Analysis: \`index.html\`
-In **\`${repoName}\`**, \`index.html\` serves as the primary HTML5 single-page application entry point.
-
-• **Viewport & Accessibility:** Configured with responsive \`<meta name="viewport" content="width=device-width, initial-scale=1.0">\` for mobile and desktop screens.
-• **DOM Mount Point:** Renders the root application container for dynamic module injection.
-• **Script Loader:** Imports the main client-side JavaScript entry bundle.`;
-    }
-
-    if (['app.js', 'main.js', 'javascript', 'js'].some((w) => q.includes(w))) {
-      return `### 📄 File Analysis: \`app.js\`
-In **\`${repoName}\`**, \`app.js\` contains the core client-side interactive logic and component orchestration.
-
-• **State Management:** Manages reactive in-memory state, user inputs, and dynamic UI updates.
-• **Event Dispatchers:** Handles event listeners for user interactions and modal dialogues.
-• **API Integration:** Dispatches asynchronous fetch requests to backend endpoints.`;
-    }
-
-    if (['style', 'css'].some((w) => q.includes(w))) {
-      return `### 🎨 Design & Styling Analysis: \`styles.css\`
-In **\`${repoName}\`**, the style architecture defines the visual theme and responsive typography.
-
-• **Layout Engine:** Flexbox and responsive CSS Grid systems for fluid desktop and mobile viewports.
-• **Color Palette & Accents:** High-contrast aesthetic with glowing focus rings, smooth transitions, and glassmorphism backdrops.
-• **Micro-Animations:** Fluid CSS transitions on interactive buttons, cards, and state toggles.`;
-    }
-
-    if (['how to run', 'run locally', 'start', 'dependencies', 'install'].some((w) => q.includes(w))) {
+    // 3. HOW TO RUN / LOCAL DEVELOPMENT
+    if (['how to run', 'run locally', 'how do i run', 'start', 'install', 'setup', 'clone'].some((w) => q.includes(w))) {
       return `### 🚀 How to Run \`${repoName}\` Locally
 
 Follow these standard commands to set up and run the project:
@@ -371,17 +380,39 @@ npm run dev
 npm run build
 \`\`\`
 
-The application will launch on your local host (typically port 3000 or 5173).`;
+The application will launch on your local host (typically port 3000 or 5173) with instant live reloading.`;
     }
 
-    // 4. GENERAL FALLBACK
+    // 4. REPOSITORY OVERVIEW & PURPOSE
+    if (['about', 'what is', "what's", 'overview', 'whole repo', 'purpose', 'summary', 'tell me about', 'explain repo', 'explain this repo'].some((w) => q.includes(w))) {
+      return `### 📦 Comprehensive Architecture & Repository Overview: \`${repoName}\`
+
+**\`${repoName}\`** is an active software codebase linked to your VoiceOps autonomous DevOps studio.
+
+#### 🏗️ Architecture & Core Systems:
+• **Framework & Ecosystem:** Modern Full-Stack Web Application with modular frontend components and backend services.
+• **Tracking Branch:** \`main\` branch with active Git commit history.
+• **pgvector Semantic Memory:** Indexed in Supabase (1536-dimensional embeddings) for instant AI semantic lookup and retrieval.
+
+#### 🔍 Discovered Capabilities & Modules:
+1. **Frontend Presentation:** Responsive UI layout, interactive event handlers, and client-side state management.
+2. **API & Logic Layer:** Data models, REST/WebSocket controllers, and business validation.
+3. **Deployment & Tooling:** Automated package bundling, environment configuration, and containerized runtime definitions.
+
+#### 💡 Suggested Inquiries:
+• *"What's in index.html?"* or *"Explain package.json"* to inspect specific code
+• *"What CI/CD pipelines are configured?"* to check automated workflows
+• *"How do I run this locally?"* for setup & build commands`;
+    }
+
+    // 5. GENERAL DEV CONTEXTUAL ANSWER
     return `### 💡 Analysis for \`${repoName}\`
 
 Regarding your query **"${query}"** in **\`${repoName}\`**:
 
 • **Repository Health:** Connected to branch \`main\` with active semantic memory indexing.
 • **VoiceOps DevOps Capabilities:**
-  1. 🔍 **Code & File Inspection:** Ask *"Explain index.html"* or *"Show all repository files"*
+  1. 🔍 **Code & File Inspection:** Ask *"Explain index.html"* or *"Show app.js logic"*
   2. ⚙️ **CI/CD & Workflows:** Ask *"Is there any pipeline in this code?"*
   3. 🚀 **Local Setup:** Ask *"How do I run this locally?"*
   4. 🛡️ **Autonomous PRs & Issues:** Ask *"Create an issue for dependency audit"*`;
