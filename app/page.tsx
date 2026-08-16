@@ -295,25 +295,95 @@ export default function LandingPage() {
       )}
 
       {/* Hero Section — Editorial Brutalist Showcase */}
-      <section className="relative pt-20 pb-16 px-6 sm:px-12 max-w-7xl mx-auto flex flex-col items-center justify-center min-h-[75vh] text-center z-10 select-none">
+      <section className="relative pt-20 pb-16 px-6 sm:px-12 max-w-7xl mx-auto flex flex-col items-center justify-center min-h-[80vh] text-center z-10 select-none">
+        {/* Left Floating Sci-Fi Status Chip */}
+        <div className="hidden xl:flex absolute left-4 top-1/3 -translate-y-1/2 flex-col gap-2 font-mono text-[10px] text-left text-purple-300/80 p-3.5 rounded-2xl bg-[#090514]/80 border border-purple-500/25 backdrop-blur-xl shadow-2xl">
+          <div className="flex items-center gap-2 text-emerald-400 font-bold">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+            <span className="tracking-wider">K8S CLUSTER ONLINE</span>
+          </div>
+          <div className="text-slate-400 space-y-0.5 text-[9px] uppercase tracking-wider">
+            <p>RAG: pgvector 1536-D</p>
+            <p>LATENCY: 128ms</p>
+            <p>CONTEXT: 1,000,000 TOKENS</p>
+          </div>
+        </div>
+
+        {/* Right Floating Sci-Fi Status Chip */}
+        <div className="hidden xl:flex absolute right-4 top-1/3 -translate-y-1/2 flex-col gap-2 font-mono text-[10px] text-right text-purple-300/80 p-3.5 rounded-2xl bg-[#090514]/80 border border-purple-500/25 backdrop-blur-xl shadow-2xl">
+          <div className="flex items-center justify-end gap-2 text-purple-300 font-bold">
+            <span className="tracking-wider">GUARDRAILS ACTIVE</span>
+            <span className="w-2 h-2 rounded-full bg-purple-400 animate-pulse" />
+          </div>
+          <div className="text-slate-400 space-y-0.5 text-[9px] uppercase tracking-wider">
+            <p>DIFF AUDIT: AUTOMATED</p>
+            <p>HMAC SIGNATURE: SECURE</p>
+            <p>AST SYNTAX: VERIFIED</p>
+          </div>
+        </div>
+
+        {/* Floating 3D Crystalline Logo Hologram */}
+        <div className="relative mb-3 group cursor-pointer">
+          <div className="absolute -inset-6 bg-purple-600/30 rounded-full blur-2xl group-hover:bg-purple-500/50 transition-all duration-700 animate-pulse-subtle" />
+          <img
+            src="/logo.png"
+            alt="VoiceOps Holographic Logo"
+            className="relative w-16 h-16 sm:w-20 sm:h-20 mx-auto object-contain drop-shadow-[0_0_35px_rgba(168,85,247,0.85)] group-hover:scale-110 transition-transform duration-500"
+            style={{ animation: 'float 6s ease-in-out infinite' }}
+          />
+        </div>
+
         {/* Top Sub-Header */}
-        <p className="font-mono text-xs sm:text-sm text-purple-300/90 tracking-[0.25em] uppercase mb-4">
+        <p className="font-mono text-xs sm:text-sm text-purple-300/90 tracking-[0.25em] uppercase mb-2">
           Autonomous DevOps Voice Engine
         </p>
 
-        {/* Massive Centerpiece Display Headline in Rubik Glitch on separate lines */}
-        <h1 className="text-6xl sm:text-8xl md:text-9xl lg:text-[10rem] font-glitch text-purple-200/95 tracking-[0.05em] sm:tracking-[0.14em] leading-[0.9] uppercase drop-shadow-[0_0_60px_rgba(168,85,247,0.4)] scale-y-95 my-2">
-          VOICE <br />
-          <span className="text-purple-300">OPS</span>
-        </h1>
+        {/* Massive Centerpiece Display Headline with Laser Scan Beam */}
+        <div className="relative w-full overflow-hidden py-1">
+          <div
+            className="absolute inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-fuchsia-400 to-transparent blur-[1px] opacity-80 pointer-events-none z-20"
+            style={{ animation: 'scan 5s ease-in-out infinite' }}
+          />
+          <h1 className="text-6xl sm:text-8xl md:text-9xl lg:text-[10rem] font-glitch text-purple-200/95 tracking-[0.05em] sm:tracking-[0.14em] leading-[0.9] uppercase drop-shadow-[0_0_60px_rgba(168,85,247,0.4)] scale-y-95 my-2">
+            VOICE <br />
+            <span className="text-purple-300">OPS</span>
+          </h1>
+        </div>
 
         {/* Secondary Subtitle */}
         <p className="font-mono text-xs sm:text-sm text-purple-300/80 max-w-xl mx-auto tracking-widest uppercase mt-4">
           Talk to your infrastructure. Fix CI/CD in seconds.
         </p>
 
+        {/* Interactive Clickable Prompt Pills */}
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-2.5 max-w-3xl mx-auto">
+          {[
+            "Why did my production deployment fail?",
+            "Rollback latest container release",
+            "Fix memory leak in redis worker",
+            "Run security audit on IAM roles",
+          ].map((promptText) => (
+            <button
+              key={promptText}
+              onClick={() => {
+                setSelectedPrompt(promptText);
+                const el = document.getElementById("console-preview");
+                el?.scrollIntoView({ behavior: "smooth" });
+              }}
+              className={`px-4 py-2 rounded-full font-mono text-[11px] uppercase tracking-wider transition-all duration-300 flex items-center gap-2 border ${
+                selectedPrompt === promptText
+                  ? "bg-purple-500/25 text-white border-purple-400 shadow-[0_0_20px_rgba(168,85,247,0.5)] scale-105"
+                  : "bg-[#090514]/80 text-slate-400 border-purple-500/20 hover:border-purple-400/60 hover:text-purple-200 hover:scale-102"
+              }`}
+            >
+              <span className="text-purple-400">⚡</span>
+              <span>{promptText}</span>
+            </button>
+          ))}
+        </div>
+
         {/* Bottom 3-Column Editorial Metadata Bar */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-6xl mt-16 pt-8 border-t border-purple-500/20 text-left font-mono text-[11px]">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-6xl mt-14 pt-8 border-t border-purple-500/20 text-left font-mono text-[11px]">
           <div className="space-y-1">
             <p className="text-purple-400 font-bold uppercase tracking-wider">01 // INTELLIGENCE</p>
             <p className="text-slate-400 leading-relaxed uppercase">
@@ -337,21 +407,26 @@ export default function LandingPage() {
         </div>
 
         {/* Floating Circular Interactive CTA & Audio Meter */}
-        <div className="w-full max-w-6xl flex flex-col sm:flex-row items-center justify-between gap-6 pt-12">
-          {/* Bottom-Left Audio Level Waveform */}
-          <div className="flex items-center gap-3 font-mono text-xs text-purple-300">
-            <div className="flex items-end gap-1 h-5">
-              <span className="w-1 bg-purple-400 animate-[wave_0.8s_ease-in-out_infinite] h-3 rounded-full" />
-              <span className="w-1 bg-purple-300 animate-[wave_1.2s_ease-in-out_infinite_0.2s] h-5 rounded-full" />
-              <span className="w-1 bg-purple-500 animate-[wave_0.9s_ease-in-out_infinite_0.4s] h-2 rounded-full" />
-              <span className="w-1 bg-fuchsia-400 animate-[wave_1.1s_ease-in-out_infinite_0.1s] h-4 rounded-full" />
-              <span className="w-1 bg-purple-300 animate-[wave_0.7s_ease-in-out_infinite_0.3s] h-3 rounded-full" />
+        <div className="w-full max-w-6xl flex flex-col sm:flex-row items-center justify-between gap-6 pt-10">
+          {/* Bottom-Left Multi-Bar Audio Level Waveform with Neural Synth */}
+          <div className="flex items-center gap-3 font-mono text-xs text-purple-300 p-2.5 px-4 rounded-2xl bg-[#090514]/80 border border-purple-500/25 backdrop-blur-md">
+            <div className="flex items-end gap-1 h-6">
+              {[8, 16, 24, 12, 20, 14, 22, 10, 18, 12].map((h, i) => (
+                <span
+                  key={i}
+                  className="w-1 bg-gradient-to-t from-purple-600 to-fuchsia-300 rounded-full transition-all duration-150"
+                  style={{
+                    height: isPlayingVoice ? `${Math.max(4, (h * 1.2) % 24)}px` : `${Math.max(3, h * 0.35)}px`,
+                    animation: isPlayingVoice ? `wave ${(0.6 + (i % 5) * 0.12).toFixed(2)}s ease-in-out infinite` : 'none',
+                  }}
+                />
+              ))}
             </div>
             <button
               onClick={toggleMockVoice}
-              className="text-[11px] uppercase tracking-wider hover:text-white transition-colors"
+              className="text-[11px] uppercase tracking-wider hover:text-white transition-colors flex items-center gap-1.5"
             >
-              {isPlayingVoice ? 'Synthesizing Audio...' : 'Play Audio Demo'}
+              <span>{isPlayingVoice ? '◼ Pause Neural Audio' : '▶ Play Voice Demo'}</span>
             </button>
           </div>
 
