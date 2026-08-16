@@ -6,6 +6,7 @@ import { Message, PendingApproval } from '@voiceops/shared';
 import { formatDate } from '@/lib/utils';
 import { CitationsCard } from './citations-card';
 import { ApprovalCard } from '../approvals/approval-card';
+import { MarkdownContent } from './markdown-content';
 
 interface MessageBubbleProps {
   message: Message;
@@ -52,7 +53,7 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
               : 'glass-panel text-slate-200 rounded-tl-none border border-white/10 shadow-lg'
           }`}
         >
-          <div className="whitespace-pre-wrap">{message.content}</div>
+          <MarkdownContent content={message.content} isUser={isUser} />
 
           {/* Inline Approval Card if attached to message */}
           {!isUser && pendingApproval && onRespondApproval && (
