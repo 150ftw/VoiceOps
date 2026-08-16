@@ -374,9 +374,6 @@ export const Header: React.FC<HeaderProps> = ({ activeProject, onSelectProject }
                     <p className="text-xs font-bold text-slate-100 truncate">
                       {currentUser?.full_name || 'Shivam Sharma'}
                     </p>
-                    <span className="px-1.5 py-0.5 rounded text-[9px] font-mono uppercase bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
-                      Pro
-                    </span>
                   </div>
                   <p className="text-[11px] text-slate-400 font-mono truncate">
                     {currentUser?.email || 'shivam@voiceops.local'}
