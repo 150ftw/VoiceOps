@@ -110,28 +110,207 @@ export default function LandingPage() {
     }
   };
 
-  const interactivePrompts = [
+  const SCENARIOS: Record<
+    string,
     {
-      title: "Pipeline Failure",
+      query: string;
+      telemetry: string[];
+      diagnosis: {
+        title: string;
+        badge: string;
+        header: string;
+        details: string[];
+        fix: string;
+      };
+      diff: {
+        file: string;
+        changes: string;
+        lines: { type: 'header' | 'del' | 'add' | 'ctx'; text: string }[];
+      };
+      runbook: {
+        title: string;
+        id: string;
+        similarity: string;
+        excerpt: string;
+      };
+      approval: {
+        title: string;
+        description: string;
+        branch: string;
+        actionText: string;
+        completedText: string;
+      };
+    }
+  > = {
+    "Why did my latest deployment to production fail?": {
       query: "Why did my latest deployment to production fail?",
-      tab: "diagnosis" as const,
+      telemetry: [
+        "Analyzed GitHub Actions workflow run #1245 (Docker Build & Deploy)",
+        "Isolated stack trace error in pip install -r requirements.txt (Line 14)",
+      ],
+      diagnosis: {
+        title: "Root Cause: Python 3.13 / bcrypt Dependency Mismatch",
+        badge: "Exit Code: 1",
+        header: "# Workflow Run #1245 • Job: docker_build",
+        details: [
+          "ERROR: Failed building wheel for bcrypt (Legacy C-extension build failed)",
+          "• Python 3.13 removed deprecated Py_UNICODE APIs used in bcrypt < 4.0.0",
+        ],
+        fix: "• Recommended Fix: Pin python:3.11-slim base image or upgrade bcrypt >= 4.1.2",
+      },
+      diff: {
+        file: "Dockerfile",
+        changes: "+1 / -1 lines",
+        lines: [
+          { type: "header", text: "@@ -1,3 +1,3 @@" },
+          { type: "del", text: "- FROM python:3.13-rc-slim AS base" },
+          { type: "add", text: "+ FROM python:3.11-slim AS base" },
+          { type: "ctx", text: "  WORKDIR /app" },
+          { type: "ctx", text: "  COPY requirements.txt ." },
+        ],
+      },
+      runbook: {
+        title: "Docker Build Standards • Production Runbook",
+        id: "Runbook ID: DOC-204",
+        similarity: "94.2% Similarity",
+        excerpt: "“All microservices deployed to AWS EKS production cluster must pin LTS Python 3.11 runtimes.”",
+      },
+      approval: {
+        title: "Cryptographic Approval Required",
+        description: "VoiceOps wants to open a pull request to patch Docker base image to Python 3.11 LTS.",
+        branch: "patch/fix-python-base-image",
+        actionText: "Approve & Create PR",
+        completedText: "PR Created! #1492",
+      },
     },
-    {
-      title: "Commit Comparison",
-      query: "What changed between the last passing and failed build?",
-      tab: "diff" as const,
+    "Rollback latest container release": {
+      query: "Rollback latest container release",
+      telemetry: [
+        "Identified unhealthy target group: web-api-service (HTTP 502 Bad Gateway)",
+        "Located previous stable image digest: sha256:4a8f9c1b (v2.4.1)",
+      ],
+      diagnosis: {
+        title: "Canary Failure: Latency Spike to 4,200ms on v2.4.2",
+        badge: "HTTP 502 (2.8% errors)",
+        header: "# Kubernetes Deployment • namespace: production",
+        details: [
+          "CRITICAL: Target group response time exceeded SLA (> 2,000ms)",
+          "• 4 pods failing readiness probes on /api/v1/healthz",
+        ],
+        fix: "• Recommended Action: Trigger zero-downtime rollback to deployment/web-api:v2.4.1",
+      },
+      diff: {
+        file: "k8s/deployment.yaml",
+        changes: "+1 / -1 lines",
+        lines: [
+          { type: "header", text: "@@ -18,3 +18,3 @@" },
+          { type: "del", text: "- image: ghcr.io/150ftw/voiceops-api:v2.4.2" },
+          { type: "add", text: "+ image: ghcr.io/150ftw/voiceops-api:v2.4.1" },
+          { type: "ctx", text: "  imagePullPolicy: IfNotPresent" },
+          { type: "ctx", text: "  replicas: 12" },
+        ],
+      },
+      runbook: {
+        title: "P1 Incident Automated Rollback Protocol",
+        id: "Runbook ID: INC-SEV-09",
+        similarity: "98.7% Similarity",
+        excerpt: "“Automated rollback authorized without downtime when 5xx error rate exceeds 2.5% for > 60 seconds.”",
+      },
+      approval: {
+        title: "Production Rollback Authorization",
+        description: "VoiceOps wants to execute immediate blue/green rollback to stable revision 48.",
+        branch: "ops/rollback-to-v2.4.1",
+        actionText: "Approve & Execute Rollback",
+        completedText: "Rollback Completed! Traffic 100% on v2.4.1",
+      },
     },
-    {
-      title: "Runbook Search",
-      query: "Search documentation for Docker compilation procedures",
-      tab: "rag" as const,
+    "Fix memory leak in redis worker": {
+      query: "Fix memory leak in redis worker",
+      telemetry: [
+        "Sampled heap dump from worker-pool-7 (RSS Memory: 3.8GB / Limit: 4.0GB)",
+        "Identified unclosed Redis client connections in celery task queue",
+      ],
+      diagnosis: {
+        title: "OOM Warning: Connection Pool Starvation in async_worker.py",
+        badge: "RSS 94.2% (3.8 GB)",
+        header: "# Worker Pod: redis-worker-7c89f • PID 482",
+        details: [
+          "WARNING: Redis connection leak detected: 4,812 open file descriptors",
+          "• Missing connection.close() in @celery_app.task errorHandler",
+        ],
+        fix: "• Recommended Fix: Wrap client in AsyncRedisContextManager context manager",
+      },
+      diff: {
+        file: "services/worker/tasks.py",
+        changes: "+2 / -1 lines",
+        lines: [
+          { type: "header", text: "@@ -44,3 +44,4 @@" },
+          { type: "del", text: "- client = get_redis_client()" },
+          { type: "add", text: "+ with get_redis_connection_context() as client:" },
+          { type: "add", text: "+     await client.process_queue_payload(payload)" },
+          { type: "ctx", text: "  return {'status': 'processed'}" },
+        ],
+      },
+      runbook: {
+        title: "Celery & Redis Concurrency Standards",
+        id: "Runbook ID: RB-REDIS-301",
+        similarity: "96.4% Similarity",
+        excerpt: "“Worker pools must utilize connection pooling context managers to prevent socket FD exhaustion under high throughput.”",
+      },
+      approval: {
+        title: "Memory Leak Patch Approval",
+        description: "VoiceOps wants to open pull request to wrap Redis client in auto-closing context manager.",
+        branch: "fix/redis-connection-context-leak",
+        actionText: "Approve & Deploy Patch",
+        completedText: "Patch Deployed! Heap Normal (412 MB)",
+      },
     },
-    {
-      title: "Trigger Patch PR",
-      query: "Prepare an approved PR to downgrade Docker base image",
-      tab: "approval" as const,
+    "Run security audit on IAM roles": {
+      query: "Run security audit on IAM roles",
+      telemetry: [
+        "Scanned 28 AWS IAM policies across production AWS account (us-east-1)",
+        "Flagged 2 overly permissive wildcards (*:*) in CI/CD deployment role",
+      ],
+      diagnosis: {
+        title: "Security Alert: Wildcard AdministratorAccess in deploy-bot",
+        badge: "CIS AWS 1.16 Violation",
+        header: "# IAM Role: arn:aws:iam::123456789012:role/github-actions-deploy",
+        details: [
+          "VIOLATION: Action: [\"*\"] with Resource: [\"*\"] detected on CI role",
+          "• Over-privileged role allows arbitrary IAM privilege escalation",
+        ],
+        fix: "• Recommended Fix: Scope down to ecr:PutImage and eks:UpdateClusterConfig",
+      },
+      diff: {
+        file: "terraform/iam/deploy_role.tf",
+        changes: "+3 / -1 lines",
+        lines: [
+          { type: "header", text: "@@ -12,3 +12,5 @@" },
+          { type: "del", text: "- actions   = [\"*\"]" },
+          { type: "add", text: "+ actions   = [" },
+          { type: "add", text: "+   \"ecr:GetAuthorizationToken\", \"ecr:BatchCheckLayerAvailability\"," },
+          { type: "add", text: "+   \"eks:DescribeCluster\", \"eks:UpdateClusterConfig\"" },
+          { type: "ctx", text: "  ]" },
+        ],
+      },
+      runbook: {
+        title: "Principle of Least Privilege Security Standard",
+        id: "Runbook ID: SEC-IAM-101",
+        similarity: "99.1% Similarity",
+        excerpt: "“Automated deployment bots must not possess iam:* or sts:AssumeRole permissions beyond designated deployment namespace.”",
+      },
+      approval: {
+        title: "IAM Least-Privilege Policy Update",
+        description: "VoiceOps wants to open a Terraform pull request to restrict CI/CD bot to scoped ECR/EKS actions.",
+        branch: "security/scope-down-deploy-role",
+        actionText: "Approve & Apply Terraform",
+        completedText: "IAM Scoped! Compliance Passed (100%)",
+      },
     },
-  ];
+  };
+
+  const currentScenario =
+    SCENARIOS[selectedPrompt] || SCENARIOS["Why did my latest deployment to production fail?"];
 
   return (
     <div className="min-h-screen bg-[#030206] text-slate-100 selection:bg-purple-500/30 selection:text-purple-200 relative overflow-x-hidden font-sans antialiased">
@@ -512,14 +691,12 @@ export default function LandingPage() {
 
             {/* AI Agent Telemetry Steps */}
             <div className="space-y-2 font-mono text-xs max-w-2xl">
-              <div className="flex items-center gap-2 text-purple-300">
-                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                <span>Analyzed GitHub Actions workflow run #1245 (Docker Build &amp; Deploy)</span>
-              </div>
-              <div className="flex items-center gap-2 text-purple-300">
-                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                <span>Isolated stack trace error in pip install -r requirements.txt (Line 14)</span>
-              </div>
+              {currentScenario.telemetry.map((step, idx) => (
+                <div key={idx} className="flex items-center gap-2 text-purple-300">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                  <span>{step}</span>
+                </div>
+              ))}
             </div>
 
             {/* Tab 1: Diagnostics */}
@@ -527,21 +704,20 @@ export default function LandingPage() {
               <div className="p-4 rounded-2xl bg-[#040209] border border-purple-500/20 space-y-3 font-mono text-xs">
                 <div className="flex items-center justify-between text-slate-400 pb-2 border-b border-white/5">
                   <span className="flex items-center gap-1.5 text-rose-400 font-bold">
-                    <AlertTriangle className="w-3.5 h-3.5" />
-                    <span>Root Cause: Python 3.13 / bcrypt Dependency Mismatch</span>
+                    <AlertTriangle className="w-3.5 h-3.5 shrink-0" />
+                    <span>{currentScenario.diagnosis.title}</span>
                   </span>
-                  <span className="text-[10px] text-slate-500">Exit Code: 1</span>
+                  <span className="text-[10px] text-slate-500">{currentScenario.diagnosis.badge}</span>
                 </div>
                 <div className="bg-[#070310] p-3 rounded-xl border border-purple-500/15 text-[11px] space-y-1 text-slate-300 leading-relaxed">
-                  <p className="text-slate-500"># Workflow Run #1245 &bull; Job: docker_build</p>
-                  <p className="text-rose-400 font-bold">
-                    ERROR: Failed building wheel for bcrypt (Legacy C-extension build failed)
-                  </p>
-                  <p className="text-slate-400">
-                    &bull; Python 3.13 removed deprecated Py_UNICODE APIs used in bcrypt &lt; 4.0.0
-                  </p>
-                  <p className="text-emerald-400 font-semibold">
-                    &bull; Recommended Fix: Pin python:3.11-slim base image or upgrade bcrypt &gt;= 4.1.2
+                  <p className="text-slate-500">{currentScenario.diagnosis.header}</p>
+                  {currentScenario.diagnosis.details.map((detail, idx) => (
+                    <p key={idx} className="text-rose-400 font-bold">
+                      {detail}
+                    </p>
+                  ))}
+                  <p className="text-emerald-400 font-semibold pt-1">
+                    {currentScenario.diagnosis.fix}
                   </p>
                 </div>
               </div>
@@ -552,21 +728,28 @@ export default function LandingPage() {
               <div className="p-4 rounded-2xl bg-[#040209] border border-purple-500/20 space-y-3 font-mono text-xs">
                 <div className="flex items-center justify-between text-slate-400 pb-2 border-b border-white/5">
                   <span className="flex items-center gap-1.5 text-purple-300 font-bold">
-                    <GitPullRequest className="w-3.5 h-3.5 text-purple-400" />
-                    <span>Proposed Patch Diff &bull; Dockerfile</span>
+                    <GitPullRequest className="w-3.5 h-3.5 text-purple-400 shrink-0" />
+                    <span>Proposed Patch Diff &bull; {currentScenario.diff.file}</span>
                   </span>
-                  <span className="text-[10px] text-emerald-400">+1 / -1 lines</span>
+                  <span className="text-[10px] text-emerald-400">{currentScenario.diff.changes}</span>
                 </div>
                 <div className="bg-[#070310] p-3 rounded-xl border border-purple-500/15 text-[11px] space-y-1 font-mono leading-relaxed">
-                  <p className="text-slate-500">@@ -1,3 +1,3 @@</p>
-                  <p className="text-rose-400 bg-rose-500/10 px-2 py-0.5 rounded">
-                    - FROM python:3.13-rc-slim AS base
-                  </p>
-                  <p className="text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded font-bold">
-                    + FROM python:3.11-slim AS base
-                  </p>
-                  <p className="text-slate-400 px-2">  WORKDIR /app</p>
-                  <p className="text-slate-400 px-2">  COPY requirements.txt .</p>
+                  {currentScenario.diff.lines.map((line, idx) => (
+                    <p
+                      key={idx}
+                      className={
+                        line.type === 'header'
+                          ? 'text-slate-500'
+                          : line.type === 'del'
+                          ? 'text-rose-400 bg-rose-500/10 px-2 py-0.5 rounded'
+                          : line.type === 'add'
+                          ? 'text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded font-bold'
+                          : 'text-slate-400 px-2'
+                      }
+                    >
+                      {line.text}
+                    </p>
+                  ))}
                 </div>
               </div>
             )}
@@ -576,15 +759,15 @@ export default function LandingPage() {
               <div className="p-4 rounded-2xl bg-[#040209] border border-purple-500/20 space-y-3 text-xs">
                 <div className="flex items-center justify-between text-slate-400 pb-2 border-b border-white/5 font-mono">
                   <span className="flex items-center gap-1.5 text-purple-300 font-bold">
-                    <Database className="w-3.5 h-3.5 text-purple-400" />
-                    <span>pgvector Runbook Match &bull; 94.2% Similarity</span>
+                    <Database className="w-3.5 h-3.5 text-purple-400 shrink-0" />
+                    <span>pgvector Runbook Match &bull; {currentScenario.runbook.similarity}</span>
                   </span>
-                  <span className="text-[10px] text-slate-500">Runbook ID: DOC-204</span>
+                  <span className="text-[10px] text-slate-500">{currentScenario.runbook.id}</span>
                 </div>
                 <div className="p-3.5 rounded-xl bg-[#0f0821] border border-purple-500/20 space-y-2 leading-relaxed font-mono">
-                  <p className="font-bold text-white">Docker Build Standards &bull; Production Runbook</p>
+                  <p className="font-bold text-white">{currentScenario.runbook.title}</p>
                   <p className="text-slate-300 text-[11px]">
-                    &ldquo;All microservices deployed to AWS EKS production cluster must pin LTS Python 3.11 runtimes.&rdquo;
+                    {currentScenario.runbook.excerpt}
                   </p>
                 </div>
               </div>
@@ -595,26 +778,29 @@ export default function LandingPage() {
               <div className="p-4 rounded-2xl bg-[#040209] border border-purple-500/30 space-y-3 text-xs font-mono">
                 <div className="flex items-center justify-between text-slate-400 pb-2 border-b border-white/5">
                   <span className="flex items-center gap-1.5 text-amber-300 font-bold">
-                    <ShieldCheck className="w-3.5 h-3.5 text-amber-400" />
-                    <span>Cryptographic Approval Required</span>
+                    <ShieldCheck className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                    <span>{currentScenario.approval.title}</span>
                   </span>
                 </div>
                 <p className="text-slate-300 leading-relaxed">
-                  VoiceOps wants to open a pull request <code className="text-purple-300 bg-slate-900 px-1 py-0.5 rounded">patch/fix-python-base-image</code>.
+                  {currentScenario.approval.description}{' '}
+                  <code className="text-purple-300 bg-slate-900 px-1 py-0.5 rounded">
+                    {currentScenario.approval.branch}
+                  </code>.
                 </p>
 
                 <div className="flex items-center gap-3 pt-2">
                   <button
                     onClick={() => setMockApprovalDone(true)}
                     disabled={mockApprovalDone}
-                    className={`px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all ${
+                    className={`px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
                       mockApprovalDone
                         ? 'bg-emerald-600/30 text-emerald-300 border border-emerald-500/40 cursor-default'
                         : 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-md'
                     }`}
                   >
                     <Check className="w-3.5 h-3.5" />
-                    <span>{mockApprovalDone ? 'PR Created!' : 'Approve & Create PR'}</span>
+                    <span>{mockApprovalDone ? currentScenario.approval.completedText : currentScenario.approval.actionText}</span>
                   </button>
                 </div>
               </div>
@@ -635,7 +821,10 @@ export default function LandingPage() {
                 ].map((promptText) => (
                   <button
                     key={promptText}
-                    onClick={() => setSelectedPrompt(promptText)}
+                    onClick={() => {
+                      setSelectedPrompt(promptText);
+                      setMockApprovalDone(false);
+                    }}
                     className={`px-3 py-1.5 rounded-full font-mono text-[10px] uppercase tracking-wider transition-all duration-300 flex items-center gap-1.5 border cursor-pointer ${
                       selectedPrompt === promptText
                         ? "bg-purple-500/30 text-white border-purple-400 shadow-[0_0_15px_rgba(168,85,247,0.5)] scale-102"
