@@ -301,15 +301,15 @@ export default function LandingPage() {
           Autonomous DevOps Voice Engine
         </p>
 
-        {/* Massive Centerpiece Display Headline with Ethereal Luminous V Logo Backdrop */}
+        {/* Massive Centerpiece Display Headline with Luminous Holographic Aura */}
         <div className="relative w-full max-w-5xl mx-auto flex items-center justify-center py-6 my-2 group cursor-pointer">
-          {/* Ethereal Luminous V Logo Backdrop: Stays smoothly in the ambient background */}
+          {/* Holographic Glowing Crest Backdrop (mix-blend-screen removes dark robotic facets completely) */}
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none -z-0">
-            <div className="absolute w-80 sm:w-96 md:w-[480px] h-80 sm:h-96 md:h-[480px] bg-purple-600/30 rounded-full blur-[100px] group-hover:bg-purple-500/50 group-hover:scale-115 transition-all duration-700 animate-pulse-subtle" />
+            <div className="absolute w-80 sm:w-96 md:w-[500px] h-80 sm:h-96 md:h-[500px] bg-purple-600/30 rounded-full blur-[100px] group-hover:bg-purple-500/50 group-hover:scale-115 transition-all duration-700 animate-pulse-subtle" />
             <img
               src="/logo.png"
               alt="VoiceOps Logo Backdrop"
-              className="w-72 sm:w-96 md:w-[460px] lg:w-[520px] h-auto object-contain opacity-35 sm:opacity-45 group-hover:opacity-65 group-hover:scale-105 group-hover:drop-shadow-[0_0_80px_rgba(168,85,247,0.85)] transition-all duration-700 drop-shadow-[0_0_60px_rgba(168,85,247,0.5)]"
+              className="w-72 sm:w-96 md:w-[440px] lg:w-[480px] h-auto object-contain mix-blend-screen opacity-40 sm:opacity-50 group-hover:opacity-75 group-hover:scale-105 transition-all duration-700 drop-shadow-[0_0_60px_rgba(168,85,247,0.7)]"
               style={{ animation: 'float 7s ease-in-out infinite' }}
             />
           </div>
