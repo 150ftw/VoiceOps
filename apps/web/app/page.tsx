@@ -314,17 +314,17 @@ export default function LandingPage() {
             />
           </div>
 
-          {/* Foreground Glitch Typography with Hover Character Expansion & Cyberpunk RGB Glitch FX */}
-          <h1 className="relative z-10 text-6xl sm:text-8xl md:text-9xl lg:text-[10rem] font-glitch text-purple-100 uppercase drop-shadow-[0_0_60px_rgba(168,85,247,0.5)] scale-y-95 w-full flex flex-col items-center justify-center gap-1 sm:gap-2 select-none text-center">
+          {/* Foreground Glitch Typography with Hover Character Expansion & Soft Cyberpunk Glitch FX */}
+          <h1 className="relative z-10 text-6xl sm:text-8xl md:text-9xl lg:text-[10rem] font-glitch text-purple-200/90 uppercase drop-shadow-[0_0_40px_rgba(168,85,247,0.35)] scale-y-95 w-full flex flex-col items-center justify-center gap-1 sm:gap-2 select-none text-center">
             <span
               data-text="VOICE"
-              className="glitch-text inline-block tracking-[0.04em] group-hover:tracking-[0.2em] sm:group-hover:tracking-[0.28em] -mr-[0.04em] group-hover:-mr-[0.2em] sm:group-hover:-mr-[0.28em] transition-all duration-700 ease-out group-hover:text-white group-hover:drop-shadow-[0_0_80px_rgba(233,213,255,0.9)]"
+              className="glitch-text inline-block tracking-[0.04em] group-hover:tracking-[0.2em] sm:group-hover:tracking-[0.28em] -mr-[0.04em] group-hover:-mr-[0.2em] sm:group-hover:-mr-[0.28em] transition-all duration-700 ease-out group-hover:text-purple-100 group-hover:drop-shadow-[0_0_50px_rgba(192,132,252,0.6)]"
             >
               VOICE
             </span>
             <span
               data-text="OPS"
-              className="glitch-text inline-block text-purple-200 tracking-[0.04em] group-hover:tracking-[0.22em] sm:group-hover:tracking-[0.32em] -mr-[0.04em] group-hover:-mr-[0.22em] sm:group-hover:-mr-[0.32em] transition-all duration-700 ease-out group-hover:text-purple-100 group-hover:drop-shadow-[0_0_80px_rgba(168,85,247,0.9)]"
+              className="glitch-text inline-block text-purple-300/90 tracking-[0.04em] group-hover:tracking-[0.22em] sm:group-hover:tracking-[0.32em] -mr-[0.04em] group-hover:-mr-[0.22em] sm:group-hover:-mr-[0.32em] transition-all duration-700 ease-out group-hover:text-purple-200 group-hover:drop-shadow-[0_0_50px_rgba(168,85,247,0.6)]"
             >
               OPS
             </span>
