@@ -38,6 +38,7 @@ import {
   ChevronDown,
 } from 'lucide-react';
 import { apiRequest, clearAuthToken, getAuthToken } from '@/lib/api-client';
+import { HeroBackground } from '@/components/landing/hero-background';
 
 export default function LandingPage() {
   const [currentUser, setCurrentUser] = useState<any>(null);
@@ -116,21 +117,8 @@ export default function LandingPage() {
 
   return (
     <div className="min-h-screen bg-[#05070D] text-slate-100 selection:bg-indigo-500/30 selection:text-indigo-200 relative overflow-hidden font-sans antialiased">
-      {/* Dynamic Ambient Background Illumination */}
-      <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
-        <div className="absolute top-[-15%] left-[25%] w-[750px] h-[650px] bg-gradient-to-br from-indigo-600/15 via-purple-600/10 to-transparent rounded-full blur-[160px]" />
-        <div className="absolute top-[40%] right-[-10%] w-[600px] h-[600px] bg-gradient-to-bl from-cyan-500/12 via-indigo-600/8 to-transparent rounded-full blur-[140px]" />
-        <div className="absolute bottom-[5%] left-[10%] w-[650px] h-[550px] bg-gradient-to-tr from-emerald-500/10 via-indigo-950/20 to-transparent rounded-full blur-[160px]" />
-
-        {/* Subtle grid pattern matrix */}
-        <div
-          className="absolute inset-0 opacity-[0.025]"
-          style={{
-            backgroundImage: `linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px)`,
-            backgroundSize: '40px 40px',
-          }}
-        />
-      </div>
+      {/* Background Video & Interactive Soundwave Matrix */}
+      <HeroBackground />
 
       {/* Floating Header Navigation */}
       <header className="sticky top-4 z-50 max-w-6xl mx-auto px-4 sm:px-6">
