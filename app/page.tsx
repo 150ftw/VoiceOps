@@ -43,6 +43,7 @@ import {
   Menu,
   X,
 } from 'lucide-react';
+import FlowingMenu from '@/components/landing/FlowingMenu';
 import { apiRequest, clearAuthToken, getAuthToken } from '@/lib/api-client';
 import { HeroBackground } from '@/components/landing/hero-background';
 import Scanner from '@/components/landing/Scanner';
@@ -221,63 +222,74 @@ export default function LandingPage() {
         </div>
       </header>
 
-      {/* Slide-out Menu Overlay */}
+      {/* Full-Screen Flowing Menu Overlay */}
       {isMenuOpen && (
-        <div className="fixed inset-0 z-50 bg-[#030206]/95 backdrop-blur-2xl p-8 flex flex-col justify-between animate-in fade-in duration-200">
-          <div className="flex items-center justify-between border-b border-purple-500/20 pb-4">
-            <div className="flex items-center gap-2.5">
-              <img src="/logo.png" alt="VoiceOps Logo" className="w-6 h-6 object-contain" />
-              <span className="text-xl font-glitch text-purple-300">VOICEOPS</span>
+        <div className="fixed inset-0 z-50 bg-[#030206] flex flex-col justify-between animate-in fade-in duration-300">
+          {/* Top Bar with Logo and Close Button */}
+          <div className="h-20 px-6 sm:px-12 flex items-center justify-between border-b border-purple-500/20 bg-[#030206]/90 backdrop-blur-md">
+            <div className="flex items-center gap-3">
+              <img
+                src="/logo.png"
+                alt="VoiceOps Logo"
+                className="w-8 h-8 object-contain drop-shadow-[0_0_12px_rgba(168,85,247,0.6)]"
+              />
+              <span className="text-xl sm:text-2xl font-glitch text-purple-200 tracking-widest uppercase">
+                VOICEOPS
+              </span>
             </div>
             <button
               onClick={() => setIsMenuOpen(false)}
-              className="p-2 text-purple-300 hover:text-white"
+              className="p-2.5 text-purple-300 hover:text-white hover:scale-110 transition-all rounded-full border border-purple-500/30 hover:border-purple-400 bg-purple-950/40"
+              aria-label="Close menu"
             >
               <X className="w-6 h-6" />
             </button>
           </div>
 
-          <div className="space-y-6 font-syne text-2xl sm:text-4xl text-slate-200 max-w-lg mx-auto text-center">
-            <Link
-              href="/workspace"
-              onClick={() => setIsMenuOpen(false)}
-              className="block hover:text-purple-400 transition-colors"
-            >
-              Live Voice Workspace
-            </Link>
-            <Link
-              href="/projects"
-              onClick={() => setIsMenuOpen(false)}
-              className="block hover:text-purple-400 transition-colors"
-            >
-              Repositories &amp; Projects
-            </Link>
-            <Link
-              href="/knowledge"
-              onClick={() => setIsMenuOpen(false)}
-              className="block hover:text-purple-400 transition-colors"
-            >
-              pgvector Knowledge Base
-            </Link>
-            <a
-              href="#architecture"
-              onClick={() => setIsMenuOpen(false)}
-              className="block hover:text-purple-400 transition-colors"
-            >
-              Architecture &amp; Security
-            </a>
-            <a
-              href="https://github.com/150ftw/VoiceOps"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block hover:text-purple-400 transition-colors text-lg font-mono text-purple-400"
-            >
-              GitHub Repository &rarr;
-            </a>
+          {/* Flowing Menu Component */}
+          <div className="flex-1 w-full relative overflow-hidden">
+            <FlowingMenu
+              items={[
+                {
+                  link: '/workspace',
+                  text: 'Live Voice Workspace',
+                  image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600&h=400&fit=crop&auto=format',
+                },
+                {
+                  link: '/projects',
+                  text: 'Repositories & Projects',
+                  image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=600&h=400&fit=crop&auto=format',
+                },
+                {
+                  link: '/knowledge',
+                  text: 'pgvector Knowledge Base',
+                  image: 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?q=80&w=600&h=400&fit=crop&auto=format',
+                },
+                {
+                  link: '#capabilities',
+                  text: 'Architecture & Security',
+                  image: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=600&h=400&fit=crop&auto=format',
+                },
+                {
+                  link: 'https://github.com/150ftw/VoiceOps',
+                  text: 'GitHub Repository',
+                  image: 'https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?q=80&w=600&h=400&fit=crop&auto=format',
+                },
+              ]}
+              speed={14}
+              textColor="#E9D5FF"
+              bgColor="#030206"
+              marqueeBgColor="#A855F7"
+              marqueeTextColor="#030206"
+              borderColor="rgba(168, 85, 247, 0.18)"
+              onItemClick={() => setIsMenuOpen(false)}
+            />
           </div>
 
-          <div className="text-center font-mono text-xs text-purple-400/60">
-            &copy; 2026 VoiceOps Autonomous DevOps Platform
+          {/* Bottom Bar */}
+          <div className="h-16 px-6 sm:px-12 flex items-center justify-between border-t border-purple-500/20 bg-[#030206]/90 backdrop-blur-md text-[11px] font-mono text-slate-500 uppercase tracking-widest">
+            <span>&copy; 2026 VoiceOps Autonomous DevOps</span>
+            <span className="text-purple-400 font-semibold">100% OPERATIONAL &bull; V1.0</span>
           </div>
         </div>
       )}
