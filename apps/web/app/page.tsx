@@ -314,12 +314,6 @@ export default function LandingPage() {
             />
           </div>
 
-          {/* Laser Scan Beam */}
-          <div
-            className="absolute inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-fuchsia-400 to-transparent blur-[1px] opacity-80 pointer-events-none z-20"
-            style={{ animation: 'scan 5s ease-in-out infinite' }}
-          />
-
           {/* Foreground Glitch Typography with Hover Character Expansion & True Center Optical Compensation */}
           <h1 className="relative z-10 text-6xl sm:text-8xl md:text-9xl lg:text-[10rem] font-glitch text-purple-100 uppercase drop-shadow-[0_0_60px_rgba(168,85,247,0.5)] scale-y-95 w-full flex flex-col items-center justify-center gap-1 sm:gap-2 select-none text-center">
             <span className="inline-block tracking-[0.04em] group-hover:tracking-[0.2em] sm:group-hover:tracking-[0.28em] -mr-[0.04em] group-hover:-mr-[0.2em] sm:group-hover:-mr-[0.28em] transition-all duration-700 ease-out group-hover:text-white group-hover:drop-shadow-[0_0_80px_rgba(233,213,255,0.9)]">
