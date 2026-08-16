@@ -23,10 +23,16 @@ export function useWebSocketConversation({
   const socketRef = useRef<WebSocket | null>(null);
   const audioPlayerRef = useRef<HTMLAudioElement | null>(null);
   const onMessageReceivedRef = useRef(onMessageReceived);
+  const reconnectTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const pendingApprovalRef = useRef(pendingApproval);
 
   useEffect(() => {
     onMessageReceivedRef.current = onMessageReceived;
   }, [onMessageReceived]);
+
+  useEffect(() => {
+    pendingApprovalRef.current = pendingApproval;
+  }, [pendingApproval]);
 
   // Stop / Cancel audio playback on client
   const stopSpeech = useCallback(() => {
@@ -48,152 +54,185 @@ export function useWebSocketConversation({
     setAgentState('idle');
   }, [stopSpeech]);
 
+  // Stable WebSocket connection manager with auto-reconnect
   useEffect(() => {
-    if (!conversationId) return;
+    if (!conversationId) {
+      setIsConnected(false);
+      return;
+    }
 
     let isUnmounted = false;
-    const token = getAuthToken();
-    const envWs = process.env.NEXT_PUBLIC_WS_URL || 'ws://localhost:8000';
-    const cleanWs = envWs.endsWith('/') ? envWs.slice(0, -1) : envWs;
-    const baseWs = cleanWs.endsWith('/ws/v1') ? cleanWs.slice(0, -6) : cleanWs;
-    const wsUrl = `${baseWs}/ws/v1/conversations/${conversationId}${token ? `?token=${token}` : ''}`;
 
-    const ws = new WebSocket(wsUrl);
-    socketRef.current = ws;
-
-    ws.onopen = () => {
-      if (!isUnmounted) {
-        setIsConnected(true);
-        console.log('VoiceOps WebSocket connected for conversation:', conversationId);
-      }
-    };
-
-    ws.onclose = () => {
-      if (!isUnmounted) {
-        setIsConnected(false);
-        console.log('VoiceOps WebSocket disconnected');
-      }
-    };
-
-    ws.onerror = (err) => {
-      console.error('VoiceOps WebSocket error:', err);
-    };
-
-    ws.onmessage = (event) => {
+    const connectWebSocket = () => {
       if (isUnmounted) return;
+
+      const token = getAuthToken();
+      const envWs = process.env.NEXT_PUBLIC_WS_URL || 'ws://localhost:8000';
+      const cleanWs = envWs.endsWith('/') ? envWs.slice(0, -1) : envWs;
+      const baseWs = cleanWs.endsWith('/ws/v1') ? cleanWs.slice(0, -6) : cleanWs;
+      const wsUrl = `${baseWs}/ws/v1/conversations/${conversationId}${token ? `?token=${token}` : ''}`;
+
       try {
-        const msg = JSON.parse(event.data);
+        const ws = new WebSocket(wsUrl);
+        socketRef.current = ws;
 
-        switch (msg.type) {
-          case 'agent.state.changed':
-            setAgentState(msg.state);
-            if (msg.state === 'idle') {
-              setIsSpeaking(false);
-            }
-            break;
+        ws.onopen = () => {
+          if (!isUnmounted) {
+            setIsConnected(true);
+            console.log('VoiceOps WebSocket connected for conversation:', conversationId);
+          }
+        };
 
-          case 'agent.activity.step':
-            setActivitySteps((prev) => {
-              const existingIdx = prev.findIndex((s) => s.id === msg.id);
-              if (existingIdx !== -1) {
-                const updated = [...prev];
-                updated[existingIdx] = { ...updated[existingIdx], ...msg };
-                return updated;
+        ws.onclose = () => {
+          if (!isUnmounted) {
+            setIsConnected(false);
+            console.log('VoiceOps WebSocket disconnected, scheduling reconnect...');
+            // Auto reconnect after 2 seconds
+            if (reconnectTimeoutRef.current) clearTimeout(reconnectTimeoutRef.current);
+            reconnectTimeoutRef.current = setTimeout(() => {
+              if (!isUnmounted) {
+                connectWebSocket();
               }
-              return [...prev, msg];
-            });
-            break;
+            }, 2000);
+          }
+        };
 
-          case 'agent.approval.required':
-            setPendingApproval({
-              id: msg.approval_id,
-              action_type: msg.action_type,
-              description: msg.description,
-              payload: msg.payload,
-              status: 'pending',
-            });
-            break;
+        ws.onerror = (err) => {
+          console.warn('VoiceOps WebSocket warning:', err);
+        };
 
-          case 'agent.approval.resolved':
-            setPendingApproval(null);
-            break;
+        ws.onmessage = (event) => {
+          if (isUnmounted) return;
+          try {
+            const msg = JSON.parse(event.data);
 
-          case 'agent.sources':
-            if (msg.sources) {
-              setCurrentSources(msg.sources);
-            }
-            break;
-
-          case 'agent.response.completed':
-            if (onMessageReceivedRef.current) {
-              onMessageReceivedRef.current({
-                id: msg.message_id || `agent-${Date.now()}`,
-                conversation_id: conversationId,
-                sender_type: 'agent',
-                content: msg.text,
-                created_at: new Date().toISOString(),
-                metadata: {
-                  sources: msg.sources || [],
-                  pending_approval: pendingApproval || undefined,
-                },
-              });
-            }
-            break;
-
-          case 'agent.audio.chunk':
-            if (msg.data) {
-              try {
-                const audio = new Audio(`data:audio/mp3;base64,${msg.data}`);
-                audioPlayerRef.current = audio;
-                setIsSpeaking(true);
-                audio.play().catch((playErr) => console.warn('Audio autoplay blocked', playErr));
-                audio.onended = () => {
+            switch (msg.type) {
+              case 'agent.state.changed':
+                setAgentState(msg.state);
+                if (msg.state === 'idle') {
                   setIsSpeaking(false);
-                  setAgentState('idle');
-                };
-              } catch (audioErr) {
-                console.error('Audio playback error', audioErr);
-              }
-            }
-            break;
+                }
+                break;
 
-          default:
-            break;
-        }
-      } catch (err) {
-        console.error('Failed to parse WebSocket packet', err);
+              case 'agent.activity.step':
+                setActivitySteps((prev) => {
+                  const existingIdx = prev.findIndex((s) => s.id === msg.id);
+                  if (existingIdx !== -1) {
+                    const updated = [...prev];
+                    updated[existingIdx] = { ...updated[existingIdx], ...msg };
+                    return updated;
+                  }
+                  return [...prev, msg];
+                });
+                break;
+
+              case 'agent.approval.required':
+                setPendingApproval({
+                  id: msg.approval_id,
+                  action_type: msg.action_type,
+                  description: msg.description,
+                  payload: msg.payload,
+                  status: 'pending',
+                });
+                break;
+
+              case 'agent.approval.resolved':
+                setPendingApproval(null);
+                break;
+
+              case 'agent.sources':
+                if (msg.sources) {
+                  setCurrentSources(msg.sources);
+                }
+                break;
+
+              case 'agent.response.completed':
+                if (onMessageReceivedRef.current) {
+                  onMessageReceivedRef.current({
+                    id: msg.message_id || `agent-${Date.now()}`,
+                    conversation_id: conversationId,
+                    sender_type: 'agent',
+                    content: msg.text,
+                    created_at: new Date().toISOString(),
+                    metadata: {
+                      sources: msg.sources || [],
+                      pending_approval: pendingApprovalRef.current || undefined,
+                    },
+                  });
+                }
+                break;
+
+              case 'agent.audio.chunk':
+                if (msg.data) {
+                  try {
+                    const audio = new Audio(`data:audio/mp3;base64,${msg.data}`);
+                    audioPlayerRef.current = audio;
+                    setIsSpeaking(true);
+                    audio.play().catch((playErr) => console.warn('Audio autoplay blocked', playErr));
+                    audio.onended = () => {
+                      setIsSpeaking(false);
+                      setAgentState('idle');
+                    };
+                  } catch (audioErr) {
+                    console.error('Audio playback error', audioErr);
+                  }
+                }
+                break;
+
+              default:
+                break;
+            }
+          } catch (err) {
+            console.error('Failed to parse WebSocket packet', err);
+          }
+        };
+      } catch (wsErr) {
+        console.error('Failed to initialize WebSocket', wsErr);
       }
     };
+
+    connectWebSocket();
 
     return () => {
       isUnmounted = true;
-      stopSpeech();
-      if (ws.readyState === WebSocket.OPEN || ws.readyState === WebSocket.CONNECTING) {
-        ws.close();
+      if (reconnectTimeoutRef.current) {
+        clearTimeout(reconnectTimeoutRef.current);
+      }
+      if (socketRef.current) {
+        if (socketRef.current.readyState === WebSocket.OPEN || socketRef.current.readyState === WebSocket.CONNECTING) {
+          socketRef.current.close();
+        }
+        socketRef.current = null;
       }
     };
-  }, [conversationId, stopSpeech, pendingApproval]);
+  }, [conversationId]);
 
-  const sendTextMessage = useCallback((content: string) => {
+  const sendTextMessage = useCallback((content: string): boolean => {
     if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {
       setActivitySteps([]);
       setCurrentSources([]);
       socketRef.current.send(JSON.stringify({ type: 'user.text.message', content }));
+      return true;
     }
+    return false;
   }, []);
 
-  const sendAudioChunk = useCallback((base64Data: string) => {
+  const sendAudioChunk = useCallback((base64Data: string): boolean => {
     if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {
       socketRef.current.send(JSON.stringify({ type: 'user.audio.chunk', data: base64Data }));
+      return true;
     }
+    return false;
   }, []);
 
-  const sendAudioFinal = useCallback(() => {
+  const sendAudioFinal = useCallback((): boolean => {
     if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {
       setActivitySteps([]);
       setCurrentSources([]);
       socketRef.current.send(JSON.stringify({ type: 'user.audio.final' }));
+      return true;
     }
+    return false;
   }, []);
 
   const respondToApproval = useCallback(async (approvalId: string, decision: 'approved' | 'rejected') => {
@@ -206,17 +245,17 @@ export function useWebSocketConversation({
         })
       );
     } else {
-      // REST fallback
+      // Fallback REST endpoint for approval
       try {
         await apiRequest(`/approvals/${approvalId}/respond`, {
           method: 'POST',
-          body: JSON.stringify({ action: decision }),
+          body: JSON.stringify({ decision }),
         });
+        setPendingApproval(null);
       } catch (err) {
-        console.error('REST approval response error:', err);
+        console.error('Failed to submit approval via REST', err);
       }
     }
-    setPendingApproval(null);
   }, []);
 
   return {
@@ -224,7 +263,6 @@ export function useWebSocketConversation({
     agentState,
     activitySteps,
     pendingApproval,
-    setPendingApproval,
     currentSources,
     isSpeaking,
     sendTextMessage,
@@ -232,6 +270,7 @@ export function useWebSocketConversation({
     sendAudioFinal,
     sendInterrupt,
     respondToApproval,
+    setPendingApproval,
     stopSpeech,
   };
 }

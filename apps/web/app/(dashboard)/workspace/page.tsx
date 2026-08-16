@@ -204,10 +204,13 @@ export default function VoiceWorkspacePage() {
     };
     setMessages((prev) => [...prev, tempUserMsg]);
 
+    let sentViaWs = false;
     if (isConnected) {
-      sendTextMessage(trimmed);
-    } else if (conversation) {
-      // Fallback REST call if WebSocket is connecting
+      sentViaWs = sendTextMessage(trimmed);
+    }
+
+    if (!sentViaWs && conversation) {
+      // Fallback REST call if WebSocket is connecting or disconnected
       try {
         const result = await apiRequest(`/conversations/${conversation.id}/messages`, {
           method: 'POST',
