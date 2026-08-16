@@ -36,9 +36,12 @@ import {
   KeyRound,
   ExternalLink,
   ChevronDown,
+  Globe,
+  Boxes,
 } from 'lucide-react';
 import { apiRequest, clearAuthToken, getAuthToken } from '@/lib/api-client';
 import { HeroBackground } from '@/components/landing/hero-background';
+import { Hero3DExperience } from '@/components/landing/hero-3d-experience';
 
 export default function LandingPage() {
   const [currentUser, setCurrentUser] = useState<any>(null);
@@ -116,13 +119,13 @@ export default function LandingPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#05070D] text-slate-100 selection:bg-indigo-500/30 selection:text-indigo-200 relative overflow-hidden font-sans antialiased">
-      {/* Background Video & Interactive Soundwave Matrix */}
+    <div className="min-h-screen bg-[#04060C] text-slate-100 selection:bg-indigo-500/30 selection:text-indigo-200 relative overflow-hidden font-sans antialiased">
+      {/* 2D Background Ambient Video Matrix */}
       <HeroBackground />
 
       {/* Floating Header Navigation */}
       <header className="sticky top-4 z-50 max-w-6xl mx-auto px-4 sm:px-6">
-        <nav className="h-16 rounded-2xl bg-[#090E1A]/85 backdrop-blur-xl border border-white/10 px-5 flex items-center justify-between shadow-2xl shadow-black/80">
+        <nav className="h-16 rounded-2xl bg-[#080D1A]/85 backdrop-blur-xl border border-white/10 px-5 flex items-center justify-between shadow-2xl shadow-black/80">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-cyan-400 flex items-center justify-center text-white shadow-lg glow-indigo">
               <Zap className="w-4 h-4 fill-current" />
@@ -200,10 +203,13 @@ export default function LandingPage() {
         </nav>
       </header>
 
-      {/* Hero Section */}
-      <section className="relative pt-16 pb-16 px-6 max-w-6xl mx-auto text-center space-y-7">
+      {/* Hero Section with Interactive 3D WebGL Hologram Core */}
+      <section className="relative pt-12 pb-16 px-6 max-w-6xl mx-auto text-center space-y-7 min-h-[600px] flex flex-col justify-center items-center">
+        {/* 3D WebGL Neural Core Canvas (Three.js) */}
+        <Hero3DExperience />
+
         {/* Shimmer Announcement Pill */}
-        <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-slate-900/90 border border-slate-700/60 shadow-lg text-slate-300 text-xs font-medium backdrop-blur-md">
+        <div className="relative z-10 inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-slate-950/80 border border-slate-700/60 shadow-2xl text-slate-300 text-xs font-medium backdrop-blur-md">
           <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
           <span className="text-slate-200">Autonomous DevOps Intelligence</span>
           <span className="text-slate-600">&bull;</span>
@@ -211,7 +217,7 @@ export default function LandingPage() {
         </div>
 
         {/* Hero Title */}
-        <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white max-w-4xl mx-auto leading-[1.08]">
+        <h1 className="relative z-10 text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white max-w-4xl mx-auto leading-[1.08] drop-shadow-2xl">
           Talk to your infrastructure. <br />
           <span className="bg-gradient-to-r from-indigo-300 via-cyan-300 to-emerald-300 bg-clip-text text-transparent">
             Fix CI/CD in seconds.
@@ -219,15 +225,15 @@ export default function LandingPage() {
         </h1>
 
         {/* Hero Subtitle */}
-        <p className="text-sm sm:text-base text-slate-400 max-w-2xl mx-auto leading-relaxed font-normal">
+        <p className="relative z-10 text-sm sm:text-base text-slate-300 max-w-2xl mx-auto leading-relaxed font-normal drop-shadow-md">
           VoiceOps listens, traverses full GitHub repository trees, isolates build error stack traces, and prepares cryptographically approved fixes &mdash; without touching a terminal.
         </p>
 
-        {/* Interactive Voice Orb & Action Bar */}
-        <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+        {/* Action Buttons */}
+        <div className="relative z-10 pt-2 flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link
             href="/workspace"
-            className="w-full sm:w-auto px-7 py-3.5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs sm:text-sm shadow-xl glow-indigo transition-all flex items-center justify-center gap-2.5 transform hover:-translate-y-0.5"
+            className="w-full sm:w-auto px-7 py-3.5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs sm:text-sm shadow-2xl glow-indigo transition-all flex items-center justify-center gap-2.5 transform hover:-translate-y-0.5 border border-indigo-400/30"
           >
             <Mic className="w-4 h-4" />
             <span>Launch Live Voice Workspace</span>
@@ -236,10 +242,10 @@ export default function LandingPage() {
 
           <button
             onClick={toggleMockVoice}
-            className={`w-full sm:w-auto px-6 py-3.5 rounded-2xl border text-xs sm:text-sm font-semibold transition-all flex items-center justify-center gap-2.5 ${
+            className={`w-full sm:w-auto px-6 py-3.5 rounded-2xl border text-xs sm:text-sm font-semibold transition-all flex items-center justify-center gap-2.5 backdrop-blur-md ${
               isPlayingVoice
-                ? 'bg-rose-500/15 border-rose-500/40 text-rose-300 shadow-lg'
-                : 'bg-slate-900/80 hover:bg-slate-850 border-slate-800 text-slate-300 hover:text-white'
+                ? 'bg-rose-500/20 border-rose-500/50 text-rose-300 shadow-xl glow-rose'
+                : 'bg-slate-900/90 hover:bg-slate-850 border-slate-700/80 text-slate-200 hover:text-white'
             }`}
           >
             {isPlayingVoice ? (
@@ -249,34 +255,36 @@ export default function LandingPage() {
               </>
             ) : (
               <>
-                <Play className="w-3.5 h-3.5 text-indigo-400 fill-current" />
+                <Play className="w-4 h-4 text-indigo-400 fill-current" />
                 <span>Hear AI Voice Response</span>
               </>
             )}
           </button>
         </div>
 
-        {/* Interactive Audio Spectrum Waves */}
-        <div className="pt-4 flex items-center justify-center gap-1.5 h-8">
-          {[40, 65, 85, 30, 95, 60, 45, 80, 55, 90, 70, 40, 85, 60, 30, 75].map((h, i) => (
-            <span
-              key={i}
-              className={`w-1 rounded-full transition-all duration-300 ${
-                isPlayingVoice
-                  ? 'bg-gradient-to-t from-indigo-500 to-cyan-400 animate-pulse'
-                  : 'bg-slate-800'
-              }`}
-              style={{
-                height: isPlayingVoice ? `${Math.max(12, h * 0.35)}px` : '6px',
-                animationDelay: `${i * 60}ms`,
-              }}
-            />
-          ))}
+        {/* 3D Telemetry Stats Grid */}
+        <div className="relative z-10 grid grid-cols-2 sm:grid-cols-4 gap-3 pt-6 max-w-3xl mx-auto w-full">
+          <div className="p-3 rounded-2xl bg-slate-950/80 border border-white/[0.08] backdrop-blur-md shadow-lg">
+            <p className="text-[10px] font-mono uppercase text-slate-500">Voice Latency</p>
+            <p className="text-sm font-extrabold text-cyan-300 mt-0.5">~180 ms</p>
+          </div>
+          <div className="p-3 rounded-2xl bg-slate-950/80 border border-white/[0.08] backdrop-blur-md shadow-lg">
+            <p className="text-[10px] font-mono uppercase text-slate-500">Vector Embeddings</p>
+            <p className="text-sm font-extrabold text-indigo-300 mt-0.5">1536-dim pgvector</p>
+          </div>
+          <div className="p-3 rounded-2xl bg-slate-950/80 border border-white/[0.08] backdrop-blur-md shadow-lg">
+            <p className="text-[10px] font-mono uppercase text-slate-500">Multi-Model LLM</p>
+            <p className="text-sm font-extrabold text-purple-300 mt-0.5">Gemini &bull; GPT-4o</p>
+          </div>
+          <div className="p-3 rounded-2xl bg-slate-950/80 border border-white/[0.08] backdrop-blur-md shadow-lg">
+            <p className="text-[10px] font-mono uppercase text-slate-500">Guardrail Enforced</p>
+            <p className="text-sm font-extrabold text-emerald-300 mt-0.5">Zero Auto-Writes</p>
+          </div>
         </div>
 
-        {/* Quick Sample Queries */}
-        <div className="pt-2 flex flex-wrap items-center justify-center gap-2 max-w-2xl mx-auto">
-          <span className="text-slate-500 font-mono text-[11px] mr-1">Try Asking:</span>
+        {/* Prompt Pills */}
+        <div className="relative z-10 pt-4 flex flex-wrap items-center justify-center gap-2 text-xs">
+          <span className="text-slate-400 font-mono text-[11px]">Try Asking:</span>
           {interactivePrompts.map((p) => (
             <button
               key={p.title}
@@ -286,7 +294,7 @@ export default function LandingPage() {
                 const el = document.getElementById('console-preview');
                 if (el) el.scrollIntoView({ behavior: 'smooth' });
               }}
-              className="px-3 py-1 rounded-xl bg-white/[0.03] hover:bg-indigo-500/15 border border-white/5 hover:border-indigo-500/30 text-slate-300 hover:text-white text-[11px] transition-all font-mono"
+              className="px-3 py-1 rounded-xl bg-slate-900/80 hover:bg-indigo-500/20 hover:border-indigo-500/40 border border-slate-800 text-slate-300 hover:text-white transition-all text-xs font-mono backdrop-blur-sm"
             >
               {p.title} &rarr;
             </button>
@@ -294,29 +302,27 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Interactive Studio Console Simulation */}
-      <section id="console-preview" className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
-        <div className="rounded-3xl bg-[#090E1A] border border-slate-700/70 shadow-2xl shadow-black overflow-hidden ring-1 ring-white/10">
+      {/* Interactive DevOps Studio Console Simulation */}
+      <section id="console-preview" className="py-16 px-6 max-w-5xl mx-auto relative z-10">
+        <div className="rounded-3xl bg-[#080D1A] border border-white/[0.08] shadow-2xl overflow-hidden">
           {/* Console Header Bar */}
-          <div className="px-5 py-3.5 bg-slate-950/90 border-b border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <div className="flex items-center gap-3">
-              <div className="flex items-center gap-1.5">
-                <span className="w-3 h-3 rounded-full bg-rose-500/80" />
-                <span className="w-3 h-3 rounded-full bg-amber-500/80" />
-                <span className="w-3 h-3 rounded-full bg-emerald-500/80" />
-              </div>
-              <span className="text-xs font-mono text-slate-400 font-medium">
-                Live Studio Session &bull; <code className="text-indigo-300">150ftw/demo-app</code>
-              </span>
+          <div className="px-5 py-3.5 bg-slate-950 border-b border-white/5 flex flex-wrap items-center justify-between gap-3">
+            <div className="flex items-center gap-2 text-xs font-mono text-slate-400">
+              <span className="w-2.5 h-2.5 rounded-full bg-rose-500/80" />
+              <span className="w-2.5 h-2.5 rounded-full bg-amber-500/80" />
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80" />
+              <span className="ml-2 font-semibold text-slate-300">Live Studio Session</span>
+              <span className="text-slate-600">&bull;</span>
+              <span className="text-indigo-400">150ftw/demo-app</span>
             </div>
 
-            {/* Interactive Tabs */}
-            <div className="flex items-center gap-1 bg-slate-900/90 p-1 rounded-xl border border-white/5 text-[11px] font-medium">
+            {/* Interactive Tab Switcher */}
+            <div className="flex items-center gap-1.5 p-1 rounded-xl bg-slate-900/90 border border-white/5 text-xs font-medium">
               <button
                 onClick={() => setActiveTab('diagnosis')}
                 className={`px-3 py-1 rounded-lg transition-all ${
                   activeTab === 'diagnosis'
-                    ? 'bg-indigo-600 text-white shadow-sm'
+                    ? 'bg-indigo-600 text-white shadow-md'
                     : 'text-slate-400 hover:text-slate-200'
                 }`}
               >
@@ -326,7 +332,7 @@ export default function LandingPage() {
                 onClick={() => setActiveTab('diff')}
                 className={`px-3 py-1 rounded-lg transition-all ${
                   activeTab === 'diff'
-                    ? 'bg-indigo-600 text-white shadow-sm'
+                    ? 'bg-indigo-600 text-white shadow-md'
                     : 'text-slate-400 hover:text-slate-200'
                 }`}
               >
@@ -336,7 +342,7 @@ export default function LandingPage() {
                 onClick={() => setActiveTab('rag')}
                 className={`px-3 py-1 rounded-lg transition-all ${
                   activeTab === 'rag'
-                    ? 'bg-indigo-600 text-white shadow-sm'
+                    ? 'bg-indigo-600 text-white shadow-md'
                     : 'text-slate-400 hover:text-slate-200'
                 }`}
               >
@@ -346,7 +352,7 @@ export default function LandingPage() {
                 onClick={() => setActiveTab('approval')}
                 className={`px-3 py-1 rounded-lg transition-all ${
                   activeTab === 'approval'
-                    ? 'bg-indigo-600 text-white shadow-sm'
+                    ? 'bg-indigo-600 text-white shadow-md'
                     : 'text-slate-400 hover:text-slate-200'
                 }`}
               >
@@ -355,146 +361,141 @@ export default function LandingPage() {
             </div>
           </div>
 
-          {/* Console Body View */}
-          <div className="p-6 sm:p-8 space-y-6">
+          {/* Console Simulation Body */}
+          <div className="p-6 space-y-6">
+            {/* User Prompt Simulation */}
+            <div className="flex justify-end">
+              <div className="flex items-start gap-2.5 max-w-lg">
+                <div className="p-3.5 rounded-2xl bg-indigo-600 text-white text-xs font-mono leading-relaxed shadow-lg">
+                  &ldquo;{selectedPrompt}&rdquo;
+                </div>
+                <div className="w-8 h-8 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-xs font-bold text-slate-300 shrink-0">
+                  You
+                </div>
+              </div>
+            </div>
+
+            {/* AI Agent Telemetry Steps */}
+            <div className="space-y-2 font-mono text-xs max-w-2xl">
+              <div className="flex items-center gap-2 text-cyan-400">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                <span>Analyzed GitHub Actions workflow run #1245 (Docker Build &amp; Deploy)</span>
+              </div>
+              <div className="flex items-center gap-2 text-cyan-400">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                <span>Isolated stack trace error in pip install -r requirements.txt (Line 14)</span>
+              </div>
+            </div>
+
+            {/* Tab 1: Diagnostics */}
             {activeTab === 'diagnosis' && (
-              <div className="space-y-4 animate-in fade-in duration-200">
-                {/* User query */}
-                <div className="flex items-start gap-3 flex-row-reverse">
-                  <div className="w-8 h-8 rounded-xl bg-slate-700 flex items-center justify-center text-xs font-bold text-white shrink-0">
-                    You
-                  </div>
-                  <div className="p-3.5 rounded-2xl bg-indigo-600 text-white text-xs max-w-lg leading-relaxed shadow-md">
-                    &ldquo;{selectedPrompt}&rdquo;
-                  </div>
+              <div className="p-4 rounded-2xl bg-slate-950/90 border border-white/5 space-y-3 font-mono text-xs">
+                <div className="flex items-center justify-between text-slate-400 pb-2 border-b border-white/5">
+                  <span className="flex items-center gap-1.5 text-rose-400 font-bold">
+                    <AlertTriangle className="w-3.5 h-3.5" />
+                    <span>Root Cause Isolated: Python 3.13 / bcrypt Dependency Mismatch</span>
+                  </span>
+                  <span className="text-[10px] text-slate-500">Exit Code: 1</span>
                 </div>
-
-                {/* Agent activity step */}
-                <div className="p-3.5 rounded-2xl bg-slate-950/90 border border-white/5 space-y-2 font-mono text-xs">
-                  <div className="flex items-center gap-2 text-cyan-400">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                    <span>Analyzed GitHub Actions workflow run #1245 (Docker Build & Deploy)</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-slate-400">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                    <span>Isolated stack trace error in <code>pip install -r requirements.txt</code> (Line 14)</span>
-                  </div>
-                </div>
-
-                {/* Agent response card */}
-                <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 rounded-xl bg-indigo-600 flex items-center justify-center text-white shrink-0 glow-indigo">
-                    <Bot className="w-4 h-4" />
-                  </div>
-                  <div className="p-5 rounded-2xl bg-slate-950/90 border border-slate-800 text-xs text-slate-200 max-w-2xl space-y-3 leading-relaxed">
-                    <p className="font-medium text-slate-100">
-                      The workflow failure occurred during containerized dependency installation:
-                    </p>
-                    <div className="p-3 rounded-xl bg-rose-950/30 border border-rose-500/30 font-mono text-[11px] text-rose-300">
-                      TypeError: bcrypt==3.2.0 is incompatible with Python 3.13 runtime (Missing C-extension wheels).
-                    </div>
-                    <p className="text-slate-300">
-                      <strong>Root Cause:</strong> The base image in <code>Dockerfile</code> was upgraded to Python 3.13 without upgrading pinned dependencies.<br />
-                      <strong>Recommended Fix:</strong> Upgrade <code>bcrypt &ge; 4.0.0</code> or revert base image to <code>python:3.11-slim</code>.
-                    </p>
-                  </div>
+                <div className="bg-[#05070D] p-3 rounded-xl border border-white/5 text-[11px] space-y-1 text-slate-300 leading-relaxed">
+                  <p className="text-slate-500"># Workflow Run #1245 &bull; Job: docker_build</p>
+                  <p className="text-rose-400 font-bold">
+                    ERROR: Failed building wheel for bcrypt (Legacy C-extension build failed)
+                  </p>
+                  <p className="text-slate-400">
+                    &bull; Python 3.13 removed deprecated Py_UNICODE APIs used in bcrypt &lt; 4.0.0
+                  </p>
+                  <p className="text-emerald-400 font-semibold">
+                    &bull; Recommended Fix: Pin python:3.11-slim base image or upgrade bcrypt &gt;= 4.1.2
+                  </p>
                 </div>
               </div>
             )}
 
+            {/* Tab 2: Diff Comparison */}
             {activeTab === 'diff' && (
-              <div className="space-y-4 animate-in fade-in duration-200">
-                <div className="p-4 rounded-2xl bg-slate-950/90 border border-white/5 space-y-2">
-                  <div className="flex items-center justify-between text-xs font-mono text-slate-400 pb-2 border-b border-white/5">
-                    <span className="flex items-center gap-1.5 text-indigo-300 font-semibold">
-                      <GitBranch className="w-3.5 h-3.5" />
-                      <span>Commit Diff: e49fa12 (Passing) &rarr; a19b882 (Failed)</span>
-                    </span>
-                    <span className="text-slate-500">File: Dockerfile</span>
-                  </div>
-                  <pre className="p-3.5 rounded-xl bg-slate-900/90 font-mono text-xs leading-relaxed text-slate-300 overflow-x-auto">
-                    <span className="text-rose-400">- FROM python:3.11-slim</span>
-                    {'\n'}
-                    <span className="text-emerald-400">+ FROM python:3.13-slim</span>
-                    {'\n'}
-                    <span>  WORKDIR /app</span>
-                    {'\n'}
-                    <span>  COPY requirements.txt .</span>
-                    {'\n'}
-                    <span>  RUN pip install --no-cache-dir -r requirements.txt</span>
-                  </pre>
-                  <p className="text-xs text-slate-400 pt-1">
-                    VoiceOps detected that commit <code>a19b882</code> broke compatibility with <code>requirements.txt</code>.
+              <div className="p-4 rounded-2xl bg-slate-950/90 border border-white/5 space-y-3 font-mono text-xs">
+                <div className="flex items-center justify-between text-slate-400 pb-2 border-b border-white/5">
+                  <span className="flex items-center gap-1.5 text-indigo-300 font-bold">
+                    <GitPullRequest className="w-3.5 h-3.5 text-indigo-400" />
+                    <span>Proposed Patch Diff &bull; Dockerfile</span>
+                  </span>
+                  <span className="text-[10px] text-emerald-400">+1 / -1 lines</span>
+                </div>
+                <div className="bg-[#05070D] p-3 rounded-xl border border-white/5 text-[11px] space-y-1 font-mono leading-relaxed">
+                  <p className="text-slate-500">@@ -1,3 +1,3 @@</p>
+                  <p className="text-rose-400 bg-rose-500/10 px-2 py-0.5 rounded">
+                    - FROM python:3.13-rc-slim AS base
                   </p>
+                  <p className="text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded font-bold">
+                    + FROM python:3.11-slim AS base
+                  </p>
+                  <p className="text-slate-400 px-2">  WORKDIR /app</p>
+                  <p className="text-slate-400 px-2">  COPY requirements.txt .</p>
                 </div>
               </div>
             )}
 
+            {/* Tab 3: RAG Runbook */}
             {activeTab === 'rag' && (
-              <div className="space-y-4 animate-in fade-in duration-200">
-                <div className="p-4 rounded-2xl bg-slate-950/90 border border-white/5 space-y-3">
-                  <div className="flex items-center justify-between text-xs font-mono">
-                    <span className="text-cyan-400 font-bold flex items-center gap-1.5">
-                      <Database className="w-3.5 h-3.5" />
-                      <span>Supabase pgvector Retrieval &bull; Similarity: 94.2%</span>
-                    </span>
-                    <span className="text-slate-500">devops_runbook.md</span>
-                  </div>
-                  <blockquote className="border-l-2 border-cyan-500 pl-3 py-1.5 text-xs text-slate-300 italic bg-cyan-500/[0.04] rounded-r-lg">
-                    &ldquo;When Docker builds encounter C-extension compilation crashes, ensure base Python runtime matches binary wheel specifications before blue/green deployment.&rdquo;
-                  </blockquote>
-                  <p className="text-xs text-slate-400">
-                    VoiceOps automatically cross-references runbooks in pgvector to provide verified remediation steps.
+              <div className="p-4 rounded-2xl bg-slate-950/90 border border-white/5 space-y-3 text-xs">
+                <div className="flex items-center justify-between text-slate-400 pb-2 border-b border-white/5 font-mono">
+                  <span className="flex items-center gap-1.5 text-cyan-300 font-bold">
+                    <Database className="w-3.5 h-3.5 text-cyan-400" />
+                    <span>pgvector Runbook Match &bull; 94.2% Similarity</span>
+                  </span>
+                  <span className="text-[10px] text-slate-500">Runbook ID: DOC-204</span>
+                </div>
+                <div className="p-3.5 rounded-xl bg-slate-900/80 border border-white/5 space-y-2 leading-relaxed">
+                  <p className="font-bold text-white">Docker Build Standards &bull; Production Runbook</p>
+                  <p className="text-slate-300 text-[11px]">
+                    &ldquo;All microservices deployed to AWS EKS production cluster must pin LTS Python 3.11 runtimes. Python 3.13 Release Candidate base images are strictly prohibited in production.&rdquo;
                   </p>
+                  <div className="flex items-center gap-2 pt-1 font-mono text-[10px] text-slate-500">
+                    <span>Source: /docs/runbooks/docker_standards.md</span>
+                  </div>
                 </div>
               </div>
             )}
 
+            {/* Tab 4: Security Approval */}
             {activeTab === 'approval' && (
-              <div className="space-y-4 animate-in fade-in duration-200">
-                <div className="p-5 rounded-2xl bg-amber-950/20 border border-amber-500/40 space-y-3">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <ShieldCheck className="w-4 h-4 text-amber-400" />
-                      <h4 className="text-xs font-bold text-amber-200 uppercase tracking-wider">
-                        Security Guardrail: Action Requires Approval
-                      </h4>
-                    </div>
-                    <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-amber-500/20 text-amber-300 border border-amber-500/30">
-                      POST /repos/150ftw/demo-app/pulls
-                    </span>
-                  </div>
+              <div className="p-4 rounded-2xl bg-slate-950/90 border border-indigo-500/30 space-y-3 text-xs">
+                <div className="flex items-center justify-between text-slate-400 pb-2 border-b border-white/5">
+                  <span className="flex items-center gap-1.5 text-amber-300 font-bold font-mono">
+                    <ShieldCheck className="w-3.5 h-3.5 text-amber-400" />
+                    <span>Cryptographic Developer Approval Required</span>
+                  </span>
+                  <span className="text-[10px] px-2 py-0.5 rounded bg-amber-500/10 text-amber-300 border border-amber-500/20 font-mono">
+                    Pending Confirmation
+                  </span>
+                </div>
+                <p className="text-slate-300 leading-relaxed">
+                  VoiceOps wants to open a pull request <code className="text-indigo-300 bg-slate-900 px-1 py-0.5 rounded font-mono">patch/fix-python-base-image</code> on <code className="text-indigo-300 bg-slate-900 px-1 py-0.5 rounded font-mono">150ftw/demo-app</code>.
+                </p>
 
-                  <p className="text-xs text-slate-300">
-                    VoiceOps prepared a new Pull Request: <strong>fix: downgrade Docker base image to python:3.11-slim</strong>
-                  </p>
+                <div className="flex items-center gap-3 pt-2">
+                  <button
+                    onClick={() => setMockApprovalDone(true)}
+                    disabled={mockApprovalDone}
+                    className={`px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all ${
+                      mockApprovalDone
+                        ? 'bg-emerald-600/30 text-emerald-300 border border-emerald-500/40 cursor-default'
+                        : 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-md'
+                    }`}
+                  >
+                    <Check className="w-3.5 h-3.5" />
+                    <span>{mockApprovalDone ? 'Pull Request #42 Created!' : 'Approve & Create PR'}</span>
+                  </button>
 
-                  <div className="pt-2 flex items-center gap-3">
+                  {!mockApprovalDone && (
                     <button
-                      onClick={() => setMockApprovalDone(true)}
-                      disabled={mockApprovalDone}
-                      className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 shadow-md ${
-                        mockApprovalDone
-                          ? 'bg-emerald-600 text-white'
-                          : 'bg-indigo-600 hover:bg-indigo-500 text-white glow-indigo'
-                      }`}
-                    >
-                      {mockApprovalDone ? (
-                        <>
-                          <Check className="w-3.5 h-3.5" />
-                          <span>✓ Pull Request #48 Created on GitHub</span>
-                        </>
-                      ) : (
-                        <span>Approve & Execute</span>
-                      )}
-                    </button>
-                    <button
-                      onClick={() => setMockApprovalDone(false)}
-                      className="px-3 py-2 rounded-xl bg-slate-900 border border-slate-800 text-xs text-slate-400 hover:text-slate-200"
+                      onClick={() => setSelectedPrompt("Why did my latest deployment to production fail?")}
+                      className="px-4 py-2 rounded-xl text-xs font-semibold text-slate-400 hover:text-white bg-slate-900 border border-white/10 transition-colors"
                     >
                       Reject
                     </button>
-                  </div>
+                  )}
                 </div>
               </div>
             )}
@@ -502,163 +503,162 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Bento Grid Feature Showcase */}
-      <section id="capabilities" className="max-w-6xl mx-auto px-6 py-20 space-y-12">
-        <div className="text-center space-y-3">
-          <h2 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
-            Engineered for Production DevOps
+      {/* Feature Bento Grid */}
+      <section id="capabilities" className="py-16 px-6 max-w-6xl mx-auto space-y-10 relative z-10">
+        <div className="text-center space-y-2 max-w-xl mx-auto">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+            Built for High-Stakes Incident Response
           </h2>
-          <p className="text-xs sm:text-sm text-slate-400 max-w-lg mx-auto leading-relaxed">
-            Connected directly to GitHub Actions, repository trees, and vector memory.
+          <p className="text-xs sm:text-sm text-slate-400">
+            Engineered from ground up with real-time streaming voice, vector knowledge retrieval, and cryptographic safety guardrails.
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-          {/* Feature 1 */}
-          <div className="p-7 rounded-3xl bg-[#090E1A] border border-white/10 hover:border-indigo-500/40 transition-all space-y-3.5 shadow-xl group">
-            <div className="w-11 h-11 rounded-2xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400 group-hover:scale-105 transition-transform">
+          {/* Card 1 */}
+          <div className="p-6 rounded-3xl bg-[#080D1A] border border-white/[0.08] shadow-xl space-y-4 hover:border-indigo-500/30 transition-all group">
+            <div className="w-10 h-10 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 group-hover:scale-110 transition-transform">
               <Mic className="w-5 h-5" />
             </div>
-            <h3 className="text-sm font-bold text-white">Streaming Voice AI</h3>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              Real-time voice capture with live Web Audio visualizer, near-instant Whisper transcription, speech synthesis, and natural barge-in interruption.
-            </p>
-          </div>
-
-          {/* Feature 2 */}
-          <div className="p-7 rounded-3xl bg-[#090E1A] border border-white/10 hover:border-cyan-500/40 transition-all space-y-3.5 shadow-xl group">
-            <div className="w-11 h-11 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 group-hover:scale-105 transition-transform">
-              <Terminal className="w-5 h-5" />
+            <div className="space-y-1.5">
+              <h3 className="text-sm font-bold text-white">Streaming Voice with Interruption</h3>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                Full-duplex WebSocket architecture allows you to speak naturally and interrupt AI reasoning whenever needed &mdash; just like chatting with a senior teammate on Slack huddles.
+              </p>
             </div>
-            <h3 className="text-sm font-bold text-white">CI/CD Log Intelligence</h3>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              Automated log extraction, ANSI stripping, stack trace isolation, and diff comparisons to pinpoint the exact broken lines.
-            </p>
           </div>
 
-          {/* Feature 3 */}
-          <div className="p-7 rounded-3xl bg-[#090E1A] border border-white/10 hover:border-emerald-500/40 transition-all space-y-3.5 shadow-xl group">
-            <div className="w-11 h-11 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 group-hover:scale-105 transition-transform">
+          {/* Card 2 */}
+          <div className="p-6 rounded-3xl bg-[#080D1A] border border-white/[0.08] shadow-xl space-y-4 hover:border-cyan-500/30 transition-all group">
+            <div className="w-10 h-10 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 group-hover:scale-110 transition-transform">
               <Database className="w-5 h-5" />
             </div>
-            <h3 className="text-sm font-bold text-white">pgvector Repository Memory</h3>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              Automatically ingests full codebases, manifests, Dockerfiles, and runbooks into Supabase pgvector for sub-second semantic retrieval.
-            </p>
+            <div className="space-y-1.5">
+              <h3 className="text-sm font-bold text-white">pgvector Semantic Runbooks</h3>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                Indexes PDF, Markdown, and text architecture documents into 1536-dimensional embeddings for grounded responses with citations.
+              </p>
+            </div>
           </div>
 
-          {/* Feature 4 */}
-          <div className="p-7 rounded-3xl bg-[#090E1A] border border-white/10 hover:border-amber-500/40 transition-all space-y-3.5 shadow-xl group">
-            <div className="w-11 h-11 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 group-hover:scale-105 transition-transform">
+          {/* Card 3 */}
+          <div className="p-6 rounded-3xl bg-[#080D1A] border border-white/[0.08] shadow-xl space-y-4 hover:border-emerald-500/30 transition-all group">
+            <div className="w-10 h-10 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 group-hover:scale-110 transition-transform">
               <ShieldCheck className="w-5 h-5" />
             </div>
-            <h3 className="text-sm font-bold text-white">Human-in-the-Loop Guardrails</h3>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              Zero unauthorized write actions. Creating issues, opening PRs, or retrying workflows requires explicit developer cryptographic approval.
-            </p>
-          </div>
-
-          {/* Feature 5 */}
-          <div className="p-7 rounded-3xl bg-[#090E1A] border border-white/10 hover:border-rose-500/40 transition-all space-y-3.5 shadow-xl group">
-            <div className="w-11 h-11 rounded-2xl bg-rose-500/10 border border-rose-500/30 flex items-center justify-center text-rose-400 group-hover:scale-105 transition-transform">
-              <Lock className="w-5 h-5" />
-            </div>
-            <h3 className="text-sm font-bold text-white">AES-128 Encrypted Secrets</h3>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              GitHub OAuth tokens and credentials are encrypted at rest using AES-128-CBC and never exposed to the frontend or LLM prompts.
-            </p>
-          </div>
-
-          {/* Feature 6 */}
-          <div className="p-7 rounded-3xl bg-[#090E1A] border border-white/10 hover:border-purple-500/40 transition-all space-y-3.5 shadow-xl group">
-            <div className="w-11 h-11 rounded-2xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400 group-hover:scale-105 transition-transform">
-              <Layers className="w-5 h-5" />
-            </div>
-            <h3 className="text-sm font-bold text-white">Multi-Model Orchestrator</h3>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              Switch seamlessly between Google Gemini 1.5 Pro, OpenAI GPT-4o, Claude 3.5 Sonnet, and DeepSeek R1 for specialized reasoning.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Architecture Section */}
-      <section id="architecture" className="max-w-5xl mx-auto px-6 py-12 space-y-8">
-        <div className="p-8 rounded-3xl bg-[#090E1A] border border-white/10 shadow-2xl space-y-6">
-          <div className="flex items-center gap-3 border-b border-white/5 pb-4">
-            <Cpu className="w-5 h-5 text-indigo-400" />
-            <div>
-              <h3 className="text-sm font-bold text-white">Full-Duplex VoiceOps System Architecture</h3>
-              <p className="text-xs text-slate-400">Deterministic tool execution with real-time audio pipeline</p>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 text-center text-xs">
-            <div className="p-4 rounded-2xl bg-slate-900/90 border border-white/5 space-y-2">
-              <div className="text-indigo-400 font-mono font-bold">01 &bull; Input</div>
-              <p className="font-semibold text-slate-200">Voice Streaming</p>
-              <p className="text-[11px] text-slate-400">Whisper v3 / Web Speech</p>
-            </div>
-            <div className="p-4 rounded-2xl bg-slate-900/90 border border-white/5 space-y-2">
-              <div className="text-cyan-400 font-mono font-bold">02 &bull; Agent</div>
-              <p className="font-semibold text-slate-200">Orchestration Loop</p>
-              <p className="text-[11px] text-slate-400">Gemini &bull; GPT-4o &bull; Claude</p>
-            </div>
-            <div className="p-4 rounded-2xl bg-slate-900/90 border border-white/5 space-y-2">
-              <div className="text-emerald-400 font-mono font-bold">03 &bull; Context</div>
-              <p className="font-semibold text-slate-200">pgvector RAG</p>
-              <p className="text-[11px] text-slate-400">Supabase 1536-dim chunks</p>
-            </div>
-            <div className="p-4 rounded-2xl bg-slate-900/90 border border-white/5 space-y-2">
-              <div className="text-amber-400 font-mono font-bold">04 &bull; Guardrail</div>
-              <p className="font-semibold text-slate-200">Approved Execution</p>
-              <p className="text-[11px] text-slate-400">GitHub REST API Write</p>
+            <div className="space-y-1.5">
+              <h3 className="text-sm font-bold text-white">Cryptographic Safety Guardrails</h3>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                Zero unauthorized repository writes or deployments. Dangerous actions require explicit human confirmation and are recorded in immutable audit logs.
+              </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* FAQ Section */}
-      <section id="faq" className="max-w-4xl mx-auto px-6 py-12 space-y-6">
+      {/* Architecture & Multi-Model Multi-Orchestrator Section */}
+      <section id="architecture" className="py-16 px-6 max-w-6xl mx-auto space-y-10 relative z-10">
+        <div className="text-center space-y-2 max-w-xl mx-auto">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+            Multi-Model AI Orchestrator
+          </h2>
+          <p className="text-xs sm:text-sm text-slate-400">
+            Seamlessly switch between leading frontier models tailored for large codebase traversal and function execution.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="p-5 rounded-2xl bg-[#080D1A] border border-cyan-500/20 space-y-2 shadow-lg">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold text-white">Gemini 1.5 Pro</span>
+              <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+            </div>
+            <p className="text-[11px] text-slate-400">
+              1,000,000 token context window for massive multi-file AST traversal and monolithic workflow logs.
+            </p>
+          </div>
+
+          <div className="p-5 rounded-2xl bg-[#080D1A] border border-emerald-500/20 space-y-2 shadow-lg">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold text-white">GPT-4o</span>
+              <span className="w-2 h-2 rounded-full bg-emerald-400" />
+            </div>
+            <p className="text-[11px] text-slate-400">
+              Omni-architecture with high-precision tool calling for automated pull request synthesis.
+            </p>
+          </div>
+
+          <div className="p-5 rounded-2xl bg-[#080D1A] border border-amber-500/20 space-y-2 shadow-lg">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold text-white">Claude 3.5 Sonnet</span>
+              <span className="w-2 h-2 rounded-full bg-amber-400" />
+            </div>
+            <p className="text-[11px] text-slate-400">
+              State-of-the-art code diff analysis and deep semantic syntax diagnostics.
+            </p>
+          </div>
+
+          <div className="p-5 rounded-2xl bg-[#080D1A] border border-purple-500/20 space-y-2 shadow-lg">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold text-white">DeepSeek R1</span>
+              <span className="w-2 h-2 rounded-full bg-purple-400" />
+            </div>
+            <p className="text-[11px] text-slate-400">
+              Deep reasoning chains for race conditions and distributed microservice failures.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Accordion Section */}
+      <section id="faq" className="py-16 px-6 max-w-4xl mx-auto space-y-8 relative z-10">
         <div className="text-center space-y-2">
-          <h2 className="text-xl sm:text-2xl font-bold text-white">Frequently Asked Questions</h2>
-          <p className="text-xs text-slate-400">Everything you need to know about VoiceOps</p>
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+            Frequently Asked Questions
+          </h2>
+          <p className="text-xs sm:text-sm text-slate-400">
+            Everything you need to know about VoiceOps architecture, safety, and integration.
+          </p>
         </div>
 
         <div className="space-y-3">
           {[
             {
-              q: "How does VoiceOps connect to my GitHub repositories?",
-              a: "VoiceOps uses official GitHub OAuth (or Personal Access Tokens) encrypted at rest using AES-128-CBC. It reads GitHub Actions workflow logs, runs, and repository files via the REST API.",
+              q: "How does VoiceOps connect to my GitHub repository?",
+              a: "VoiceOps uses official GitHub OAuth 2.0 with minimal required permissions. It reads file structures, workflow run logs, and commit trees on demand, caching semantic embeddings in Supabase pgvector.",
             },
             {
-              q: "Can the AI make unapproved changes or commits to my codebase?",
-              a: "Never. VoiceOps enforces strict cryptographic security guardrails. Any write operation (such as opening a Pull Request, creating an Issue, or retrying a build) pauses and requires explicit one-click developer approval before execution.",
+              q: "Can the AI execute dangerous code or delete branches automatically?",
+              a: "Never. All mutation actions (such as opening pull requests, creating issues, or re-triggering workflows) are gated by our cryptographic Approval Manager and require explicit confirmation in the studio.",
             },
             {
-              q: "What AI models are supported?",
-              a: "VoiceOps features a Multi-Model Orchestrator supporting Google Gemini 1.5 Pro, OpenAI GPT-4o, Anthropic Claude 3.5 Sonnet, and DeepSeek R1.",
+              q: "Can I use VoiceOps completely hands-free with microphone audio?",
+              a: "Yes! VoiceOps features full streaming voice STT and instant TTS playback. You can speak naturally, and interrupt the agent at any point with the microphone orb.",
             },
             {
-              q: "How does the pgvector Knowledge Base work?",
-              a: "When you link a repository, VoiceOps parses documentation, Dockerfiles, and manifests into semantic embeddings stored in Supabase pgvector for sub-second similarity matching.",
+              q: "How do I add my own team runbooks and documentation?",
+              a: "Navigate to the Knowledge Base page and drag-and-drop your team's Markdown, PDF, or text documents. They are automatically chunked and indexed into pgvector for grounded retrieval.",
             },
           ].map((item, idx) => {
             const isOpen = openFaq === idx;
             return (
               <div
                 key={idx}
-                className="rounded-2xl bg-[#090E1A] border border-white/10 overflow-hidden transition-all"
+                className="rounded-2xl bg-[#080D1A] border border-white/[0.06] overflow-hidden transition-all"
               >
                 <button
                   onClick={() => setOpenFaq(isOpen ? null : idx)}
-                  className="w-full p-4 text-left flex items-center justify-between text-xs font-semibold text-slate-200 hover:text-white"
+                  className="w-full p-4 text-left flex items-center justify-between text-xs sm:text-sm font-semibold text-slate-200 hover:text-white"
                 >
                   <span>{item.q}</span>
-                  <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+                  <ChevronDown
+                    className={`w-4 h-4 text-slate-400 transition-transform duration-200 ${
+                      isOpen ? 'rotate-180 text-indigo-400' : ''
+                    }`}
+                  />
                 </button>
                 {isOpen && (
-                  <div className="px-4 pb-4 text-xs text-slate-400 leading-relaxed border-t border-white/5 pt-2">
+                  <div className="px-4 pb-4 text-xs text-slate-400 leading-relaxed border-t border-white/[0.04] pt-3">
                     {item.a}
                   </div>
                 )}
@@ -668,30 +668,36 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* CTA Footer Banner */}
-      <section className="max-w-4xl mx-auto px-6 py-16 text-center space-y-6">
-        <div className="p-10 rounded-3xl bg-gradient-to-b from-indigo-950/40 via-slate-900/60 to-slate-950 border border-indigo-500/30 shadow-2xl space-y-5">
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
-            Ready to debug your infrastructure with voice?
-          </h2>
-          <p className="text-xs sm:text-sm text-slate-300 max-w-md mx-auto">
-            Connect your GitHub repositories in seconds and experience real-time AI DevOps investigations.
-          </p>
-          <div className="pt-2">
-            <Link
-              href="/workspace"
-              className="inline-flex items-center gap-2 px-8 py-3.5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs sm:text-sm shadow-xl glow-indigo transition-all transform hover:-translate-y-0.5"
-            >
-              <Mic className="w-4 h-4" />
-              <span>Get Started Now &mdash; It&apos;s Free</span>
-            </Link>
-          </div>
-        </div>
-      </section>
-
       {/* Footer */}
-      <footer className="border-t border-white/5 py-8 text-center text-xs text-slate-500">
-        <p>&copy; {new Date().getFullYear()} VoiceOps &bull; Next-Gen Voice DevOps Assistant &bull; Built with Next.js, FastAPI, pgvector, and Supabase.</p>
+      <footer className="border-t border-white/5 bg-[#030408] py-12 px-6 relative z-10 text-xs text-slate-500">
+        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-2 text-slate-300 font-bold">
+            <Zap className="w-4 h-4 text-indigo-400" />
+            <span>VoiceOps</span>
+            <span className="text-slate-600 font-normal">&bull; Autonomous DevOps Engineering</span>
+          </div>
+
+          <div className="flex items-center gap-6 text-slate-400">
+            <Link href="/workspace" className="hover:text-white transition-colors">
+              Workspace
+            </Link>
+            <Link href="/projects" className="hover:text-white transition-colors">
+              Projects
+            </Link>
+            <a
+              href="https://github.com/150ftw/VoiceOps"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-white transition-colors"
+            >
+              GitHub
+            </a>
+          </div>
+
+          <p className="text-[11px] font-mono text-slate-600">
+            &copy; 2026 VoiceOps Monorepo. All rights reserved.
+          </p>
+        </div>
       </footer>
     </div>
   );
