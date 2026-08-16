@@ -149,3 +149,31 @@ async def post_message(
         audio_url=data.audio_url,
     )
     return result
+
+
+@router.delete("/{conversation_id}/messages")
+@router.post("/{conversation_id}/clear")
+async def clear_conversation_messages(
+    conversation_id: uuid.UUID,
+    current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+):
+    """Delete all messages in a conversation and reset the session state."""
+    from sqlalchemy import delete
+
+    stmt = select(Conversation).where(Conversation.id == conversation_id)
+    res = await db.execute(stmt)
+    conv = res.scalar_one_or_none()
+
+    if not conv:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Conversation not found")
+
+    await get_project_with_access(conv.project_id, current_user, db)
+
+    # Delete all messages for this conversation
+    stmt_del = delete(Message).where(Message.conversation_id == conversation_id)
+    await db.execute(stmt_del)
+    await db.commit()
+
+    return {"message": "Chat history cleared successfully"}
+

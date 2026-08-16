@@ -18,6 +18,8 @@ import {
   Layers,
   ArrowUpRight,
   ShieldCheck,
+  Trash2,
+  RotateCcw,
 } from 'lucide-react';
 import { Conversation, Message, Project, Workspace } from '@voiceops/shared';
 import { apiRequest } from '@/lib/api-client';
@@ -45,6 +47,7 @@ export default function VoiceWorkspacePage() {
   const [isLoadingHistory, setIsLoadingHistory] = useState(true);
   const [isSyncingRepo, setIsSyncingRepo] = useState(false);
   const [syncStatus, setSyncStatus] = useState<string | null>(null);
+  const [isClearingChat, setIsClearingChat] = useState(false);
 
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
@@ -180,6 +183,23 @@ export default function VoiceWorkspacePage() {
     }
   };
 
+  const handleClearChat = async () => {
+    if (!conversation) return;
+    setIsClearingChat(true);
+    try {
+      stopSpeech();
+      await apiRequest(`/conversations/${conversation.id}/clear`, { method: 'POST' });
+      setMessages([]);
+      setPendingApproval(null);
+    } catch (err) {
+      console.warn('Clear chat error:', err);
+      // Client-side fallback clear
+      setMessages([]);
+    } finally {
+      setIsClearingChat(false);
+    }
+  };
+
   const handleToggleRecord = () => {
     if (isRecording) {
       stopRecording();
@@ -275,9 +295,9 @@ export default function VoiceWorkspacePage() {
           </div>
         </div>
 
-        {/* Codebase Vector Memory & Sync Status */}
-        <div className="flex items-center gap-2.5">
-          <div className="flex items-center gap-1.5 px-3 py-1 rounded-xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-300 font-mono text-[11px]">
+        {/* Action Controls: Vector Status, Sync & Delete Chat */}
+        <div className="flex items-center gap-2">
+          <div className="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-300 font-mono text-[11px]">
             <Database className="w-3.5 h-3.5 text-cyan-400" />
             <span>{syncStatus || 'pgvector Codebase Active'}</span>
           </div>
@@ -290,6 +310,16 @@ export default function VoiceWorkspacePage() {
           >
             <RefreshCw className={`w-3.5 h-3.5 ${isSyncingRepo ? 'animate-spin text-indigo-400' : 'text-slate-400'}`} />
             <span>{isSyncingRepo ? 'Syncing...' : 'Sync'}</span>
+          </button>
+
+          <button
+            onClick={handleClearChat}
+            disabled={isClearingChat || messages.length === 0}
+            className="px-3 py-1 rounded-xl bg-white/[0.04] hover:bg-rose-500/10 border border-white/10 hover:border-rose-500/30 text-slate-400 hover:text-rose-300 text-xs font-medium flex items-center gap-1.5 transition-all disabled:opacity-30 disabled:hover:bg-white/[0.04] disabled:hover:text-slate-400"
+            title="Delete conversation chat history"
+          >
+            <Trash2 className={`w-3.5 h-3.5 ${isClearingChat ? 'animate-pulse text-rose-400' : 'text-slate-400'}`} />
+            <span>{isClearingChat ? 'Deleting...' : 'Delete Chat'}</span>
           </button>
         </div>
       </div>
