@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 
 export function HeroBackground() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
   const [videoLoaded, setVideoLoaded] = useState(false);
   const [videoError, setVideoError] = useState(false);
 
@@ -13,6 +14,35 @@ export function HeroBackground() {
     'https://assets.mixkit.co/videos/preview/mixkit-futuristic-technology-digital-interface-31911-large.mp4',
     'https://assets.mixkit.co/videos/preview/mixkit-abstract-laser-lights-background-animation-31910-large.mp4',
   ];
+
+  // Robust video loop enforcement
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const handleEnded = () => {
+      video.currentTime = 0;
+      video.play().catch(() => {});
+    };
+
+    const handlePause = () => {
+      // Auto-resume if accidentally paused by tab change
+      if (!document.hidden) {
+        video.play().catch(() => {});
+      }
+    };
+
+    video.addEventListener('ended', handleEnded);
+    video.addEventListener('pause', handlePause);
+
+    // Initial play attempt
+    video.play().catch(() => {});
+
+    return () => {
+      video.removeEventListener('ended', handleEnded);
+      video.removeEventListener('pause', handlePause);
+    };
+  }, []);
 
   // Interactive Particle Constellation & Audio Sine Wavefield
   useEffect(() => {
@@ -33,7 +63,7 @@ export function HeroBackground() {
     window.addEventListener('resize', handleResize);
 
     // Particle nodes in purple/violet theme
-    const particleCount = Math.min(65, Math.floor(width / 22));
+    const particleCount = Math.min(75, Math.floor(width / 20));
     const particles: Array<{
       x: number;
       y: number;
@@ -44,16 +74,16 @@ export function HeroBackground() {
       color: string;
     }> = [];
 
-    const colors = ['#a855f7', '#c084fc', '#7c3aed', '#e879f9', '#818cf8'];
+    const colors = ['#a855f7', '#c084fc', '#7c3aed', '#e879f9', '#818cf8', '#d8b4fe'];
 
     for (let i = 0; i < particleCount; i++) {
       particles.push({
         x: Math.random() * width,
         y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 0.4,
-        vy: (Math.random() - 0.5) * 0.4,
-        radius: Math.random() * 1.8 + 0.8,
-        alpha: Math.random() * 0.5 + 0.2,
+        vx: (Math.random() - 0.5) * 0.45,
+        vy: (Math.random() - 0.5) * 0.45,
+        radius: Math.random() * 2.0 + 0.8,
+        alpha: Math.random() * 0.55 + 0.25,
         color: colors[Math.floor(Math.random() * colors.length)],
       });
     }
@@ -69,34 +99,34 @@ export function HeroBackground() {
     let time = 0;
 
     const render = () => {
-      time += 0.015;
+      time += 0.018;
       ctx.clearRect(0, 0, width, height);
 
-      // Draw flowing sine waves in purple spectrum
-      for (let w = 0; w < 3; w++) {
+      // Draw flowing continuous sine waves in purple spectrum
+      for (let w = 0; w < 4; w++) {
         ctx.beginPath();
-        ctx.lineWidth = 1.2;
+        ctx.lineWidth = 1.3;
         const gradient = ctx.createLinearGradient(0, 0, width, 0);
         gradient.addColorStop(0, 'rgba(168, 85, 247, 0)');
         gradient.addColorStop(
           0.3,
-          w === 0 ? 'rgba(168, 85, 247, 0.14)' : 'rgba(192, 132, 252, 0.10)'
+          w === 0 ? 'rgba(168, 85, 247, 0.18)' : 'rgba(192, 132, 252, 0.14)'
         );
         gradient.addColorStop(
           0.7,
-          w === 1 ? 'rgba(232, 121, 249, 0.12)' : 'rgba(124, 58, 237, 0.10)'
+          w === 1 ? 'rgba(232, 121, 249, 0.15)' : 'rgba(124, 58, 237, 0.14)'
         );
         gradient.addColorStop(1, 'rgba(168, 85, 247, 0)');
         ctx.strokeStyle = gradient;
 
-        const baseHeight = height * (0.28 + w * 0.18);
-        const freq = 0.0018 + w * 0.0008;
-        const speed = time * (0.8 + w * 0.4);
+        const baseHeight = height * (0.24 + w * 0.16);
+        const freq = 0.0016 + w * 0.0007;
+        const speed = time * (0.75 + w * 0.35);
 
-        for (let x = 0; x < width; x += 6) {
-          const dy = Math.sin(x * freq + speed) * 35 * Math.cos(x * 0.001 + time * 0.5);
+        for (let x = 0; x < width; x += 5) {
+          const dy = Math.sin(x * freq + speed) * 38 * Math.cos(x * 0.0012 + time * 0.45);
           const distToMouse = Math.abs(x - mouseX);
-          const mouseEffect = Math.max(0, 1 - distToMouse / 350) * 20;
+          const mouseEffect = Math.max(0, 1 - distToMouse / 350) * 22;
           const y = baseHeight + dy + mouseEffect;
 
           if (x === 0) {
@@ -133,12 +163,12 @@ export function HeroBackground() {
           const dy = p.y - p2.y;
           const dist = Math.sqrt(dx * dx + dy * dy);
 
-          if (dist < 130) {
+          if (dist < 140) {
             ctx.beginPath();
             ctx.moveTo(p.x, p.y);
             ctx.lineTo(p2.x, p2.y);
             ctx.strokeStyle = '#a855f7';
-            ctx.globalAlpha = (1 - dist / 130) * 0.15;
+            ctx.globalAlpha = (1 - dist / 140) * 0.18;
             ctx.stroke();
           }
         }
@@ -159,31 +189,32 @@ export function HeroBackground() {
 
   return (
     <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden select-none">
-      {/* Background Looping Ambient Tech Video with Purple Color Shift */}
+      {/* Background Looping Ambient Tech Video with Guaranteed Auto-Restart */}
       {!videoError && (
         <div className="absolute inset-0 w-full h-full">
           <video
+            ref={videoRef}
             autoPlay
             loop
             muted
             playsInline
             onLoadedData={() => setVideoLoaded(true)}
             onError={() => setVideoError(true)}
-            className={`absolute inset-0 w-full h-full object-cover opacity-20 mix-blend-screen transition-opacity duration-1000 scale-105 filter blur-[1px] hue-rotate-[240deg] contrast-125 ${
-              videoLoaded ? 'opacity-25' : 'opacity-0'
+            className={`absolute inset-0 w-full h-full object-cover opacity-25 mix-blend-screen transition-opacity duration-1000 scale-105 filter blur-[1px] hue-rotate-[240deg] contrast-125 ${
+              videoLoaded ? 'opacity-30' : 'opacity-0'
             }`}
           >
             <source src={videoSources[0]} type="video/mp4" />
           </video>
           {/* Violet Glow Film */}
-          <div className="absolute inset-0 bg-purple-900/10 mix-blend-color" />
+          <div className="absolute inset-0 bg-purple-900/15 mix-blend-color" />
         </div>
       )}
 
       {/* Interactive Purple Sine Waves & Constellation Canvas */}
       <canvas
         ref={canvasRef}
-        className="absolute inset-0 w-full h-full opacity-75 mix-blend-screen"
+        className="absolute inset-0 w-full h-full opacity-80 mix-blend-screen"
       />
 
       {/* Layered Obsidian Lighting Radial Vignette */}
@@ -192,7 +223,7 @@ export function HeroBackground() {
 
       {/* Subtle Purple Cyber Grid Lines */}
       <div
-        className="absolute inset-0 opacity-[0.03]"
+        className="absolute inset-0 opacity-[0.04]"
         style={{
           backgroundImage: `linear-gradient(to right, #c084fc 1px, transparent 1px), linear-gradient(to bottom, #c084fc 1px, transparent 1px)`,
           backgroundSize: '48px 48px',
