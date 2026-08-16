@@ -202,7 +202,7 @@ export default function LandingPage() {
         {/* Right Actions */}
         <div className="flex items-center gap-4">
           <span className="hidden md:inline-block text-[11px] text-purple-400/80 uppercase tracking-widest font-mono">
-            V2.0 &bull; LIVE
+            V1.0 &bull; LIVE
           </span>
 
           {currentUser ? (
