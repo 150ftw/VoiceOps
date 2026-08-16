@@ -295,35 +295,9 @@ export default function LandingPage() {
       )}
 
       {/* Hero Section — Editorial Brutalist Showcase */}
-      <section className="relative pt-20 pb-16 px-6 sm:px-12 max-w-7xl mx-auto flex flex-col items-center justify-center min-h-[80vh] text-center z-10 select-none">
-        {/* Left Floating Sci-Fi Status Chip */}
-        <div className="hidden xl:flex absolute left-4 top-1/3 -translate-y-1/2 flex-col gap-2 font-mono text-[10px] text-left text-purple-300/80 p-3.5 rounded-2xl bg-[#090514]/80 border border-purple-500/25 backdrop-blur-xl shadow-2xl">
-          <div className="flex items-center gap-2 text-emerald-400 font-bold">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-            <span className="tracking-wider">K8S CLUSTER ONLINE</span>
-          </div>
-          <div className="text-slate-400 space-y-0.5 text-[9px] uppercase tracking-wider">
-            <p>RAG: pgvector 1536-D</p>
-            <p>LATENCY: 128ms</p>
-            <p>CONTEXT: 1,000,000 TOKENS</p>
-          </div>
-        </div>
-
-        {/* Right Floating Sci-Fi Status Chip */}
-        <div className="hidden xl:flex absolute right-4 top-1/3 -translate-y-1/2 flex-col gap-2 font-mono text-[10px] text-right text-purple-300/80 p-3.5 rounded-2xl bg-[#090514]/80 border border-purple-500/25 backdrop-blur-xl shadow-2xl">
-          <div className="flex items-center justify-end gap-2 text-purple-300 font-bold">
-            <span className="tracking-wider">GUARDRAILS ACTIVE</span>
-            <span className="w-2 h-2 rounded-full bg-purple-400 animate-pulse" />
-          </div>
-          <div className="text-slate-400 space-y-0.5 text-[9px] uppercase tracking-wider">
-            <p>DIFF AUDIT: AUTOMATED</p>
-            <p>HMAC SIGNATURE: SECURE</p>
-            <p>AST SYNTAX: VERIFIED</p>
-          </div>
-        </div>
-
+      <section className="relative pt-24 pb-16 px-6 sm:px-12 max-w-6xl mx-auto flex flex-col items-center justify-center min-h-[75vh] text-center z-10 select-none">
         {/* Floating 3D Crystalline Logo Hologram */}
-        <div className="relative mb-3 group cursor-pointer">
+        <div className="relative mb-4 group cursor-pointer">
           <div className="absolute -inset-6 bg-purple-600/30 rounded-full blur-2xl group-hover:bg-purple-500/50 transition-all duration-700 animate-pulse-subtle" />
           <img
             src="/logo.png"
@@ -339,12 +313,12 @@ export default function LandingPage() {
         </p>
 
         {/* Massive Centerpiece Display Headline with Laser Scan Beam */}
-        <div className="relative w-full overflow-hidden py-1">
+        <div className="relative w-full max-w-4xl mx-auto overflow-hidden py-1">
           <div
             className="absolute inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-fuchsia-400 to-transparent blur-[1px] opacity-80 pointer-events-none z-20"
             style={{ animation: 'scan 5s ease-in-out infinite' }}
           />
-          <h1 className="text-6xl sm:text-8xl md:text-9xl lg:text-[10rem] font-glitch text-purple-200/95 tracking-[0.05em] sm:tracking-[0.14em] leading-[0.9] uppercase drop-shadow-[0_0_60px_rgba(168,85,247,0.4)] scale-y-95 my-2">
+          <h1 className="text-6xl sm:text-8xl md:text-9xl lg:text-[10rem] font-glitch text-purple-200/95 tracking-[0.04em] sm:tracking-[0.06em] leading-[0.9] uppercase drop-shadow-[0_0_60px_rgba(168,85,247,0.4)] scale-y-95 my-2 w-full text-center">
             VOICE <br />
             <span className="text-purple-300">OPS</span>
           </h1>
