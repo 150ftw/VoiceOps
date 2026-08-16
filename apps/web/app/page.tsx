@@ -197,21 +197,6 @@ export default function LandingPage() {
           </a>
         </div>
 
-        {/* Center Logo in Rubik Glitch */}
-        <Link
-          href="/"
-          className="flex items-center gap-2.5 group"
-        >
-          <img
-            src="/logo.png"
-            alt="VoiceOps Logo"
-            className="w-7 h-7 sm:w-8 sm:h-8 object-contain drop-shadow-[0_0_15px_rgba(168,85,247,0.6)] group-hover:scale-105 transition-transform"
-          />
-          <span className="text-lg sm:text-2xl font-glitch text-purple-200 group-hover:text-white tracking-widest transition-colors uppercase select-none">
-            VOICEOPS
-          </span>
-        </Link>
-
         {/* Right Actions */}
         <div className="flex items-center gap-4">
           <span className="hidden md:inline-block text-[11px] text-purple-400/80 uppercase tracking-widest font-mono">
