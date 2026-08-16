@@ -82,14 +82,20 @@ export const ConfirmModal: React.FC<ConfirmModalProps> = ({
             type="button"
             onClick={onConfirm}
             disabled={isLoading}
-            className={`px-4 py-2 rounded-xl text-xs font-bold text-white flex items-center gap-2 shadow-lg transition-all disabled:opacity-50 ${
+            className={`min-w-[130px] px-4 py-2 rounded-xl text-xs font-bold text-white flex items-center justify-center gap-2 shadow-lg transition-all disabled:opacity-60 ${
               isDanger
-                ? 'bg-rose-600 hover:bg-rose-500 border border-rose-400/30 glow-rose'
-                : 'bg-indigo-600 hover:bg-indigo-500 border border-indigo-400/30 glow-indigo'
+                ? 'bg-rose-600 hover:bg-rose-500 border border-rose-400/30'
+                : 'bg-indigo-600 hover:bg-indigo-500 border border-indigo-400/30'
             }`}
           >
-            {isLoading && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
-            <span>{confirmText}</span>
+            {isLoading ? (
+              <>
+                <Loader2 className="w-3.5 h-3.5 animate-spin shrink-0" />
+                <span>Processing…</span>
+              </>
+            ) : (
+              <span>{confirmText}</span>
+            )}
           </button>
         </div>
       </div>

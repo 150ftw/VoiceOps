@@ -20,6 +20,12 @@ import {
   ShieldCheck,
   Trash2,
   RotateCcw,
+  Github,
+  Search,
+  Globe,
+  Lock,
+  X,
+  Plus,
 } from 'lucide-react';
 import { Conversation, Message, Project, Workspace } from '@voiceops/shared';
 import { apiRequest } from '@/lib/api-client';
@@ -41,6 +47,7 @@ const quickPrompts = [
 
 export default function VoiceWorkspacePage() {
   const [project, setProject] = useState<Project | null>(null);
+  const [workspace, setWorkspace] = useState<any>(null);
   const [conversation, setConversation] = useState<Conversation | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
   const [textInput, setTextInput] = useState('');
@@ -48,6 +55,13 @@ export default function VoiceWorkspacePage() {
   const [isSyncingRepo, setIsSyncingRepo] = useState(false);
   const [syncStatus, setSyncStatus] = useState<string | null>(null);
   const [isClearingChat, setIsClearingChat] = useState(false);
+
+  // Inline repo connect panel
+  const [showRepoPicker, setShowRepoPicker] = useState(false);
+  const [githubRepos, setGithubRepos] = useState<any[]>([]);
+  const [repoSearch, setRepoSearch] = useState('');
+  const [isLoadingRepos, setIsLoadingRepos] = useState(false);
+  const [isConnectingRepo, setIsConnectingRepo] = useState<number | null>(null);
 
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
@@ -67,9 +81,10 @@ export default function VoiceWorkspacePage() {
         const user = await apiRequest('/auth/me');
         if (user.workspaces && user.workspaces.length > 0) {
           const ws = user.workspaces[0];
+          setWorkspace(ws);
           let projs = await apiRequest(`/projects?workspace_id=${ws.id}`).catch(() => []);
 
-          // No projects — user needs to connect a repo from Projects page
+          // No projects — user needs to connect a repo
           if (!projs || projs.length === 0) {
             projs = [];
           }
@@ -96,12 +111,8 @@ export default function VoiceWorkspacePage() {
 
             if (conv) {
               setConversation(conv);
-
-              // Load full conversation details & messages
               const fullConv = await apiRequest(`/conversations/${conv.id}`).catch(() => null);
-              if (fullConv?.messages) {
-                setMessages(fullConv.messages);
-              }
+              if (fullConv?.messages) setMessages(fullConv.messages);
             }
           }
         }
@@ -113,6 +124,69 @@ export default function VoiceWorkspacePage() {
     }
     initWorkspace();
   }, []);
+
+  // Fetch GitHub repos for the inline repo picker
+  const handleOpenRepoPicker = async () => {
+    setShowRepoPicker(true);
+    if (githubRepos.length > 0) return; // already loaded
+    setIsLoadingRepos(true);
+    try {
+      const data = await apiRequest('/integrations/github/repos').catch(() => null);
+      if (data?.repos) {
+        setGithubRepos(data.repos);
+      } else {
+        // GitHub not connected — redirect to integrations
+        setShowRepoPicker(false);
+        window.location.href = '/integrations';
+      }
+    } catch {
+      setShowRepoPicker(false);
+      window.location.href = '/integrations';
+    } finally {
+      setIsLoadingRepos(false);
+    }
+  };
+
+  const handleConnectRepo = async (repo: any) => {
+    if (!workspace) return;
+    setIsConnectingRepo(repo.id);
+    try {
+      const newProj = await apiRequest('/projects', {
+        method: 'POST',
+        body: JSON.stringify({
+          workspace_id: workspace.id,
+          name: repo.name,
+          slug: `${repo.name.toLowerCase().replace(/[^a-z0-9]/g, '-')}-${Date.now().toString(36)}`,
+          description: repo.description || '',
+          default_branch: repo.default_branch || 'main',
+          repository_full_name: repo.full_name,
+          github_repo_id: repo.id,
+        }),
+      });
+      if (newProj) {
+        setProject(newProj);
+        setShowRepoPicker(false);
+        // Auto-create conversation
+        const conv = await apiRequest('/conversations', {
+          method: 'POST',
+          body: JSON.stringify({
+            project_id: newProj.id,
+            title: `Investigation: ${newProj.name}`,
+          }),
+        }).catch(() => null);
+        if (conv) setConversation(conv);
+      }
+    } catch (err: any) {
+      console.error('Connect repo error:', err);
+    } finally {
+      setIsConnectingRepo(null);
+    }
+  };
+
+  const filteredRepos = githubRepos.filter((r) =>
+    r.full_name?.toLowerCase().includes(repoSearch.toLowerCase()) ||
+    r.name?.toLowerCase().includes(repoSearch.toLowerCase())
+  );
 
   const {
     isConnected,
@@ -260,12 +334,13 @@ export default function VoiceWorkspacePage() {
   };
 
   return (
+    <>
     <div className="max-w-7xl mx-auto h-[calc(100vh-5.5rem)] flex flex-col gap-3 font-sans antialiased">
       {/* Studio Top Context Bar */}
       <div className="flex items-center justify-between px-5 py-2.5 rounded-2xl bg-[#080B14] border border-white/[0.07] shadow-xl shrink-0">
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+            <span className={`w-2 h-2 rounded-full ${project ? 'bg-emerald-400 animate-pulse' : 'bg-slate-600'}`} />
             <span className="text-xs font-bold text-slate-100 tracking-tight">
               {project?.name || 'No project selected'}
             </span>
@@ -278,6 +353,16 @@ export default function VoiceWorkspacePage() {
             </span>
             <span className="text-slate-600">({project?.default_branch || 'main'})</span>
           </div>
+          {/* Connect Repo Button — only shown when no project */}
+          {!project && !isLoadingHistory && (
+            <button
+              onClick={handleOpenRepoPicker}
+              className="ml-2 flex items-center gap-1.5 px-3 py-1 rounded-xl bg-purple-600/20 hover:bg-purple-600/35 border border-purple-500/40 hover:border-purple-400/60 text-purple-300 hover:text-purple-100 text-xs font-semibold transition-all"
+            >
+              <Plus className="w-3.5 h-3.5" />
+              Connect Repository
+            </button>
+          )}
         </div>
 
         {/* Action Controls: Vector Status, Sync & Delete Chat */}
@@ -452,5 +537,106 @@ export default function VoiceWorkspacePage() {
         </div>
       </div>
     </div>
+
+      {/* ── Inline Repo Picker Modal ── */}
+      {showRepoPicker && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+          {/* Backdrop */}
+          <div
+            onClick={() => setShowRepoPicker(false)}
+            className="fixed inset-0 bg-black/75 backdrop-blur-md"
+          />
+
+          {/* Panel */}
+          <div className="relative w-full max-w-lg bg-[#0C121E] border border-purple-500/25 rounded-3xl shadow-[0_0_80px_rgba(147,51,234,0.2)] z-10 overflow-hidden flex flex-col max-h-[80vh]">
+            {/* Top rim glow */}
+            <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-purple-400/70 to-transparent" />
+
+            {/* Header */}
+            <div className="flex items-center justify-between px-6 py-4 border-b border-white/[0.07] shrink-0">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-xl bg-purple-600/20 border border-purple-500/30 flex items-center justify-center">
+                  <Github className="w-4 h-4 text-purple-300" />
+                </div>
+                <div>
+                  <h2 className="text-sm font-bold text-white">Connect a Repository</h2>
+                  <p className="text-[10px] text-slate-400 font-mono">Select a GitHub repo to load into the workspace</p>
+                </div>
+              </div>
+              <button
+                onClick={() => setShowRepoPicker(false)}
+                className="p-1.5 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 transition-colors"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            {/* Search */}
+            <div className="px-4 py-3 border-b border-white/[0.05] shrink-0">
+              <div className="relative">
+                <Search className="w-3.5 h-3.5 text-slate-500 absolute left-3 top-2.5" />
+                <input
+                  type="text"
+                  value={repoSearch}
+                  onChange={(e) => setRepoSearch(e.target.value)}
+                  placeholder="Search repositories…"
+                  className="w-full bg-[#090D17] border border-white/[0.08] focus:border-purple-500/50 rounded-xl pl-8 pr-3 py-2 text-xs text-slate-100 placeholder-slate-500 focus:outline-none transition-all"
+                  autoFocus
+                />
+              </div>
+            </div>
+
+            {/* Repo List */}
+            <div className="overflow-y-auto flex-1 p-3 space-y-1.5">
+              {isLoadingRepos ? (
+                <div className="flex flex-col items-center justify-center py-12 gap-3">
+                  <Loader2 className="w-6 h-6 text-purple-400 animate-spin" />
+                  <p className="text-xs text-slate-400 font-mono">Fetching your repositories…</p>
+                </div>
+              ) : filteredRepos.length === 0 ? (
+                <div className="text-center py-10 text-xs text-slate-500 font-mono">
+                  {repoSearch ? 'No repos match your search.' : 'No GitHub repositories found.'}
+                </div>
+              ) : (
+                filteredRepos.map((repo) => (
+                  <div
+                    key={repo.id}
+                    className="flex items-center justify-between px-3.5 py-3 rounded-2xl bg-white/[0.03] hover:bg-purple-500/[0.07] border border-white/[0.06] hover:border-purple-500/30 transition-all group"
+                  >
+                    <div className="flex items-center gap-3 min-w-0">
+                      <FolderGit2 className="w-4 h-4 text-slate-400 shrink-0 group-hover:text-purple-300 transition-colors" />
+                      <div className="min-w-0">
+                        <p className="text-xs font-semibold text-slate-100 truncate">{repo.full_name}</p>
+                        {repo.description && (
+                          <p className="text-[10px] text-slate-500 truncate mt-0.5">{repo.description}</p>
+                        )}
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2 shrink-0 ml-3">
+                      <span className="flex items-center gap-1 px-1.5 py-0.5 rounded text-[9px] font-mono border border-white/10 text-slate-500">
+                        {repo.private ? <Lock className="w-2.5 h-2.5" /> : <Globe className="w-2.5 h-2.5" />}
+                        {repo.private ? 'Private' : 'Public'}
+                      </span>
+                      <button
+                        onClick={() => handleConnectRepo(repo)}
+                        disabled={isConnectingRepo !== null}
+                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-[10px] font-bold transition-all disabled:opacity-50 shadow-md"
+                      >
+                        {isConnectingRepo === repo.id ? (
+                          <Loader2 className="w-3 h-3 animate-spin" />
+                        ) : (
+                          <Plus className="w-3 h-3" />
+                        )}
+                        {isConnectingRepo === repo.id ? 'Connecting…' : 'Connect'}
+                      </button>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 }
