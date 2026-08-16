@@ -159,29 +159,32 @@ body {
 }
 
 .glitch-text::before {
-  color: #38bdf8;
+  color: #a855f7;
   z-index: -1;
   clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
   animation: glitch-anim-1 4s infinite linear alternate-reverse;
-  opacity: 0.8;
+  opacity: 0.9;
+  filter: drop-shadow(0 0 14px rgba(168, 85, 247, 0.85));
 }
 
 .glitch-text::after {
-  color: #f43f5e;
+  color: #030206;
+  -webkit-text-stroke: 1.5px #ffffff;
   z-index: -2;
   clip-path: polygon(0 60%, 100% 60%, 100% 100%, 0 100%);
   animation: glitch-anim-2 3.2s infinite linear alternate-reverse;
-  opacity: 0.8;
+  opacity: 0.9;
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.5));
 }
 
 .group:hover .glitch-text::before {
   animation: glitch-hover-1 0.4s infinite ease-in-out alternate;
-  opacity: 0.95;
+  opacity: 1;
 }
 
 .group:hover .glitch-text::after {
   animation: glitch-hover-2 0.35s infinite ease-in-out alternate;
-  opacity: 0.95;
+  opacity: 1;
 }
 
 @keyframes glitch-anim-1 {
