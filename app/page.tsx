@@ -355,7 +355,7 @@ export default function LandingPage() {
       {/* Editorial Luxury Header */}
       <header className="relative z-50 w-full px-6 sm:px-12 pt-6 flex items-center justify-between font-mono text-xs text-purple-200/80">
         {/* Left Actions */}
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-6 z-10">
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className="flex items-center gap-2 hover:text-white transition-colors group tracking-widest uppercase font-semibold"
@@ -368,13 +368,13 @@ export default function LandingPage() {
           </button>
         </div>
 
-        {/* Center: Global Subpage Navigation */}
-        <div className="hidden md:flex items-center justify-center">
+        {/* Center: Global Subpage Navigation (True mathematical center) */}
+        <div className="hidden md:flex items-center justify-center absolute left-1/2 -translate-x-1/2 z-0 pointer-events-auto">
           <TopNavBar currentTab="landing" />
         </div>
 
         {/* Right Actions */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 z-10">
           <span className="hidden md:inline-block text-[11px] text-purple-400/80 uppercase tracking-widest font-mono">
             V1.0 &bull; LIVE
           </span>
@@ -470,15 +470,15 @@ export default function LandingPage() {
       )}
 
       {/* Hero Section — Editorial Brutalist Showcase */}
-      <section className="relative pt-24 pb-16 px-6 sm:px-12 max-w-6xl mx-auto flex flex-col items-center justify-center min-h-[75vh] text-center z-10 select-none">
+      <section className="relative pt-24 pb-16 px-6 sm:px-12 max-w-5xl mx-auto flex flex-col items-center justify-center min-h-[75vh] text-center z-10 select-none">
         {/* Top Sub-Header */}
         <p className="font-mono text-xs sm:text-sm text-purple-300/90 tracking-[0.25em] uppercase mb-4">
           Autonomous DevOps Voice Engine
         </p>
 
         {/* Massive Centerpiece Display Headline with Dynamic Responsive Holographic Aura */}
-        <div className="relative w-full max-w-5xl mx-auto flex items-center justify-center py-8 my-2 group cursor-pointer">
-          {/* Dynamic Holographic Crest Backdrop: Surges, Expands, and Illuminates on Hover */}
+        <div className="relative w-full max-w-4xl mx-auto flex items-center justify-center py-6 my-2 group cursor-pointer">
+          {/* Dynamic Holographic Crest Backdrop */}
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none -z-0">
             {/* Pulsing Ambient Radial Orb */}
             <div className="absolute w-72 sm:w-96 md:w-[480px] h-72 sm:h-96 md:h-[480px] bg-purple-600/30 rounded-full blur-[90px] group-hover:w-[580px] group-hover:h-[580px] group-hover:bg-purple-500/55 group-hover:blur-[120px] transition-all duration-700 ease-out animate-pulse-subtle" />
@@ -496,7 +496,7 @@ export default function LandingPage() {
           {/* Foreground Glitch Typography */}
           <h1 className="relative z-10 text-6xl sm:text-8xl md:text-9xl lg:text-[10rem] font-glitch uppercase scale-y-95 w-full flex flex-col items-center justify-center gap-1 sm:gap-2 select-none text-center">
             {/* VOICE Row */}
-            <div className="flex items-center justify-center gap-0.5 sm:gap-1.5 md:gap-2 group-hover:gap-2 sm:group-hover:gap-3.5 md:group-hover:gap-5 transition-all duration-700 ease-out">
+            <div className="flex items-center justify-center gap-1 sm:gap-2 md:gap-3 group-hover:gap-2 sm:group-hover:gap-4 md:group-hover:gap-6 transition-all duration-700 ease-out">
               {[
                 { char: 'V', delay: '0.1s', duration: '3.4s', color: 'text-purple-100/90' },
                 { char: 'O', delay: '1.4s', duration: '4.2s', color: 'text-purple-200/90' },
@@ -521,7 +521,7 @@ export default function LandingPage() {
             </div>
 
             {/* OPS Row */}
-            <div className="flex items-center justify-center gap-0.5 sm:gap-1.5 md:gap-2 group-hover:gap-2 sm:group-hover:gap-3.5 md:group-hover:gap-5 transition-all duration-700 ease-out">
+            <div className="flex items-center justify-center gap-2 sm:gap-4 md:gap-6 group-hover:gap-3 sm:group-hover:gap-5 md:group-hover:gap-7 transition-all duration-700 ease-out">
               {[
                 { char: 'O', delay: '1.1s', duration: '3.7s', color: 'text-purple-200/90' },
                 { char: 'P', delay: '1.8s', duration: '4.4s', color: 'text-purple-100/90' },
@@ -551,35 +551,35 @@ export default function LandingPage() {
         </p>
 
         {/* Bottom 3-Column Editorial Metadata Bar */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-6xl mt-14 pt-8 border-t border-purple-500/20 text-left font-mono text-[11px]">
-          <div className="space-y-1">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 w-full max-w-4xl mx-auto mt-10 pt-8 border-t border-purple-500/20 text-center font-mono text-[11px]">
+          <div className="space-y-1 p-3 rounded-2xl bg-[#090514]/60 border border-purple-500/15 backdrop-blur-sm">
             <p className="text-purple-400 font-bold uppercase tracking-wider">01 // INTELLIGENCE</p>
             <p className="text-slate-400 leading-relaxed uppercase">
-              Gemini 1.5 Pro (1M Context) &bull; GPT-4o Omni Function Calling &bull; Deep Code AST
+              Gemini 1.5 Pro &bull; GPT-4o Function Calling &bull; Code AST
             </p>
           </div>
 
-          <div className="space-y-1 md:text-center">
+          <div className="space-y-1 p-3 rounded-2xl bg-[#090514]/60 border border-purple-500/15 backdrop-blur-sm">
             <p className="text-purple-400 font-bold uppercase tracking-wider">02 // REAL-TIME VOICE</p>
             <p className="text-slate-400 leading-relaxed uppercase">
-              180ms Latency &bull; Whisper v3 Streaming STT &bull; ElevenLabs Neural TTS
+              180ms Latency &bull; Whisper v3 STT &bull; ElevenLabs TTS
             </p>
           </div>
 
-          <div className="space-y-1 md:text-right">
+          <div className="space-y-1 p-3 rounded-2xl bg-[#090514]/60 border border-purple-500/15 backdrop-blur-sm">
             <p className="text-purple-400 font-bold uppercase tracking-wider">03 // GUARDRAILS</p>
             <p className="text-slate-400 leading-relaxed uppercase">
-              Cryptographic Human Confirmation &bull; Zero Unauthorized Repository Writes
+              Human Confirmation &bull; Zero Unauthorized Writes
             </p>
           </div>
         </div>
 
-        {/* Floating Circular Interactive CTA & Audio Meter */}
-        <div className="w-full max-w-6xl flex flex-col sm:flex-row items-center justify-between gap-6 pt-10">
-          {/* Bottom-Left Multi-Bar Audio Level Waveform with Neural Synth */}
+        {/* Centered Interactive CTA & Audio Meter */}
+        <div className="w-full max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-center gap-4 pt-8">
+          {/* Multi-Bar Audio Level Waveform with Neural Synth */}
           <button
             onClick={toggleMockVoice}
-            className="flex items-center gap-3 font-mono text-xs text-purple-300 p-2.5 px-5 rounded-full bg-[#090514]/90 border border-purple-500/30 hover:border-purple-400/70 hover:bg-purple-950/40 backdrop-blur-md transition-all shadow-lg group cursor-pointer"
+            className="flex items-center gap-3 font-mono text-xs text-purple-300 p-3 px-6 rounded-full bg-[#090514]/90 border border-purple-500/30 hover:border-purple-400/70 hover:bg-purple-950/40 backdrop-blur-md transition-all shadow-lg group cursor-pointer"
           >
             <div className="flex items-end gap-1 h-5 origin-bottom">
               <span className="w-1 bg-purple-400 animate-[wave_0.8s_ease-in-out_infinite] h-3 rounded-full origin-bottom" />
@@ -595,16 +595,12 @@ export default function LandingPage() {
             </span>
           </button>
 
-          {/* Bottom-Right Circular Magnetic Button */}
           <Link
             href="/workspace"
-            className="group relative w-36 h-36 rounded-full border border-purple-400/40 hover:border-purple-300 flex items-center justify-center text-center p-4 transition-all duration-300 hover:scale-105 hover:bg-purple-950/30 glow-purple"
+            className="px-6 py-3 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:brightness-110 text-white font-bold text-xs uppercase tracking-wider shadow-[0_0_30px_rgba(168,85,247,0.5)] transition-all flex items-center gap-2"
           >
-            <div className="absolute inset-0 rounded-full border border-purple-500/20 animate-spin [animation-duration:12s] pointer-events-none" />
-            <div className="space-y-1 font-mono text-[10px] uppercase tracking-widest text-purple-200 group-hover:text-white">
-              <p>Launch</p>
-              <p className="font-bold text-xs text-white">Studio ↗</p>
-            </div>
+            <span>Launch Studio</span>
+            <span>↗</span>
           </Link>
         </div>
       </section>
@@ -876,34 +872,6 @@ export default function LandingPage() {
           </p>
         </div>
       </footer>
-
-      {/* Root-Level Floating System Telemetry Pop-up (z-[9999] over all content) */}
-      {showTelemetryBox && (
-        <div className="fixed bottom-6 left-6 z-[9999] w-80 p-4 rounded-2xl bg-[#090514]/98 border border-purple-500/40 backdrop-blur-2xl shadow-[0_15px_60px_rgba(0,0,0,0.95)] font-mono text-left animate-in fade-in slide-in-from-bottom-5 duration-500">
-          <div className="flex items-center justify-between text-xs font-bold text-purple-300 pb-2 border-b border-purple-500/25">
-            <span className="tracking-wider uppercase">SYSTEM TELEMETRY</span>
-            <button
-              onClick={() => setShowTelemetryBox(false)}
-              className="hover:text-white text-purple-400 transition-colors p-1"
-              title="Close"
-            >
-              [X]
-            </button>
-          </div>
-          <p className="text-[11px] text-slate-300 mt-2.5 leading-relaxed uppercase">
-            Streaming full-duplex WebSocket connected. 1536-dim embeddings synchronized.
-          </p>
-          <div className="pt-3.5 flex items-center justify-between">
-            <Link
-              href="/workspace"
-              className="text-[11px] font-bold text-purple-200 hover:text-white underline uppercase tracking-wider"
-            >
-              CONNECT MIC &rarr;
-            </Link>
-            <span className="text-[10px] text-emerald-400 font-semibold">● 100% OPERATIONAL</span>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
