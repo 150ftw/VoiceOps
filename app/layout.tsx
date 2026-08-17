@@ -18,7 +18,7 @@ const rubikGlitch = Rubik_Glitch({
 });
 
 export const metadata: Metadata = {
-  title: 'VoiceOps — Agentic Voice-Based DevOps Engineer',
+  title: 'VoiceOps',
   description:
     'Investigate GitHub CI/CD failures, analyze deployment logs, search documentation via RAG, and execute safe DevOps actions with voice AI.',
 };
