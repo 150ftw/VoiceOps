@@ -157,9 +157,9 @@ export default function ProjectsPage() {
 
     try {
       const projName = repo.name.replace(/[-_]/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
-      const projSlug = `${repo.name.toLowerCase().replace(/[^a-z0-9]/g, '-')}-${Date.now().toString(36).slice(-4)}`;
+      const projSlug = `${repo.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-${Date.now().toString(36).slice(-4)}`;
 
-      await apiRequest('/projects', {
+      const newProj = await apiRequest('/projects', {
         method: 'POST',
         body: JSON.stringify({
           workspace_id: workspace.id,
@@ -168,9 +168,14 @@ export default function ProjectsPage() {
           description: repo.description || `Imported from GitHub ${repo.full_name}`,
           default_branch: repo.default_branch || 'main',
           repository_full_name: repo.full_name,
+          github_repo: repo.full_name,
           github_repo_id: repo.id,
         }),
       });
+
+      if (newProj) {
+        setProjects((prev) => [newProj, ...prev.filter((p) => p.id !== newProj.id)]);
+      }
 
       await loadProjects(workspace.id);
       showToast(`Imported ${repo.full_name} successfully!`);
@@ -362,9 +367,12 @@ export default function ProjectsPage() {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 pt-1">
               {filteredGitHubRepos.map((repo) => {
-                const linkedProject = projects.find(
-                  (p) => p.repository?.repo_full_name?.toLowerCase() === repo.full_name.toLowerCase()
-                );
+                const linkedProject = projects.find((p) => {
+                  const pRepo = p.repository?.repo_full_name || (p as any).github_repo || (p as any).repository_full_name;
+                  if (pRepo && pRepo.toLowerCase() === repo.full_name.toLowerCase()) return true;
+                  if (p.name && (p.name.toLowerCase() === repo.name.toLowerCase() || p.slug === repo.name.toLowerCase())) return true;
+                  return false;
+                });
                 const isAlreadyLinked = Boolean(linkedProject);
                 const isImporting = importingRepoId === repo.id;
                 const isDropdownOpen = activeDropdownId === `repo-${repo.id}`;
@@ -402,8 +410,11 @@ export default function ProjectsPage() {
                           {/* Manage Dropdown Trigger */}
                           <button
                             type="button"
-                            onClick={() => setActiveDropdownId(isDropdownOpen ? null : `repo-${repo.id}`)}
-                            className="flex items-center gap-1.5 text-[11px] text-slate-200 font-semibold px-2.5 py-1 rounded-xl bg-indigo-600/20 hover:bg-indigo-600/30 border border-indigo-500/30 transition-all"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setActiveDropdownId(isDropdownOpen ? null : `repo-${repo.id}`);
+                            }}
+                            className="flex items-center gap-1.5 text-[11px] text-slate-200 font-semibold px-2.5 py-1 rounded-xl bg-indigo-600/20 hover:bg-indigo-600/30 border border-indigo-500/30 transition-all cursor-pointer"
                           >
                             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
                             <span>Manage</span>
@@ -412,7 +423,7 @@ export default function ProjectsPage() {
 
                           {/* Action Dropdown Menu */}
                           {isDropdownOpen && (
-                            <div className="absolute right-0 bottom-full mb-1.5 w-52 bg-[#0c121e] border border-slate-700 shadow-2xl rounded-2xl p-2 z-50 animate-in fade-in zoom-in-95 duration-150 ring-1 ring-white/10 text-xs">
+                            <div className="absolute right-0 top-full mt-2 w-52 bg-[#0c121e] border border-slate-700 shadow-2xl rounded-2xl p-2 z-[999] animate-in fade-in zoom-in-95 duration-150 ring-1 ring-white/10 text-xs">
                               <button
                                 onClick={() => handleInvestigate(linkedProject.id)}
                                 className="w-full flex items-center gap-2 px-2.5 py-2 rounded-xl text-emerald-300 hover:bg-emerald-500/10 transition-colors font-medium text-left"
