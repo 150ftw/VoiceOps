@@ -379,17 +379,11 @@ export const Header: React.FC<HeaderProps> = ({ activeProject, onSelectProject }
                 <img
                   src={
                     currentUser?.avatar_url ||
-                    (currentUser?.email ? `https://github.com/${currentUser.email.split('@')[0]}.png` : 'https://github.com/ss18244646.png')
+                    'https://avatars.githubusercontent.com/u/86033717?v=4'
                   }
                   alt={currentUser?.full_name || 'User'}
                   className="w-full h-full object-cover"
-                  onError={(e) => {
-                    (e.currentTarget as HTMLElement).style.display = 'none';
-                  }}
                 />
-                <span className="text-xs font-bold text-white">
-                  {currentUser?.full_name?.charAt(0) || 'S'}
-                </span>
               </div>
               <span className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-[#040209]" />
             </div>
@@ -419,17 +413,11 @@ export const Header: React.FC<HeaderProps> = ({ activeProject, onSelectProject }
                   <img
                     src={
                       currentUser?.avatar_url ||
-                      (currentUser?.email ? `https://github.com/${currentUser.email.split('@')[0]}.png` : 'https://github.com/ss18244646.png')
+                      'https://avatars.githubusercontent.com/u/86033717?v=4'
                     }
                     alt={currentUser?.full_name || 'User'}
                     className="w-full h-full object-cover"
-                    onError={(e) => {
-                      (e.currentTarget as HTMLElement).style.display = 'none';
-                    }}
                   />
-                  <span className="text-sm font-bold text-white">
-                    {currentUser?.full_name?.charAt(0) || 'S'}
-                  </span>
                 </div>
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center justify-between">

@@ -232,6 +232,10 @@ class AuthService:
             )
             db.add(default_workspace)
             await db.flush()
+        else:
+            if gh_avatar and user.avatar_url != gh_avatar:
+                user.avatar_url = gh_avatar
+                await db.flush()
 
             # Add member role as owner
             member = WorkspaceMember(

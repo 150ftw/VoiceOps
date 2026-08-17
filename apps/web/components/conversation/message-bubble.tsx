@@ -38,7 +38,7 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const effectiveAvatar = userAvatarUrl || 'https://github.com/ss18244646.png';
+  const effectiveAvatar = userAvatarUrl || 'https://avatars.githubusercontent.com/u/86033717?v=4';
 
   return (
     <div className={`flex gap-3 my-4 ${isUser ? 'flex-row-reverse' : 'flex-row'} group`}>
