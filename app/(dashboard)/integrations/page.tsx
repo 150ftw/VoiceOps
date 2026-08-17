@@ -54,7 +54,6 @@ export default function IntegrationsPage() {
   }, []);
 
   const handleOAuthConnect = async () => {
-    if (!workspace) return;
     try {
       const urlData = await apiRequest('/auth/github/url').catch(() => null);
       if (urlData?.configured && urlData?.auth_url) {
