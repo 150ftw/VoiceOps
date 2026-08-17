@@ -98,9 +98,9 @@ export default function PublicWorkspacePage() {
             <span>01 // Autonomous Voice Console</span>
           </div>
 
-          <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight text-white leading-tight">
+          <h1 className="text-3xl sm:text-5xl md:text-6xl font-glitch uppercase tracking-wide text-white leading-tight drop-shadow-[0_0_25px_rgba(168,85,247,0.3)]">
             Speak to your Infrastructure.{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-fuchsia-300 to-indigo-400">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-300 via-fuchsia-300 to-indigo-300 drop-shadow-[0_0_35px_rgba(192,132,252,0.8)]">
               Debug with Voice.
             </span>
           </h1>

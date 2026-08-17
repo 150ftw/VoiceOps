@@ -104,7 +104,7 @@ export default function FounderPage() {
                     Live in Production
                   </span>
                 </div>
-                <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
+                <h1 className="text-3xl sm:text-5xl font-glitch uppercase tracking-wide text-white drop-shadow-[0_0_25px_rgba(168,85,247,0.4)]">
                   Shivam Sharma
                 </h1>
                 <p className="font-mono text-sm sm:text-base text-purple-300/90 tracking-wide">
