@@ -173,5 +173,11 @@ VoiceOps/
 
 ---
 
+## 🚀 Deployment
+
+The Next.js web application is optimized for zero-configuration serverless deployment on Vercel with dedicated API routes under `pages/api/` and App Router dashboard views.
+
+---
+
 ## 📄 License
 MIT License.
