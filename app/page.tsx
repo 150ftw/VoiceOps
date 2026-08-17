@@ -50,8 +50,6 @@ import { apiRequest, clearAuthToken, getAuthToken } from '@/lib/api-client';
 import { HeroBackground } from '@/components/landing/hero-background';
 import Scanner from '@/components/landing/Scanner';
 
-import { TopNavBar } from '@/components/layout/top-nav-bar';
-
 export default function LandingPage() {
   const [currentUser, setCurrentUser] = useState<any>(null);
   const [isLoadingUser, setIsLoadingUser] = useState(true);
@@ -366,11 +364,6 @@ export default function LandingPage() {
             </div>
             <span>Menu</span>
           </button>
-        </div>
-
-        {/* Center: Global Subpage Navigation (True mathematical center) */}
-        <div className="hidden md:flex items-center justify-center absolute left-1/2 -translate-x-1/2 z-0 pointer-events-auto">
-          <TopNavBar currentTab="landing" />
         </div>
 
         {/* Right Actions */}
