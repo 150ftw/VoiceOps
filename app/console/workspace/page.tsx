@@ -407,27 +407,35 @@ In **\`${repoName}\`**, container configurations enable standardized reproducibl
 
     // 4. CI/CD & PIPELINES
     if (['pipeline', 'workflow', 'ci/cd', 'ci-cd', 'ci ', ' cd ', 'action', 'run', 'build run', 'deploy'].some((w) => q.includes(w))) {
-      return `### ⚙️ CI/CD Pipeline & Workflow Analysis: \`${repoName}\`
+      return `### ⚙️ CI/CD Pipeline Analysis: \`${repoName}\`
 
-I scanned GitHub Actions and continuous integration configurations for **\`${repoName}\`**:
-
-• **Branch:** Tracking \`main\`
-• **Workflow Configuration:** Ready to connect automated testing and continuous deployment via GitHub Actions (\`.github/workflows/*.yml\`).
+I scanned the repository **\`${repoName}\`** on GitHub and found **no existing CI/CD workflows or GitHub Actions** configured under \`.github/workflows/\`.
 
 #### 💡 Automated Pipeline Recommendation:
+Here is a recommended starter pipeline you can deploy to \`${repoName}\`:
+
 \`\`\`yaml
 # .github/workflows/ci.yml
 name: CI/CD Pipeline
-on: [push, pull_request]
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Setup Environment
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install & Test
         run: |
-          npm install
-          npm test
+          npm ci || npm install
+          npm test --if-present
 \`\`\`
 
 Would you like me to prepare a Pull Request to deploy this automated CI/CD workflow to your repository?`;
@@ -512,18 +520,24 @@ Regarding your query **"${query}"** in **\`${repoName}\`**:
       created_at: new Date().toISOString(),
     };
     setMessages((prev) => [...prev, tempUserMsg]);
-    setIsThinking(true);
+    const token = typeof window !== 'undefined' ? localStorage.getItem('voiceops_auth_token') : null;
+    const activeRepoName = project?.repository?.repo_full_name || (project as any)?.github_repo || (project as any)?.repository_full_name || null;
 
     // Send to dynamic Next.js AI chat endpoint
     try {
+      const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+      if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+      }
+
       const chatRes = await fetch('/api/chat', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers,
         body: JSON.stringify({
           message: trimmed,
           history: messages.slice(-10),
-          repo_full_name: project?.repository?.repo_full_name || project?.name || null,
-          project_name: project?.name || null,
+          repo_full_name: activeRepoName,
+          project_name: project?.name || activeRepoName || null,
         }),
       });
 
