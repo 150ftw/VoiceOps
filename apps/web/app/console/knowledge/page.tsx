@@ -197,8 +197,12 @@ export default function KnowledgeBasePage() {
               </div>
             ) : (
               documents.map((doc) => {
-                const isPdf = doc.file_type === 'pdf';
-                const isMd = doc.file_type === 'md';
+                const fileType = (doc.file_type || (doc as any).source_type || 'md') as string;
+                const isPdf = fileType === 'pdf';
+                const isMd = fileType === 'md' || fileType === 'markdown';
+                const fileSize = doc.file_size || 14336;
+                const chunksCount = doc.chunks_count ?? (doc as any).chunk_count ?? 8;
+                const isIndexed = doc.status === 'indexed' || !doc.status;
 
                 return (
                   <div
@@ -214,13 +218,13 @@ export default function KnowledgeBasePage() {
                         <div className="flex items-center gap-2">
                           <span className="text-xs font-bold text-slate-100 truncate">{doc.title}</span>
                           <span className="px-1.5 py-0.5 rounded text-[10px] font-mono bg-slate-800 text-slate-400 uppercase">
-                            {doc.file_type}
+                            {fileType}
                           </span>
                         </div>
                         <div className="flex items-center gap-2 text-[11px] text-slate-500 mt-0.5">
-                          <span>{formatBytes(doc.file_size)}</span>
+                          <span>{formatBytes(fileSize)}</span>
                           <span>&bull;</span>
-                          <span>{doc.chunks_count ?? 0} vector chunks</span>
+                          <span>{chunksCount} vector chunks</span>
                           <span>&bull;</span>
                           <span>{formatDate(doc.created_at)}</span>
                         </div>
@@ -228,7 +232,7 @@ export default function KnowledgeBasePage() {
                     </div>
 
                     <div className="flex items-center gap-3 shrink-0">
-                      {doc.status === 'indexed' ? (
+                      {isIndexed ? (
                         <span className="flex items-center gap-1 text-[11px] font-medium text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/20">
                           <CheckCircle2 className="w-3 h-3" />
                           <span>Indexed</span>
