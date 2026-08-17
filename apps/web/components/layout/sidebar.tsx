@@ -19,14 +19,14 @@ import {
 import { cn } from '@/lib/utils';
 
 const navItems = [
-  { label: 'Overview', href: '/overview', icon: LayoutDashboard },
-  { label: 'Workspace', href: '/workspace', icon: Mic, highlight: true },
-  { label: 'Projects & Repos', href: '/projects', icon: FolderGit2 },
-  { label: 'Conversations', href: '/conversations', icon: MessageSquare },
-  { label: 'Knowledge Base', href: '/knowledge', icon: BookOpen },
-  { label: 'Integrations', href: '/integrations', icon: GitBranch },
-  { label: 'Observability', href: '/observability', icon: Activity },
-  { label: 'Settings', href: '/settings', icon: Settings },
+  { label: 'Overview', href: '/console/overview', icon: LayoutDashboard },
+  { label: 'Workspace', href: '/console/workspace', icon: Mic, highlight: true },
+  { label: 'Projects & Repos', href: '/console/projects', icon: FolderGit2 },
+  { label: 'Conversations', href: '/console/conversations', icon: MessageSquare },
+  { label: 'Knowledge Base', href: '/console/knowledge', icon: BookOpen },
+  { label: 'Integrations', href: '/console/integrations', icon: GitBranch },
+  { label: 'Observability', href: '/console/observability', icon: Activity },
+  { label: 'Settings', href: '/console/settings', icon: Settings },
 ];
 
 export const Sidebar: React.FC = () => {

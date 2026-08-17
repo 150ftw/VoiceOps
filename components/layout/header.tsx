@@ -277,7 +277,7 @@ export const Header: React.FC<HeaderProps> = ({ activeProject, onSelectProject }
           </div>
         ) : (
           <Link
-            href="/projects"
+            href="/console/projects"
             className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 border border-slate-700/60 text-xs text-slate-400 hover:text-slate-200 transition-all shadow-sm"
           >
             <FolderGit2 className="w-3.5 h-3.5 text-slate-500" />
@@ -436,7 +436,7 @@ export const Header: React.FC<HeaderProps> = ({ activeProject, onSelectProject }
               {/* Navigation Menu Items */}
               <div className="py-2.5 space-y-1">
                 <Link
-                  href="/settings"
+                  href="/console/settings"
                   onClick={() => setIsAccountDropdownOpen(false)}
                   className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-slate-300 hover:text-white hover:bg-purple-500/10 transition-colors"
                 >
@@ -445,7 +445,7 @@ export const Header: React.FC<HeaderProps> = ({ activeProject, onSelectProject }
                 </Link>
 
                 <Link
-                  href="/integrations"
+                  href="/console/integrations"
                   onClick={() => setIsAccountDropdownOpen(false)}
                   className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-slate-300 hover:text-white hover:bg-white/[0.06] transition-colors"
                 >
@@ -454,7 +454,7 @@ export const Header: React.FC<HeaderProps> = ({ activeProject, onSelectProject }
                 </Link>
 
                 <Link
-                  href="/knowledge"
+                  href="/console/knowledge"
                   onClick={() => setIsAccountDropdownOpen(false)}
                   className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-slate-300 hover:text-white hover:bg-white/[0.06] transition-colors"
                 >
@@ -463,7 +463,7 @@ export const Header: React.FC<HeaderProps> = ({ activeProject, onSelectProject }
                 </Link>
 
                 <Link
-                  href="/observability"
+                  href="/console/observability"
                   onClick={() => setIsAccountDropdownOpen(false)}
                   className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-slate-300 hover:text-white hover:bg-white/[0.06] transition-colors"
                 >

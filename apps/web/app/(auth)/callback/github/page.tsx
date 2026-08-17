@@ -87,13 +87,13 @@ function GitHubCallbackContent() {
 
         if (token) {
           setAuthToken(token);
-          router.replace('/overview');
+          router.replace('/console/workspace');
         } else {
           setError('Failed to establish session.');
         }
       } catch (err: any) {
         if (getAuthToken()) {
-          router.replace('/overview');
+          router.replace('/console/workspace');
           return;
         }
         setError(err.message || 'GitHub OAuth authentication failed.');

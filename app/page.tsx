@@ -381,7 +381,7 @@ export default function LandingPage() {
 
           {currentUser ? (
             <Link
-              href="/workspace"
+              href="/console/workspace"
               className="px-4 py-1.5 rounded-full bg-purple-200 hover:bg-white text-slate-950 font-bold tracking-wider text-[11px] uppercase transition-all shadow-lg glow-purple"
             >
               Workspace
@@ -446,7 +446,7 @@ export default function LandingPage() {
                   image: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=600&h=400&fit=crop&auto=format',
                 },
                 {
-                  link: 'https://github.com/shivamsharma/VoiceOps',
+                  link: 'https://github.com/150ftw/VoiceOps',
                   text: 'GitHub Repository',
                   image: 'https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?q=80&w=600&h=400&fit=crop&auto=format',
                 },
