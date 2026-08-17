@@ -24,9 +24,16 @@
   --ring: 270 90% 65%;
 }
 
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
 body {
   background-color: #030206;
   color: #f3f4f6;
+  overflow-x: hidden;
+  min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-feature-settings: "rlig" 1, "calt" 1;
@@ -37,10 +44,10 @@ body {
   color: #f3e8ff;
 }
 
-/* Custom Scrollbar */
+/* Custom Smooth Obsidian Scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
@@ -48,12 +55,13 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1e1333;
+  background: #23163c;
   border-radius: 9999px;
+  border: 2px solid #030206;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #341f54;
+  background: #581c87;
 }
 
 /* Glassmorphism & Glow Effects */

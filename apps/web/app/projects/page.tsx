@@ -55,14 +55,16 @@ export default function PublicProjectsPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#030206] text-slate-100 selection:bg-purple-500/30 selection:text-purple-200 relative overflow-x-hidden font-sans antialiased">
-      {/* Ambient Background Glow Mesh */}
-      <div className="absolute inset-0 bg-[radial-gradient(rgba(168,85,247,0.08)_1px,transparent_1px)] [background-size:32px_32px] pointer-events-none" />
-      <div className="absolute w-[600px] h-[600px] bg-purple-600/15 rounded-full blur-[140px] pointer-events-none -top-24 -left-24 animate-pulse-subtle" />
-      <div className="absolute w-[500px] h-[500px] bg-fuchsia-600/10 rounded-full blur-[160px] pointer-events-none -bottom-24 -right-24" />
+    <div className="min-h-screen bg-[#030206] text-slate-100 selection:bg-purple-500/30 selection:text-purple-200 relative font-sans antialiased">
+      {/* Fixed Ambient Background Glow Mesh */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <div className="absolute inset-0 bg-[radial-gradient(rgba(168,85,247,0.08)_1px,transparent_1px)] [background-size:32px_32px]" />
+        <div className="absolute w-[600px] h-[600px] bg-purple-600/15 rounded-full blur-[140px] -top-24 -left-24 animate-pulse-subtle" />
+        <div className="absolute w-[500px] h-[500px] bg-fuchsia-600/10 rounded-full blur-[160px] -bottom-24 -right-24" />
+      </div>
 
-      {/* Top Navigation */}
-      <header className="relative z-20 h-20 px-6 sm:px-12 flex items-center justify-between border-b border-purple-500/15 bg-[#030206]/80 backdrop-blur-md">
+      {/* Sticky Top Navigation */}
+      <header className="sticky top-0 z-50 h-20 px-6 sm:px-12 flex items-center justify-between border-b border-purple-500/15 bg-[#030206]/90 backdrop-blur-xl transition-all">
         <Link href="/" className="flex items-center gap-3 group">
           <Image
             src={logoImg}
