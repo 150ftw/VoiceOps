@@ -3,7 +3,24 @@
  */
 
 const getApiBaseUrl = () => {
-  const envUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+  // If running in browser on a hosted cloud domain (e.g. Vercel) without custom backend URL, route to Next.js API
+  if (
+    typeof window !== 'undefined' &&
+    !process.env.NEXT_PUBLIC_API_URL &&
+    !window.location.hostname.includes('localhost') &&
+    !window.location.hostname.includes('127.0.0.1')
+  ) {
+    return '/api';
+  }
+
+  const envUrl = process.env.NEXT_PUBLIC_API_URL;
+  if (!envUrl) {
+    if (typeof window !== 'undefined' && !window.location.hostname.includes('localhost')) {
+      return '/api';
+    }
+    return 'http://localhost:8000/api/v1';
+  }
+
   const clean = envUrl.endsWith('/') ? envUrl.slice(0, -1) : envUrl;
   return clean.endsWith('/api/v1') ? clean : `${clean}/api/v1`;
 };
