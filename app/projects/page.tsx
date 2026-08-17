@@ -26,31 +26,31 @@ import { TopNavBar } from '@/components/layout/top-nav-bar';
 export default function PublicProjectsPage() {
   const SAMPLE_REPOS = [
     {
-      name: 'VoiceOps',
-      fullName: '150ftw/VoiceOps',
+      name: 'ecommerce-microservices',
+      fullName: 'sample-org/ecommerce-microservices',
       branch: 'main',
       status: 'Synced',
-      workflows: 4,
-      desc: 'Agentic Voice-Based DevOps Engineer Monorepo with pgvector RAG and Multi-Model AI Orchestrator.',
-      tags: ['Next.js 14', 'FastAPI', 'pgvector', 'Docker'],
+      workflows: 5,
+      desc: 'High-throughput payment gateway and checkout system with automated canary rollouts, pgvector search, and Redis caching.',
+      tags: ['Next.js 14', 'FastAPI', 'PostgreSQL', 'Docker'],
     },
     {
-      name: 'EcoInsight',
-      fullName: '150ftw/EcoInsight',
-      branch: 'main',
+      name: 'cloud-native-k8s-platform',
+      fullName: 'sample-cloud/k8s-cluster-ops',
+      branch: 'production',
       status: 'Active',
-      workflows: 3,
-      desc: 'Professional Economic Intelligence engine with real-time analytics and predictive data models.',
-      tags: ['React', 'Python', 'PostgreSQL', 'TailwindCSS'],
+      workflows: 4,
+      desc: 'Multi-region Kubernetes deployment pipeline with Terraform IaC, Helm charts, automated drift detection, and telemetry.',
+      tags: ['Kubernetes', 'Helm', 'Terraform', 'Prometheus'],
     },
     {
-      name: 'microservices-k8s-demo',
-      fullName: '150ftw/microservices-k8s-demo',
+      name: 'ai-rag-analytics-engine',
+      fullName: 'sample-ai/rag-semantic-pipeline',
       branch: 'main',
-      status: 'Ready',
-      workflows: 2,
-      desc: 'Kubernetes cloud-native deployment with Helm charts, Istio service mesh, and Prometheus telemetry.',
-      tags: ['Kubernetes', 'Helm', 'Terraform', 'Prometheus'],
+      status: 'Healthy',
+      workflows: 3,
+      desc: 'Autonomous vector search pipeline with Supabase pgvector embeddings, AST code graph indexing, and real-time event streaming.',
+      tags: ['Python 3.11', 'pgvector', 'FastAPI', 'Redis'],
     },
   ];
 
@@ -132,11 +132,14 @@ export default function PublicProjectsPage() {
             <div className="flex items-center gap-2.5">
               <FolderGit2 className="w-5 h-5 text-purple-400" />
               <h2 className="text-lg font-bold text-white tracking-wide">
-                Active DevOps Repositories
+                Sample DevOps Repositories
               </h2>
+              <span className="px-2 py-0.5 rounded-full bg-purple-500/20 border border-purple-500/30 text-purple-300 font-mono text-[10px] uppercase">
+                Demo Stacks
+              </span>
             </div>
             <span className="font-mono text-xs text-purple-300">
-              3 Projects Connected
+              3 Sample Stacks Previewed
             </span>
           </div>
 
