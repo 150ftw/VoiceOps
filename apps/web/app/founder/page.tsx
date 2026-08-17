@@ -19,6 +19,8 @@ import {
 import logoImg from '@/public/logo.png';
 import founderImg from '@/public/founder.png';
 
+import { TopNavBar } from '@/components/layout/top-nav-bar';
+
 export default function FounderPage() {
   return (
     <div className="min-h-screen bg-[#030206] text-slate-100 selection:bg-purple-500/30 selection:text-purple-200 relative overflow-x-hidden font-sans antialiased">
@@ -41,13 +43,12 @@ export default function FounderPage() {
           </span>
         </Link>
 
+        {/* Center Subpage Navigation */}
+        <div className="hidden md:flex items-center">
+          <TopNavBar currentTab="founder" />
+        </div>
+
         <div className="flex items-center gap-4 font-mono text-xs">
-          <Link
-            href="/"
-            className="text-slate-400 hover:text-purple-200 transition-colors uppercase tracking-wider hidden sm:inline-block"
-          >
-            ← Terminal
-          </Link>
           <Link
             href="/workspace"
             className="px-4 py-2 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:brightness-110 text-white font-bold uppercase tracking-wider shadow-[0_0_20px_rgba(168,85,247,0.4)] transition-all"

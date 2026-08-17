@@ -50,6 +50,8 @@ import { apiRequest, clearAuthToken, getAuthToken } from '@/lib/api-client';
 import { HeroBackground } from '@/components/landing/hero-background';
 import Scanner from '@/components/landing/Scanner';
 
+import { TopNavBar } from '@/components/layout/top-nav-bar';
+
 export default function LandingPage() {
   const [currentUser, setCurrentUser] = useState<any>(null);
   const [isLoadingUser, setIsLoadingUser] = useState(true);
@@ -365,18 +367,7 @@ export default function LandingPage() {
             <span>Menu</span>
           </button>
 
-          <a
-            href="#console-preview"
-            className="hidden sm:inline-block hover:text-white transition-colors tracking-widest uppercase"
-          >
-            Studio
-          </a>
-          <a
-            href="#capabilities"
-            className="hidden sm:inline-block hover:text-white transition-colors tracking-widest uppercase"
-          >
-            Capabilities
-          </a>
+          <TopNavBar currentTab="landing" />
         </div>
 
         {/* Right Actions */}
