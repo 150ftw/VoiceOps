@@ -2,7 +2,6 @@ from abc import ABC, abstractmethod
 import hashlib
 import math
 from typing import List
-import numpy as np
 from app.core.config import settings
 from app.core.logging import logger
 
@@ -47,19 +46,18 @@ class OpenAIEmbeddingProvider(BaseEmbeddingProvider):
 class DeterministicFallbackEmbeddingProvider(BaseEmbeddingProvider):
     """
     Fallback deterministic embedding provider for testing and offline environments.
-    Generates 1536-dimensional normalized vectors from SHA-256 tokens.
+    Generates 1536-dimensional normalized vectors from SHA-256 tokens using standard library math.
     """
 
     def __init__(self, dimension: int = 1536):
         self.dimension = dimension
 
     def _generate_vector(self, text: str) -> List[float]:
-        # Hash text words into float dimensions
-        vec = np.zeros(self.dimension, dtype=np.float32)
+        vec = [0.0] * self.dimension
         words = text.lower().split()
         if not words:
             vec[0] = 1.0
-            return vec.tolist()
+            return vec
 
         for w in words:
             h = int(hashlib.md5(w.encode()).hexdigest(), 16)
@@ -67,13 +65,14 @@ class DeterministicFallbackEmbeddingProvider(BaseEmbeddingProvider):
             val = ((h >> 8) % 1000) / 1000.0 - 0.5
             vec[idx] += val
 
-        norm = np.linalg.norm(vec)
-        if norm > 0:
-            vec = vec / norm
+        norm_sq = sum(x * x for x in vec)
+        if norm_sq > 0.0:
+            norm = math.sqrt(norm_sq)
+            vec = [x / norm for x in vec]
         else:
             vec[0] = 1.0
 
-        return vec.tolist()
+        return vec
 
     async def embed_texts(self, texts: List[str]) -> List[List[float]]:
         return [self._generate_vector(t) for t in texts]
