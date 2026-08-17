@@ -494,7 +494,7 @@ export default function LandingPage() {
           </div>
 
           {/* Foreground Glitch Typography */}
-          <h1 className="relative z-10 text-6xl sm:text-8xl md:text-9xl lg:text-[10rem] font-glitch uppercase scale-y-95 w-full flex flex-col items-center justify-center gap-1 sm:gap-2 select-none text-center">
+          <h1 className="relative z-10 text-4xl sm:text-7xl md:text-9xl lg:text-[10rem] font-glitch uppercase scale-y-95 w-full flex flex-col items-center justify-center gap-1 sm:gap-2 select-none text-center">
             {/* VOICE Row */}
             <div className="flex items-center justify-center gap-1 sm:gap-2 md:gap-3 group-hover:gap-2 sm:group-hover:gap-4 md:group-hover:gap-6 transition-all duration-700 ease-out">
               {[

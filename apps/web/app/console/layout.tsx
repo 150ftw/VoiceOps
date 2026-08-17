@@ -30,6 +30,7 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   const [activeProject, setActiveProject] = useState<Project | null>(null);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const isChecking = useAuthGuard();
 
   if (isChecking) {
@@ -47,10 +48,14 @@ export default function DashboardLayout({
 
   return (
     <div className="flex h-screen bg-[#090D16] overflow-hidden">
-      <Sidebar />
+      <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-        <Header activeProject={activeProject} onSelectProject={setActiveProject} />
-        <main className="flex-1 overflow-y-auto p-6 bg-[#090D16]">{children}</main>
+        <Header
+          activeProject={activeProject}
+          onSelectProject={setActiveProject}
+          onToggleSidebar={() => setIsSidebarOpen((prev) => !prev)}
+        />
+        <main className="flex-1 overflow-y-auto p-3 sm:p-6 bg-[#090D16]">{children}</main>
       </div>
     </div>
   );

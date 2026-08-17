@@ -26,6 +26,8 @@ import {
   Lock,
   X,
   Plus,
+  MessageSquare,
+  Mic,
 } from 'lucide-react';
 import { Conversation, Message, Project, Workspace } from '@voiceops/shared';
 import { apiRequest } from '@/lib/api-client';
@@ -58,6 +60,7 @@ export default function VoiceWorkspacePage() {
   const [isSyncingRepo, setIsSyncingRepo] = useState(false);
   const [syncStatus, setSyncStatus] = useState<string | null>(null);
   const [isClearingChat, setIsClearingChat] = useState(false);
+  const [mobileTab, setMobileTab] = useState<'chat' | 'voice'>('chat');
 
   // Inline repo connect panel
   const [showRepoPicker, setShowRepoPicker] = useState(false);
@@ -588,20 +591,20 @@ Regarding your query **"${query}"** in **\`${repoName}\`**:
 
   return (
     <>
-    <div className="max-w-7xl mx-auto h-[calc(100vh-5.5rem)] flex flex-col gap-3 font-sans antialiased">
+    <div className="max-w-7xl mx-auto h-[calc(100vh-5.5rem)] flex flex-col gap-2.5 sm:gap-3 font-sans antialiased">
       {/* Studio Top Context Bar */}
-      <div className="flex items-center justify-between px-5 py-2.5 rounded-2xl bg-[#080B14] border border-white/[0.07] shadow-xl shrink-0">
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2">
+      <div className="flex flex-wrap sm:flex-nowrap items-center justify-between px-3 sm:px-5 py-2 sm:py-2.5 rounded-2xl bg-[#080B14] border border-white/[0.07] shadow-xl shrink-0 gap-2">
+        <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
             <span className={`w-2 h-2 rounded-full ${project ? 'bg-emerald-400 animate-pulse' : 'bg-slate-600'}`} />
-            <span className="text-xs font-bold text-slate-100 tracking-tight">
+            <span className="text-xs font-bold text-slate-100 tracking-tight truncate max-w-[120px] sm:max-w-none">
               {project?.name || 'No project selected'}
             </span>
           </div>
-          <span className="text-slate-600 font-mono text-xs">&bull;</span>
-          <div className="flex items-center gap-1.5 text-xs text-slate-400 font-mono">
+          <span className="hidden sm:inline text-slate-600 font-mono text-xs">&bull;</span>
+          <div className="hidden sm:flex items-center gap-1.5 text-xs text-slate-400 font-mono">
             <GitBranch className="w-3 h-3 text-slate-500" />
-            <span className="text-slate-200 font-medium">
+            <span className="text-slate-200 font-medium truncate max-w-[150px] md:max-w-none">
               {project?.repository?.repo_full_name || '— connect a repo'}
             </span>
             <span className="text-slate-600">({project?.default_branch || 'main'})</span>
@@ -610,17 +613,17 @@ Regarding your query **"${query}"** in **\`${repoName}\`**:
           {!project && !isLoadingHistory && (
             <button
               onClick={handleOpenRepoPicker}
-              className="ml-2 flex items-center gap-1.5 px-3 py-1 rounded-xl bg-purple-600/20 hover:bg-purple-600/35 border border-purple-500/40 hover:border-purple-400/60 text-purple-300 hover:text-purple-100 text-xs font-semibold transition-all"
+              className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-xl bg-purple-600/20 hover:bg-purple-600/35 border border-purple-500/40 hover:border-purple-400/60 text-purple-300 hover:text-purple-100 text-[11px] sm:text-xs font-semibold transition-all shrink-0"
             >
               <Plus className="w-3.5 h-3.5" />
-              Connect Repository
+              <span>Connect</span>
             </button>
           )}
         </div>
 
         {/* Action Controls: Vector Status, Sync & Delete Chat */}
-        <div className="flex items-center gap-2">
-          <div className="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-300 font-mono text-[11px]">
+        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+          <div className="hidden md:flex items-center gap-1.5 px-3 py-1 rounded-xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-300 font-mono text-[11px]">
             <Database className="w-3.5 h-3.5 text-cyan-400" />
             <span>{syncStatus || 'pgvector Codebase Active'}</span>
           </div>
@@ -628,29 +631,57 @@ Regarding your query **"${query}"** in **\`${repoName}\`**:
           <button
             onClick={handleSyncRepo}
             disabled={isSyncingRepo}
-            className="px-3 py-1 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 text-slate-300 hover:text-white text-xs font-medium flex items-center gap-1.5 transition-all disabled:opacity-50"
+            className="px-2.5 sm:px-3 py-1 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 text-slate-300 hover:text-white text-xs font-medium flex items-center gap-1.5 transition-all disabled:opacity-50"
             title="Scan and re-index repository into pgvector"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${isSyncingRepo ? 'animate-spin text-indigo-400' : 'text-slate-400'}`} />
-            <span>{isSyncingRepo ? 'Syncing...' : 'Sync'}</span>
+            <span className="hidden sm:inline">{isSyncingRepo ? 'Syncing...' : 'Sync'}</span>
           </button>
 
           <button
             onClick={handleClearChat}
             disabled={isClearingChat || messages.length === 0}
-            className="px-3 py-1 rounded-xl bg-white/[0.04] hover:bg-rose-500/10 border border-white/10 hover:border-rose-500/30 text-slate-400 hover:text-rose-300 text-xs font-medium flex items-center gap-1.5 transition-all disabled:opacity-30 disabled:hover:bg-white/[0.04] disabled:hover:text-slate-400"
+            className="px-2.5 sm:px-3 py-1 rounded-xl bg-white/[0.04] hover:bg-rose-500/10 border border-white/10 hover:border-rose-500/30 text-slate-400 hover:text-rose-300 text-xs font-medium flex items-center gap-1.5 transition-all disabled:opacity-30 disabled:hover:bg-white/[0.04] disabled:hover:text-slate-400"
             title="Delete conversation chat history"
           >
             <Trash2 className={`w-3.5 h-3.5 ${isClearingChat ? 'animate-pulse text-rose-400' : 'text-slate-400'}`} />
-            <span>{isClearingChat ? 'Deleting...' : 'Delete Chat'}</span>
+            <span className="hidden sm:inline">{isClearingChat ? 'Deleting...' : 'Delete Chat'}</span>
           </button>
         </div>
+      </div>
+
+      {/* Mobile Switcher Tab Bar (Phone-Friendly) */}
+      <div className="flex lg:hidden items-center p-1 rounded-2xl bg-[#080B14] border border-white/[0.07] shrink-0">
+        <button
+          type="button"
+          onClick={() => setMobileTab('chat')}
+          className={`flex-1 py-1.5 text-xs font-semibold rounded-xl flex items-center justify-center gap-2 transition-all ${
+            mobileTab === 'chat'
+              ? 'bg-purple-600/30 text-white border border-purple-500/40 shadow-sm'
+              : 'text-slate-400 hover:text-slate-200'
+          }`}
+        >
+          <MessageSquare className="w-3.5 h-3.5" />
+          <span>Interactive Chat</span>
+        </button>
+        <button
+          type="button"
+          onClick={() => setMobileTab('voice')}
+          className={`flex-1 py-1.5 text-xs font-semibold rounded-xl flex items-center justify-center gap-2 transition-all ${
+            mobileTab === 'voice'
+              ? 'bg-purple-600/30 text-white border border-purple-500/40 shadow-sm'
+              : 'text-slate-400 hover:text-slate-200'
+          }`}
+        >
+          <Mic className="w-3.5 h-3.5" />
+          <span>Voice &amp; Activity</span>
+        </button>
       </div>
 
       {/* Main Studio Body Grid */}
       <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-3 min-h-0">
         {/* Left Column: Voice Visualizer, Telemetry & Guardrails (4 cols) */}
-        <div className="lg:col-span-4 flex flex-col gap-3 overflow-y-auto pr-0.5">
+        <div className={`lg:col-span-4 flex flex-col gap-3 overflow-y-auto pr-0.5 ${mobileTab === 'voice' ? 'flex' : 'hidden lg:flex'}`}>
           {/* Voice Interface Centerpiece */}
           <VoiceVisualizer
             isRecording={isRecording}
@@ -684,7 +715,7 @@ Regarding your query **"${query}"** in **\`${repoName}\`**:
         </div>
 
         {/* Right Column: Interactive Chat Stream & Approvals (8 cols) */}
-        <div className="lg:col-span-8 flex flex-col rounded-3xl bg-[#06080F] border border-white/[0.07] overflow-hidden min-h-0 shadow-2xl">
+        <div className={`lg:col-span-8 flex flex-col rounded-3xl bg-[#06080F] border border-white/[0.07] overflow-hidden min-h-0 shadow-2xl flex-1 ${mobileTab === 'chat' ? 'flex' : 'hidden lg:flex'}`}>
           {/* Messages Stream Container */}
           <div className="flex-1 p-5 sm:p-6 overflow-y-auto space-y-4">
             {messages.length === 0 && !isLoadingHistory ? (
@@ -768,35 +799,51 @@ Regarding your query **"${query}"** in **\`${repoName}\`**:
           )}
 
           {/* Command Palette Chat Input Bar */}
-          <div className="p-3.5 bg-slate-950/90 border-t border-white/[0.06]">
+          <div className="p-2.5 sm:p-3.5 bg-slate-950/90 border-t border-white/[0.06]">
             <form
               onSubmit={(e) => {
                 e.preventDefault();
                 handleSendText();
               }}
-              className="relative flex items-center"
+              className="relative flex items-center gap-2"
             >
-              <input
-                type="text"
-                value={textInput}
-                onChange={(e) => setTextInput(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' && !e.shiftKey) {
-                    e.preventDefault();
-                    handleSendText();
-                  }
-                }}
-                placeholder="Ask about index.html, app.js logic, styles.css theme, or deployment runbooks..."
-                className="w-full bg-[#090D17] border border-slate-800 focus:border-indigo-500/60 rounded-2xl pl-4 pr-14 py-3 text-xs text-slate-100 placeholder-slate-500 focus:outline-none transition-all shadow-inner"
-              />
+              {/* 1-Tap Mic Button for Mobile / Quick Voice */}
               <button
-                type="submit"
-                disabled={!textInput.trim()}
-                className="absolute right-2 p-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white transition-all disabled:opacity-30 disabled:hover:bg-indigo-600 shadow-md glow-indigo"
-                title="Send message (Enter)"
+                type="button"
+                onClick={handleToggleRecord}
+                className={`p-2.5 rounded-xl border transition-all shrink-0 ${
+                  isRecording
+                    ? 'bg-rose-500/20 border-rose-500 text-rose-400 animate-pulse'
+                    : 'bg-white/[0.04] border-white/10 hover:bg-purple-500/10 hover:border-purple-500/30 text-slate-300'
+                }`}
+                title={isRecording ? 'Stop recording' : 'Speak to VoiceOps'}
               >
-                <Send className="w-3.5 h-3.5" />
+                <Mic className="w-4 h-4" />
               </button>
+
+              <div className="relative flex-1 flex items-center">
+                <input
+                  type="text"
+                  value={textInput}
+                  onChange={(e) => setTextInput(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                      e.preventDefault();
+                      handleSendText();
+                    }
+                  }}
+                  placeholder="Ask about codebase, styling, or workflows..."
+                  className="w-full bg-[#090D17] border border-slate-800 focus:border-indigo-500/60 rounded-2xl pl-3.5 sm:pl-4 pr-12 sm:pr-14 py-2.5 sm:py-3 text-xs text-slate-100 placeholder-slate-500 focus:outline-none transition-all shadow-inner"
+                />
+                <button
+                  type="submit"
+                  disabled={!textInput.trim()}
+                  className="absolute right-1.5 sm:right-2 p-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white transition-all disabled:opacity-30 disabled:hover:bg-indigo-600 shadow-md glow-indigo"
+                  title="Send message (Enter)"
+                >
+                  <Send className="w-3.5 h-3.5" />
+                </button>
+              </div>
             </form>
           </div>
         </div>

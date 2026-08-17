@@ -19,7 +19,7 @@ export const TopNavBar: React.FC<TopNavBarProps> = ({ currentTab }) => {
   };
 
   return (
-    <nav className="flex items-center gap-6 sm:gap-8 font-mono text-xs tracking-widest uppercase">
+    <nav className="flex items-center gap-4 sm:gap-6 md:gap-8 font-mono text-[11px] sm:text-xs tracking-wider sm:tracking-widest uppercase overflow-x-auto no-scrollbar py-1 shrink-0 whitespace-nowrap">
       <Link
         href="/workspace"
         className={`transition-all ${

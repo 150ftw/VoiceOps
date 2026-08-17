@@ -63,15 +63,15 @@ export default function PublicKnowledgePage() {
       </div>
 
       {/* Sticky Top Navigation */}
-      <header className="sticky top-0 z-50 h-20 px-6 sm:px-12 flex items-center justify-between border-b border-purple-500/15 bg-[#030206]/90 backdrop-blur-xl transition-all">
-        <Link href="/" className="flex items-center gap-3 group">
+      <header className="sticky top-0 z-50 h-16 sm:h-20 px-4 sm:px-12 flex items-center justify-between border-b border-purple-500/15 bg-[#030206]/90 backdrop-blur-xl transition-all">
+        <Link href="/" className="flex items-center gap-2 sm:gap-3 group">
           <Image
             src={logoImg}
             alt="VoiceOps Logo"
             priority
-            className="w-8 h-8 object-contain drop-shadow-[0_0_12px_rgba(168,85,247,0.8)] group-hover:scale-105 transition-transform"
+            className="w-7 h-7 sm:w-8 sm:h-8 object-contain drop-shadow-[0_0_12px_rgba(168,85,247,0.8)] group-hover:scale-105 transition-transform"
           />
-          <span className="text-xl font-glitch text-purple-200 tracking-widest uppercase">
+          <span className="text-lg sm:text-xl font-glitch text-purple-200 tracking-widest uppercase">
             VOICEOPS
           </span>
         </Link>
@@ -81,19 +81,19 @@ export default function PublicKnowledgePage() {
           <TopNavBar currentTab="knowledge" />
         </div>
 
-        <div className="flex items-center gap-4 font-mono text-xs">
+        <div className="flex items-center gap-3 sm:gap-4 font-mono text-xs">
           <Link
             href="/console/knowledge"
-            className="px-4 py-2 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:brightness-110 text-white font-bold uppercase tracking-wider shadow-[0_0_20px_rgba(168,85,247,0.4)] transition-all flex items-center gap-1.5"
+            className="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:brightness-110 text-white font-bold uppercase tracking-wider text-[11px] sm:text-xs shadow-[0_0_20px_rgba(168,85,247,0.4)] transition-all flex items-center gap-1.5"
           >
-            <span>Runbooks Console</span>
+            <span>Runbooks</span>
             <span>↗</span>
           </Link>
         </div>
       </header>
 
       {/* Main Hero Container */}
-      <main className="relative z-10 max-w-6xl mx-auto px-6 py-16 sm:py-24 space-y-20">
+      <main className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-24 space-y-12 sm:space-y-20">
         {/* Hero Section */}
         <section className="text-center space-y-6 max-w-3xl mx-auto">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-950/80 border border-purple-400/40 text-purple-300 font-mono text-xs uppercase tracking-wider shadow-inner">
