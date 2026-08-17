@@ -209,10 +209,10 @@ export async function POST(req: NextRequest) {
     if (apiKey && apiKey.startsWith('nvapi-')) {
       try {
         const systemPrompt = repo_full_name
-          ? `You are VoiceOps AI, an expert autonomous DevOps & Full-Stack AI Engineer paired with developer Shivam Sharma.
+          ? `You are VoiceOps AI, an expert autonomous DevOps & Full-Stack AI Engineer paired with the active developer.
 You are assisting with the connected repository "${repo_full_name}" (Project: ${project_name || repo_full_name}).
 Answer the user's question directly, conversationally, and with deep technical precision. Use clear markdown formatting.`
-          : `You are VoiceOps AI, an autonomous DevOps engineer assistant paired with developer Shivam Sharma.
+          : `You are VoiceOps AI, an autonomous DevOps engineer assistant paired with the active developer.
 Currently, NO repository is connected to this workspace.
 If the user greets you or asks questions, greet them warmly and let them know they can connect a GitHub repository using the [+ Connect] button to enable codebase architecture analysis, CI/CD inspection, log diagnostics, and autonomous PR generation.`;
 

@@ -70,26 +70,11 @@ function GitHubCallbackContent() {
           }
         }
 
-        // 3. Resilient Client-Side Session Generation Fallback
-        if (!authSuccess) {
-          const fallbackPayload = {
-            sub: 'gh-user-86033717',
-            email: 'ss18244646@gmail.com',
-            name: 'Shivam Sharma',
-            avatar_url: 'https://avatars.githubusercontent.com/u/86033717?v=4',
-            github_username: '150ftw',
-            iat: Math.floor(Date.now() / 1000),
-            exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 7,
-          };
-          token = btoa(JSON.stringify(fallbackPayload));
-          authSuccess = true;
-        }
-
         if (token) {
           setAuthToken(token);
           router.replace('/console/workspace');
         } else {
-          setError('Failed to establish session.');
+          setError('Failed to establish session from GitHub. Please try signing in again.');
         }
       } catch (err: any) {
         if (getAuthToken()) {
@@ -116,30 +101,13 @@ function GitHubCallbackContent() {
               <AlertCircle className="w-5 h-5" />
               <h2 className="text-sm font-bold">Authentication Failed</h2>
             </div>
-            <div className="flex flex-col sm:flex-row gap-2 justify-center pt-2">
-              <button
-                onClick={() => {
-                  const fallbackPayload = {
-                    sub: 'gh-user-86033717',
-                    email: 'ss18244646@gmail.com',
-                    name: 'Shivam Sharma',
-                    avatar_url: 'https://avatars.githubusercontent.com/u/86033717?v=4',
-                    github_username: '150ftw',
-                    iat: Math.floor(Date.now() / 1000),
-                    exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 7,
-                  };
-                  setAuthToken(btoa(JSON.stringify(fallbackPayload)));
-                  router.replace('/overview');
-                }}
-                className="px-5 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-xs font-bold text-white transition-all shadow-md shadow-purple-950 cursor-pointer"
-              >
-                Proceed to Dashboard
-              </button>
+            <p className="text-xs text-slate-400 leading-relaxed">{error}</p>
+            <div className="flex justify-center pt-2">
               <button
                 onClick={() => router.push('/login')}
-                className="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-xs font-semibold text-slate-300 transition-all cursor-pointer"
+                className="px-6 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-xs font-bold text-white transition-all shadow-md shadow-purple-950 cursor-pointer"
               >
-                Return to Sign In
+                Try Signing In Again
               </button>
             </div>
           </div>

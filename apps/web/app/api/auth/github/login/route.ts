@@ -109,10 +109,11 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    const userId = userData?.id || 'github-dev';
-    const userName = userData?.name || userData?.login || 'Shivam Sharma';
-    const avatarUrl = userData?.avatar_url || 'https://avatars.githubusercontent.com/u/86033717?v=4';
-    const userEmail = email || (userData?.login ? `${userData.login}@github.com` : 'ss18244646@gmail.com');
+    const userId = userData?.id || 'github-user';
+    const userName = userData?.name || userData?.login || 'Developer';
+    const avatarUrl = userData?.avatar_url || `https://avatars.githubusercontent.com/u/${userData?.id || '9919'}?v=4`;
+    const userEmail = email || (userData?.login ? `${userData.login}@users.noreply.github.com` : 'user@voiceops.dev');
+    const githubUsername = userData?.login || 'github-user';
 
     // 3. Construct Secure User Session & Token
     const userSession = {
@@ -120,13 +121,13 @@ export async function POST(req: NextRequest) {
       email: userEmail,
       full_name: userName,
       avatar_url: avatarUrl,
-      github_username: userData?.login || '150ftw',
+      github_username: githubUsername,
       github_token: ghAccessToken,
       workspaces: [
         {
           id: `ws-${userId}`,
           name: `${userName}'s Workspace`,
-          slug: 'voiceops-workspace',
+          slug: `${githubUsername}-workspace`,
           role: 'owner',
         },
       ],
@@ -136,7 +137,9 @@ export async function POST(req: NextRequest) {
       sub: userSession.id,
       email: userEmail,
       name: userName,
+      github_username: githubUsername,
       avatar_url: avatarUrl,
+      github_token: ghAccessToken,
       iat: Math.floor(Date.now() / 1000),
       exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 7, // 7 days
     };

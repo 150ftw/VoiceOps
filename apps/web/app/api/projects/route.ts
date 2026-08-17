@@ -21,10 +21,43 @@ const DEFAULT_PROJECTS = [
 let inMemoryProjects = [...DEFAULT_PROJECTS];
 
 export async function GET(req: NextRequest) {
-  return NextResponse.json(inMemoryProjects, {
-    status: 200,
-    headers: { 'Access-Control-Allow-Origin': '*' },
-  });
+  try {
+    const authHeader = req.headers.get('Authorization') || '';
+    const token = authHeader.replace(/^Bearer\s+/i, '');
+
+    let userId = 'default-user';
+    let ghUsername = 'developer';
+
+    if (token) {
+      try {
+        let decoded: any = null;
+        if (token.includes('.')) {
+          const parts = token.split('.');
+          decoded = JSON.parse(Buffer.from(parts[1], 'base64url').toString('utf-8'));
+        } else {
+          decoded = JSON.parse(Buffer.from(token, 'base64url').toString('utf-8'));
+        }
+        userId = decoded?.sub || userId;
+        ghUsername = decoded?.github_username || ghUsername;
+      } catch {
+        // ignore
+      }
+    }
+
+    const userProjects = inMemoryProjects.filter(
+      (p) => p.workspace_id === `ws-${userId}` || p.workspace_id === 'ws-primary-default'
+    );
+
+    return NextResponse.json(userProjects, {
+      status: 200,
+      headers: { 'Access-Control-Allow-Origin': '*' },
+    });
+  } catch {
+    return NextResponse.json([], {
+      status: 200,
+      headers: { 'Access-Control-Allow-Origin': '*' },
+    });
+  }
 }
 
 export async function POST(req: NextRequest) {

@@ -29,19 +29,25 @@ export async function GET(req: NextRequest) {
           decoded = JSON.parse(Buffer.from(token, 'base64url').toString('utf-8'));
         }
 
-        if (decoded && (decoded.sub || decoded.email)) {
-          const userName = decoded.name || 'Shivam Sharma';
+        if (decoded && (decoded.sub || decoded.email || decoded.name || decoded.github_username)) {
+          const userName = decoded.name || decoded.github_username || 'Developer';
+          const userEmail = decoded.email || `${decoded.github_username || 'dev'}@users.noreply.github.com`;
+          const avatarUrl = decoded.avatar_url || 'https://avatars.githubusercontent.com/u/9919?v=4';
+          const userId = decoded.sub || 'user-default';
+          const ghUsername = decoded.github_username || 'developer';
+
           return NextResponse.json(
             {
-              id: decoded.sub || 'user-default',
-              email: decoded.email || 'ss18244646@gmail.com',
+              id: userId,
+              email: userEmail,
               full_name: userName,
-              avatar_url: decoded.avatar_url || 'https://avatars.githubusercontent.com/u/86033717?v=4',
+              github_username: ghUsername,
+              avatar_url: avatarUrl,
               workspaces: [
                 {
-                  id: 'ws-primary-default',
+                  id: `ws-${userId}`,
                   name: `${userName}'s Workspace`,
-                  slug: 'voiceops-primary-workspace',
+                  slug: `${ghUsername}-workspace`,
                   role: 'owner',
                 },
               ],
@@ -58,22 +64,9 @@ export async function GET(req: NextRequest) {
     }
 
     return NextResponse.json(
+      { detail: 'Authentication required' },
       {
-        id: 'user-7c7b8f5d',
-        email: 'ss18244646@gmail.com',
-        full_name: 'Shivam Sharma',
-        avatar_url: 'https://avatars.githubusercontent.com/u/86033717?v=4',
-        workspaces: [
-          {
-            id: 'ws-primary-default',
-            name: "Shivam Sharma's Workspace",
-            slug: 'shivam-workspace',
-            role: 'owner',
-          },
-        ],
-      },
-      {
-        status: 200,
+        status: 401,
         headers: { 'Access-Control-Allow-Origin': '*' },
       }
     );

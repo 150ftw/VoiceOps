@@ -13,19 +13,10 @@ function useAuthGuard() {
   const [checking, setChecking] = useState(true);
 
   useEffect(() => {
-    let token = getAuthToken();
-    if (!token && typeof window !== 'undefined') {
-      token = 'ghp_demo_session_voiceops_dev';
-      localStorage.setItem('voiceops_auth_token', token);
-      localStorage.setItem(
-        'voiceops_user',
-        JSON.stringify({
-          id: 'gh-user-86033717',
-          full_name: 'Shivam Sharma',
-          email: 'ss18244646@github.com',
-          avatar_url: 'https://avatars.githubusercontent.com/u/86033717?v=4',
-        })
-      );
+    const token = getAuthToken();
+    if (!token) {
+      router.replace('/login?redirect=/console/workspace');
+      return;
     }
     setChecking(false);
   }, [router]);

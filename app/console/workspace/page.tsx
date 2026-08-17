@@ -706,9 +706,9 @@ Regarding your query **"${query}"** in **\`${repoName}\`**:
                     message={msg}
                     userAvatarUrl={
                       currentUser?.avatar_url ||
-                      'https://avatars.githubusercontent.com/u/86033717?v=4'
+                      'https://avatars.githubusercontent.com/u/9919?v=4'
                     }
-                    userName={currentUser?.full_name || 'Shivam Sharma'}
+                    userName={currentUser?.full_name || 'Developer'}
                     onSpeak={handleSpeakAloud}
                     onRespondApproval={respondToApproval}
                   />
