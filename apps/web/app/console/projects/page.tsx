@@ -84,10 +84,12 @@ export default function ProjectsPage() {
 
   const loadProjects = async (wsId: string) => {
     try {
-      const data = await apiRequest(`/projects?workspace_id=${wsId}`);
-      setProjects(data || []);
+      const data = await apiRequest(`/projects?workspace_id=${wsId}`).catch(() => []);
+      const list = Array.isArray(data) ? data : data?.projects || [];
+      setProjects(list);
     } catch (err) {
       console.error('Failed to load projects:', err);
+      setProjects([]);
     }
   };
 
@@ -98,12 +100,15 @@ export default function ProjectsPage() {
       if (statusData?.connected) {
         setGithubConnected(true);
         const reposData = await apiRequest(`/integrations/github/repositories?workspace_id=${wsId}`).catch(() => []);
-        setGithubRepos(reposData || []);
+        const list = Array.isArray(reposData) ? reposData : reposData?.repositories || [];
+        setGithubRepos(list);
       } else {
         setGithubConnected(false);
+        setGithubRepos([]);
       }
     } catch (err) {
       console.warn('Failed to load GitHub repos:', err);
+      setGithubRepos([]);
     } finally {
       setIsLoadingRepos(false);
     }
@@ -112,11 +117,23 @@ export default function ProjectsPage() {
   useEffect(() => {
     async function init() {
       try {
-        const user = await apiRequest('/auth/me');
-        if (user.workspaces && user.workspaces.length > 0) {
+        const user = await apiRequest('/auth/me').catch(() => null);
+        if (user?.workspaces && user.workspaces.length > 0) {
           const ws = user.workspaces[0];
           setWorkspace(ws);
           await Promise.all([loadProjects(ws.id), loadGitHubRepos(ws.id)]);
+        } else {
+          // Fallback workspace
+          const defaultWs: Workspace = {
+            id: 'ws-primary-default',
+            name: 'Primary Workspace',
+            slug: 'primary',
+            role: 'owner',
+            owner_id: 'default',
+            created_at: new Date().toISOString(),
+          };
+          setWorkspace(defaultWs);
+          await Promise.all([loadProjects(defaultWs.id), loadGitHubRepos(defaultWs.id)]);
         }
       } catch (err) {
         console.warn('Init error:', err);
@@ -212,7 +229,7 @@ export default function ProjectsPage() {
     if (typeof window !== 'undefined') {
       localStorage.setItem('voiceops_active_project_id', projectId);
     }
-    router.push(`/workspace?project_id=${projectId}`);
+    router.push(`/console/workspace?project_id=${projectId}`);
   };
 
   const handleCreateProject = async (e: React.FormEvent) => {
@@ -248,9 +265,9 @@ export default function ProjectsPage() {
     }
   };
 
-  const filteredGitHubRepos = githubRepos.filter((r) =>
-    r.full_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    (r.description && r.description.toLowerCase().includes(searchQuery.toLowerCase()))
+  const filteredGitHubRepos = (Array.isArray(githubRepos) ? githubRepos : []).filter((r) =>
+    r?.full_name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    (r?.description && r.description.toLowerCase().includes(searchQuery.toLowerCase()))
   );
 
   return (
@@ -289,7 +306,7 @@ export default function ProjectsPage() {
 
         {!githubConnected && (
           <Link
-            href="/integrations"
+            href="/console/integrations"
             className="px-4 py-2 rounded-xl bg-indigo-600/10 hover:bg-indigo-600/20 text-indigo-400 border border-indigo-500/30 text-xs font-semibold flex items-center gap-2 transition-all"
           >
             <Github className="w-4 h-4" />
@@ -613,16 +630,16 @@ export default function ProjectsPage() {
                           </button>
 
                           <Link
-                            href="/knowledge"
+                            href="/console/knowledge"
                             className="w-full flex items-center gap-2 px-2.5 py-2 rounded-xl text-indigo-300 hover:bg-indigo-500/10 transition-colors font-medium text-left"
                           >
                             <BookOpen className="w-3.5 h-3.5 text-indigo-400" />
                             <span>View Runbooks</span>
                           </Link>
 
-                          {proj.repository?.repo_full_name && (
+                          {(proj.repository?.repo_full_name || (proj as any).github_repo) && (
                             <a
-                              href={`https://github.com/${proj.repository.repo_full_name}`}
+                              href={`https://github.com/${proj.repository?.repo_full_name || (proj as any).github_repo}`}
                               target="_blank"
                               rel="noreferrer"
                               className="w-full flex items-center gap-2 px-2.5 py-2 rounded-xl text-slate-300 hover:bg-white/5 transition-colors font-medium text-left"
@@ -651,9 +668,9 @@ export default function ProjectsPage() {
                     <div className="flex items-center gap-2 font-mono text-slate-400">
                       <GitBranch className="w-3.5 h-3.5 text-slate-500" />
                       <span className="text-slate-300 font-medium">
-                        {proj.repository?.repo_full_name || 'No repository linked'}
+                        {proj.repository?.repo_full_name || (proj as any).github_repo || 'No repository linked'}
                       </span>
-                      {proj.repository && (
+                      {(proj.repository || (proj as any).github_repo) && (
                         <span className="px-1.5 py-0.5 rounded text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
                           Linked
                         </span>
