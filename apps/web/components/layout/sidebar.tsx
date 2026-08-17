@@ -43,8 +43,8 @@ export const Sidebar: React.FC = () => {
         />
         <div>
           <div className="flex items-center gap-1.5">
-            <span className="font-extrabold text-sm tracking-tight text-white">
-              VoiceOps
+            <span className="text-base font-glitch text-purple-200 tracking-widest uppercase drop-shadow-[0_0_10px_rgba(168,85,247,0.4)]">
+              VOICEOPS
             </span>
             <span className="px-1.5 py-0.2 rounded-full text-[8px] font-mono uppercase bg-purple-500/20 text-purple-300 border border-purple-500/30">
               AI

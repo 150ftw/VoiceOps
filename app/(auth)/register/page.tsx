@@ -70,11 +70,14 @@ function RegisterContent() {
               </div>
             </Link>
             <div className="space-y-1">
-              <h1 className="text-2xl font-extrabold text-white tracking-tight">
-                Create your Account
+              <h1 className="text-2xl font-extrabold text-white tracking-tight flex items-center justify-center gap-2">
+                <span>Join</span>
+                <span className="font-glitch text-purple-200 uppercase tracking-widest drop-shadow-[0_0_10px_rgba(168,85,247,0.5)]">
+                  VOICEOPS
+                </span>
               </h1>
               <p className="text-[11px] font-mono text-purple-300/70 uppercase tracking-widest">
-                Get started with VoiceOps
+                Voice-Native Autonomous DevOps
               </p>
             </div>
           </div>

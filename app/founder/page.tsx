@@ -52,10 +52,11 @@ export default function FounderPage() {
 
         <div className="flex items-center gap-4 font-mono text-xs">
           <Link
-            href="/workspace"
-            className="px-4 py-2 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:brightness-110 text-white font-bold uppercase tracking-wider shadow-[0_0_20px_rgba(168,85,247,0.4)] transition-all"
+            href="/console/workspace"
+            className="px-4 py-2 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:brightness-110 text-white font-bold uppercase tracking-wider shadow-[0_0_20px_rgba(168,85,247,0.4)] transition-all flex items-center gap-1.5"
           >
-            Launch Studio ↗
+            <span>Launch Studio</span>
+            <span>↗</span>
           </Link>
         </div>
       </header>
