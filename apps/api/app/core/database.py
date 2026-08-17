@@ -8,6 +8,9 @@ from sqlalchemy.ext.asyncio import (
     create_async_engine,
 )
 from sqlalchemy.ext.compiler import compiles
+from sqlalchemy.dialects.postgresql import JSONB, UUID
+from sqlalchemy.orm import DeclarativeBase
+
 try:
     from pgvector.sqlalchemy import Vector
 except ImportError:
@@ -123,9 +126,11 @@ async def init_db_schema():
         async with engine.begin() as conn:
             import app.models  # load models
             await conn.run_sync(Base.metadata.create_all)
-        logger.info("Database schema initialized successfully")
+        if hasattr(logger, "info"):
+            logger.info("Database schema initialized successfully")
     except Exception as e:
-        logger.warning("Database schema auto-init skipped or existing", error=str(e))
+        if hasattr(logger, "warning"):
+            logger.warning(f"Database schema auto-init skipped or existing: {e}")
 
 
 async def get_db() -> AsyncGenerator[AsyncSession, None]:
@@ -135,7 +140,8 @@ async def get_db() -> AsyncGenerator[AsyncSession, None]:
             yield session
         except Exception as e:
             await session.rollback()
-            logger.error("Database session rollback due to exception", error=str(e))
+            if hasattr(logger, "error"):
+                logger.error(f"Database session rollback due to exception: {e}")
             raise
         finally:
             await session.close()
