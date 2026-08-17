@@ -51,6 +51,7 @@ export default function VoiceWorkspacePage() {
   const [workspace, setWorkspace] = useState<any>(null);
   const [conversation, setConversation] = useState<Conversation | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
+  const [currentUser, setCurrentUser] = useState<any>(null);
   const [textInput, setTextInput] = useState('');
   const [isThinking, setIsThinking] = useState(false);
   const [isLoadingHistory, setIsLoadingHistory] = useState(true);
@@ -81,6 +82,7 @@ export default function VoiceWorkspacePage() {
       setIsLoadingHistory(true);
       try {
         const user = await apiRequest('/auth/me');
+        setCurrentUser(user);
         if (user.workspaces && user.workspaces.length > 0) {
           const ws = user.workspaces[0];
           setWorkspace(ws);
@@ -675,6 +677,11 @@ Regarding your query **"${query}"** in **\`${repoName}\`**:
                   <MessageBubble
                     key={msg.id}
                     message={msg}
+                    userAvatarUrl={
+                      currentUser?.avatar_url ||
+                      (currentUser?.email ? `https://github.com/${currentUser.email.split('@')[0]}.png` : 'https://github.com/ss18244646.png')
+                    }
+                    userName={currentUser?.full_name || 'Shivam Sharma'}
                     onSpeak={handleSpeakAloud}
                     onRespondApproval={respondToApproval}
                   />

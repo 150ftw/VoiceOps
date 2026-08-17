@@ -12,16 +12,21 @@ import Image from 'next/image';
 
 interface MessageBubbleProps {
   message: Message;
+  userAvatarUrl?: string;
+  userName?: string;
   onSpeak?: (text: string) => void;
   onRespondApproval?: (approvalId: string, decision: 'approved' | 'rejected') => Promise<void> | void;
 }
 
 export const MessageBubble: React.FC<MessageBubbleProps> = ({
   message,
+  userAvatarUrl,
+  userName,
   onSpeak,
   onRespondApproval,
 }) => {
   const [copied, setCopied] = useState(false);
+  const [imgError, setImgError] = useState(false);
   const isUser = message.sender_type === 'user';
   const sources = message.metadata?.sources || message.metadata_json?.sources || [];
   const pendingApproval: PendingApproval | undefined =
@@ -33,18 +38,31 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const effectiveAvatar = userAvatarUrl || 'https://github.com/ss18244646.png';
+
   return (
     <div className={`flex gap-3.5 my-5 ${isUser ? 'flex-row-reverse' : 'flex-row'} group`}>
       {/* Avatar Icon */}
       <div
-        className={`w-9 h-9 rounded-2xl flex items-center justify-center shrink-0 shadow-md ${
+        className={`w-9 h-9 rounded-2xl flex items-center justify-center shrink-0 shadow-md overflow-hidden ${
           isUser
-            ? 'bg-slate-800 border border-slate-700 text-slate-200'
+            ? 'bg-gradient-to-tr from-purple-600 via-purple-500 to-fuchsia-400 border border-purple-400/30 text-white'
             : 'bg-[#180F33] border border-purple-500/30 text-white shadow-lg shadow-purple-950/50'
         }`}
       >
         {isUser ? (
-          <User className="w-4 h-4 text-slate-300" />
+          !imgError && effectiveAvatar ? (
+            <img
+              src={effectiveAvatar}
+              alt={userName || 'User'}
+              className="w-full h-full object-cover rounded-2xl"
+              onError={() => setImgError(true)}
+            />
+          ) : (
+            <span className="text-xs font-bold text-white">
+              {userName?.charAt(0) || 'S'}
+            </span>
+          )
         ) : (
           <div className="w-5 h-5 flex items-center justify-center">
             <Image

@@ -375,18 +375,31 @@ export const Header: React.FC<HeaderProps> = ({ activeProject, onSelectProject }
             className="flex items-center gap-2.5 px-3 py-1.5 rounded-2xl hover:bg-white/[0.06] border border-transparent hover:border-white/10 transition-all group"
           >
             <div className="relative">
-              <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-purple-600 via-purple-500 to-fuchsia-400 flex items-center justify-center text-xs font-bold text-white shadow-md glow-purple">
-                {currentUser?.full_name?.charAt(0) || 'U'}
+              <div className="w-8 h-8 rounded-full overflow-hidden bg-gradient-to-tr from-purple-600 via-purple-500 to-fuchsia-400 flex items-center justify-center text-xs font-bold text-white shadow-md glow-purple border border-purple-400/20">
+                <img
+                  src={
+                    currentUser?.avatar_url ||
+                    (currentUser?.email ? `https://github.com/${currentUser.email.split('@')[0]}.png` : 'https://github.com/ss18244646.png')
+                  }
+                  alt={currentUser?.full_name || 'User'}
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    (e.currentTarget as HTMLElement).style.display = 'none';
+                  }}
+                />
+                <span className="text-xs font-bold text-white">
+                  {currentUser?.full_name?.charAt(0) || 'S'}
+                </span>
               </div>
               <span className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-[#040209]" />
             </div>
 
             <div className="hidden md:flex flex-col text-left">
               <span className="text-xs font-semibold text-slate-200 group-hover:text-white leading-tight">
-                {currentUser?.full_name || 'Developer'}
+                {currentUser?.full_name || 'Shivam Sharma'}
               </span>
               <span className="text-[10px] text-slate-400 font-mono">
-                {currentUser?.email ? currentUser.email.split('@')[0] : 'admin'}
+                {currentUser?.email ? currentUser.email.split('@')[0] : 'ss18244646'}
               </span>
             </div>
 
@@ -402,8 +415,21 @@ export const Header: React.FC<HeaderProps> = ({ activeProject, onSelectProject }
             <div className="absolute right-0 mt-2 w-80 bg-[#080412] border border-purple-500/30 shadow-2xl shadow-black rounded-3xl p-3.5 z-50 animate-in fade-in slide-in-from-top-2 duration-200 ring-1 ring-purple-500/20">
               {/* User Profile Header Card */}
               <div className="p-3 rounded-2xl bg-[#040209] border border-purple-500/20 flex items-center gap-3">
-                <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-purple-600 via-purple-500 to-fuchsia-400 flex items-center justify-center text-sm font-bold text-white shadow-md glow-purple shrink-0">
-                  {currentUser?.full_name?.charAt(0) || 'U'}
+                <div className="w-10 h-10 rounded-2xl overflow-hidden bg-gradient-to-tr from-purple-600 via-purple-500 to-fuchsia-400 flex items-center justify-center text-sm font-bold text-white shadow-md glow-purple shrink-0 border border-purple-400/30">
+                  <img
+                    src={
+                      currentUser?.avatar_url ||
+                      (currentUser?.email ? `https://github.com/${currentUser.email.split('@')[0]}.png` : 'https://github.com/ss18244646.png')
+                    }
+                    alt={currentUser?.full_name || 'User'}
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      (e.currentTarget as HTMLElement).style.display = 'none';
+                    }}
+                  />
+                  <span className="text-sm font-bold text-white">
+                    {currentUser?.full_name?.charAt(0) || 'S'}
+                  </span>
                 </div>
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center justify-between">
@@ -412,7 +438,7 @@ export const Header: React.FC<HeaderProps> = ({ activeProject, onSelectProject }
                     </p>
                   </div>
                   <p className="text-[11px] text-slate-400 font-mono truncate">
-                    {currentUser?.email || 'shivam@voiceops.local'}
+                    {currentUser?.email || 'ss18244646@github.com'}
                   </p>
                 </div>
               </div>
