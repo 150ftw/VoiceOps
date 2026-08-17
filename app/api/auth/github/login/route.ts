@@ -1,27 +1,38 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
+import { NextRequest, NextResponse } from 'next/server';
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  // Allow CORS for any origin
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
 
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end();
-  }
+export async function OPTIONS() {
+  return new NextResponse(null, {
+    status: 200,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+    },
+  });
+}
 
-  if (req.method !== 'POST') {
-    return res.status(405).json({ detail: 'Method not allowed' });
-  }
-
+export async function POST(req: NextRequest) {
   try {
-    let code = req.body?.code;
-    if (!code && req.query?.code) {
-      code = req.query.code as string;
+    let code: string | null = null;
+    try {
+      const body = await req.json();
+      code = body?.code;
+    } catch {
+      // Body might be empty or query param
     }
 
     if (!code) {
-      return res.status(400).json({ detail: 'Authorization code is required' });
+      code = req.nextUrl.searchParams.get('code');
+    }
+
+    if (!code) {
+      return NextResponse.json(
+        { detail: 'Authorization code is required' },
+        { status: 400, headers: { 'Access-Control-Allow-Origin': '*' } }
+      );
     }
 
     const clientId = process.env.GITHUB_CLIENT_ID || process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID || 'Ov23livqbvm2o1wqn6oE';
@@ -46,15 +57,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       tokenData = await tokenRes.json();
     } catch (fetchErr: any) {
       console.error('Failed to contact GitHub OAuth servers:', fetchErr);
-      return res.status(502).json({ detail: 'Failed to contact GitHub OAuth servers. Please try again.' });
+      return NextResponse.json(
+        { detail: 'Failed to contact GitHub OAuth servers. Please try again.' },
+        { status: 502, headers: { 'Access-Control-Allow-Origin': '*' } }
+      );
     }
 
     const ghAccessToken = tokenData?.access_token;
 
     if (!ghAccessToken) {
-      return res.status(400).json({
-        detail: tokenData?.error_description || 'The GitHub authorization code is incorrect or has expired. Please sign in again.',
-      });
+      return NextResponse.json(
+        { detail: tokenData?.error_description || 'The GitHub authorization code is incorrect or has expired. Please sign in again.' },
+        { status: 400, headers: { 'Access-Control-Allow-Origin': '*' } }
+      );
     }
 
     // 2. Fetch User Profile
@@ -74,7 +89,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     let email = userData?.email;
 
-    // Fetch private email if not in public profile
+    // Fetch private email if not public
     if (!email && ghAccessToken) {
       try {
         const emailsRes = await fetch('https://api.github.com/user/emails', {
@@ -128,15 +143,22 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     const encodedToken = Buffer.from(JSON.stringify(tokenPayload)).toString('base64url');
 
-    return res.status(200).json({
-      access_token: encodedToken,
-      token_type: 'bearer',
-      user: userSession,
-    });
+    return NextResponse.json(
+      {
+        access_token: encodedToken,
+        token_type: 'bearer',
+        user: userSession,
+      },
+      {
+        status: 200,
+        headers: { 'Access-Control-Allow-Origin': '*' },
+      }
+    );
   } catch (error: any) {
-    console.error('GitHub OAuth Pages API Handler Exception:', error);
-    return res.status(500).json({
-      detail: error.message || 'Authentication failed. Please try again.',
-    });
+    console.error('GitHub OAuth App Route Exception:', error);
+    return NextResponse.json(
+      { detail: error.message || 'Authentication failed. Please try again.' },
+      { status: 500, headers: { 'Access-Control-Allow-Origin': '*' } }
+    );
   }
 }
