@@ -31,8 +31,6 @@ import {
 import { Project, Workspace } from '@voiceops/shared';
 import { apiRequest, clearAuthToken } from '@/lib/api-client';
 
-import { TopNavBar } from '@/components/layout/top-nav-bar';
-
 interface HeaderProps {
   activeProject?: Project | null;
   onSelectProject?: (project: Project) => void;
@@ -287,11 +285,6 @@ export const Header: React.FC<HeaderProps> = ({ activeProject, onSelectProject }
             <span className="text-[10px] text-indigo-400 font-semibold bg-indigo-500/10 px-1.5 py-0.5 rounded border border-indigo-500/20">+ Connect</span>
           </Link>
         )}
-      </div>
-
-      {/* Center: Global Subpage Top Navigation Bar */}
-      <div className="hidden lg:flex items-center justify-center">
-        <TopNavBar />
       </div>
 
       {/* Right Controls */}

@@ -366,7 +366,10 @@ export default function LandingPage() {
             </div>
             <span>Menu</span>
           </button>
+        </div>
 
+        {/* Center: Global Subpage Navigation */}
+        <div className="hidden md:flex items-center justify-center">
           <TopNavBar currentTab="landing" />
         </div>
 
