@@ -550,27 +550,31 @@ export default function LandingPage() {
           Talk to your infrastructure. Fix CI/CD in seconds.
         </p>
 
-        {/* Bottom 3-Column Editorial Metadata Bar */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 w-full max-w-4xl mx-auto mt-10 pt-8 border-t border-purple-500/20 text-center font-mono text-[11px]">
-          <div className="space-y-1 p-3 rounded-2xl bg-[#090514]/60 border border-purple-500/15 backdrop-blur-sm">
-            <p className="text-purple-400 font-bold uppercase tracking-wider">01 // INTELLIGENCE</p>
-            <p className="text-slate-400 leading-relaxed uppercase">
-              Gemini 1.5 Pro &bull; GPT-4o Function Calling &bull; Code AST
-            </p>
+        {/* Sleek Minimalist Editorial Feature Capsule */}
+        <div className="w-full max-w-3xl mx-auto mt-8 p-1.5 sm:p-2 rounded-2xl sm:rounded-full bg-[#080412]/80 border border-purple-500/25 backdrop-blur-2xl shadow-[0_0_35px_rgba(168,85,247,0.12)] flex flex-col sm:flex-row items-center justify-between gap-1 sm:gap-2 text-xs font-mono select-none">
+          <div className="flex items-center gap-2 px-3 sm:px-4 py-1 text-slate-300">
+            <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse shadow-[0_0_8px_rgba(192,132,252,0.8)]" />
+            <span className="text-[10px] font-bold text-purple-300/90 uppercase tracking-widest">INTELLIGENCE</span>
+            <span className="text-slate-500 font-sans">&bull;</span>
+            <span className="text-slate-300 font-sans text-xs font-normal">Gemini 1.5 &bull; Deep AST</span>
           </div>
 
-          <div className="space-y-1 p-3 rounded-2xl bg-[#090514]/60 border border-purple-500/15 backdrop-blur-sm">
-            <p className="text-purple-400 font-bold uppercase tracking-wider">02 // REAL-TIME VOICE</p>
-            <p className="text-slate-400 leading-relaxed uppercase">
-              180ms Latency &bull; Whisper v3 STT &bull; ElevenLabs TTS
-            </p>
+          <div className="hidden sm:block w-[1px] h-4 bg-purple-500/20" />
+
+          <div className="flex items-center gap-2 px-3 sm:px-4 py-1 text-slate-300">
+            <span className="w-1.5 h-1.5 rounded-full bg-fuchsia-400 animate-pulse shadow-[0_0_8px_rgba(232,121,249,0.8)]" />
+            <span className="text-[10px] font-bold text-fuchsia-300/90 uppercase tracking-widest">VOICE</span>
+            <span className="text-slate-500 font-sans">&bull;</span>
+            <span className="text-slate-300 font-sans text-xs font-normal">180ms Neural STT/TTS</span>
           </div>
 
-          <div className="space-y-1 p-3 rounded-2xl bg-[#090514]/60 border border-purple-500/15 backdrop-blur-sm">
-            <p className="text-purple-400 font-bold uppercase tracking-wider">03 // GUARDRAILS</p>
-            <p className="text-slate-400 leading-relaxed uppercase">
-              Human Confirmation &bull; Zero Unauthorized Writes
-            </p>
+          <div className="hidden sm:block w-[1px] h-4 bg-purple-500/20" />
+
+          <div className="flex items-center gap-2 px-3 sm:px-4 py-1 text-slate-300">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
+            <span className="text-[10px] font-bold text-emerald-300/90 uppercase tracking-widest">GUARDRAILS</span>
+            <span className="text-slate-500 font-sans">&bull;</span>
+            <span className="text-slate-300 font-sans text-xs font-normal">Cryptographic Auth</span>
           </div>
         </div>
 
