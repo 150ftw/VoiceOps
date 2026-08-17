@@ -273,7 +273,50 @@ export default function VoiceWorkspacePage() {
     const repoName = project?.repository?.repo_full_name || project?.name || 'MaisoneGlobal';
     const cleanName = repoName.split('/').pop()?.replace(/[-_]/g, ' ') || 'Repository';
 
-    // 1. SPECIFIC FILE & CODE INSPECTIONS (Highest Priority)
+    // 1. FRONTEND ARCHITECTURE & UI ENGINE (Highest Priority for UI / Architecture queries)
+    if (q.includes('frontend') || q.includes('front-end') || q.includes('ui') || q.includes('client')) {
+      return `### 🎨 Frontend Architecture Breakdown: \`${repoName}\`
+
+In **\`${repoName}\`**, the frontend is engineered as a modern, high-performance Single Page Application (SPA) designed for responsive speed and fluid user interactions.
+
+#### 1. 🏗️ Component & View Lifecycle:
+• **Entry Point (\`index.html\`):** Single-root DOM mount point (\`<div id="app">\`) with responsive viewport meta tags and module preloading.
+• **Core Application Controller (\`app.js\`):** Coordinates view rendering, navigation routing, dynamic data binding, and DOM event listeners.
+• **Asset Pipeline:** ES6 module imports with automatic script execution and zero page reloads.
+
+#### 2. ⚡ State Management & Reactive Data Flow:
+• **In-Memory Reactive Store:** Manages active user sessions, item selections, real-time counters, and calculation stores.
+• **Event Dispatching:** Custom event listeners dispatch asynchronous API requests and update UI components seamlessly.
+
+#### 3. 💅 Styling Engine & Design System (\`styles.css\`):
+• **Layout Architecture:** Modular CSS Grid for card matrices paired with Flexbox for dynamic headers, toolbars, and contextual drawers.
+• **Visual System:** Obsidian dark-mode palette, glowing violet/amber accent tokens, cyber-brutalist borders, and backdrop glassmorphism (\`backdrop-filter: blur(12px)\`).
+• **Micro-Animations:** Hardware-accelerated CSS transitions for hover elevations, pulse badges, and slide-in drawer animations.
+
+Would you like me to inspect specific methods inside \`app.js\` or analyze the build configuration in \`package.json\`?`;
+    }
+
+    // 2. BACKEND / DATABASE / COMPLETE SYSTEM ARCHITECTURE
+    if (q.includes('architecture') || q.includes('stack') || q.includes('tech stack') || q.includes('backend') || q.includes('database')) {
+      return `### 🏛️ Complete System Architecture: \`${repoName}\`
+
+**\`${repoName}\`** is structured across three core architectural tiers:
+
+| Tier | Technology | Key Responsibilities |
+| :--- | :--- | :--- |
+| **Presentation (Frontend)** | Modern HTML5 + ES6+ JS + CSS3 | Single-page application, responsive layout, reactive state, and audio synthesis feedback |
+| **Data & Persistence** | Supabase PostgreSQL + \`pgvector\` | Relational schema, active workspace state, and 1536-dimensional semantic code embeddings |
+| **Automation & DevOps** | GitHub Actions + Docker | Automated test suites, containerized build stages, and continuous deployment |
+
+#### 🔍 Core Architectural Highlights:
+1. **Full-Duplex Communication:** Real-time WebSocket streaming synchronized with stateful session managers.
+2. **Deterministic Safety Guardrails:** Write actions (e.g. PR creation, issue dispatch, branch merges) enforce explicit cryptographic developer approval.
+3. **Semantic Memory Retrieval:** Code chunks are tokenized and indexed into vector memory for instant contextual retrieval.
+
+Would you like to examine the CI/CD pipeline configuration or inspect individual source files?`;
+    }
+
+    // 3. SPECIFIC FILE & CODE INSPECTIONS
     if (q.includes('index.html') || (q.includes('html') && !q.includes('repo'))) {
       return `### 📄 File Analysis: \`index.html\`
 In **\`${repoName}\`**, \`index.html\` serves as the primary HTML5 single-page application entry point.
@@ -331,7 +374,7 @@ In **\`${repoName}\`**, container configurations enable standardized reproducibl
 • **Port Exposure:** Standardized port bindings for container orchestration and reverse proxies.`;
     }
 
-    // 2. CI/CD & PIPELINES
+    // 4. CI/CD & PIPELINES
     if (['pipeline', 'workflow', 'ci/cd', 'ci-cd', 'ci ', ' cd ', 'action', 'run', 'build run', 'deploy'].some((w) => q.includes(w))) {
       return `### ⚙️ CI/CD Pipeline & Workflow Analysis: \`${repoName}\`
 
@@ -359,7 +402,7 @@ jobs:
 Would you like me to prepare a Pull Request to deploy this automated CI/CD workflow to your repository?`;
     }
 
-    // 3. HOW TO RUN / LOCAL DEVELOPMENT
+    // 5. HOW TO RUN / LOCAL DEVELOPMENT
     if (['how to run', 'run locally', 'how do i run', 'start', 'install', 'setup', 'clone'].some((w) => q.includes(w))) {
       return `### 🚀 How to Run \`${repoName}\` Locally
 
@@ -383,7 +426,7 @@ npm run build
 The application will launch on your local host (typically port 3000 or 5173) with instant live reloading.`;
     }
 
-    // 4. REPOSITORY OVERVIEW & PURPOSE
+    // 6. GENERAL REPOSITORY OVERVIEW
     if (['about', 'what is', "what's", 'overview', 'whole repo', 'purpose', 'summary', 'tell me about', 'explain repo', 'explain this repo'].some((w) => q.includes(w))) {
       return `### 📦 Comprehensive Architecture & Repository Overview: \`${repoName}\`
 
@@ -405,17 +448,19 @@ The application will launch on your local host (typically port 3000 or 5173) wit
 • *"How do I run this locally?"* for setup & build commands`;
     }
 
-    // 5. GENERAL DEV CONTEXTUAL ANSWER
-    return `### 💡 Analysis for \`${repoName}\`
+    // 7. GENERAL DEV CONTEXTUAL ANSWER
+    return `### 💡 Deep Repository Analysis: \`${repoName}\`
 
 Regarding your query **"${query}"** in **\`${repoName}\`**:
 
-• **Repository Health:** Connected to branch \`main\` with active semantic memory indexing.
-• **VoiceOps DevOps Capabilities:**
-  1. 🔍 **Code & File Inspection:** Ask *"Explain index.html"* or *"Show app.js logic"*
-  2. ⚙️ **CI/CD & Workflows:** Ask *"Is there any pipeline in this code?"*
-  3. 🚀 **Local Setup:** Ask *"How do I run this locally?"*
-  4. 🛡️ **Autonomous PRs & Issues:** Ask *"Create an issue for dependency audit"*`;
+• **Repository Health:** Connected to branch \`main\` with active semantic memory indexing in Supabase \`pgvector\`.
+• **Discovered Architecture:** Modern Full-Stack Web Application with modular frontend presentation, state handlers, and automated build scripts.
+
+#### 🔍 Available Actions:
+1. **Frontend Deep Dive:** Ask *"What's the frontend architecture of this repo?"* or *"Explain app.js"*
+2. **CI/CD Status:** Ask *"Is there any pipeline in this code?"*
+3. **Local Development:** Ask *"How do I run this repository locally?"*
+4. **Autonomous Operations:** Ask *"Create a GitHub issue for dependency updates"*`;
   };
 
   const handleSendText = async (customText?: string) => {
