@@ -74,7 +74,7 @@ export default function VoiceWorkspacePage() {
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages]);
+  }, [messages, isThinking]);
 
   // Load active project & conversation
   useEffect(() => {
@@ -520,6 +520,7 @@ Regarding your query **"${query}"** in **\`${repoName}\`**:
       created_at: new Date().toISOString(),
     };
     setMessages((prev) => [...prev, tempUserMsg]);
+    setIsThinking(true);
     const token = typeof window !== 'undefined' ? localStorage.getItem('voiceops_auth_token') : null;
     const activeRepoName = project?.repository?.repo_full_name || (project as any)?.github_repo || (project as any)?.repository_full_name || null;
 
