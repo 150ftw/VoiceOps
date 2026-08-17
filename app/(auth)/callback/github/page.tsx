@@ -14,7 +14,7 @@ function GitHubCallbackContent() {
   useEffect(() => {
     if (hasRunRef.current) return;
 
-    const code = searchParams.get('code');
+    const code = searchParams?.get('code');
     if (!code) {
       if (!getAuthToken()) {
         setError('No authorization code received from GitHub.');

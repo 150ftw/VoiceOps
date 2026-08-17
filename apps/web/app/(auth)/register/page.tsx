@@ -17,7 +17,7 @@ function RegisterContent() {
 
   useEffect(() => {
     if (getAuthToken()) {
-      const redirect = searchParams.get('redirect') || '/overview';
+      const redirect = searchParams?.get('redirect') || '/overview';
       router.replace(redirect);
     }
   }, [router, searchParams]);
