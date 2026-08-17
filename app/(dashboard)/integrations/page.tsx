@@ -209,7 +209,7 @@ export default function IntegrationsPage() {
             </button>
 
             <a
-              href={`https://github.com/login/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID || 'Ov23livqbvm2o1wqn6oE'}&scope=user:email,repo,workflow,read:org&redirect_uri=${typeof window !== 'undefined' ? `${window.location.origin}/callback/github` : 'http://localhost:3000/callback/github'}`}
+              href={`https://github.com/login/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID || 'Ov23livqbvm2o1wqn6oE'}&scope=user:email,repo,workflow,read:org`}
               className="px-4 py-2.5 rounded-xl bg-purple-950/50 hover:bg-purple-900/60 text-purple-200 hover:text-white text-xs font-semibold flex items-center gap-2 border border-purple-500/30 hover:border-purple-500/60 transition-all shadow-sm cursor-pointer"
             >
               <Github className="w-4 h-4 text-purple-400" />

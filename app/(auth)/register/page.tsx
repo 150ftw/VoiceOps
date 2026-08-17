@@ -22,23 +22,12 @@ function RegisterContent() {
     }
   }, [router, searchParams]);
 
-  const handleGitHubLogin = async () => {
+  const handleGitHubLogin = () => {
     setIsLoading(true);
     setError(null);
-    try {
-      const urlData = await apiRequest('/auth/github/url').catch(() => null);
-      if (urlData?.configured && urlData?.auth_url) {
-        window.location.href = urlData.auth_url;
-        return;
-      }
-    } catch {
-      // ignore
-    }
-
     const clientId = process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID || 'Ov23livqbvm2o1wqn6oE';
-    const redirectUri = `${window.location.origin}/callback/github`;
     const scope = 'user:email,repo,workflow,read:org';
-    window.location.href = `https://github.com/login/oauth/authorize?client_id=${clientId}&scope=${encodeURIComponent(scope)}&redirect_uri=${encodeURIComponent(redirectUri)}`;
+    window.location.href = `https://github.com/login/oauth/authorize?client_id=${clientId}&scope=${encodeURIComponent(scope)}`;
   };
 
   return (
