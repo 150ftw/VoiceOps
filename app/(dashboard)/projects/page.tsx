@@ -175,6 +175,16 @@ export default function ProjectsPage() {
     setDetachingProjectId(confirmDetachTarget.id);
     try {
       await apiRequest(`/projects/${confirmDetachTarget.id}`, { method: 'DELETE' });
+      
+      // Clear active project ID from localStorage if it matches
+      if (typeof window !== 'undefined') {
+        const storedId = localStorage.getItem('voiceops_active_project_id');
+        if (storedId === confirmDetachTarget.id) {
+          localStorage.removeItem('voiceops_active_project_id');
+        }
+        window.dispatchEvent(new CustomEvent('voiceops_project_detached', { detail: { projectId: confirmDetachTarget.id } }));
+      }
+
       await loadProjects(workspace.id);
       showToast(`Detached ${confirmDetachTarget.name} from workspace.`);
     } catch (err: any) {

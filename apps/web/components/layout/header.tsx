@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import {
@@ -199,27 +199,52 @@ export const Header: React.FC<HeaderProps> = ({ activeProject, onSelectProject }
     }
   };
 
-  useEffect(() => {
-    async function loadData() {
-      try {
-        const user = await apiRequest('/auth/me');
-        setCurrentUser(user);
-        if (user.workspaces && user.workspaces.length > 0) {
-          setWorkspaces(user.workspaces);
-          setCurrentWorkspace(user.workspaces[0]);
+  const reloadData = useCallback(async () => {
+    try {
+      const user = await apiRequest('/auth/me');
+      setCurrentUser(user);
+      if (user.workspaces && user.workspaces.length > 0) {
+        setWorkspaces(user.workspaces);
+        setCurrentWorkspace(user.workspaces[0]);
 
-          const projs = await apiRequest(`/projects?workspace_id=${user.workspaces[0].id}`).catch(() => []);
-          setProjects(projs || []);
-          if (projs && projs.length > 0 && onSelectProject && !activeProject) {
-            onSelectProject(projs[0]);
+        const projs = await apiRequest(`/projects?workspace_id=${user.workspaces[0].id}`).catch(() => []);
+        setProjects(projs || []);
+        if (projs && projs.length > 0) {
+          const storedId = typeof window !== 'undefined' ? localStorage.getItem('voiceops_active_project_id') : null;
+          const current = projs.find((p: any) => p.id === storedId) || projs[0];
+          if (onSelectProject) {
+            onSelectProject(current);
+          }
+        } else {
+          if (onSelectProject) {
+            onSelectProject(null as any);
           }
         }
-      } catch (err) {
-        console.log('User session initialized in workspace');
       }
+    } catch (err) {
+      console.log('User session initialized in workspace');
     }
-    loadData();
-  }, []);
+  }, [onSelectProject]);
+
+  useEffect(() => {
+    reloadData();
+
+    const handleProjectEvent = () => {
+      reloadData();
+    };
+
+    if (typeof window !== 'undefined') {
+      window.addEventListener('voiceops_project_detached', handleProjectEvent);
+      window.addEventListener('voiceops_project_changed', handleProjectEvent);
+    }
+
+    return () => {
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('voiceops_project_detached', handleProjectEvent);
+        window.removeEventListener('voiceops_project_changed', handleProjectEvent);
+      }
+    };
+  }, [reloadData]);
 
   const handleLogout = async () => {
     try {
@@ -242,13 +267,24 @@ export const Header: React.FC<HeaderProps> = ({ activeProject, onSelectProject }
         <span className="text-slate-600">/</span>
 
         {/* Project Selector */}
-        <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-xs text-indigo-300">
-          <FolderGit2 className="w-3.5 h-3.5 text-indigo-400" />
-          <span className="font-semibold">{activeProject?.name || 'No project'}</span>
-          <span className="px-1.5 py-0.5 rounded text-[10px] bg-slate-900 text-slate-400 font-mono">
-            {activeProject?.repository?.repo_full_name || '—'}
-          </span>
-        </div>
+        {activeProject ? (
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-xs text-indigo-300">
+            <FolderGit2 className="w-3.5 h-3.5 text-indigo-400" />
+            <span className="font-semibold">{activeProject.name}</span>
+            <span className="px-1.5 py-0.5 rounded text-[10px] bg-slate-900 text-slate-400 font-mono">
+              {activeProject.repository?.repo_full_name || '—'}
+            </span>
+          </div>
+        ) : (
+          <Link
+            href="/projects"
+            className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 border border-slate-700/60 text-xs text-slate-400 hover:text-slate-200 transition-all shadow-sm"
+          >
+            <FolderGit2 className="w-3.5 h-3.5 text-slate-500" />
+            <span>No repository connected</span>
+            <span className="text-[10px] text-indigo-400 font-semibold bg-indigo-500/10 px-1.5 py-0.5 rounded border border-indigo-500/20">+ Connect</span>
+          </Link>
+        )}
       </div>
 
       {/* Right Controls */}
