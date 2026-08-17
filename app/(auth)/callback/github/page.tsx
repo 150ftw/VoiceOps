@@ -3,7 +3,7 @@
 import React, { useEffect, useState, useRef, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Loader2, Zap, AlertCircle } from 'lucide-react';
-import { apiRequest, setAuthToken, getAuthToken } from '@/lib/api-client';
+import { setAuthToken, getAuthToken } from '@/lib/api-client';
 
 function GitHubCallbackContent() {
   const router = useRouter();
@@ -28,10 +28,26 @@ function GitHubCallbackContent() {
 
     async function handleCallback() {
       try {
-        const data = await apiRequest('/auth/github/login', {
+        // Call the same-origin Next.js serverless route directly (bypasses NEXT_PUBLIC_API_URL)
+        // This ensures we always hit the local Next.js function, never the remote Python backend
+        const res = await fetch('/api/auth/github/login', {
           method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ code }),
         });
+
+        if (!res.ok) {
+          let errorMsg = `Authentication failed (${res.status})`;
+          try {
+            const errData = await res.json();
+            errorMsg = errData?.detail || errorMsg;
+          } catch {
+            // ignore
+          }
+          throw new Error(errorMsg);
+        }
+
+        const data = await res.json();
 
         if (data.access_token) {
           setAuthToken(data.access_token);
