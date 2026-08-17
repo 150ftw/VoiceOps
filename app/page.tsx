@@ -45,16 +45,12 @@ import {
   Menu,
   X,
 } from 'lucide-react';
-import dynamic from 'next/dynamic';
 import FlowingMenu from '@/components/landing/FlowingMenu';
 import { apiRequest, clearAuthToken, getAuthToken } from '@/lib/api-client';
 import { HeroBackground } from '@/components/landing/hero-background';
 import Scanner from '@/components/landing/Scanner';
-import { TopNavBar } from '@/components/layout/top-nav-bar';
 
-const FluidGlass = dynamic(() => import('@/components/ui/fluid-glass'), {
-  ssr: false,
-});
+import { TopNavBar } from '@/components/layout/top-nav-bar';
 
 export default function LandingPage() {
   const [currentUser, setCurrentUser] = useState<any>(null);
@@ -66,7 +62,6 @@ export default function LandingPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showTelemetryBox, setShowTelemetryBox] = useState(false);
-  const [glassMode, setGlassMode] = useState<'lens' | 'bar' | 'cube'>('lens');
 
   useEffect(() => {
     async function checkAuth() {
@@ -355,49 +350,6 @@ export default function LandingPage() {
           mouseStrength={0.5}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-[#030206]/40 via-transparent to-[#030206] pointer-events-none" />
-      </div>
-
-      {/* React Bits FluidGlass 3D Interactive Refraction Layer */}
-      <div className="absolute inset-0 h-[800px] sm:h-[900px] pointer-events-none z-[1] overflow-hidden opacity-85">
-        <FluidGlass
-          mode={glassMode}
-          lensProps={{
-            scale: 0.25,
-            ior: 1.15,
-            thickness: 5,
-            chromaticAberration: 0.1,
-            anisotropy: 0.01,
-            roughness: 0.05,
-            color: '#ffffff',
-            attenuationColor: '#a855f7',
-            attenuationDistance: 0.4,
-          }}
-          barProps={{
-            navItems: [
-              { label: 'VoiceOps', link: '/console/workspace' },
-              { label: 'Projects', link: '/console/projects' },
-              { label: 'Knowledge', link: '/console/knowledge' },
-            ],
-            scale: 0.25,
-            ior: 1.15,
-            thickness: 8,
-            roughness: 0,
-            color: '#ffffff',
-            attenuationColor: '#a855f7',
-            attenuationDistance: 0.25,
-          }}
-          cubeProps={{
-            scale: 0.22,
-            ior: 1.2,
-            thickness: 4,
-            chromaticAberration: 0.15,
-            anisotropy: 0.02,
-            roughness: 0.08,
-            color: '#ffffff',
-            attenuationColor: '#9333ea',
-            attenuationDistance: 0.35,
-          }}
-        />
       </div>
 
       {/* Editorial Luxury Header */}
