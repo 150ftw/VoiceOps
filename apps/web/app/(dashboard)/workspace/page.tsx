@@ -706,7 +706,7 @@ Regarding your query **"${query}"** in **\`${repoName}\`**:
                     message={msg}
                     userAvatarUrl={
                       currentUser?.avatar_url ||
-                      (currentUser?.email ? `https://github.com/${currentUser.email.split('@')[0]}.png` : 'https://github.com/ss18244646.png')
+                      'https://avatars.githubusercontent.com/u/86033717?v=4'
                     }
                     userName={currentUser?.full_name || 'Shivam Sharma'}
                     onSpeak={handleSpeakAloud}

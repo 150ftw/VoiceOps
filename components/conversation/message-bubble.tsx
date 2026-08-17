@@ -44,19 +44,13 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
     <div className={`flex gap-3 my-4 ${isUser ? 'flex-row-reverse' : 'flex-row'} group`}>
       {/* Avatar Icon */}
       {isUser ? (
-        <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 shadow-md border border-purple-400/30 bg-gradient-to-tr from-purple-600 to-fuchsia-500 flex items-center justify-center">
-          {!imgError && effectiveAvatar ? (
-            <img
-              src={effectiveAvatar}
-              alt={userName || 'User'}
-              className="w-full h-full object-cover"
-              onError={() => setImgError(true)}
-            />
-          ) : (
-            <span className="text-xs font-bold text-white">
-              {userName?.charAt(0) || 'S'}
-            </span>
-          )}
+        <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 shadow-md border border-purple-400/40 bg-purple-900/60 flex items-center justify-center">
+          <img
+            src={effectiveAvatar}
+            alt={userName || 'User'}
+            className="w-full h-full object-cover block"
+            loading="eager"
+          />
         </div>
       ) : (
         <div className="w-7 h-7 sm:w-8 sm:h-8 shrink-0 flex items-center justify-center">
