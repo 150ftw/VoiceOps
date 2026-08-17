@@ -1,23 +1,32 @@
 'use client';
 
-import React, { useEffect, useState, Suspense } from 'react';
+import React, { useEffect, useState, useRef, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Loader2, Zap, AlertCircle } from 'lucide-react';
-import { apiRequest, setAuthToken } from '@/lib/api-client';
+import { apiRequest, setAuthToken, getAuthToken } from '@/lib/api-client';
 
 function GitHubCallbackContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [error, setError] = useState<string | null>(null);
+  const hasRunRef = useRef(false);
 
   useEffect(() => {
-    async function handleCallback() {
-      const code = searchParams.get('code');
-      if (!code) {
-        setError('No authorization code received from GitHub.');
-        return;
-      }
+    if (hasRunRef.current) return;
 
+    const code = searchParams.get('code');
+    if (!code) {
+      if (!getAuthToken()) {
+        setError('No authorization code received from GitHub.');
+      } else {
+        router.replace('/overview');
+      }
+      return;
+    }
+
+    hasRunRef.current = true;
+
+    async function handleCallback() {
       try {
         const data = await apiRequest('/auth/github/login', {
           method: 'POST',
@@ -26,11 +35,15 @@ function GitHubCallbackContent() {
 
         if (data.access_token) {
           setAuthToken(data.access_token);
-          router.push('/overview');
+          router.replace('/overview');
         } else {
           setError('Failed to retrieve access token.');
         }
       } catch (err: any) {
+        if (getAuthToken()) {
+          router.replace('/overview');
+          return;
+        }
         setError(err.message || 'GitHub OAuth authentication failed.');
       }
     }
