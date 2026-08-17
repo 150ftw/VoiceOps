@@ -8,9 +8,16 @@ from sqlalchemy.ext.asyncio import (
     create_async_engine,
 )
 from sqlalchemy.ext.compiler import compiles
-from sqlalchemy.dialects.postgresql import JSONB, UUID
-from pgvector.sqlalchemy import Vector
-from sqlalchemy.orm import DeclarativeBase
+try:
+    from pgvector.sqlalchemy import Vector
+except ImportError:
+    from sqlalchemy.types import UserDefinedType
+    class Vector(UserDefinedType):
+        def __init__(self, dim=1536):
+            self.dim = dim
+        def get_col_spec(self, **kw):
+            return f"vector({self.dim})"
+
 from app.core.config import settings
 from app.core.logging import logger
 
