@@ -231,10 +231,6 @@ class AuthService:
             )
             db.add(default_workspace)
             await db.flush()
-        else:
-            if gh_avatar and user.avatar_url != gh_avatar:
-                user.avatar_url = gh_avatar
-                await db.flush()
 
             # Add member role as owner
             member = WorkspaceMember(
@@ -269,6 +265,10 @@ class AuthService:
             db.add(starter_repo)
             workspace_id = default_workspace.id
         else:
+            if gh_avatar and user.avatar_url != gh_avatar:
+                user.avatar_url = gh_avatar
+                await db.flush()
+
             # Existing user - get their primary workspace
             stmt_ws = select(Workspace).where(Workspace.owner_id == user.id)
             res_ws = await db.execute(stmt_ws)
