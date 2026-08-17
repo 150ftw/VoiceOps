@@ -3,26 +3,20 @@
  */
 
 const getApiBaseUrl = () => {
-  // If running in browser on a hosted cloud domain (e.g. Vercel) without custom backend URL, route to Next.js API
-  if (
-    typeof window !== 'undefined' &&
-    !process.env.NEXT_PUBLIC_API_URL &&
-    !window.location.hostname.includes('localhost') &&
-    !window.location.hostname.includes('127.0.0.1')
-  ) {
+  if (typeof window !== 'undefined') {
+    const envUrl = process.env.NEXT_PUBLIC_API_URL;
+    if (
+      envUrl &&
+      !envUrl.includes('localhost') &&
+      !envUrl.includes('127.0.0.1') &&
+      !envUrl.includes('voice-ops-api.vercel.app')
+    ) {
+      const clean = envUrl.endsWith('/') ? envUrl.slice(0, -1) : envUrl;
+      return clean.endsWith('/api') || clean.endsWith('/api/v1') ? clean : `${clean}/api`;
+    }
     return '/api';
   }
-
-  const envUrl = process.env.NEXT_PUBLIC_API_URL;
-  if (!envUrl) {
-    if (typeof window !== 'undefined' && !window.location.hostname.includes('localhost')) {
-      return '/api';
-    }
-    return 'http://localhost:8000/api/v1';
-  }
-
-  const clean = envUrl.endsWith('/') ? envUrl.slice(0, -1) : envUrl;
-  return clean.endsWith('/api/v1') ? clean : `${clean}/api/v1`;
+  return 'http://localhost:8000/api/v1';
 };
 
 export class ApiError extends Error {
