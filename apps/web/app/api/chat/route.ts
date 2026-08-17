@@ -3,9 +3,36 @@ import { NextRequest, NextResponse } from 'next/server';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
-function generateDeepDevOpsResponse(query: string, repoName: string): string {
+function generateDeepDevOpsResponse(query: string, repoName?: string | null): string {
   const q = query.toLowerCase().trim();
-  const cleanName = repoName.split('/').pop()?.replace(/[-_]/g, ' ') || 'Repository';
+  const cleanName = repoName ? repoName.split('/').pop() || repoName : '';
+
+  // 0. NO REPOSITORY CONNECTED STATE
+  if (!repoName || repoName === 'No repository connected' || repoName === 'null') {
+    if (['hello', 'hi', 'hey', 'greetings', 'who are you', 'help', 'start'].some((w) => q.includes(w))) {
+      return `### 👋 Welcome to VoiceOps Studio
+
+Hello! I'm **VoiceOps AI**, your autonomous DevOps & Full-Stack AI Engineer.
+
+Currently, **no GitHub repository is connected** to this workspace.
+
+#### 🚀 What VoiceOps Can Do Once Connected:
+• 🔍 **Deep Codebase Exploration:** AST analysis, full-stack architecture audits, and dependency mapping.
+• ⚡ **Real-Time CI/CD Intelligence:** GitHub Actions workflow debugging, automated run logs, and failure remediation.
+• 🛠️ **Autonomous DevOps Operations:** Safe pull request generation, issue tracking, and branch management.
+• 🧠 **pgvector Semantic Memory:** 1536-dimensional vector search across your code in Supabase.
+
+👉 *Click the **[+ Connect]** button in the header or navigate to **Projects** to link a repository.*`;
+    }
+
+    return `### ⚠️ No Repository Connected
+
+I received your query: **"${query}"**
+
+To inspect source files, explain architecture, or diagnose CI/CD workflows, please **connect a GitHub repository** first using the **[+ Connect]** button in the top bar or in the **Projects** tab.
+
+Once connected, I will index your codebase into Supabase \`pgvector\` memory and provide real-time architectural intelligence.`;
+  }
 
   // 1. FRONTEND ARCHITECTURE & UI ENGINE
   if (q.includes('frontend') || q.includes('front-end') || q.includes('ui') || q.includes('client')) {
@@ -167,7 +194,7 @@ Regarding your query **"${query}"** in **\`${repoName}\`**:
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { message, history = [], repo_full_name = '150ftw/MaisoneGlobal', project_name = 'MaisoneGlobal' } = body;
+    const { message, history = [], repo_full_name = null, project_name = null } = body;
 
     if (!message || typeof message !== 'string' || !message.trim()) {
       return NextResponse.json({ error: 'Message is required' }, { status: 400 });
@@ -181,9 +208,13 @@ export async function POST(req: NextRequest) {
     // If external AI key is present, try remote model with a 5s fast timeout
     if (apiKey && apiKey.startsWith('nvapi-')) {
       try {
-        const systemPrompt = `You are VoiceOps AI, an expert autonomous DevOps & Full-Stack AI Engineer paired with developer Shivam Sharma.
-You are assisting with the repository "${repo_full_name}" (Project: ${project_name}).
-Answer the user's question directly, conversationally, and with deep technical precision. Use clear markdown formatting.`;
+        const systemPrompt = repo_full_name
+          ? `You are VoiceOps AI, an expert autonomous DevOps & Full-Stack AI Engineer paired with developer Shivam Sharma.
+You are assisting with the connected repository "${repo_full_name}" (Project: ${project_name || repo_full_name}).
+Answer the user's question directly, conversationally, and with deep technical precision. Use clear markdown formatting.`
+          : `You are VoiceOps AI, an autonomous DevOps engineer assistant paired with developer Shivam Sharma.
+Currently, NO repository is connected to this workspace.
+If the user greets you or asks questions, greet them warmly and let them know they can connect a GitHub repository using the [+ Connect] button to enable codebase architecture analysis, CI/CD inspection, log diagnostics, and autonomous PR generation.`;
 
         const messages: any[] = [{ role: 'system', content: systemPrompt }];
         if (Array.isArray(history)) {
@@ -231,7 +262,7 @@ Answer the user's question directly, conversationally, and with deep technical p
   } catch (err: any) {
     console.error('Chat API route error:', err);
     return NextResponse.json({
-      content: generateDeepDevOpsResponse('architecture', '150ftw/MaisoneGlobal'),
+      content: generateDeepDevOpsResponse('hello', null),
     });
   }
 }
