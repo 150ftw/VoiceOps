@@ -56,13 +56,29 @@ export async function apiRequest<T = any>(
   }
 
   const normalizedPath = path.startsWith('/') ? path : `/${path}`;
-  const url = path.startsWith('http') ? path : `${getApiBaseUrl()}${normalizedPath}`;
+  const primaryUrl = path.startsWith('http') ? path : `${getApiBaseUrl()}${normalizedPath}`;
+  const fallbackUrl = `/api${normalizedPath}`;
 
-  const response = await fetch(url, {
-    ...options,
-    headers,
-    credentials: 'include', // send refresh token cookies
-  });
+  let response: Response;
+
+  try {
+    response = await fetch(primaryUrl, {
+      ...options,
+      headers,
+      credentials: 'include',
+    });
+  } catch (networkError) {
+    // Primary URL failed (e.g. backend offline or cross-origin blocked on hosted frontend)
+    // Attempt local Next.js serverless route
+    try {
+      response = await fetch(fallbackUrl, {
+        ...options,
+        headers,
+      });
+    } catch {
+      throw networkError;
+    }
+  }
 
   if (response.status === 401 && typeof window !== 'undefined' && !path.includes('/auth/login')) {
     // Session expired — clear token and send to login
