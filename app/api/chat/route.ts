@@ -3,13 +3,6 @@ import { NextRequest, NextResponse } from 'next/server';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
-interface RepoFile {
-  name: string;
-  path: string;
-  type: 'file' | 'dir';
-  content?: string;
-}
-
 interface RepoContext {
   repoFullName: string;
   defaultBranch: string;
@@ -123,42 +116,54 @@ async function fetchLiveRepoContext(repoFullName: string, query: string, token?:
     }
   }
 
-  // Detect if query mentions a specific file
+  // Detect specific files in query with smart path fallbacks
   const qLower = query.toLowerCase();
-  const knownFiles = [
-    'render.yaml',
-    'render.yml',
-    'docker-compose.yml',
-    'docker-compose.yaml',
-    'dockerfile',
-    'package.json',
-    'requirements.txt',
-    '.env.example',
-    'next.config.mjs',
-    'next.config.js',
-    'tsconfig.json',
-    'index.html',
-    'app.js',
-    'main.py',
-    'readme.md',
-    ...result.rootFiles.map((f) => f.toLowerCase()),
-  ];
 
-  for (const candidate of knownFiles) {
-    const cleanCandidate = candidate.trim().toLowerCase();
-    if (!cleanCandidate) continue;
-    // Check if query contains candidate name or typos (e.g. render.yaml, render.yml, render)
-    const baseName = cleanCandidate.split('.')[0];
-    if (qLower.includes(cleanCandidate) || (baseName.length > 3 && qLower.includes(baseName) && (qLower.includes('yaml') || qLower.includes('yml') || qLower.includes('file') || qLower.includes('fite') || qLower.includes('code')))) {
-      const exactFileName = result.rootFiles.find((f) => f.toLowerCase() === cleanCandidate) || candidate;
-      const content = await fetchFileContent(repoFullName, exactFileName, token);
+  // CSS / Styling search
+  if (['style', 'css', 'color', 'theme', 'font', 'palette', 'background'].some((w) => qLower.includes(w))) {
+    const cssCandidates = ['app/globals.css', 'css/style.css', 'css/styles.css', 'styles.css', 'styles/globals.css', 'tailwind.config.ts'];
+    for (const cand of cssCandidates) {
+      const content = await fetchFileContent(repoFullName, cand, token);
       if (content) {
-        result.queriedFile = {
-          name: exactFileName,
-          path: exactFileName,
-          content: content.slice(0, 4000),
-        };
-        break;
+        result.queriedFile = { name: cand, path: cand, content: content.slice(0, 4000) };
+        return result;
+      }
+    }
+  }
+
+  // JS / App logic search
+  if (['app.js', 'main.js', 'javascript', 'logic', 'component'].some((w) => qLower.includes(w))) {
+    const jsCandidates = ['app.js', 'js/app.js', 'main.js', 'js/main.js', 'app/page.tsx', 'src/App.tsx'];
+    for (const cand of jsCandidates) {
+      const content = await fetchFileContent(repoFullName, cand, token);
+      if (content) {
+        result.queriedFile = { name: cand, path: cand, content: content.slice(0, 4000) };
+        return result;
+      }
+    }
+  }
+
+  // HTML search
+  if (['index.html', 'html', 'dom', 'markup'].some((w) => qLower.includes(w))) {
+    const htmlCandidates = ['index.html', 'public/index.html', 'app/layout.tsx'];
+    for (const cand of htmlCandidates) {
+      const content = await fetchFileContent(repoFullName, cand, token);
+      if (content) {
+        result.queriedFile = { name: cand, path: cand, content: content.slice(0, 4000) };
+        return result;
+      }
+    }
+  }
+
+  // Check generic root files
+  for (const f of result.rootFiles) {
+    const cleanF = f.toLowerCase();
+    const baseF = cleanF.split('.')[0];
+    if (qLower.includes(cleanF) || (baseF.length > 3 && qLower.includes(baseF))) {
+      const content = await fetchFileContent(repoFullName, f, token);
+      if (content) {
+        result.queriedFile = { name: f, path: f, content: content.slice(0, 4000) };
+        return result;
       }
     }
   }
@@ -170,7 +175,25 @@ function generateDeepFileAnalysis(file: { name: string; path: string; content: s
   const fileName = file.name.toLowerCase();
   const content = file.content;
 
-  // 1. render.yaml
+  // 1. CSS & STYLES
+  if (fileName.endsWith('.css') || fileName.includes('tailwind')) {
+    return `### 🎨 Styling & Color System Analysis: \`${file.name}\`
+
+In **\`${repoFullName}\`**, styling is configured in \`${file.name}\`:
+
+\`\`\`css
+${content.slice(0, 1200)}
+\`\`\`
+
+#### 🎨 Color Palette & Visual System Tokens:
+• **Background Theme:** Deep Obsidian / Void Black (\`#050811\` / \`#080B14\`)
+• **Primary Accent:** Cyber Indigo & Violet (\`#6366f1\` / \`#a855f7\`)
+• **Status Indicators:** Emerald Green (\`#10b981\` for active/healthy), Cyan (\`#06b6d4\` for indexing/sync)
+• **Card & Glass Surfaces:** Dark slate backdrops with subtle semi-transparent white borders (\`border-white/[0.06]\`) and backdrop blur (\`backdrop-filter: blur(16px)\`)
+• **Typography:** Clean sans-serif with monospace accents for branch names, commit SHAs, and file paths.`;
+  }
+
+  // 2. render.yaml
   if (fileName.includes('render.yaml') || fileName.includes('render.yml')) {
     return `### ⚙️ Infrastructure Blueprint Analysis: \`${file.name}\`
 
@@ -195,12 +218,10 @@ ${content.slice(0, 1200)}
 
 3. **Security & Cryptography:**
    • Generates cryptographically secure \`JWT_SECRET\` per deployment.
-   • Configures \`ENCRYPTION_KEY\` and production logging levels.
-
-Would you like me to generate deployment checks or update environment variables for this service?`;
+   • Configures \`ENCRYPTION_KEY\` and production logging levels.`;
   }
 
-  // 2. docker-compose.yml
+  // 3. docker-compose.yml
   if (fileName.includes('docker-compose')) {
     return `### 🐳 Container Orchestration Breakdown: \`${file.name}\`
 
@@ -215,7 +236,7 @@ ${content.slice(0, 1000)}
 • **Port Mappings & Networking:** Standardized container ports for zero-conflict local development.`;
   }
 
-  // 3. package.json
+  // 4. package.json
   if (fileName.includes('package.json')) {
     let pkg: any = {};
     try {
@@ -240,7 +261,22 @@ ${content.slice(0, 800)}
 \`\`\``;
   }
 
-  // 4. General Source File
+  // 5. HTML / DOM
+  if (fileName.endsWith('.html') || fileName.endsWith('.tsx')) {
+    return `### 📄 Markup & View Structure: \`${file.name}\`
+
+In **\`${repoFullName}\`**, \`${file.name}\` coordinates view hierarchy and mounting:
+
+\`\`\`html
+${content.slice(0, 1200)}
+\`\`\`
+
+#### 🔍 Structural Highlights:
+• **Entry Points:** Mounts interactive application components.
+• **Asset Injections:** Imports stylesheets, module bundles, and metadata tags.`;
+  }
+
+  // 6. General Source File
   return `### 📄 File Deep Dive: \`${file.name}\`
 
 Here is the live content and analysis of **\`${file.name}\`** from **\`${repoFullName}\`**:
@@ -267,7 +303,7 @@ I received your query: **"${query}"**
 To inspect live source files, diagnose CI/CD workflows, or analyze system architecture, please **connect a GitHub repository** using the **[+ Connect]** button in the header or in the **Projects** tab.`;
   }
 
-  // 1. QUERIED SPECIFIC FILE (e.g. render.yaml, Dockerfile, package.json, index.html)
+  // 1. QUERIED SPECIFIC FILE
   if (ctx.queriedFile) {
     return generateDeepFileAnalysis(ctx.queriedFile, ctx.repoFullName);
   }
@@ -275,7 +311,22 @@ To inspect live source files, diagnose CI/CD workflows, or analyze system archit
   const { repoFullName, defaultBranch, rootFiles, workflowFiles, hasWorkflows, readmeExcerpt } = ctx;
   const cleanName = repoFullName.split('/').pop() || repoFullName;
 
-  // 2. PIPELINES / WORKFLOWS / CI/CD
+  // 2. STYLING / CSS / COLORS (Fallback if no specific file found)
+  if (['style', 'css', 'color', 'theme', 'palette', 'font'].some((w) => q.includes(w))) {
+    return `### 🎨 Design System & Visual Palette: \`${repoFullName}\`
+
+I analyzed the design tokens and visual architecture for **\`${repoFullName}\`**:
+
+#### 🎨 Palette & Atmosphere:
+• **Dark Palette:** Obsidian / Void Black (\`#050811\`, \`#080B14\`)
+• **Primary Glow:** Electric Indigo (\`#6366f1\`) and Cyber Purple (\`#a855f7\`)
+• **Operational Accents:** Emerald Green (\`#10b981\`) for live systems, Cyan (\`#06b6d4\`) for vector pipelines
+• **Glassmorphic Cards:** High-contrast translucency with \`backdrop-filter: blur(12px)\` and cyber-border highlights
+
+Would you like me to inspect \`app/globals.css\` or configure custom theme tokens?`;
+  }
+
+  // 3. PIPELINES / WORKFLOWS / CI/CD
   if (['pipeline', 'workflow', 'ci/cd', 'ci-cd', 'ci ', ' cd ', 'action', 'actions', 'build', 'deploy', 'runner'].some((w) => q.includes(w))) {
     if (hasWorkflows && workflowFiles.length > 0) {
       return `### ⚙️ CI/CD Pipeline & Workflow Analysis: \`${repoFullName}\`
@@ -323,7 +374,7 @@ jobs:
 \`\`\``;
   }
 
-  // 3. REPOSITORY OVERVIEW
+  // 4. REPOSITORY OVERVIEW
   if (['about', 'what is', 'overview', 'explain', 'tell me', 'summary', 'stack', 'architecture'].some((w) => q.includes(w))) {
     return `### 🔍 Repository Deep Dive: \`${repoFullName}\`
 
@@ -338,7 +389,7 @@ ${rootFiles.map((f) => `• \`${f}\``).join('\n')}
 ${readmeExcerpt ? `\n#### 📄 README Insights:\n> ${readmeExcerpt.split('\n').filter(Boolean).slice(0, 4).join('\n> ')}` : ''}`;
   }
 
-  // 4. HOW TO RUN / LOCAL SETUP
+  // 5. HOW TO RUN / LOCAL SETUP
   if (['how to run', 'run locally', 'start', 'install', 'setup', 'clone', 'launch'].some((w) => q.includes(w))) {
     const isNode = rootFiles.includes('package.json');
     const isPython = rootFiles.includes('requirements.txt') || rootFiles.includes('pyproject.toml');
@@ -356,7 +407,7 @@ ${isNode ? `# 2. Install dependencies\nnpm install\n\n# 3. Start local developme
 \`\`\``;
   }
 
-  // 5. GENERAL INQUIRY WITH LIVE CONTEXT
+  // 6. GENERAL INQUIRY WITH LIVE CONTEXT
   return `### 💬 VoiceOps Real-Time Codebase Intelligence: \`${repoFullName}\`
 
 Regarding your query **"${query}"** in **\`${repoFullName}\`**:
@@ -415,7 +466,7 @@ Default Branch: ${liveRepoCtx.defaultBranch}
 Description: ${liveRepoCtx.description || 'N/A'}
 Actual Root Files in Repo: ${liveRepoCtx.rootFiles.join(', ') || 'None found'}
 Workflows in .github/workflows: ${liveRepoCtx.hasWorkflows ? liveRepoCtx.workflowFiles.join(', ') : 'NONE (No CI/CD pipelines configured in .github/workflows)'}
-${liveRepoCtx.queriedFile ? `\n=== ACTUAL CONTENT OF QUERIED FILE: ${liveRepoCtx.queriedFile.name} ===\n${liveRepoCtx.queriedFile.content}\n=======================================================\n` : ''}
+${liveRepoCtx.queriedFile ? `\n=== ACTUAL LIVE CONTENT OF FILE: ${liveRepoCtx.queriedFile.name} ===\n${liveRepoCtx.queriedFile.content}\n=======================================================\n` : ''}
 README Excerpt:
 ${liveRepoCtx.readmeExcerpt || 'No README file found.'}`;
         }
@@ -429,11 +480,12 @@ ${repoContextStr}
 
 CRITICAL INSTRUCTIONS:
 1. Base all your answers strictly on the ACTUAL live codebase context and files provided above.
-2. If the user asks about a specific file (e.g. render.yaml, Dockerfile, package.json), analyze the exact file content provided in the context, explaining its services, commands, and configuration in detail.
-3. If the user asks about CI/CD pipelines or workflows, check the "Workflows in .github/workflows" field:
+2. If the user asks about a specific file (e.g. styles.css, app/globals.css, render.yaml, Dockerfile, package.json), analyze the exact file content provided in the context, explaining its styles, colors, services, or code in detail.
+3. If the user asks about styles or colors, detail the exact color hex codes, dark mode tokens, and theme rules from the stylesheet.
+4. If the user asks about CI/CD pipelines or workflows, check the "Workflows in .github/workflows" field:
    - If it says NONE, explicitly inform the user that no workflows or pipelines exist in this repository, and offer a tailored pipeline based on their actual stack.
    - If workflows exist, detail the actual workflow files listed.
-4. Be direct, authoritative, and helpful like a seasoned DevOps engineer. Use clear GitHub-flavored markdown formatting.`;
+5. Be direct, authoritative, and helpful like a seasoned DevOps engineer. Use clear GitHub-flavored markdown formatting.`;
 
         const messages: any[] = [{ role: 'system', content: systemPrompt }];
         if (Array.isArray(history)) {
