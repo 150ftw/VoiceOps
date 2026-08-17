@@ -30,27 +30,18 @@ export function ClaudeThinkingIndicator({ className = '' }: { className?: string
 
   return (
     <div
-      className={`flex items-center gap-3 py-2.5 px-4 rounded-2xl bg-[#130B24]/80 border border-purple-500/25 backdrop-blur-md shadow-[0_0_25px_rgba(168,85,247,0.15)] w-fit animate-in fade-in slide-in-from-bottom-2 duration-300 ${className}`}
+      className={`flex items-center gap-2.5 py-2.5 px-4 rounded-2xl bg-[#130B24]/80 border border-purple-500/25 backdrop-blur-md shadow-[0_0_25px_rgba(168,85,247,0.15)] w-fit animate-in fade-in slide-in-from-bottom-2 duration-300 ${className}`}
     >
-      {/* Animated Brand Logo Container */}
-      <div className="relative flex items-center justify-center w-6 h-6 shrink-0">
-        {/* Soft glowing purple radial aura */}
-        <div className="absolute inset-0 rounded-full bg-purple-600/30 blur-md animate-pulse" />
-        
-        {/* Rotating subtle outer ring */}
-        <div className="absolute -inset-0.5 rounded-full border border-purple-400/30 border-t-purple-400 animate-[spin_3s_linear_infinite]" />
-
-        {/* User Logo with gentle breathing pulse animation */}
-        <div className="relative w-5 h-5 rounded-full overflow-hidden flex items-center justify-center animate-[bounce_2.5s_ease-in-out_infinite]">
-          <Image
-            src="/logo.png"
-            alt="VoiceOps Logo"
-            width={20}
-            height={20}
-            className="w-full h-full object-contain filter drop-shadow-[0_0_8px_rgba(168,85,247,0.6)]"
-            priority
-          />
-        </div>
+      {/* Clean Brand Logo */}
+      <div className="w-5 h-5 shrink-0 flex items-center justify-center animate-pulse">
+        <Image
+          src="/logo.png"
+          alt="VoiceOps Logo"
+          width={20}
+          height={20}
+          className="w-full h-full object-contain"
+          priority
+        />
       </div>
 
       {/* Cycling Thoughtful Status Text with Purple Palette */}

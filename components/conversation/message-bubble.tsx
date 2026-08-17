@@ -41,40 +41,35 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
   const effectiveAvatar = userAvatarUrl || 'https://github.com/ss18244646.png';
 
   return (
-    <div className={`flex gap-3.5 my-5 ${isUser ? 'flex-row-reverse' : 'flex-row'} group`}>
+    <div className={`flex gap-3 my-4 ${isUser ? 'flex-row-reverse' : 'flex-row'} group`}>
       {/* Avatar Icon */}
-      <div
-        className={`w-9 h-9 rounded-2xl flex items-center justify-center shrink-0 shadow-md overflow-hidden ${
-          isUser
-            ? 'bg-gradient-to-tr from-purple-600 via-purple-500 to-fuchsia-400 border border-purple-400/30 text-white'
-            : 'bg-[#180F33] border border-purple-500/30 text-white shadow-lg shadow-purple-950/50'
-        }`}
-      >
-        {isUser ? (
-          !imgError && effectiveAvatar ? (
+      {isUser ? (
+        <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 shadow-md border border-purple-400/30 bg-gradient-to-tr from-purple-600 to-fuchsia-500 flex items-center justify-center">
+          {!imgError && effectiveAvatar ? (
             <img
               src={effectiveAvatar}
               alt={userName || 'User'}
-              className="w-full h-full object-cover rounded-2xl"
+              className="w-full h-full object-cover"
               onError={() => setImgError(true)}
             />
           ) : (
             <span className="text-xs font-bold text-white">
               {userName?.charAt(0) || 'S'}
             </span>
-          )
-        ) : (
-          <div className="w-5 h-5 flex items-center justify-center">
-            <Image
-              src="/logo.png"
-              alt="VoiceOps Logo"
-              width={20}
-              height={20}
-              className="w-full h-full object-contain filter drop-shadow-[0_0_6px_rgba(168,85,247,0.6)]"
-            />
-          </div>
-        )}
-      </div>
+          )}
+        </div>
+      ) : (
+        <div className="w-7 h-7 sm:w-8 sm:h-8 shrink-0 flex items-center justify-center">
+          <Image
+            src="/logo.png"
+            alt="VoiceOps Logo"
+            width={32}
+            height={32}
+            className="w-full h-full object-contain"
+            priority
+          />
+        </div>
+      )}
 
       {/* Message Content Body */}
       <div className={`max-w-2xl flex flex-col ${isUser ? 'items-end' : 'items-start'}`}>
