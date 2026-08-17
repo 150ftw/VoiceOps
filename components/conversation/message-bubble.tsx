@@ -8,6 +8,8 @@ import { CitationsCard } from './citations-card';
 import { ApprovalCard } from '../approvals/approval-card';
 import { MarkdownContent } from './markdown-content';
 
+import Image from 'next/image';
+
 interface MessageBubbleProps {
   message: Message;
   onSpeak?: (text: string) => void;
@@ -38,10 +40,22 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
         className={`w-9 h-9 rounded-2xl flex items-center justify-center shrink-0 shadow-md ${
           isUser
             ? 'bg-slate-800 border border-slate-700 text-slate-200'
-            : 'bg-gradient-to-tr from-indigo-600 to-indigo-500 text-white shadow-lg glow-indigo'
+            : 'bg-[#180F33] border border-purple-500/30 text-white shadow-lg shadow-purple-950/50'
         }`}
       >
-        {isUser ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
+        {isUser ? (
+          <User className="w-4 h-4 text-slate-300" />
+        ) : (
+          <div className="w-5 h-5 flex items-center justify-center">
+            <Image
+              src="/logo.png"
+              alt="VoiceOps Logo"
+              width={20}
+              height={20}
+              className="w-full h-full object-contain filter drop-shadow-[0_0_6px_rgba(168,85,247,0.6)]"
+            />
+          </div>
+        )}
       </div>
 
       {/* Message Content Body */}
