@@ -1,0 +1,43 @@
+services:
+  - type: web
+    name: voiceops-api
+    runtime: python
+    rootDir: apps/api
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: ENVIRONMENT
+        value: production
+      - key: DEBUG
+        value: "False"
+      - key: LOG_LEVEL
+        value: INFO
+      - key: APP_NAME
+        value: VoiceOps
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_ALGORITHM
+        value: HS256
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+        value: "60"
+      - key: REFRESH_TOKEN_EXPIRE_DAYS
+        value: "7"
+      - key: ENCRYPTION_KEY
+        value: QZNoMijl7DfEoGT67yFY6OFxtouxMUB4rfoLNLZO5zk=
+      - key: CORS_ORIGINS
+        value: "https://voice-ops.vercel.app,https://voiceops.vercel.app,http://localhost:3000"
+      - key: DATABASE_URL
+        sync: false
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: voiceops-redis
+          property: connectionString
+
+  - type: redis
+    name: voiceops-redis
+    ipAllowList: []
+    plan: free
+    maxmemoryPolicy: allkeys-lru
