@@ -35,6 +35,7 @@ import { VoiceVisualizer } from '@/components/voice/voice-visualizer';
 import { ActivitySteps } from '@/components/agent/activity-steps';
 import { ApprovalCard } from '@/components/approvals/approval-card';
 import { MessageBubble } from '@/components/conversation/message-bubble';
+import { ClaudeThinkingIndicator } from '@/components/workspace/thinking-indicator';
 
 const quickPrompts = [
   "What's this repo about?",
@@ -51,6 +52,7 @@ export default function VoiceWorkspacePage() {
   const [conversation, setConversation] = useState<Conversation | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
   const [textInput, setTextInput] = useState('');
+  const [isThinking, setIsThinking] = useState(false);
   const [isLoadingHistory, setIsLoadingHistory] = useState(true);
   const [isSyncingRepo, setIsSyncingRepo] = useState(false);
   const [syncStatus, setSyncStatus] = useState<string | null>(null);
@@ -481,6 +483,7 @@ Regarding your query **"${query}"** in **\`${repoName}\`**:
       created_at: new Date().toISOString(),
     };
     setMessages((prev) => [...prev, tempUserMsg]);
+    setIsThinking(true);
 
     // Send to dynamic Next.js AI chat endpoint
     try {
@@ -498,6 +501,7 @@ Regarding your query **"${query}"** in **\`${repoName}\`**:
       if (chatRes.ok) {
         const chatData = await chatRes.json();
         if (chatData?.content) {
+          setIsThinking(false);
           const agentMsg: Message = {
             id: `agent-${Date.now()}`,
             conversation_id: conversation?.id || 'temp',
@@ -514,6 +518,7 @@ Regarding your query **"${query}"** in **\`${repoName}\`**:
       console.warn('Real-time chat API error, using dynamic client engine:', chatErr);
     }
 
+    setIsThinking(false);
     // Fallback response engine if network fails
     const fallbackText = generateClientResponse(trimmed);
     const fallbackAgentMsg: Message = {
@@ -682,6 +687,13 @@ Regarding your query **"${query}"** in **\`${repoName}\`**:
                       approval={pendingApproval}
                       onRespond={respondToApproval}
                     />
+                  </div>
+                )}
+
+                {/* Claude-style Thinking Indicator */}
+                {isThinking && (
+                  <div className="py-2 animate-in fade-in duration-200">
+                    <ClaudeThinkingIndicator />
                   </div>
                 )}
 
