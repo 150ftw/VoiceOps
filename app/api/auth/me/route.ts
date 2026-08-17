@@ -8,26 +8,28 @@ export async function GET(req: NextRequest) {
     const authHeader = req.headers.get('Authorization') || '';
     const token = authHeader.replace(/^Bearer\s+/i, '');
 
-    const backendUrl = process.env.BACKEND_API_URL || process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+    const backendUrl = process.env.BACKEND_API_URL || process.env.NEXT_PUBLIC_API_URL;
 
-    // 1. Try FastAPI Python backend if reachable (fast 2s timeout)
-    try {
-      const backendRes = await fetch(`${backendUrl.replace(/\/$/, '')}/api/v1/auth/me`, {
-        headers: {
-          'Authorization': authHeader,
-          'Content-Type': 'application/json',
-        },
-        signal: AbortSignal.timeout(2000),
-      });
+    // 1. Try backend only if explicitly configured
+    if (backendUrl && !backendUrl.includes('localhost:8000')) {
+      try {
+        const backendRes = await fetch(`${backendUrl.replace(/\/$/, '')}/api/v1/auth/me`, {
+          headers: {
+            'Authorization': authHeader,
+            'Content-Type': 'application/json',
+          },
+          signal: AbortSignal.timeout(2000),
+        });
 
-      if (backendRes.ok) {
-        const backendData = await backendRes.json();
-        if (backendData?.id) {
-          return NextResponse.json(backendData);
+        if (backendRes.ok) {
+          const backendData = await backendRes.json();
+          if (backendData?.id) {
+            return NextResponse.json(backendData);
+          }
         }
+      } catch {
+        // Backend offline — decode from token
       }
-    } catch {
-      // Backend is offline — decode from token
     }
 
     // 2. Decode session from token payload
