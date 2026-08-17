@@ -229,6 +229,9 @@ If the user greets you or asks questions, greet them warmly and let them know th
         }
         messages.push({ role: 'user', content: trimmedMsg });
 
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 5000);
+
         const response = await fetch(`${baseUrl}/chat/completions`, {
           method: 'POST',
           headers: {
@@ -241,8 +244,9 @@ If the user greets you or asks questions, greet them warmly and let them know th
             max_tokens: 800,
             temperature: 0.2,
           }),
-          signal: AbortSignal.timeout(5000), // 5s fast timeout
+          signal: controller.signal,
         });
+        clearTimeout(timeoutId);
 
         if (response.ok) {
           const data = await response.json();
