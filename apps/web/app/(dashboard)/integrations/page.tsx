@@ -202,20 +202,19 @@ export default function IntegrationsPage() {
             <button
               type="submit"
               disabled={isSubmitting || !patToken.trim()}
-              className="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold shadow-md glow-indigo transition-all disabled:opacity-50 flex items-center gap-2"
+              className="px-5 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold shadow-md shadow-purple-950 transition-all disabled:opacity-50 flex items-center gap-2"
             >
               {isSubmitting ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <CheckCircle2 className="w-3.5 h-3.5" />}
               <span>Save Encrypted Token</span>
             </button>
 
-            <button
-              type="button"
-              onClick={handleOAuthConnect}
-              className="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold flex items-center gap-2 border border-slate-700 transition-colors"
+            <a
+              href={`https://github.com/login/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID || 'Ov23livqbvm2o1wqn6oE'}&scope=user:email,repo,workflow,read:org&redirect_uri=${typeof window !== 'undefined' ? `${window.location.origin}/callback/github` : 'http://localhost:3000/callback/github'}`}
+              className="px-4 py-2.5 rounded-xl bg-purple-950/50 hover:bg-purple-900/60 text-purple-200 hover:text-white text-xs font-semibold flex items-center gap-2 border border-purple-500/30 hover:border-purple-500/60 transition-all shadow-sm cursor-pointer"
             >
-              <Github className="w-4 h-4" />
+              <Github className="w-4 h-4 text-purple-400" />
               <span>Connect with OAuth</span>
-            </button>
+            </a>
           </div>
         </form>
       </div>
