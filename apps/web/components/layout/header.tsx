@@ -157,6 +157,13 @@ export const Header: React.FC<HeaderProps> = ({ activeProject, onSelectProject, 
   const [projects, setProjects] = useState<Project[]>([]);
   const [currentWorkspace, setCurrentWorkspace] = useState<Workspace | null>(null);
   const [currentUser, setCurrentUser] = useState<any>(null);
+  const [localActiveProject, setLocalActiveProject] = useState<Project | null>(activeProject || null);
+
+  useEffect(() => {
+    if (activeProject) {
+      setLocalActiveProject(activeProject);
+    }
+  }, [activeProject]);
 
   // Model Engine Selector state
   const [selectedModel, setSelectedModel] = useState<ModelEngineOption>(modelOptions[0]);
@@ -213,10 +220,25 @@ export const Header: React.FC<HeaderProps> = ({ activeProject, onSelectProject, 
         if (projs && projs.length > 0) {
           const storedId = typeof window !== 'undefined' ? localStorage.getItem('voiceops_active_project_id') : null;
           const current = projs.find((p: any) => p.id === storedId) || projs[0];
+          setLocalActiveProject(current);
           if (onSelectProject) {
             onSelectProject(current);
           }
         } else {
+          if (typeof window !== 'undefined') {
+            const cached = localStorage.getItem('voiceops_active_project');
+            if (cached) {
+              try {
+                const parsed = JSON.parse(cached);
+                if (parsed?.name) {
+                  setLocalActiveProject(parsed);
+                  if (onSelectProject) onSelectProject(parsed);
+                  return;
+                }
+              } catch {}
+            }
+          }
+          setLocalActiveProject(null);
           if (onSelectProject) {
             onSelectProject(null as any);
           }
@@ -228,19 +250,32 @@ export const Header: React.FC<HeaderProps> = ({ activeProject, onSelectProject, 
   useEffect(() => {
     reloadData();
 
-    const handleProjectEvent = () => reloadData();
+    const handleProjectEvent = (e: any) => {
+      if (e.detail?.project) {
+        setLocalActiveProject(e.detail.project);
+        if (onSelectProject) onSelectProject(e.detail.project);
+      }
+      reloadData();
+    };
+
+    const handleProjectDetach = () => {
+      setLocalActiveProject(null);
+      if (onSelectProject) onSelectProject(null as any);
+      reloadData();
+    };
+
     if (typeof window !== 'undefined') {
-      window.addEventListener('voiceops_project_detached', handleProjectEvent);
+      window.addEventListener('voiceops_project_detached', handleProjectDetach);
       window.addEventListener('voiceops_project_changed', handleProjectEvent);
     }
 
     return () => {
       if (typeof window !== 'undefined') {
-        window.removeEventListener('voiceops_project_detached', handleProjectEvent);
+        window.removeEventListener('voiceops_project_detached', handleProjectDetach);
         window.removeEventListener('voiceops_project_changed', handleProjectEvent);
       }
     };
-  }, [reloadData]);
+  }, [reloadData, onSelectProject]);
 
   const handleLogout = async () => {
     try {
@@ -277,12 +312,12 @@ export const Header: React.FC<HeaderProps> = ({ activeProject, onSelectProject, 
         <span className="hidden sm:inline text-slate-600">/</span>
 
         {/* Project Selector */}
-        {activeProject ? (
+        {(activeProject || localActiveProject) ? (
           <div className="flex items-center gap-2 px-2.5 sm:px-3 py-1.5 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-xs text-indigo-300 min-w-0">
             <FolderGit2 className="w-3.5 h-3.5 text-indigo-400 shrink-0" />
-            <span className="font-semibold truncate max-w-[100px] sm:max-w-[140px] md:max-w-none">{activeProject.name}</span>
+            <span className="font-semibold truncate max-w-[100px] sm:max-w-[140px] md:max-w-none">{(activeProject || localActiveProject)?.name}</span>
             <span className="hidden md:inline px-1.5 py-0.5 rounded text-[10px] bg-slate-900 text-slate-400 font-mono truncate max-w-[150px]">
-              {activeProject.repository?.repo_full_name || '—'}
+              {(activeProject || localActiveProject)?.repository?.repo_full_name || ((activeProject || localActiveProject) as any)?.github_repo || '—'}
             </span>
           </div>
         ) : (

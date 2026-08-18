@@ -175,6 +175,11 @@ export default function ProjectsPage() {
 
       if (newProj) {
         setProjects((prev) => [newProj, ...prev.filter((p) => p.id !== newProj.id)]);
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('voiceops_active_project_id', newProj.id);
+          localStorage.setItem('voiceops_active_project', JSON.stringify(newProj));
+          window.dispatchEvent(new CustomEvent('voiceops_project_changed', { detail: { project: newProj } }));
+        }
       }
 
       await loadProjects(workspace.id);
@@ -203,6 +208,7 @@ export default function ProjectsPage() {
         const storedId = localStorage.getItem('voiceops_active_project_id');
         if (storedId === confirmDetachTarget.id) {
           localStorage.removeItem('voiceops_active_project_id');
+          localStorage.removeItem('voiceops_active_project');
         }
         window.dispatchEvent(new CustomEvent('voiceops_project_detached', { detail: { projectId: confirmDetachTarget.id } }));
       }
@@ -230,11 +236,17 @@ export default function ProjectsPage() {
     }
   };
 
-  const handleInvestigate = (projectId: string) => {
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('voiceops_active_project_id', projectId);
+  const handleInvestigate = (projectOrId: any) => {
+    const proj = typeof projectOrId === 'string' ? projects.find((p) => p.id === projectOrId) : projectOrId;
+    const projId = typeof projectOrId === 'string' ? projectOrId : projectOrId?.id;
+    if (typeof window !== 'undefined' && projId) {
+      localStorage.setItem('voiceops_active_project_id', projId);
+      if (proj) {
+        localStorage.setItem('voiceops_active_project', JSON.stringify(proj));
+        window.dispatchEvent(new CustomEvent('voiceops_project_changed', { detail: { project: proj } }));
+      }
     }
-    router.push(`/console/workspace?project_id=${projectId}`);
+    router.push(`/console/workspace?project_id=${projId}`);
   };
 
   const handleCreateProject = async (e: React.FormEvent) => {
@@ -243,7 +255,7 @@ export default function ProjectsPage() {
 
     setIsCreating(true);
     try {
-      await apiRequest('/projects', {
+      const newProj = await apiRequest('/projects', {
         method: 'POST',
         body: JSON.stringify({
           workspace_id: workspace.id,
@@ -255,6 +267,12 @@ export default function ProjectsPage() {
           github_repo_id: githubRepoId || 1001,
         }),
       });
+
+      if (newProj && typeof window !== 'undefined') {
+        localStorage.setItem('voiceops_active_project_id', newProj.id);
+        localStorage.setItem('voiceops_active_project', JSON.stringify(newProj));
+        window.dispatchEvent(new CustomEvent('voiceops_project_changed', { detail: { project: newProj } }));
+      }
 
       setName('');
       setSlug('');

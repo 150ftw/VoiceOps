@@ -176,6 +176,11 @@ export default function VoiceWorkspacePage() {
       if (newProj) {
         setProject(newProj);
         setShowRepoPicker(false);
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('voiceops_active_project_id', newProj.id);
+          localStorage.setItem('voiceops_active_project', JSON.stringify(newProj));
+          window.dispatchEvent(new CustomEvent('voiceops_project_changed', { detail: { project: newProj } }));
+        }
         // Auto-create conversation
         const conv = await apiRequest('/conversations', {
           method: 'POST',
