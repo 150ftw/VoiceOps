@@ -465,10 +465,25 @@ export default function LandingPage() {
 
       {/* Hero Section — Editorial Brutalist Showcase */}
       <section className="relative pt-24 pb-16 px-6 sm:px-12 max-w-5xl mx-auto flex flex-col items-center justify-center min-h-[75vh] text-center z-10 select-none">
-        {/* Top Sub-Header */}
-        <p className="font-mono text-xs sm:text-sm text-purple-300/90 tracking-[0.25em] uppercase mb-4">
-          Autonomous DevOps Voice Engine
-        </p>
+        {/* Top Sub-Header with React Bits TextType */}
+        <div className="font-mono text-xs sm:text-sm text-purple-300/90 tracking-[0.25em] uppercase mb-4 flex items-center justify-center min-h-[1.5rem]">
+          <TextType
+            text={[
+              'AUTONOMOUS DEVOPS VOICE ENGINE',
+              'REAL-TIME INCIDENT TRIAGE',
+              'DEEP AST CODEBASE REASONING',
+              'SUB-SECOND NEURAL SPEECH AI',
+              'ZERO-WRITE SECURITY GUARDRAILS',
+            ]}
+            typingSpeed={60}
+            deletingSpeed={35}
+            pauseDuration={2400}
+            showCursor={true}
+            cursorCharacter="|"
+            className="font-mono text-xs sm:text-sm text-purple-300 tracking-[0.22em] sm:tracking-[0.25em] uppercase drop-shadow-[0_0_12px_rgba(168,85,247,0.6)]"
+            cursorClassName="text-purple-400 font-mono drop-shadow-[0_0_10px_rgba(192,132,252,0.9)] ml-1"
+          />
+        </div>
 
         {/* Massive Centerpiece Display Headline with Dynamic Responsive Holographic Aura */}
         <div className="relative w-full max-w-4xl mx-auto flex items-center justify-center py-6 my-2 group cursor-pointer">
@@ -487,18 +502,55 @@ export default function LandingPage() {
             />
           </div>
 
-          {/* Foreground Glitch Typography with React Bits TextType */}
-          <h1 className="relative z-10 w-full flex flex-col items-center justify-center select-none text-center">
-            <TextType
-              text={['VOICE\nOPS', 'AUTONOMOUS\nDEVOPS', 'REAL-TIME\nVOICE AI', 'VOICE\nOPS']}
-              typingSpeed={80}
-              deletingSpeed={45}
-              pauseDuration={2600}
-              showCursor={true}
-              cursorCharacter="|"
-              className="font-glitch uppercase text-4xl sm:text-7xl md:text-9xl lg:text-[10rem] scale-y-95 tracking-wider leading-[0.92] sm:leading-[0.88] text-purple-100/95 drop-shadow-[0_0_40px_rgba(168,85,247,0.5)]"
-              cursorClassName="text-purple-400 font-mono text-3xl sm:text-6xl md:text-8xl lg:text-9xl align-middle drop-shadow-[0_0_20px_rgba(192,132,252,0.9)] ml-1 sm:ml-2"
-            />
+          {/* Foreground Glitch Typography */}
+          <h1 className="relative z-10 text-4xl sm:text-7xl md:text-9xl lg:text-[10rem] font-glitch uppercase scale-y-95 w-full flex flex-col items-center justify-center gap-1 sm:gap-2 select-none text-center">
+            {/* VOICE Row */}
+            <div className="flex items-center justify-center gap-1 sm:gap-2 md:gap-3 group-hover:gap-2 sm:group-hover:gap-4 md:group-hover:gap-6 transition-all duration-700 ease-out">
+              {[
+                { char: 'V', delay: '0.1s', duration: '3.4s', color: 'text-purple-100/90' },
+                { char: 'O', delay: '1.4s', duration: '4.2s', color: 'text-purple-200/90' },
+                { char: 'I', delay: '0.6s', duration: '2.8s', color: 'text-purple-100/85' },
+                { char: 'C', delay: '2.1s', duration: '3.9s', color: 'text-purple-300/90' },
+                { char: 'E', delay: '0.9s', duration: '4.6s', color: 'text-purple-200/95' },
+              ].map((item, idx) => (
+                <span
+                  key={`voice-${idx}`}
+                  data-text={item.char}
+                  className={`glitch-letter inline-block ${item.color} drop-shadow-[0_0_35px_rgba(168,85,247,0.35)] transition-all duration-700 ease-out group-hover:scale-102`}
+                  style={
+                    {
+                      '--glitch-delay': item.delay,
+                      '--glitch-duration': item.duration,
+                    } as React.CSSProperties
+                  }
+                >
+                  {item.char}
+                </span>
+              ))}
+            </div>
+
+            {/* OPS Row */}
+            <div className="flex items-center justify-center gap-2 sm:gap-4 md:gap-6 group-hover:gap-3 sm:group-hover:gap-5 md:group-hover:gap-7 transition-all duration-700 ease-out">
+              {[
+                { char: 'O', delay: '1.1s', duration: '3.7s', color: 'text-purple-200/90' },
+                { char: 'P', delay: '1.8s', duration: '4.4s', color: 'text-purple-100/90' },
+                { char: 'S', delay: '0.4s', duration: '3.2s', color: 'text-purple-300/90' },
+              ].map((item, idx) => (
+                <span
+                  key={`ops-${idx}`}
+                  data-text={item.char}
+                  className={`glitch-letter inline-block ${item.color} drop-shadow-[0_0_35px_rgba(168,85,247,0.35)] transition-all duration-700 ease-out group-hover:scale-102`}
+                  style={
+                    {
+                      '--glitch-delay': item.delay,
+                      '--glitch-duration': item.duration,
+                    } as React.CSSProperties
+                  }
+                >
+                  {item.char}
+                </span>
+              ))}
+            </div>
           </h1>
         </div>
 
