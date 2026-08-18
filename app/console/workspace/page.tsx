@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import {
   FolderGit2,
   GitBranch,
@@ -17,6 +18,7 @@ import {
   Cpu,
   Layers,
   ArrowUpRight,
+  ArrowRight,
   ShieldCheck,
   Trash2,
   RotateCcw,
@@ -49,6 +51,7 @@ const quickPrompts = [
 ];
 
 export default function VoiceWorkspacePage() {
+  const router = useRouter();
   const [project, setProject] = useState<Project | null>(null);
   const [workspace, setWorkspace] = useState<any>(null);
   const [conversation, setConversation] = useState<Conversation | null>(null);
@@ -138,17 +141,17 @@ export default function VoiceWorkspacePage() {
     if (githubRepos.length > 0) return; // already loaded
     setIsLoadingRepos(true);
     try {
-      const data = await apiRequest('/integrations/github/repos').catch(() => null);
-      if (data?.repos) {
-        setGithubRepos(data.repos);
+      const data = await apiRequest(`/integrations/github/repositories${workspace?.id ? `?workspace_id=${workspace.id}` : ''}`).catch(() => null);
+      const list = data?.repositories || data?.repos || (Array.isArray(data) ? data : []);
+      if (list && list.length > 0) {
+        setGithubRepos(list);
       } else {
-        // GitHub not connected — redirect to integrations
-        setShowRepoPicker(false);
-        window.location.href = '/integrations';
+        const fallback = await apiRequest('/integrations/github/repos').catch(() => null);
+        const fallbackList = fallback?.repositories || fallback?.repos || (Array.isArray(fallback) ? fallback : []);
+        setGithubRepos(fallbackList);
       }
-    } catch {
-      setShowRepoPicker(false);
-      window.location.href = '/integrations';
+    } catch (err) {
+      console.warn('Could not load repos', err);
     } finally {
       setIsLoadingRepos(false);
     }
@@ -906,8 +909,22 @@ Regarding your query **"${query}"** in **\`${repoName}\`**:
                   <p className="text-xs text-slate-400 font-mono">Fetching your repositories…</p>
                 </div>
               ) : filteredRepos.length === 0 ? (
-                <div className="text-center py-10 text-xs text-slate-500 font-mono">
-                  {repoSearch ? 'No repos match your search.' : 'No GitHub repositories found.'}
+                <div className="flex flex-col items-center justify-center py-10 px-4 text-center">
+                  <FolderGit2 className="w-8 h-8 text-slate-600 mb-2" />
+                  <p className="text-xs text-slate-300 font-medium mb-1">
+                    {repoSearch ? 'No repos match your search.' : 'No GitHub repositories loaded yet.'}
+                  </p>
+                  <p className="text-[11px] text-slate-500 mb-4 max-w-xs">
+                    Import and manage all your GitHub repositories directly in the Projects section.
+                  </p>
+                  <Link
+                    href="/console/projects"
+                    onClick={() => setShowRepoPicker(false)}
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-purple-600/30 hover:bg-purple-600/50 border border-purple-500/40 text-purple-200 text-xs font-semibold transition-all shadow-md"
+                  >
+                    <span>Open Projects & Repos</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
                 </div>
               ) : (
                 filteredRepos.map((repo) => (

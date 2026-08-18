@@ -53,7 +53,7 @@ export async function GET(req: NextRequest) {
             }));
 
             return NextResponse.json(
-              { repositories: formatted },
+              { repositories: formatted, repos: formatted },
               { status: 200, headers: { 'Access-Control-Allow-Origin': '*' } }
             );
           }
@@ -65,12 +65,12 @@ export async function GET(req: NextRequest) {
 
     // 2. Return scoped repos for the user or empty
     return NextResponse.json(
-      { repositories: [] },
+      { repositories: [], repos: [] },
       { status: 200, headers: { 'Access-Control-Allow-Origin': '*' } }
     );
   } catch (error: any) {
     return NextResponse.json(
-      { repositories: [] },
+      { repositories: [], repos: [] },
       { status: 200, headers: { 'Access-Control-Allow-Origin': '*' } }
     );
   }
