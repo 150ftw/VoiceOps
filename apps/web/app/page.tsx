@@ -466,8 +466,9 @@ export default function LandingPage() {
       {/* Hero Section — Editorial Brutalist Showcase */}
       <section className="relative pt-24 pb-16 px-6 sm:px-12 max-w-5xl mx-auto flex flex-col items-center justify-center min-h-[75vh] text-center z-10 select-none">
         {/* Top Sub-Header with React Bits TextType */}
-        <div className="font-mono text-xs sm:text-sm text-purple-300/90 tracking-[0.25em] uppercase mb-4 flex items-center justify-center min-h-[1.5rem]">
+        <div className="w-full flex items-center justify-center text-center font-mono text-xs sm:text-sm text-purple-300/90 tracking-[0.25em] uppercase mb-4 min-h-[1.75rem]">
           <TextType
+            as="div"
             text={[
               'AUTONOMOUS DEVOPS VOICE ENGINE',
               'REAL-TIME INCIDENT TRIAGE',
@@ -480,7 +481,7 @@ export default function LandingPage() {
             pauseDuration={2400}
             showCursor={true}
             cursorCharacter="|"
-            className="font-mono text-xs sm:text-sm text-purple-300 tracking-[0.22em] sm:tracking-[0.25em] uppercase drop-shadow-[0_0_12px_rgba(168,85,247,0.6)]"
+            className="flex items-center justify-center text-center font-mono text-xs sm:text-sm text-purple-300 tracking-[0.22em] sm:tracking-[0.25em] uppercase drop-shadow-[0_0_12px_rgba(168,85,247,0.6)]"
             cursorClassName="text-purple-400 font-mono drop-shadow-[0_0_10px_rgba(192,132,252,0.9)] ml-1"
           />
         </div>

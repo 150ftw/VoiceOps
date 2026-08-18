@@ -1,6 +1,14 @@
 .text-type {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
   white-space: pre-wrap;
+}
+
+.text-type__content {
+  display: inline;
+  text-align: center;
 }
 
 .text-type__cursor {
