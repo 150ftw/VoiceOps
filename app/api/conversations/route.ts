@@ -3,22 +3,15 @@ import { NextRequest, NextResponse } from 'next/server';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
-const DEFAULT_CONVERSATIONS = [
-  {
-    id: 'conv-primary-1',
-    project_id: 'proj-voiceops-core',
-    user_id: 'gh-user-86033717',
-    title: 'CI/CD Failure Investigation',
-    status: 'active',
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
-  },
-];
-
-let inMemoryConversations = [...DEFAULT_CONVERSATIONS];
+let inMemoryConversations: any[] = [];
 
 export async function GET(req: NextRequest) {
-  return NextResponse.json(inMemoryConversations, {
+  const projectId = req.nextUrl.searchParams.get('project_id');
+  const filtered = projectId
+    ? inMemoryConversations.filter((c) => c.project_id === projectId)
+    : inMemoryConversations;
+
+  return NextResponse.json(filtered, {
     status: 200,
     headers: { 'Access-Control-Allow-Origin': '*' },
   });

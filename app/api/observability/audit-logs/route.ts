@@ -8,10 +8,10 @@ const AUDIT_LOGS = [
     id: 'log-1',
     timestamp: new Date(Date.now() - 120000).toISOString(),
     event: 'GITHUB_OAUTH_LOGIN',
-    user: 'Shivam Sharma (150ftw)',
-    actor_id: 'gh-user-86033717',
+    user: 'Authenticated User',
+    actor_id: 'gh-user-session',
     status: 'SUCCESS',
-    details: 'User authenticated via GitHub OAuth with full repository scopes',
+    details: 'User authenticated via GitHub OAuth with repository scopes',
   },
   {
     id: 'log-2',
@@ -20,7 +20,7 @@ const AUDIT_LOGS = [
     user: 'VoiceOps Agent',
     actor_id: 'agent-reAct',
     status: 'SUCCESS',
-    details: 'Fetched workflow logs for 150ftw/VoiceOps commit d3aa15a',
+    details: 'Fetched CI/CD workflow runs and telemetry logs',
   },
   {
     id: 'log-3',

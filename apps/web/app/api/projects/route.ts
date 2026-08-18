@@ -38,9 +38,9 @@ export async function GET(req: NextRequest) {
     }
 
     const filtered = inMemoryProjects.filter((p) => {
-      if (wsQuery && (p.workspace_id === wsQuery || p.workspace_id === 'ws-primary-default')) return true;
-      if (userId && (p.workspace_id === `ws-${userId}` || p.workspace_id === 'ws-primary-default')) return true;
-      return true; // Return all projects for this workspace session
+      if (wsQuery) return p.workspace_id === wsQuery;
+      if (userId) return p.workspace_id === `ws-${userId}`;
+      return false;
     });
 
     return NextResponse.json(filtered, {

@@ -19,7 +19,7 @@ export async function GET(req: NextRequest) {
   const projectId = req.nextUrl.searchParams.get('project_id');
   
   const docs = projectId
-    ? inMemoryDocs.filter((d) => !d.project_id || d.project_id === projectId || d.project_id === 'proj-voiceops-core')
+    ? inMemoryDocs.filter((d) => d.project_id === projectId)
     : inMemoryDocs;
 
   return NextResponse.json(docs, {
