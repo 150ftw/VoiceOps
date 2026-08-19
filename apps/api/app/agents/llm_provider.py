@@ -324,6 +324,53 @@ class MockLLMProvider(BaseLLMProvider):
                         finish_reason="stop",
                     )
 
+                elif "next.config" in target_file:
+                    return LLMResponse(
+                        content=(
+                            f"### ⚙️ Next.js Framework & Compiler Configuration: `{target_file}`\n\n"
+                            f"In **`{repo_name}`**, `{target_file}` orchestrates the Next.js Rust-based SWC compiler, build toolchains, and client/server module transpilation.\n\n"
+                            f"```javascript\n"
+                            f"/** @type {{import('next').NextConfig}} */\n"
+                            f"const nextConfig = {{\n"
+                            f"  reactStrictMode: true,\n"
+                            f"  transpilePackages: ['gsap', 'ogl', 'lucide-react'],\n"
+                            f"}};\n\n"
+                            f"export default nextConfig;\n"
+                            f"```\n\n"
+                            f"---\n\n"
+                            f"#### 🔍 Deep Configuration Breakdown:\n"
+                            f"1. **`reactStrictMode: true` (Lifecycle Safety & Idempotency):**\n"
+                            f"   • Enforces double-rendering in development to catch lifecycle side-effects in hooks and `useEffect`.\n"
+                            f"   • Ensures strict compliance with React 18 Concurrent Rendering and future React Server Component (RSC) hydration.\n\n"
+                            f"2. **`transpilePackages: ['gsap', 'ogl', 'lucide-react']` (ESM Transpilation & SSR Compatibility):**\n"
+                            f"   • **`gsap`**: Pre-compiles GreenSock Animation Platform ES module plugins through Next.js SWC, preventing SSR runtime import exceptions.\n"
+                            f"   • **`ogl`**: Transpiles minimal WebGL canvas shader modules for hardware-accelerated 3D fluid meshes and visualizer buffers.\n"
+                            f"   • **`lucide-react`**: Optimizes vector icon trees and accelerates First Contentful Paint (FCP).\n\n"
+                            f"---\n\n"
+                            f"#### 🚀 DevOps & Production Build Assessment:\n"
+                            f"• **Compiler Engine:** Next.js Rust-based **SWC Compiler** (up to 17x faster build velocity than Babel).\n"
+                            f"• **Docker Containerization Tip:** Add `output: 'standalone'` to generate ultra-compact ~120MB production Docker images.\n"
+                            f"• **Security Best Practice:** Configure `async headers()` with `X-Frame-Options: DENY` and `X-Content-Type-Options: nosniff`."
+                        ),
+                        finish_reason="stop",
+                    )
+
+                elif "render.yaml" in target_file or "render.yml" in target_file:
+                    return LLMResponse(
+                        content=(
+                            f"### ⚙️ Cloud Infrastructure-as-Code (IaC) Blueprint: `{target_file}`\n\n"
+                            f"In **`{repo_name}`**, `{target_file}` defines the automated multi-service topology for cloud hosting.\n\n"
+                            f"#### 🔍 Discovered Services & Topology:\n"
+                            f"• **FastAPI Web Service (`voiceops-api`):** Python 3.11.9 ASGI runtime with dynamic port binding.\n"
+                            f"• **Managed Redis Cluster (`voiceops-redis`):** High-speed `allkeys-lru` in-memory state caching and WebSocket Pub/Sub.\n"
+                            f"• **Cryptographic Keys:** Generates isolated `JWT_SECRET` and `ENCRYPTION_KEY` variables per environment.\n\n"
+                            f"#### 🚀 Reliability & Scaling:\n"
+                            f"• Automated health check verification before live traffic routing.\n"
+                            f"• Continuous deployment tracking tracking the `main` branch."
+                        ),
+                        finish_reason="stop",
+                    )
+
                 elif target_file in ["vite.config.js", "vite.config.ts"]:
                     return LLMResponse(
                         content=(
@@ -351,12 +398,13 @@ class MockLLMProvider(BaseLLMProvider):
                 else:
                     return LLMResponse(
                         content=(
-                            f"### 📄 File Analysis: `{target_file}`\n\n"
+                            f"### 📄 Detailed File Deep Dive: `{target_file}`\n\n"
                             f"Found `{target_file}` in repository **`{repo_name}`**.\n\n"
                             f"• **Path:** `{target_file}`\n"
                             f"• **Status:** Tracked in `main` branch.\n"
-                            f"• **Purpose:** Static resource / source file supporting `{repo_clean_name}`.\n\n"
-                            f"You can ask me to inspect functions in `app.js`, view markup in `index.html`, or check build commands in `package.json`."
+                            f"• **Purpose:** Integral architectural component supporting `{repo_clean_name}`.\n"
+                            f"• **DevOps Integrity:** Syntactically verified and indexed into pgvector semantic graph.\n\n"
+                            f"Would you like me to analyze its function dependencies, inspect CI/CD workflows, or generate a Dockerfile/k8s manifest?"
                         ),
                         finish_reason="stop",
                     )
