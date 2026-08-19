@@ -104,7 +104,7 @@ class OpenAILLMProvider(BaseLLMProvider):
                 except Exception:
                     pass
 
-            logger.warning("OpenAI / NVIDIA API call failed or timed out, falling back to intelligent mock provider", error=str(e))
+            logger.warning(f"OpenAI / NVIDIA API call failed or timed out ({e}), falling back to intelligent mock provider")
             return await MockLLMProvider().generate_response(messages, tools, temperature)
 
 
@@ -148,7 +148,7 @@ class GeminiLLMProvider(BaseLLMProvider):
                         text = candidates[0].get("content", {}).get("parts", [{}])[0].get("text", "")
                         return LLMResponse(content=text, finish_reason="stop")
         except Exception as e:
-            logger.warning("Gemini API error, falling back to mock provider", error=str(e))
+            logger.warning(f"Gemini API error ({e}), falling back to mock provider")
         
         # Fallback to MockLLMProvider if Gemini API is unreachable
         return await MockLLMProvider().generate_response(messages, tools, temperature)
