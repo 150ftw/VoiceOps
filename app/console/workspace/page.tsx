@@ -760,51 +760,43 @@ Regarding your query **"${query}"** in **\`${repoName}\`**:
           <div className="flex-1 p-4 sm:p-6 overflow-y-auto space-y-4">
             {!project && !isLoadingHistory ? (
               /* No Repository Connected Onboarding Hero with Interactive DevOps Neural Topology */
-              <div className="relative h-full w-full flex flex-col items-center justify-center p-4 sm:p-6 overflow-hidden min-h-[420px]">
-                {/* 3D/2D DevOps Neural Knowledge Topology Visualizer Canvas */}
+              <div className="h-full w-full flex flex-col items-center justify-center py-3 px-2 sm:px-4 space-y-3.5 my-auto overflow-y-auto animate-in fade-in zoom-in-95 duration-300">
+                {/* 1. Dedicated Interactive DevOps Neural Topology Stage */}
                 <RepoTopologyVisualizer />
 
-                {/* Floating Centered Action Card */}
-                <div className="relative z-20 flex flex-col items-center justify-center text-center p-6 sm:p-8 rounded-3xl bg-[#080C16]/90 border border-white/[0.1] shadow-[0_12px_48px_rgba(0,0,0,0.7)] backdrop-blur-xl max-w-md mx-auto my-auto space-y-5 animate-in fade-in zoom-in-95 duration-300 ring-1 ring-purple-500/20">
-                  <div className="relative">
-                    <div className="w-16 h-16 rounded-3xl bg-purple-600/20 border border-purple-500/40 flex items-center justify-center text-purple-300 shadow-2xl ring-4 ring-purple-500/10">
-                      <FolderGit2 className="w-8 h-8 text-purple-400" />
-                    </div>
-                    <div className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-indigo-600 border-2 border-[#06080F] flex items-center justify-center text-white shadow-md">
-                      <Plus className="w-3.5 h-3.5" />
-                    </div>
-                  </div>
-
-                  <div className="space-y-1.5">
+                {/* 2. Action Hub & CTA Button */}
+                <div className="flex flex-col items-center text-center space-y-3 max-w-lg">
+                  <div className="space-y-1">
                     <h3 className="text-base sm:text-lg font-bold text-white tracking-tight">
                       Connect a Repository to Start
                     </h3>
-                    <p className="text-xs text-slate-400 leading-relaxed max-w-sm">
+                    <p className="text-xs text-slate-400 leading-relaxed max-w-md">
                       VoiceOps maps your codebase into an AST knowledge graph with pgvector semantic memory for voice-driven DevOps triage.
                     </p>
                   </div>
 
                   <button
                     onClick={handleOpenRepoPicker}
-                    className="w-full sm:w-auto px-6 py-3 rounded-2xl bg-gradient-to-r from-purple-600 via-indigo-600 to-indigo-500 hover:from-purple-500 hover:to-indigo-400 text-white font-semibold text-xs transition-all shadow-xl glow-indigo flex items-center justify-center gap-2 group active:scale-95 border border-purple-400/40"
+                    className="px-6 py-2.5 rounded-2xl bg-gradient-to-r from-purple-600 via-indigo-600 to-indigo-500 hover:from-purple-500 hover:to-indigo-400 text-white font-semibold text-xs transition-all shadow-xl glow-indigo flex items-center justify-center gap-2 group active:scale-95 border border-purple-400/40"
                   >
                     <Github className="w-4 h-4" />
                     <span>Connect a GitHub Repository</span>
                     <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
                   </button>
 
-                  <div className="grid grid-cols-3 gap-2 w-full pt-4 border-t border-white/[0.06] text-[11px] font-mono text-slate-400">
+                  {/* 3. Micro Feature Badges */}
+                  <div className="grid grid-cols-3 gap-2.5 w-full pt-1 text-[11px] font-mono text-slate-400 max-w-md">
                     <div className="p-2 rounded-xl bg-white/[0.02] border border-white/[0.04] space-y-0.5 text-center">
                       <span className="text-purple-400 text-sm">⚡</span>
-                      <p className="text-[9.5px] text-slate-300 font-sans font-medium">1-Click Scan</p>
+                      <p className="text-[10px] text-slate-300 font-sans font-medium">1-Click Scan</p>
                     </div>
                     <div className="p-2 rounded-xl bg-white/[0.02] border border-white/[0.04] space-y-0.5 text-center">
                       <span className="text-cyan-400 text-sm">🧠</span>
-                      <p className="text-[9.5px] text-slate-300 font-sans font-medium">AST Topology</p>
+                      <p className="text-[10px] text-slate-300 font-sans font-medium">AST Topology</p>
                     </div>
                     <div className="p-2 rounded-xl bg-white/[0.02] border border-white/[0.04] space-y-0.5 text-center">
                       <span className="text-emerald-400 text-sm">🛡️</span>
-                      <p className="text-[9.5px] text-slate-300 font-sans font-medium">Zero-Write Safe</p>
+                      <p className="text-[10px] text-slate-300 font-sans font-medium">Zero-Write Safe</p>
                     </div>
                   </div>
                 </div>

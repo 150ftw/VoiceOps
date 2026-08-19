@@ -29,10 +29,10 @@ const TOPOLOGY_NODES: Node[] = [
   {
     id: 'core',
     label: 'VoiceOps Engine',
-    sublabel: 'Autonomous Agent Core',
+    sublabel: 'Autonomous Core',
     category: 'core',
     x: 50,
-    y: 34,
+    y: 50,
     icon: Sparkles,
     color: 'from-purple-500 via-indigo-500 to-cyan-400',
     borderGlow: 'rgba(168, 85, 247, 0.4)',
@@ -40,35 +40,35 @@ const TOPOLOGY_NODES: Node[] = [
   {
     id: 'ast',
     label: 'Tree-sitter AST',
-    sublabel: 'Syntax Code Parser',
+    sublabel: 'Syntax Parser',
     category: 'ast',
-    x: 22,
-    y: 22,
+    x: 18,
+    y: 32,
     icon: GitBranch,
     color: 'from-indigo-500 to-purple-500',
     borderGlow: 'rgba(99, 102, 241, 0.35)',
   },
   {
-    id: 'vector',
-    label: 'pgvector RAG',
-    sublabel: '1536-dim Memory',
-    category: 'vector',
-    x: 78,
-    y: 22,
-    icon: Database,
-    color: 'from-cyan-500 to-blue-500',
-    borderGlow: 'rgba(6, 182, 212, 0.35)',
-  },
-  {
     id: 'ci',
-    label: 'CI/CD Telemetry',
-    sublabel: 'Actions & Runners',
+    label: 'CI/CD Pipelines',
+    sublabel: 'Actions & Logs',
     category: 'ci',
     x: 18,
-    y: 65,
+    y: 72,
     icon: Terminal,
     color: 'from-amber-500 to-rose-500',
     borderGlow: 'rgba(245, 158, 11, 0.35)',
+  },
+  {
+    id: 'vector',
+    label: 'pgvector RAG',
+    sublabel: '1536-dim Embeddings',
+    category: 'vector',
+    x: 82,
+    y: 32,
+    icon: Database,
+    color: 'from-cyan-500 to-blue-500',
+    borderGlow: 'rgba(6, 182, 212, 0.35)',
   },
   {
     id: 'security',
@@ -76,7 +76,7 @@ const TOPOLOGY_NODES: Node[] = [
     sublabel: 'Ed25519 Signatures',
     category: 'security',
     x: 82,
-    y: 65,
+    y: 72,
     icon: ShieldCheck,
     color: 'from-emerald-500 to-teal-400',
     borderGlow: 'rgba(16, 185, 129, 0.35)',
@@ -88,8 +88,8 @@ const CONNECTIONS = [
   { from: 'core', to: 'vector' },
   { from: 'core', to: 'ci' },
   { from: 'core', to: 'security' },
-  { from: 'ast', to: 'vector' },
-  { from: 'ci', to: 'security' },
+  { from: 'ast', to: 'ci' },
+  { from: 'vector', to: 'security' },
 ];
 
 export const RepoTopologyVisualizer: React.FC = () => {
@@ -299,7 +299,7 @@ export const RepoTopologyVisualizer: React.FC = () => {
     <div
       ref={containerRef}
       onMouseMove={handleMouseMove}
-      className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none select-none z-0"
+      className="relative w-full max-w-2xl h-[230px] sm:h-[250px] rounded-3xl overflow-hidden bg-[#070B16] border border-white/[0.08] shadow-[0_8px_32px_rgba(0,0,0,0.6)] select-none shrink-0 ring-1 ring-purple-500/10"
     >
       {/* Background HTML5 Canvas */}
       <canvas
@@ -310,7 +310,7 @@ export const RepoTopologyVisualizer: React.FC = () => {
 
       {/* Interactive Floating Node Badges */}
       <div
-        className="absolute inset-0 w-full h-full transition-transform duration-300 ease-out"
+        className="absolute inset-0 w-full h-full transition-transform duration-300 ease-out pointer-events-none"
         style={{
           transform: `translate3d(${mousePos.x * 0.4}px, ${mousePos.y * 0.4}px, 0)`,
         }}
@@ -334,14 +334,14 @@ export const RepoTopologyVisualizer: React.FC = () => {
               {isCore ? (
                 /* Central VoiceOps Neural Core Orb */
                 <div className="relative group cursor-pointer">
-                  <div className="absolute -inset-4 rounded-full bg-gradient-to-r from-purple-600/30 via-indigo-600/20 to-cyan-500/30 blur-xl group-hover:scale-125 transition-transform duration-500 animate-pulse" />
-                  <div className="w-14 h-14 rounded-2xl bg-[#090D1A] border border-purple-500/50 flex items-center justify-center shadow-[0_0_30px_rgba(168,85,247,0.4)] ring-2 ring-purple-500/20 group-hover:border-purple-400 transition-colors">
-                    <Sparkles className="w-7 h-7 text-purple-300 animate-spin-slow" />
+                  <div className="absolute -inset-3 rounded-full bg-gradient-to-r from-purple-600/30 via-indigo-600/20 to-cyan-500/30 blur-xl group-hover:scale-125 transition-transform duration-500 animate-pulse" />
+                  <div className="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl bg-[#090D1A] border border-purple-500/50 flex items-center justify-center shadow-[0_0_30px_rgba(168,85,247,0.4)] ring-2 ring-purple-500/20 group-hover:border-purple-400 transition-colors">
+                    <Sparkles className="w-6 h-6 sm:w-7 sm:h-7 text-purple-300 animate-spin-slow" />
                   </div>
                   {/* Core Status Label */}
-                  <div className="absolute -bottom-7 left-1/2 -translate-x-1/2 whitespace-nowrap text-center">
-                    <span className="px-2.5 py-0.5 rounded-full bg-[#080C16]/90 border border-purple-500/30 text-[10px] font-mono font-bold text-purple-200 shadow-lg">
-                      VoiceOps Neural Brain
+                  <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap text-center">
+                    <span className="px-2 py-0.5 rounded-full bg-[#080C16]/90 border border-purple-500/30 text-[9.5px] font-mono font-bold text-purple-200 shadow-md">
+                      VoiceOps Neural Engine
                     </span>
                   </div>
                 </div>
@@ -350,18 +350,18 @@ export const RepoTopologyVisualizer: React.FC = () => {
                 <div
                   onMouseEnter={() => setActiveNode(node.id)}
                   onMouseLeave={() => setActiveNode(null)}
-                  className="flex items-center gap-2.5 px-3 py-1.5 rounded-2xl bg-[#080C16]/90 hover:bg-[#0B1020] border border-white/[0.08] hover:border-indigo-500/40 shadow-xl backdrop-blur-md transition-all duration-300 group hover:scale-105 cursor-pointer ring-1 ring-white/[0.02]"
+                  className="flex items-center gap-2 px-2.5 py-1.5 rounded-2xl bg-[#080C16]/90 hover:bg-[#0B1020] border border-white/[0.08] hover:border-indigo-500/40 shadow-xl backdrop-blur-md transition-all duration-300 group hover:scale-105 cursor-pointer ring-1 ring-white/[0.02]"
                 >
                   <div
-                    className={`w-7 h-7 rounded-xl bg-gradient-to-tr ${node.color} p-1 flex items-center justify-center text-white shadow-md group-hover:shadow-[0_0_15px_rgba(99,102,241,0.5)] transition-shadow`}
+                    className={`w-6 h-6 sm:w-7 sm:h-7 rounded-xl bg-gradient-to-tr ${node.color} p-1 flex items-center justify-center text-white shadow-md group-hover:shadow-[0_0_15px_rgba(99,102,241,0.5)] transition-shadow shrink-0`}
                   >
                     <Icon className="w-3.5 h-3.5" />
                   </div>
                   <div className="text-left font-mono">
-                    <p className="text-[11px] font-bold text-slate-200 group-hover:text-white leading-tight">
+                    <p className="text-[10.5px] font-bold text-slate-200 group-hover:text-white leading-tight">
                       {node.label}
                     </p>
-                    <p className="text-[9px] text-slate-400 font-sans">{node.sublabel}</p>
+                    <p className="text-[8.5px] text-slate-400 font-sans">{node.sublabel}</p>
                   </div>
                 </div>
               )}
@@ -371,13 +371,13 @@ export const RepoTopologyVisualizer: React.FC = () => {
       </div>
 
       {/* Floating Holographic Ambient Accents */}
-      <div className="absolute top-4 left-4 flex items-center gap-2 px-3 py-1 rounded-xl bg-white/[0.02] border border-white/[0.05] text-[10px] font-mono text-slate-400">
-        <Radio className="w-3 h-3 text-cyan-400 animate-pulse" />
+      <div className="absolute top-3 left-3 flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg bg-white/[0.02] border border-white/[0.05] text-[9.5px] font-mono text-slate-400">
+        <Radio className="w-2.5 h-2.5 text-cyan-400 animate-pulse" />
         <span>TOPOLOGY RADAR: ACTIVE</span>
       </div>
 
-      <div className="absolute top-4 right-4 flex items-center gap-2 px-3 py-1 rounded-xl bg-white/[0.02] border border-white/[0.05] text-[10px] font-mono text-slate-400">
-        <Cpu className="w-3 h-3 text-purple-400" />
+      <div className="absolute top-3 right-3 flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg bg-white/[0.02] border border-white/[0.05] text-[9.5px] font-mono text-slate-400">
+        <Cpu className="w-2.5 h-2.5 text-purple-400" />
         <span>AST MESH READY</span>
       </div>
     </div>
