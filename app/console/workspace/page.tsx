@@ -635,9 +635,13 @@ Regarding your query **"${query}"** in **\`${repoName}\`**:
 
         {/* Action Controls: Vector Status, Sync & Delete Chat */}
         <div className="flex items-center gap-2 shrink-0">
-          <div className="hidden md:flex items-center gap-1.5 px-3 py-1 rounded-xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-300 font-mono text-[11px]">
-            <Database className="w-3.5 h-3.5 text-cyan-400" />
-            <span>{syncStatus || 'pgvector AST Synced'}</span>
+          <div className={`hidden md:flex items-center gap-1.5 px-3 py-1 rounded-xl font-mono text-[11px] ${
+            project
+              ? 'bg-cyan-500/10 border border-cyan-500/20 text-cyan-300'
+              : 'bg-white/[0.03] border border-white/[0.06] text-slate-500'
+          }`}>
+            <Database className={`w-3.5 h-3.5 ${project ? 'text-cyan-400' : 'text-slate-500'}`} />
+            <span>{syncStatus || (project ? 'pgvector AST Synced' : 'Awaiting Repository')}</span>
           </div>
 
           <button
@@ -753,7 +757,52 @@ Regarding your query **"${query}"** in **\`${repoName}\`**:
         <div className={`lg:col-span-8 flex flex-col rounded-3xl bg-[#06080F] border border-white/[0.08] overflow-hidden min-h-0 shadow-2xl flex-1 ring-1 ring-white/[0.02] ${mobileTab === 'chat' ? 'flex' : 'hidden lg:flex'}`}>
           {/* Messages Stream Container */}
           <div className="flex-1 p-4 sm:p-6 overflow-y-auto space-y-4">
-            {messages.length === 0 && !isLoadingHistory ? (
+            {!project && !isLoadingHistory ? (
+              /* No Repository Connected Onboarding Hero */
+              <div className="h-full flex flex-col items-center justify-center text-center p-6 space-y-5 text-slate-400 max-w-lg mx-auto my-auto animate-in fade-in zoom-in-95 duration-300">
+                <div className="relative">
+                  <div className="w-16 h-16 rounded-3xl bg-purple-600/10 border border-purple-500/30 flex items-center justify-center text-purple-300 shadow-2xl ring-4 ring-purple-500/10">
+                    <FolderGit2 className="w-8 h-8 text-purple-400" />
+                  </div>
+                  <div className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-indigo-600 border-2 border-[#06080F] flex items-center justify-center text-white shadow-md">
+                    <Plus className="w-3.5 h-3.5" />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <h3 className="text-base sm:text-lg font-bold text-white tracking-tight">
+                    Connect a Repository to Start
+                  </h3>
+                  <p className="text-xs text-slate-400 leading-relaxed max-w-md">
+                    VoiceOps needs an active codebase to index AST syntax trees, analyze CI/CD workflows, and perform autonomous DevOps voice operations.
+                  </p>
+                </div>
+
+                <button
+                  onClick={handleOpenRepoPicker}
+                  className="px-5 py-2.5 rounded-2xl bg-gradient-to-r from-purple-600 via-indigo-600 to-indigo-500 hover:from-purple-500 hover:to-indigo-400 text-white font-semibold text-xs transition-all shadow-xl glow-indigo flex items-center gap-2 group active:scale-95 border border-purple-400/40"
+                >
+                  <Github className="w-4 h-4" />
+                  <span>Connect a GitHub Repository</span>
+                  <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
+                </button>
+
+                <div className="grid grid-cols-3 gap-2.5 w-full pt-4 border-t border-white/[0.06] text-[11px] font-mono text-slate-400">
+                  <div className="p-2.5 rounded-2xl bg-white/[0.02] border border-white/[0.04] space-y-1">
+                    <span className="text-purple-400 text-base">⚡</span>
+                    <p className="text-[10px] text-slate-300 font-sans font-medium">1-Click Scan</p>
+                  </div>
+                  <div className="p-2.5 rounded-2xl bg-white/[0.02] border border-white/[0.04] space-y-1">
+                    <span className="text-cyan-400 text-base">🧠</span>
+                    <p className="text-[10px] text-slate-300 font-sans font-medium">AST &amp; pgvector</p>
+                  </div>
+                  <div className="p-2.5 rounded-2xl bg-white/[0.02] border border-white/[0.04] space-y-1">
+                    <span className="text-emerald-400 text-base">🛡️</span>
+                    <p className="text-[10px] text-slate-300 font-sans font-medium">Zero-Write Safe</p>
+                  </div>
+                </div>
+              </div>
+            ) : messages.length === 0 && !isLoadingHistory ? (
               <div className="h-full flex flex-col items-center justify-center text-center p-6 space-y-4 text-slate-400">
                 <div className="w-12 h-12 rounded-2xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400 shadow-md">
                   <Sparkles className="w-6 h-6" />
@@ -761,7 +810,7 @@ Regarding your query **"${query}"** in **\`${repoName}\`**:
                 <div className="space-y-1.5 max-w-md">
                   <h3 className="text-sm font-bold text-white tracking-tight">VoiceOps Studio Ready</h3>
                   <p className="text-xs text-slate-400 leading-relaxed">
-                    Repository AST and vector memory are synchronized. Ask anything about code architecture, config files, styling tokens, or CI/CD pipelines.
+                    Repository AST and vector memory are synchronized for <span className="text-indigo-300 font-semibold">{project?.name}</span>. Ask anything about code architecture, config files, styling tokens, or CI/CD pipelines.
                   </p>
                 </div>
 
@@ -817,8 +866,8 @@ Regarding your query **"${query}"** in **\`${repoName}\`**:
             )}
           </div>
 
-          {/* Quick Suggestion Bar */}
-          {messages.length > 0 && (
+          {/* Quick Suggestion Bar — only if repository is connected and messages exist */}
+          {project && messages.length > 0 && (
             <div className="px-5 py-2.5 bg-[#080C16]/90 border-t border-white/[0.06] flex items-center gap-2 overflow-x-auto text-[11px] text-slate-400 no-scrollbar">
               <span className="shrink-0 font-mono text-[10px] uppercase text-indigo-400 font-semibold tracking-wider">Suggested:</span>
               {quickPrompts.slice(0, 4).map((prompt) => (
@@ -838,6 +887,10 @@ Regarding your query **"${query}"** in **\`${repoName}\`**:
             <form
               onSubmit={(e) => {
                 e.preventDefault();
+                if (!project) {
+                  handleOpenRepoPicker();
+                  return;
+                }
                 handleSendText();
               }}
               className="relative flex items-center gap-2.5"
@@ -845,13 +898,21 @@ Regarding your query **"${query}"** in **\`${repoName}\`**:
               {/* 1-Tap Mic Button for Mobile / Quick Voice */}
               <button
                 type="button"
-                onClick={handleToggleRecord}
+                onClick={() => {
+                  if (!project) {
+                    handleOpenRepoPicker();
+                    return;
+                  }
+                  handleToggleRecord();
+                }}
                 className={`p-3 rounded-2xl border transition-all shrink-0 shadow-md ${
                   isRecording
                     ? 'bg-rose-500/20 border-rose-500 text-rose-400 animate-pulse glow-rose'
+                    : !project
+                    ? 'bg-white/[0.02] border-white/5 text-slate-500 cursor-pointer hover:bg-white/[0.05]'
                     : 'bg-white/[0.04] border-white/10 hover:bg-purple-500/15 hover:border-purple-500/30 text-slate-300 hover:text-white'
                 }`}
-                title={isRecording ? 'Stop recording' : 'Speak to VoiceOps'}
+                title={!project ? 'Connect a repository first' : isRecording ? 'Stop recording' : 'Speak to VoiceOps'}
               >
                 <Mic className="w-4 h-4" />
               </button>
@@ -861,20 +922,33 @@ Regarding your query **"${query}"** in **\`${repoName}\`**:
                   type="text"
                   value={textInput}
                   onChange={(e) => setTextInput(e.target.value)}
+                  onFocus={() => {
+                    if (!project) {
+                      handleOpenRepoPicker();
+                    }
+                  }}
                   onKeyDown={(e) => {
                     if (e.key === 'Enter' && !e.shiftKey) {
                       e.preventDefault();
+                      if (!project) {
+                        handleOpenRepoPicker();
+                        return;
+                      }
                       handleSendText();
                     }
                   }}
-                  placeholder="Ask about codebase, architecture, config, or workflows..."
+                  placeholder={
+                    !project
+                      ? 'Connect a repository above to start chatting with VoiceOps...'
+                      : 'Ask about codebase, architecture, config, or workflows...'
+                  }
                   className="w-full bg-[#0A0F1D] border border-white/10 focus:border-indigo-500/70 rounded-2xl pl-4 pr-14 py-3 text-xs sm:text-[13px] text-slate-100 placeholder-slate-500 focus:outline-none transition-all shadow-inner focus:ring-2 focus:ring-indigo-500/20 font-sans"
                 />
                 <button
                   type="submit"
-                  disabled={!textInput.trim()}
+                  disabled={!project && !textInput.trim()}
                   className="absolute right-2 p-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white transition-all disabled:opacity-30 disabled:hover:bg-indigo-600 shadow-md glow-indigo"
-                  title="Send message (Enter)"
+                  title={!project ? 'Connect a repository' : 'Send message (Enter)'}
                 >
                   <Send className="w-3.5 h-3.5" />
                 </button>
