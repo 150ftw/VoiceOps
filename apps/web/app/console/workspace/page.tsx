@@ -599,67 +599,71 @@ Regarding your query **"${query}"** in **\`${repoName}\`**:
 
   return (
     <>
-    <div className="max-w-7xl mx-auto h-[calc(100vh-5.5rem)] flex flex-col gap-2.5 sm:gap-3 font-sans antialiased">
-      {/* Studio Top Context Bar */}
-      <div className="flex flex-wrap sm:flex-nowrap items-center justify-between px-3 sm:px-5 py-2 sm:py-2.5 rounded-2xl bg-[#080B14] border border-white/[0.07] shadow-xl shrink-0 gap-2">
+    <div className="max-w-7xl mx-auto h-[calc(100vh-5.5rem)] flex flex-col gap-3 font-sans antialiased">
+      {/* Studio Top Control & Status Bar */}
+      <div className="flex flex-wrap sm:flex-nowrap items-center justify-between px-4 sm:px-5 py-2.5 rounded-2xl bg-[#080C16] border border-white/[0.08] shadow-xl shrink-0 gap-2.5">
         <div className="flex items-center gap-2 sm:gap-3 min-w-0">
-          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+          <div className="flex items-center gap-2 shrink-0 px-2.5 py-1 rounded-xl bg-white/[0.03] border border-white/[0.06]">
             <span className={`w-2 h-2 rounded-full ${project ? 'bg-emerald-400 animate-pulse' : 'bg-slate-600'}`} />
-            <span className="text-xs font-bold text-slate-100 tracking-tight truncate max-w-[120px] sm:max-w-none">
-              {project?.name || 'No project selected'}
+            <span className="text-xs font-bold text-slate-100 tracking-tight truncate max-w-[140px] sm:max-w-none">
+              {project?.name || 'No project connected'}
             </span>
           </div>
-          <span className="hidden sm:inline text-slate-600 font-mono text-xs">&bull;</span>
-          <div className="hidden sm:flex items-center gap-1.5 text-xs text-slate-400 font-mono">
-            <GitBranch className="w-3 h-3 text-slate-500" />
-            <span className="text-slate-200 font-medium truncate max-w-[150px] md:max-w-none">
-              {project?.repository?.repo_full_name || '— connect a repo'}
+
+          <div className="hidden sm:flex items-center gap-2 text-xs text-slate-400 font-mono">
+            <span className="text-slate-600">/</span>
+            <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-lg bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-[11px]">
+              <GitBranch className="w-3 h-3 text-indigo-400" />
+              <span className="font-semibold">{project?.default_branch || 'main'}</span>
+            </div>
+            <span className="text-slate-300 font-medium truncate max-w-[180px] md:max-w-none">
+              {project?.repository?.repo_full_name || (project as any)?.github_repo || '—'}
             </span>
-            <span className="text-slate-600">({project?.default_branch || 'main'})</span>
           </div>
+
           {/* Connect Repo Button — only shown when no project */}
           {!project && !isLoadingHistory && (
             <button
               onClick={handleOpenRepoPicker}
-              className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-xl bg-purple-600/20 hover:bg-purple-600/35 border border-purple-500/40 hover:border-purple-400/60 text-purple-300 hover:text-purple-100 text-[11px] sm:text-xs font-semibold transition-all shrink-0"
+              className="flex items-center gap-1.5 px-3 py-1 rounded-xl bg-purple-600/20 hover:bg-purple-600/35 border border-purple-500/40 hover:border-purple-400/60 text-purple-300 hover:text-white text-xs font-semibold transition-all shrink-0 shadow-sm"
             >
               <Plus className="w-3.5 h-3.5" />
-              <span>Connect</span>
+              <span>Connect Repository</span>
             </button>
           )}
         </div>
 
         {/* Action Controls: Vector Status, Sync & Delete Chat */}
-        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+        <div className="flex items-center gap-2 shrink-0">
           <div className="hidden md:flex items-center gap-1.5 px-3 py-1 rounded-xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-300 font-mono text-[11px]">
             <Database className="w-3.5 h-3.5 text-cyan-400" />
-            <span>{syncStatus || 'pgvector Codebase Active'}</span>
+            <span>{syncStatus || 'pgvector AST Synced'}</span>
           </div>
 
           <button
             onClick={handleSyncRepo}
             disabled={isSyncingRepo}
-            className="px-2.5 sm:px-3 py-1 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 text-slate-300 hover:text-white text-xs font-medium flex items-center gap-1.5 transition-all disabled:opacity-50"
+            className="px-3 py-1 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 text-slate-300 hover:text-white text-xs font-medium flex items-center gap-1.5 transition-all disabled:opacity-50"
             title="Scan and re-index repository into pgvector"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${isSyncingRepo ? 'animate-spin text-indigo-400' : 'text-slate-400'}`} />
-            <span className="hidden sm:inline">{isSyncingRepo ? 'Syncing...' : 'Sync'}</span>
+            <span className="hidden sm:inline">{isSyncingRepo ? 'Syncing...' : 'Sync Index'}</span>
           </button>
 
           <button
             onClick={handleClearChat}
             disabled={isClearingChat || messages.length === 0}
-            className="px-2.5 sm:px-3 py-1 rounded-xl bg-white/[0.04] hover:bg-rose-500/10 border border-white/10 hover:border-rose-500/30 text-slate-400 hover:text-rose-300 text-xs font-medium flex items-center gap-1.5 transition-all disabled:opacity-30 disabled:hover:bg-white/[0.04] disabled:hover:text-slate-400"
-            title="Delete conversation chat history"
+            className="px-3 py-1 rounded-xl bg-white/[0.04] hover:bg-rose-500/15 border border-white/10 hover:border-rose-500/30 text-slate-400 hover:text-rose-300 text-xs font-medium flex items-center gap-1.5 transition-all disabled:opacity-30"
+            title="Clear active conversation history"
           >
             <Trash2 className={`w-3.5 h-3.5 ${isClearingChat ? 'animate-pulse text-rose-400' : 'text-slate-400'}`} />
-            <span className="hidden sm:inline">{isClearingChat ? 'Deleting...' : 'Delete Chat'}</span>
+            <span className="hidden sm:inline">{isClearingChat ? 'Clearing...' : 'Clear'}</span>
           </button>
         </div>
       </div>
 
       {/* Mobile Switcher Tab Bar (Phone-Friendly) */}
-      <div className="flex lg:hidden items-center p-1 rounded-2xl bg-[#080B14] border border-white/[0.07] shrink-0">
+      <div className="flex lg:hidden items-center p-1 rounded-2xl bg-[#080C16] border border-white/[0.08] shrink-0">
         <button
           type="button"
           onClick={() => setMobileTab('chat')}
@@ -682,7 +686,7 @@ Regarding your query **"${query}"** in **\`${repoName}\`**:
           }`}
         >
           <Mic className="w-3.5 h-3.5" />
-          <span>Voice &amp; Activity</span>
+          <span>Voice &amp; Telemetry</span>
         </button>
       </div>
 
@@ -703,51 +707,74 @@ Regarding your query **"${query}"** in **\`${repoName}\`**:
           {/* Real-Time Agent Activity Tree */}
           <ActivitySteps steps={activitySteps} />
 
-          {/* Security Guardrail Card */}
-          <div className="rounded-3xl bg-[#080B14] border border-white/[0.07] p-4 shadow-xl space-y-2 font-sans">
-            <div className="flex items-center justify-between pb-2 border-b border-white/[0.05]">
+          {/* Cryptographic Security Guardrail Telemetry HUD */}
+          <div className="rounded-3xl bg-[#080C16] border border-white/[0.08] p-4 shadow-[0_8px_32px_rgba(0,0,0,0.5)] space-y-3 font-sans ring-1 ring-white/[0.02]">
+            <div className="flex items-center justify-between pb-2 border-b border-white/[0.06]">
               <div className="flex items-center gap-2">
                 <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-                <span className="text-[11px] font-mono font-bold text-slate-300 uppercase">
-                  Safety Guardrails
+                <span className="text-[11px] font-mono font-bold text-slate-300 uppercase tracking-wider">
+                  Security Guardrails
                 </span>
               </div>
-              <span className="px-2 py-0.2 rounded-full text-[9px] font-mono bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">
-                Enforced
+              <span className="px-2 py-0.5 rounded-full text-[9.5px] font-mono bg-emerald-500/10 text-emerald-400 border border-emerald-500/25 font-semibold">
+                Strict Enforced
               </span>
             </div>
-            <p className="text-[11px] text-slate-400 leading-relaxed">
-              Zero unauthorized writes. Issue creation, PRs, and workflow mutations require cryptographic developer approval.
+
+            <div className="grid grid-cols-2 gap-2 text-[10.5px] font-mono">
+              <div className="p-2 rounded-xl bg-white/[0.02] border border-white/[0.04] space-y-0.5">
+                <span className="text-slate-500 text-[9.5px] block uppercase">Write Policy</span>
+                <span className="text-emerald-400 font-semibold flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                  Zero-Write Safe
+                </span>
+              </div>
+              <div className="p-2 rounded-xl bg-white/[0.02] border border-white/[0.04] space-y-0.5">
+                <span className="text-slate-500 text-[9.5px] block uppercase">Signatures</span>
+                <span className="text-indigo-300 font-semibold">Ed25519 Verified</span>
+              </div>
+              <div className="p-2 rounded-xl bg-white/[0.02] border border-white/[0.04] space-y-0.5">
+                <span className="text-slate-500 text-[9.5px] block uppercase">Ingestion</span>
+                <span className="text-cyan-300 font-semibold">AST + 1536-dim</span>
+              </div>
+              <div className="p-2 rounded-xl bg-white/[0.02] border border-white/[0.04] space-y-0.5">
+                <span className="text-slate-500 text-[9.5px] block uppercase">Audit Trail</span>
+                <span className="text-slate-300 font-semibold">Immutable Log</span>
+              </div>
+            </div>
+
+            <p className="text-[11px] text-slate-400 leading-relaxed pt-1 border-t border-white/[0.04]">
+              High-risk actions (code mutations, branch commits, PR creation) require human cryptographic sign-off before execution.
             </p>
           </div>
         </div>
 
         {/* Right Column: Interactive Chat Stream & Approvals (8 cols) */}
-        <div className={`lg:col-span-8 flex flex-col rounded-3xl bg-[#06080F] border border-white/[0.07] overflow-hidden min-h-0 shadow-2xl flex-1 ${mobileTab === 'chat' ? 'flex' : 'hidden lg:flex'}`}>
+        <div className={`lg:col-span-8 flex flex-col rounded-3xl bg-[#06080F] border border-white/[0.08] overflow-hidden min-h-0 shadow-2xl flex-1 ring-1 ring-white/[0.02] ${mobileTab === 'chat' ? 'flex' : 'hidden lg:flex'}`}>
           {/* Messages Stream Container */}
-          <div className="flex-1 p-5 sm:p-6 overflow-y-auto space-y-4">
+          <div className="flex-1 p-4 sm:p-6 overflow-y-auto space-y-4">
             {messages.length === 0 && !isLoadingHistory ? (
               <div className="h-full flex flex-col items-center justify-center text-center p-6 space-y-4 text-slate-400">
                 <div className="w-12 h-12 rounded-2xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400 shadow-md">
                   <Sparkles className="w-6 h-6" />
                 </div>
-                <div className="space-y-1 max-w-sm">
+                <div className="space-y-1.5 max-w-md">
                   <h3 className="text-sm font-bold text-white tracking-tight">VoiceOps Studio Ready</h3>
                   <p className="text-xs text-slate-400 leading-relaxed">
-                    Repository ingested into vector memory. Ask anything about code files, UI components, dependencies, or CI/CD pipelines.
+                    Repository AST and vector memory are synchronized. Ask anything about code architecture, config files, styling tokens, or CI/CD pipelines.
                   </p>
                 </div>
 
                 {/* Quick Prompts Chips */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 w-full max-w-lg pt-2">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 w-full max-w-lg pt-3">
                   {quickPrompts.map((prompt) => (
                     <button
                       key={prompt}
                       onClick={() => handleSendText(prompt)}
-                      className="p-3 text-left rounded-2xl bg-white/[0.02] hover:bg-indigo-500/10 border border-white/[0.04] hover:border-indigo-500/30 text-xs text-slate-300 transition-all flex items-center justify-between group"
+                      className="p-3 text-left rounded-2xl bg-[#090D18] hover:bg-indigo-500/10 border border-white/[0.06] hover:border-indigo-500/30 text-xs text-slate-300 transition-all flex items-center justify-between group shadow-sm hover:shadow-md"
                     >
                       <span className="line-clamp-1">{prompt}</span>
-                      <Zap className="w-3.5 h-3.5 text-indigo-400 opacity-0 group-hover:opacity-100 transition-opacity shrink-0 ml-1" />
+                      <Zap className="w-3.5 h-3.5 text-indigo-400 opacity-0 group-hover:opacity-100 transition-opacity shrink-0 ml-1.5" />
                     </button>
                   ))}
                 </div>
@@ -792,13 +819,13 @@ Regarding your query **"${query}"** in **\`${repoName}\`**:
 
           {/* Quick Suggestion Bar */}
           {messages.length > 0 && (
-            <div className="px-5 py-2 bg-slate-950/70 border-t border-white/[0.04] flex items-center gap-2 overflow-x-auto text-[11px] text-slate-400 no-scrollbar">
-              <span className="shrink-0 font-mono text-[10px] uppercase text-slate-500">Suggested:</span>
+            <div className="px-5 py-2.5 bg-[#080C16]/90 border-t border-white/[0.06] flex items-center gap-2 overflow-x-auto text-[11px] text-slate-400 no-scrollbar">
+              <span className="shrink-0 font-mono text-[10px] uppercase text-indigo-400 font-semibold tracking-wider">Suggested:</span>
               {quickPrompts.slice(0, 4).map((prompt) => (
                 <button
                   key={prompt}
                   onClick={() => handleSendText(prompt)}
-                  className="px-3 py-1 rounded-xl bg-white/[0.02] hover:bg-indigo-500/10 hover:border-indigo-500/30 border border-white/[0.04] transition-all text-slate-300 shrink-0 whitespace-nowrap font-mono text-[11px]"
+                  className="px-3 py-1 rounded-xl bg-white/[0.03] hover:bg-indigo-500/15 hover:border-indigo-500/40 border border-white/[0.06] transition-all text-slate-300 hover:text-white shrink-0 whitespace-nowrap font-mono text-[11px] shadow-sm"
                 >
                   {prompt}
                 </button>
@@ -806,23 +833,23 @@ Regarding your query **"${query}"** in **\`${repoName}\`**:
             </div>
           )}
 
-          {/* Command Palette Chat Input Bar */}
-          <div className="p-2.5 sm:p-3.5 bg-slate-950/90 border-t border-white/[0.06]">
+          {/* Command Palette Floating Chat Input Bar */}
+          <div className="p-3 sm:p-4 bg-[#080C16] border-t border-white/[0.08]">
             <form
               onSubmit={(e) => {
                 e.preventDefault();
                 handleSendText();
               }}
-              className="relative flex items-center gap-2"
+              className="relative flex items-center gap-2.5"
             >
               {/* 1-Tap Mic Button for Mobile / Quick Voice */}
               <button
                 type="button"
                 onClick={handleToggleRecord}
-                className={`p-2.5 rounded-xl border transition-all shrink-0 ${
+                className={`p-3 rounded-2xl border transition-all shrink-0 shadow-md ${
                   isRecording
-                    ? 'bg-rose-500/20 border-rose-500 text-rose-400 animate-pulse'
-                    : 'bg-white/[0.04] border-white/10 hover:bg-purple-500/10 hover:border-purple-500/30 text-slate-300'
+                    ? 'bg-rose-500/20 border-rose-500 text-rose-400 animate-pulse glow-rose'
+                    : 'bg-white/[0.04] border-white/10 hover:bg-purple-500/15 hover:border-purple-500/30 text-slate-300 hover:text-white'
                 }`}
                 title={isRecording ? 'Stop recording' : 'Speak to VoiceOps'}
               >
@@ -840,13 +867,13 @@ Regarding your query **"${query}"** in **\`${repoName}\`**:
                       handleSendText();
                     }
                   }}
-                  placeholder="Ask about codebase, styling, or workflows..."
-                  className="w-full bg-[#090D17] border border-slate-800 focus:border-indigo-500/60 rounded-2xl pl-3.5 sm:pl-4 pr-12 sm:pr-14 py-2.5 sm:py-3 text-xs text-slate-100 placeholder-slate-500 focus:outline-none transition-all shadow-inner"
+                  placeholder="Ask about codebase, architecture, config, or workflows..."
+                  className="w-full bg-[#0A0F1D] border border-white/10 focus:border-indigo-500/70 rounded-2xl pl-4 pr-14 py-3 text-xs sm:text-[13px] text-slate-100 placeholder-slate-500 focus:outline-none transition-all shadow-inner focus:ring-2 focus:ring-indigo-500/20 font-sans"
                 />
                 <button
                   type="submit"
                   disabled={!textInput.trim()}
-                  className="absolute right-1.5 sm:right-2 p-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white transition-all disabled:opacity-30 disabled:hover:bg-indigo-600 shadow-md glow-indigo"
+                  className="absolute right-2 p-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white transition-all disabled:opacity-30 disabled:hover:bg-indigo-600 shadow-md glow-indigo"
                   title="Send message (Enter)"
                 >
                   <Send className="w-3.5 h-3.5" />
