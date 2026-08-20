@@ -425,22 +425,18 @@ export default function LandingPage() {
                 {
                   link: '/workspace',
                   text: 'Live Voice Workspace',
-                  image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600&h=400&fit=crop&auto=format',
                 },
                 {
                   link: '/projects',
                   text: 'Repositories & Projects',
-                  image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=600&h=400&fit=crop&auto=format',
                 },
                 {
                   link: '/knowledge',
                   text: 'pgvector Knowledge Base',
-                  image: 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?q=80&w=600&h=400&fit=crop&auto=format',
                 },
                 {
                   link: '/founder',
                   text: 'Founder // Shivam Sharma',
-                  image: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=600&h=400&fit=crop&auto=format',
                 },
               ]}
               speed={14}

@@ -7,7 +7,7 @@ import './FlowingMenu.css';
 export interface FlowingMenuItem {
   link: string;
   text: string;
-  image: string;
+  image?: string;
 }
 
 interface FlowingMenuProps {
@@ -108,7 +108,7 @@ function MenuItem({
     calculateRepetitions();
     window.addEventListener('resize', calculateRepetitions);
     return () => window.removeEventListener('resize', calculateRepetitions);
-  }, [text, image]);
+  }, [text]);
 
   useEffect(() => {
     const setupMarquee = () => {
@@ -140,7 +140,7 @@ function MenuItem({
         animationRef.current.kill();
       }
     };
-  }, [text, image, repetitions, speed]);
+  }, [text, repetitions, speed]);
 
   const handleMouseEnter = (ev: React.MouseEvent<HTMLAnchorElement>) => {
     if (!itemRef.current || !marqueeRef.current || !marqueeInnerRef.current) return;
@@ -191,7 +191,7 @@ function MenuItem({
             {[...Array(repetitions)].map((_, idx) => (
               <div className="marquee__part" key={idx} style={{ color: marqueeTextColor }}>
                 <span>{text}</span>
-                <div className="marquee__img" style={{ backgroundImage: `url(${image})` }} />
+                <span className="opacity-30 px-3">&bull;</span>
               </div>
             ))}
           </div>
