@@ -63,16 +63,6 @@ export const TopNavBar: React.FC<TopNavBarProps> = ({ currentTab }) => {
       >
         FOUNDER
       </Link>
-
-      <a
-        href="https://github.com/150ftw/VoiceOps"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-slate-400 hover:text-purple-200 transition-colors flex items-center gap-1"
-      >
-        <span>GITHUB</span>
-        <span className="text-[10px]">↗</span>
-      </a>
     </nav>
   );
 };

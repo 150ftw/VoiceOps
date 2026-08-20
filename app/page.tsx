@@ -442,11 +442,6 @@ export default function LandingPage() {
                   text: 'Founder // Shivam Sharma',
                   image: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=600&h=400&fit=crop&auto=format',
                 },
-                {
-                  link: 'https://github.com/150ftw/VoiceOps',
-                  text: 'GitHub Repository',
-                  image: 'https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?q=80&w=600&h=400&fit=crop&auto=format',
-                },
               ]}
               speed={14}
               textColor="#E9D5FF"
@@ -1201,15 +1196,13 @@ export default function LandingPage() {
               <span>Launch Live Studio</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
-            <a
-              href="https://github.com/150ftw/VoiceOps"
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              href="/projects"
               className="px-6 py-3.5 rounded-full bg-[#080412] hover:bg-purple-950/50 text-purple-200 hover:text-white border border-purple-500/30 hover:border-purple-400 text-xs font-semibold font-mono transition-all flex items-center gap-2 hover:scale-105 active:scale-95"
             >
-              <Github className="w-4 h-4" />
-              <span>View On GitHub</span>
-            </a>
+              <span>Connected Projects</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
           </div>
         </div>
       </section>
@@ -1240,14 +1233,6 @@ export default function LandingPage() {
             <Link href="/founder" className="text-purple-300 font-bold hover:text-white transition-colors uppercase">
               Founder
             </Link>
-            <a
-              href="https://github.com/shivamsharma/VoiceOps"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-purple-300 transition-colors uppercase"
-            >
-              GitHub ↗
-            </a>
           </div>
 
           <p className="text-[11px] text-slate-600">
