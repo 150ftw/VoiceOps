@@ -490,12 +490,12 @@ export const Header: React.FC<HeaderProps> = ({ activeProject, onSelectProject, 
                 </Link>
 
                 <Link
-                  href="/console/integrations"
+                  href="/console/projects"
                   onClick={() => setIsAccountDropdownOpen(false)}
                   className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-slate-300 hover:text-white hover:bg-white/[0.06] transition-colors"
                 >
-                  <Github className="w-4 h-4 text-cyan-400" />
-                  <span className="font-medium">GitHub Repositories & OAuth</span>
+                  <FolderGit2 className="w-4 h-4 text-cyan-400" />
+                  <span className="font-medium">Connected Projects & Repos</span>
                 </Link>
 
                 <Link

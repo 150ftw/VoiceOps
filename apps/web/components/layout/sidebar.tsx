@@ -24,7 +24,6 @@ const navItems = [
   { label: 'Projects & Repos', href: '/console/projects', icon: FolderGit2 },
   { label: 'Conversations', href: '/console/conversations', icon: MessageSquare },
   { label: 'Knowledge Base', href: '/console/knowledge', icon: BookOpen },
-  { label: 'Integrations', href: '/console/integrations', icon: GitBranch },
   { label: 'Observability', href: '/console/observability', icon: Activity },
   { label: 'Settings', href: '/console/settings', icon: Settings },
 ];
