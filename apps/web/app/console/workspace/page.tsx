@@ -786,22 +786,6 @@ Regarding your query **"${query}"** in **\`${repoName}\`**:
                         <span>Connect a GitHub Repository</span>
                         <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
                       </button>
-
-                      {/* Micro Feature Badges */}
-                      <div className="grid grid-cols-3 gap-2.5 w-full pt-1 text-[11px] font-mono text-slate-400 max-w-md">
-                        <div className="p-2 rounded-xl bg-white/[0.02] border border-white/[0.04] space-y-0.5 text-center">
-                          <span className="text-purple-400 text-sm">⚡</span>
-                          <p className="text-[10px] text-slate-300 font-sans font-medium">1-Click Scan</p>
-                        </div>
-                        <div className="p-2 rounded-xl bg-white/[0.02] border border-white/[0.04] space-y-0.5 text-center">
-                          <span className="text-cyan-400 text-sm">🧠</span>
-                          <p className="text-[10px] text-slate-300 font-sans font-medium">AST Topology</p>
-                        </div>
-                        <div className="p-2 rounded-xl bg-white/[0.02] border border-white/[0.04] space-y-0.5 text-center">
-                          <span className="text-emerald-400 text-sm">🛡️</span>
-                          <p className="text-[10px] text-slate-300 font-sans font-medium">Zero-Write Safe</p>
-                        </div>
-                      </div>
                     </div>
                   </>
                 ) : (
