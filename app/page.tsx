@@ -62,6 +62,7 @@ export default function LandingPage() {
   const [mockApprovalDone, setMockApprovalDone] = useState(false);
   const [selectedPrompt, setSelectedPrompt] = useState<string>("Why did my latest deployment to production fail?");
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [activeCapability, setActiveCapability] = useState<number>(0);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showTelemetryBox, setShowTelemetryBox] = useState(false);
 
@@ -929,11 +930,11 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* SECTION 2: Substantive Enterprise Capabilities Grid */}
+      {/* SECTION 2: Minimalist Linear-Style Matrix with Live Code & Micro-Console Preview */}
       <section className="py-24 px-6 sm:px-12 max-w-6xl mx-auto relative z-10 border-t border-purple-500/15">
-        <div className="text-center max-w-2xl mx-auto mb-16 space-y-3">
+        <div className="max-w-2xl mb-16 space-y-3">
           <p className="font-mono text-xs text-purple-400 font-semibold tracking-widest uppercase">
-            // ENTERPRISE DEVOPS SUITE
+            // ENTERPRISE DEVOPS MATRIX
           </p>
           <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
             Engineered for High-Velocity Engineering Teams
@@ -943,149 +944,252 @@ export default function LandingPage() {
           </p>
         </div>
 
-        {/* 6 High-Density Informative Feature Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {/* Card 1 */}
-          <div className="p-7 rounded-3xl bg-[#080412]/90 border border-purple-500/20 hover:border-rose-500/40 hover:-translate-y-1.5 hover:shadow-[0_15px_35px_rgba(244,63,94,0.18)] transition-all duration-400 space-y-4 flex flex-col justify-between group relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-rose-500/10 rounded-full blur-2xl group-hover:bg-rose-500/25 transition-all duration-500 pointer-events-none" />
-            
-            <div className="flex items-center justify-between font-mono text-xs border-b border-white/[0.06] pb-3 relative z-10">
-              <span className="text-rose-400 font-bold tracking-wider">01 // OBSERVABILITY</span>
-              <span className="text-slate-500 text-[11px]">ACTIONS & DOCKER</span>
-            </div>
+        {/* 2-Column Minimalist Matrix */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+          {/* Left Column: Interactive Capability Rows */}
+          <div className="lg:col-span-7 divide-y divide-white/[0.08] border-y border-white/[0.08]">
+            {[
+              {
+                id: '01',
+                tag: '01 // OBSERVABILITY',
+                title: 'CI/CD Run Log Diagnostics & Stacktrace Isolation',
+                summary: 'Parses multi-megabyte raw GitHub Actions and Docker build logs in real-time. Automatically correlates compilation failures and missing secrets to the originating source line.',
+                spec: 'Tree-Sitter AST Correlation',
+                meta: 'Sub-Second',
+                filename: 'github-actions/run-8492.log',
+                badge: 'LOG DIAGNOSTIC',
+                lines: [
+                  { type: 'log', text: '14:22:01 [BUILD] > vite build --mode production' },
+                  { type: 'error', text: '14:22:03 [ERROR] TS2304: Cannot find name \'VAULT_SIGNING_KEY\'.' },
+                  { type: 'error', text: '14:22:03 [FATAL] Process exited with code 1 at src/auth/token.ts:42:15' },
+                  { type: 'success', text: '14:22:04 [VoiceOps] Isolated root-cause: Missing env secret binding in .github/workflows/deploy.yml' },
+                  { type: 'info', text: '14:22:04 [VoiceOps] AST node: VariableDeclaration (token.ts -> line 42)' },
+                ],
+              },
+              {
+                id: '02',
+                tag: '02 // KNOWLEDGE BASE',
+                title: 'pgvector Incident Runbook Memory & ADR Grounding',
+                summary: 'Indexes standard operating procedures, architectural decision records (ADRs), and post-mortems into pgvector embeddings to ground fixes in historical standards.',
+                spec: '1536-dim pgvector Store',
+                meta: 'Cosine Matched',
+                filename: 'pgvector/query-embeddings.sql',
+                badge: 'SEMANTIC MEMORY',
+                lines: [
+                  { type: 'comment', text: '-- High-dimensional cosine similarity match' },
+                  { type: 'info', text: 'SELECT doc_path, similarity FROM runbook_embeddings' },
+                  { type: 'info', text: 'WHERE cosine_distance(embedding, $query_vector) < 0.15;' },
+                  { type: 'success', text: '[MATCH 0.94] docs/runbooks/secrets-vault-migration.md' },
+                  { type: 'log', text: '-> SOP: Use Doppler / Vault dynamic tokens for production' },
+                ],
+              },
+              {
+                id: '03',
+                tag: '03 // CODE REMEDIATION',
+                title: 'Deterministic Unified Patch Diff Generation',
+                summary: 'Generates git-compliant unified patch diffs targeting only the precise affected configuration or source files with full contextual rationale and import safety.',
+                spec: 'Git Unified Diff Standard',
+                meta: 'AST Safe',
+                filename: 'src/auth/token.ts',
+                badge: 'UNIFIED PATCH',
+                lines: [
+                  { type: 'comment', text: '@@ -41,3 +41,4 @@ src/auth/token.ts' },
+                  { type: 'delete', text: '- const signingKey = process.env.VAULT_SIGNING_KEY;' },
+                  { type: 'add', text: '+ const signingKey = await getVaultSecret(\'VAULT_SIGNING_KEY\');' },
+                  { type: 'add', text: '+ if (!signingKey) throw new VaultCredentialError(\'Missing key\');' },
+                  { type: 'log', text: '  return verifySignature(token, signingKey);' },
+                ],
+              },
+              {
+                id: '04',
+                tag: '04 // COMPLIANCE',
+                title: 'Least-Privilege Infrastructure & IAM Scans',
+                summary: 'Audits Terraform configurations, IAM policies, and Kubernetes manifests for CIS benchmark violations and wildcard access grants before PR generation.',
+                spec: 'CIS Benchmark & SOC-2',
+                meta: 'Zero-Write Mode',
+                filename: 'terraform/modules/iam/roles.tf',
+                badge: 'SECURITY AUDIT',
+                lines: [
+                  { type: 'info', text: '[AUDIT] Scanning Terraform IAM policy bindings...' },
+                  { type: 'success', text: '[PASS] CIS Benchmark 1.4: No wildcard (*) IAM Action grants' },
+                  { type: 'success', text: '[PASS] KMS envelope encryption enabled on S3 state bucket' },
+                  { type: 'log', text: '[STATUS] SOC-2 Zero-Write guardrail verified' },
+                  { type: 'success', text: '[APPROVAL] Cryptographic human sign-off required for PR merge' },
+                ],
+              },
+              {
+                id: '05',
+                tag: '05 // ORCHESTRATION',
+                title: 'Canary & Zero-Downtime Rollback Orchestration',
+                summary: 'Correlates sudden production telemetry spikes with recent releases and automatically pinpoints the previous stable container image digest for instant rollback.',
+                spec: 'Immutable Image Digest',
+                meta: 'Instant Trigger',
+                filename: 'deployments/canary-telemetry.json',
+                badge: 'ROLLBACK TRIGGER',
+                lines: [
+                  { type: 'error', text: '[ALERT] HTTP 500 error rate spiked to 4.2% on canary pod group' },
+                  { type: 'info', text: '[CORRELATION] Correlated to commit #a9ffe5b (deployed 3m ago)' },
+                  { type: 'success', text: '[TARGET] Stable container digest sha256:7f3b89a (v2.4.0)' },
+                  { type: 'log', text: '[ACTION] Zero-downtime traffic shift to stable digest prepared' },
+                  { type: 'info', text: '[DISPATCH] Awaiting one-click human authorization' },
+                ],
+              },
+              {
+                id: '06',
+                tag: '06 // STREAMING INTERFACE',
+                title: 'Low-Latency Real-Time Voice Triage',
+                summary: 'Sub-second speech recognition pipeline engineered for on-call engineers to triage critical production alerts hands-free over 16kHz PCM WebSockets.',
+                spec: '16kHz PCM WebSocket',
+                meta: 'Hands-Free',
+                filename: 'stream/voice-transcription.pcm',
+                badge: '16KHZ STREAM',
+                lines: [
+                  { type: 'info', text: '[MIC] Streaming 16kHz PCM chunks via WebSocket (480ms latency)' },
+                  { type: 'log', text: '[WHISPER STT] "Triage the failing canary deployment on prod cluster"' },
+                  { type: 'success', text: '[INTENT] Action: DIAGNOSE_AND_PREPARE_ROLLBACK' },
+                  { type: 'info', text: '[REASONING] Gemini 1.5 Pro causal loop dispatched' },
+                  { type: 'success', text: '[OUTPUT] Diagnostic report + unified diff assembled in 720ms' },
+                ],
+              },
+            ].map((cap, idx) => {
+              const isActive = activeCapability === idx;
+              return (
+                <div
+                  key={cap.id}
+                  onClick={() => setActiveCapability(idx)}
+                  onMouseEnter={() => setActiveCapability(idx)}
+                  className={`py-5 transition-all cursor-pointer group ${
+                    isActive
+                      ? 'border-l-2 border-purple-400 bg-purple-950/20 pl-4 -ml-4 rounded-r-2xl'
+                      : 'hover:bg-white/[0.02] pl-0'
+                  }`}
+                >
+                  <div className="space-y-1.5">
+                    <div className="flex items-center justify-between font-mono text-xs">
+                      <span className={`font-bold tracking-wider transition-colors ${
+                        isActive ? 'text-purple-300' : 'text-slate-500 group-hover:text-purple-400'
+                      }`}>
+                        {cap.tag}
+                      </span>
+                      <span className="text-[11px] font-mono text-slate-500">{cap.meta}</span>
+                    </div>
 
-            <div className="space-y-2 relative z-10">
-              <h3 className="text-base font-bold text-white group-hover:text-rose-200 transition-colors leading-snug">
-                CI/CD Run Log Diagnostics & Stacktrace Isolation
-              </h3>
-              <p className="text-xs text-slate-400 leading-relaxed font-sans">
-                Parses multi-megabyte raw GitHub Actions and Docker build logs in real-time. Automatically correlates compilation failures, syntax errors, missing environment secrets, and dependency mismatches directly to the originating file and line.
-              </p>
-            </div>
+                    <h3 className={`text-sm sm:text-base font-bold transition-colors ${
+                      isActive ? 'text-white' : 'text-slate-200 group-hover:text-white'
+                    }`}>
+                      {cap.title}
+                    </h3>
 
-            <div className="pt-3 border-t border-white/[0.06] text-[11px] font-mono text-slate-400 flex items-center justify-between relative z-10">
-              <span className="text-rose-300/90">Tree-Sitter AST Correlation</span>
-              <span className="text-slate-500">Sub-Second Scan</span>
-            </div>
+                    <p className="text-xs text-slate-400 leading-relaxed font-sans pr-4">
+                      {cap.summary}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
           </div>
 
-          {/* Card 2 */}
-          <div className="p-7 rounded-3xl bg-[#080412]/90 border border-purple-500/20 hover:border-indigo-500/40 hover:-translate-y-1.5 hover:shadow-[0_15px_35px_rgba(99,102,241,0.18)] transition-all duration-400 space-y-4 flex flex-col justify-between group relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/10 rounded-full blur-2xl group-hover:bg-indigo-500/25 transition-all duration-500 pointer-events-none" />
-            
-            <div className="flex items-center justify-between font-mono text-xs border-b border-white/[0.06] pb-3 relative z-10">
-              <span className="text-indigo-400 font-bold tracking-wider">02 // KNOWLEDGE BASE</span>
-              <span className="text-slate-500 text-[11px]">PGVECTOR 1536D</span>
-            </div>
+          {/* Right Column: Live Interactive Micro-Console Preview (Sticky) */}
+          <div className="lg:col-span-5 lg:sticky lg:top-24">
+            <div className="rounded-3xl bg-[#070312] border border-purple-500/25 shadow-2xl overflow-hidden font-mono text-xs">
+              {/* Terminal Window Header */}
+              <div className="h-10 bg-[#0c061a] border-b border-white/[0.06] px-4 flex items-center justify-between">
+                <div className="flex items-center gap-1.5">
+                  <span className="w-2.5 h-2.5 rounded-full bg-rose-500/80" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-amber-500/80" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80" />
+                </div>
+                <div className="text-[11px] text-purple-300/80 font-bold truncate max-w-[200px]">
+                  {[
+                    'github-actions/run-8492.log',
+                    'pgvector/query-embeddings.sql',
+                    'src/auth/token.ts',
+                    'terraform/modules/iam/roles.tf',
+                    'deployments/canary-telemetry.json',
+                    'stream/voice-transcription.pcm',
+                  ][activeCapability]}
+                </div>
+                <span className="text-[10px] text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-md border border-emerald-500/20 font-bold">
+                  VERIFIED
+                </span>
+              </div>
 
-            <div className="space-y-2 relative z-10">
-              <h3 className="text-base font-bold text-white group-hover:text-indigo-200 transition-colors leading-snug">
-                pgvector Incident Runbook Memory & ADR Indexing
-              </h3>
-              <p className="text-xs text-slate-400 leading-relaxed font-sans">
-                Indexes standard operating procedures, architectural decision records (ADRs), and post-mortems into pgvector embeddings. Grounds fixes in your team's historical incident resolutions and architectural patterns.
-              </p>
-            </div>
+              {/* Console Code Lines */}
+              <div className="p-5 space-y-2 bg-[#040209] min-h-[260px] flex flex-col justify-center">
+                {[
+                  [
+                    { type: 'log', text: '14:22:01 [BUILD] > vite build --mode production' },
+                    { type: 'error', text: '14:22:03 [ERROR] TS2304: Cannot find name \'VAULT_SIGNING_KEY\'.' },
+                    { type: 'error', text: '14:22:03 [FATAL] Process exited with code 1 at src/auth/token.ts:42:15' },
+                    { type: 'success', text: '14:22:04 [VoiceOps] Isolated root-cause: Missing env secret binding in .github/workflows/deploy.yml' },
+                    { type: 'info', text: '14:22:04 [VoiceOps] AST node: VariableDeclaration (token.ts -> line 42)' },
+                  ],
+                  [
+                    { type: 'comment', text: '-- High-dimensional cosine similarity match' },
+                    { type: 'info', text: 'SELECT doc_path, similarity FROM runbook_embeddings' },
+                    { type: 'info', text: 'WHERE cosine_distance(embedding, $query_vector) < 0.15;' },
+                    { type: 'success', text: '[MATCH 0.94] docs/runbooks/secrets-vault-migration.md' },
+                    { type: 'log', text: '-> SOP: Use Doppler / Vault dynamic tokens for production' },
+                  ],
+                  [
+                    { type: 'comment', text: '@@ -41,3 +41,4 @@ src/auth/token.ts' },
+                    { type: 'delete', text: '- const signingKey = process.env.VAULT_SIGNING_KEY;' },
+                    { type: 'add', text: '+ const signingKey = await getVaultSecret(\'VAULT_SIGNING_KEY\');' },
+                    { type: 'add', text: '+ if (!signingKey) throw new VaultCredentialError(\'Missing key\');' },
+                    { type: 'log', text: '  return verifySignature(token, signingKey);' },
+                  ],
+                  [
+                    { type: 'info', text: '[AUDIT] Scanning Terraform IAM policy bindings...' },
+                    { type: 'success', text: '[PASS] CIS Benchmark 1.4: No wildcard (*) IAM Action grants' },
+                    { type: 'success', text: '[PASS] KMS envelope encryption enabled on S3 state bucket' },
+                    { type: 'log', text: '[STATUS] SOC-2 Zero-Write guardrail verified' },
+                    { type: 'success', text: '[APPROVAL] Cryptographic human sign-off required for PR merge' },
+                  ],
+                  [
+                    { type: 'error', text: '[ALERT] HTTP 500 error rate spiked to 4.2% on canary pod group' },
+                    { type: 'info', text: '[CORRELATION] Correlated to commit #a9ffe5b (deployed 3m ago)' },
+                    { type: 'success', text: '[TARGET] Stable container digest sha256:7f3b89a (v2.4.0)' },
+                    { type: 'log', text: '[ACTION] Zero-downtime traffic shift to stable digest prepared' },
+                    { type: 'info', text: '[DISPATCH] Awaiting one-click human authorization' },
+                  ],
+                  [
+                    { type: 'info', text: '[MIC] Streaming 16kHz PCM chunks via WebSocket (480ms latency)' },
+                    { type: 'log', text: '[WHISPER STT] "Triage the failing canary deployment on prod cluster"' },
+                    { type: 'success', text: '[INTENT] Action: DIAGNOSE_AND_PREPARE_ROLLBACK' },
+                    { type: 'info', text: '[REASONING] Gemini 1.5 Pro causal loop dispatched' },
+                    { type: 'success', text: '[OUTPUT] Diagnostic report + unified diff assembled in 720ms' },
+                  ],
+                ][activeCapability].map((line, lIdx) => (
+                  <div key={lIdx} className="flex items-start gap-2.5 font-mono text-[11px] leading-relaxed">
+                    <span className="text-slate-600 select-none w-4 shrink-0 text-right">{lIdx + 1}</span>
+                    <span
+                      className={`break-all ${
+                        line.type === 'error'
+                          ? 'text-rose-400 font-semibold'
+                          : line.type === 'success'
+                          ? 'text-emerald-400 font-semibold'
+                          : line.type === 'delete'
+                          ? 'text-rose-300 bg-rose-950/40 px-1 rounded'
+                          : line.type === 'add'
+                          ? 'text-emerald-300 bg-emerald-950/40 px-1 rounded'
+                          : line.type === 'info'
+                          ? 'text-cyan-300'
+                          : line.type === 'comment'
+                          ? 'text-slate-500 italic'
+                          : 'text-slate-300'
+                      }`}
+                    >
+                      {line.text}
+                    </span>
+                  </div>
+                ))}
+              </div>
 
-            <div className="pt-3 border-t border-white/[0.06] text-[11px] font-mono text-slate-400 flex items-center justify-between relative z-10">
-              <span className="text-indigo-300/90">1536-dim pgvector Store</span>
-              <span className="text-slate-500">Cosine Matched</span>
-            </div>
-          </div>
-
-          {/* Card 3 */}
-          <div className="p-7 rounded-3xl bg-[#080412]/90 border border-purple-500/20 hover:border-cyan-500/40 hover:-translate-y-1.5 hover:shadow-[0_15px_35px_rgba(6,182,212,0.18)] transition-all duration-400 space-y-4 flex flex-col justify-between group relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-500/10 rounded-full blur-2xl group-hover:bg-cyan-500/25 transition-all duration-500 pointer-events-none" />
-            
-            <div className="flex items-center justify-between font-mono text-xs border-b border-white/[0.06] pb-3 relative z-10">
-              <span className="text-cyan-400 font-bold tracking-wider">03 // CODE REMEDIATION</span>
-              <span className="text-slate-500 text-[11px]">UNIFIED DIFF</span>
-            </div>
-
-            <div className="space-y-2 relative z-10">
-              <h3 className="text-base font-bold text-white group-hover:text-cyan-200 transition-colors leading-snug">
-                Deterministic Unified Patch Diff Generation
-              </h3>
-              <p className="text-xs text-slate-400 leading-relaxed font-sans">
-                Generates git-compliant unified patch diffs targeting only the precise affected configuration or source files. Assembles code modifications with full contextual rationale, import safety, and test assertions.
-              </p>
-            </div>
-
-            <div className="pt-3 border-t border-white/[0.06] text-[11px] font-mono text-slate-400 flex items-center justify-between relative z-10">
-              <span className="text-cyan-300/90">Git Unified Diff Standard</span>
-              <span className="text-slate-500">AST Safe</span>
-            </div>
-          </div>
-
-          {/* Card 4 */}
-          <div className="p-7 rounded-3xl bg-[#080412]/90 border border-purple-500/20 hover:border-emerald-500/40 hover:-translate-y-1.5 hover:shadow-[0_15px_35px_rgba(52,211,153,0.18)] transition-all duration-400 space-y-4 flex flex-col justify-between group relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 rounded-full blur-2xl group-hover:bg-emerald-500/25 transition-all duration-500 pointer-events-none" />
-            
-            <div className="flex items-center justify-between font-mono text-xs border-b border-white/[0.06] pb-3 relative z-10">
-              <span className="text-emerald-400 font-bold tracking-wider">04 // COMPLIANCE</span>
-              <span className="text-slate-500 text-[11px]">CIS BENCHMARKS</span>
-            </div>
-
-            <div className="space-y-2 relative z-10">
-              <h3 className="text-base font-bold text-white group-hover:text-emerald-200 transition-colors leading-snug">
-                Least-Privilege Infrastructure & IAM Scans
-              </h3>
-              <p className="text-xs text-slate-400 leading-relaxed font-sans">
-                Audits Terraform configurations, IAM policies, and Kubernetes manifests for CIS benchmark violations and wildcard access grants. Enforces zero-write guardrails and least-privilege principles before PR generation.
-              </p>
-            </div>
-
-            <div className="pt-3 border-t border-white/[0.06] text-[11px] font-mono text-slate-400 flex items-center justify-between relative z-10">
-              <span className="text-emerald-300/90">CIS Benchmark & SOC-2</span>
-              <span className="text-slate-500">Zero-Write Mode</span>
-            </div>
-          </div>
-
-          {/* Card 5 */}
-          <div className="p-7 rounded-3xl bg-[#080412]/90 border border-purple-500/20 hover:border-amber-500/40 hover:-translate-y-1.5 hover:shadow-[0_15px_35px_rgba(245,158,11,0.18)] transition-all duration-400 space-y-4 flex flex-col justify-between group relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/10 rounded-full blur-2xl group-hover:bg-amber-500/25 transition-all duration-500 pointer-events-none" />
-            
-            <div className="flex items-center justify-between font-mono text-xs border-b border-white/[0.06] pb-3 relative z-10">
-              <span className="text-amber-400 font-bold tracking-wider">05 // ORCHESTRATION</span>
-              <span className="text-slate-500 text-[11px]">CANARY ROLLBACK</span>
-            </div>
-
-            <div className="space-y-2 relative z-10">
-              <h3 className="text-base font-bold text-white group-hover:text-amber-200 transition-colors leading-snug">
-                Canary & Zero-Downtime Rollback Orchestration
-              </h3>
-              <p className="text-xs text-slate-400 leading-relaxed font-sans">
-                Correlates sudden production telemetry spikes with recent releases and deployment events. Automatically pinpoints the previous stable container image digest for immediate zero-downtime rollback.
-              </p>
-            </div>
-
-            <div className="pt-3 border-t border-white/[0.06] text-[11px] font-mono text-slate-400 flex items-center justify-between relative z-10">
-              <span className="text-amber-300/90">Immutable Image Digest</span>
-              <span className="text-slate-500">Instant Trigger</span>
-            </div>
-          </div>
-
-          {/* Card 6 */}
-          <div className="p-7 rounded-3xl bg-[#080412]/90 border border-purple-500/20 hover:border-purple-500/50 hover:-translate-y-1.5 hover:shadow-[0_15px_35px_rgba(168,85,247,0.18)] transition-all duration-400 space-y-4 flex flex-col justify-between group relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 rounded-full blur-2xl group-hover:bg-purple-500/25 transition-all duration-500 pointer-events-none" />
-            
-            <div className="flex items-center justify-between font-mono text-xs border-b border-white/[0.06] pb-3 relative z-10">
-              <span className="text-purple-400 font-bold tracking-wider">06 // VOICE INTERFACE</span>
-              <span className="text-slate-500 text-[11px]">16KHZ PCM</span>
-            </div>
-
-            <div className="space-y-2 relative z-10">
-              <h3 className="text-base font-bold text-white group-hover:text-purple-200 transition-colors leading-snug">
-                Low-Latency Real-Time Voice Triage
-              </h3>
-              <p className="text-xs text-slate-400 leading-relaxed font-sans">
-                Sub-second speech recognition pipeline engineered for on-call engineers to triage critical production alerts hands-free. Streams 16kHz PCM audio directly into AST context reasoning engines without visual distraction.
-              </p>
-            </div>
-
-            <div className="pt-3 border-t border-white/[0.06] text-[11px] font-mono text-slate-400 flex items-center justify-between relative z-10">
-              <span className="text-purple-300/90">16kHz PCM WebSocket</span>
-              <span className="text-slate-500">Hands-Free</span>
+              {/* Console Footer */}
+              <div className="px-4 py-3 bg-[#080414] border-t border-white/[0.06] flex items-center justify-between text-[10px] text-slate-500">
+                <span className="text-purple-400/80 font-bold">Deterministic Loop Active</span>
+                <span>Zero-Write Guardrail</span>
+              </div>
             </div>
           </div>
         </div>
