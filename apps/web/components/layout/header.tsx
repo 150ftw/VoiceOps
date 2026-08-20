@@ -480,14 +480,6 @@ export const Header: React.FC<HeaderProps> = ({ activeProject, onSelectProject, 
 
               {/* Navigation Menu Items */}
               <div className="py-2.5 space-y-1">
-                <Link
-                  href="/console/settings"
-                  onClick={() => setIsAccountDropdownOpen(false)}
-                  className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-slate-300 hover:text-white hover:bg-purple-500/10 transition-colors"
-                >
-                  <Settings className="w-4 h-4 text-purple-400" />
-                  <span className="font-medium">Preferences & Settings</span>
-                </Link>
 
                 <Link
                   href="/console/projects"

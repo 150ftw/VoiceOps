@@ -25,7 +25,6 @@ const navItems = [
   { label: 'Conversations', href: '/console/conversations', icon: MessageSquare },
   { label: 'Knowledge Base', href: '/console/knowledge', icon: BookOpen },
   { label: 'Observability', href: '/console/observability', icon: Activity },
-  { label: 'Settings', href: '/console/settings', icon: Settings },
 ];
 
 interface SidebarProps {
