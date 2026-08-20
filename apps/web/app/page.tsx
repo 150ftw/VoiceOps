@@ -44,6 +44,7 @@ import {
   Shield,
   Menu,
   X,
+  RefreshCw,
 } from 'lucide-react';
 import FlowingMenu from '@/components/landing/FlowingMenu';
 import { apiRequest, clearAuthToken, getAuthToken } from '@/lib/api-client';
@@ -841,6 +842,322 @@ export default function LandingPage() {
                 ))}
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 1: Technical Architecture & 3-Step Pipeline */}
+      <section className="py-20 px-6 sm:px-12 max-w-6xl mx-auto relative z-10">
+        <div className="text-center max-w-2xl mx-auto mb-14 space-y-3">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-purple-500/10 border border-purple-500/25 text-purple-300 text-xs font-mono tracking-widest uppercase">
+            <Cpu className="w-3.5 h-3.5 text-purple-400" />
+            <span>Under The Hood</span>
+          </div>
+          <h2 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
+            How VoiceOps Operates Deterministically
+          </h2>
+          <p className="text-xs sm:text-sm text-slate-400 font-sans leading-relaxed">
+            A deterministic, zero-write pipeline that synthesizes real-time audio commands with deep Abstract Syntax Tree (AST) code analysis and pgvector semantic memory.
+          </p>
+        </div>
+
+        {/* 3-Step Pipeline Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          {/* Card 1 */}
+          <div className="p-6 rounded-3xl bg-[#080412]/90 border border-purple-500/20 shadow-xl space-y-4 relative group hover:border-purple-500/40 transition-all">
+            <div className="w-10 h-10 rounded-2xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-300 font-mono font-bold text-sm">
+              01
+            </div>
+            <div className="space-y-1.5">
+              <h3 className="text-base font-bold text-white flex items-center gap-2">
+                <FileCode2 className="w-4 h-4 text-purple-400" />
+                <span>AST & Codebase Indexing</span>
+              </h3>
+              <p className="text-xs text-slate-400 leading-relaxed font-sans">
+                VoiceOps uses tree-sitter to build a syntax graph of your repository, mapping functions, imports, dependency trees, and configuration files into high-dimensional vector embeddings.
+              </p>
+            </div>
+            <div className="pt-2 border-t border-white/[0.06] text-[11px] font-mono text-purple-300/80 flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-purple-400" />
+              <span>Polyglot • TypeScript, Python, Go, Rust, K8s</span>
+            </div>
+          </div>
+
+          {/* Card 2 */}
+          <div className="p-6 rounded-3xl bg-[#080412]/90 border border-purple-500/20 shadow-xl space-y-4 relative group hover:border-purple-500/40 transition-all">
+            <div className="w-10 h-10 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-300 font-mono font-bold text-sm">
+              02
+            </div>
+            <div className="space-y-1.5">
+              <h3 className="text-base font-bold text-white flex items-center gap-2">
+                <Activity className="w-4 h-4 text-cyan-400" />
+                <span>Telemetry & Log Correlation</span>
+              </h3>
+              <p className="text-xs text-slate-400 leading-relaxed font-sans">
+                When a voice query is received, VoiceOps queries GitHub Actions APIs and cloud metrics, isolating the exact failing stack trace line and retrieving matching organizational runbooks from pgvector.
+              </p>
+            </div>
+            <div className="pt-2 border-t border-white/[0.06] text-[11px] font-mono text-cyan-300/80 flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
+              <span>Cosine Match • Root-Cause Isolation</span>
+            </div>
+          </div>
+
+          {/* Card 3 */}
+          <div className="p-6 rounded-3xl bg-[#080412]/90 border border-purple-500/20 shadow-xl space-y-4 relative group hover:border-purple-500/40 transition-all">
+            <div className="w-10 h-10 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-300 font-mono font-bold text-sm">
+              03
+            </div>
+            <div className="space-y-1.5">
+              <h3 className="text-base font-bold text-white flex items-center gap-2">
+                <ShieldCheck className="w-4 h-4 text-emerald-400" />
+                <span>Zero-Write Guardrails</span>
+              </h3>
+              <p className="text-xs text-slate-400 leading-relaxed font-sans">
+                The agent proposes precise unified diffs and PR branches, but NEVER writes to production or merges code without explicit human cryptographic approval in the workspace interface.
+              </p>
+            </div>
+            <div className="pt-2 border-t border-white/[0.06] text-[11px] font-mono text-emerald-300/80 flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+              <span>Human-in-the-Loop • SOC-2 Safe</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 2: Substantive Enterprise Capabilities Grid */}
+      <section className="py-20 px-6 sm:px-12 max-w-6xl mx-auto relative z-10 border-t border-purple-500/15">
+        <div className="text-center max-w-2xl mx-auto mb-14 space-y-3">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-purple-500/10 border border-purple-500/25 text-purple-300 text-xs font-mono tracking-widest uppercase">
+            <Layers className="w-3.5 h-3.5 text-purple-400" />
+            <span>DevOps Suite</span>
+          </div>
+          <h2 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
+            Engineered for High-Velocity Engineering Teams
+          </h2>
+          <p className="text-xs sm:text-sm text-slate-400 font-sans leading-relaxed">
+            Eliminate triage toil, reduce Mean Time to Resolution (MTTR), and automate infrastructure diagnostics with verifiable AI workflows.
+          </p>
+        </div>
+
+        {/* 6 Grid Feature Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          {/* Feature 1 */}
+          <div className="p-6 rounded-3xl bg-[#080412]/80 border border-purple-500/15 hover:border-purple-500/35 transition-all space-y-3">
+            <div className="w-10 h-10 rounded-2xl bg-rose-500/10 border border-rose-500/25 flex items-center justify-center text-rose-400">
+              <AlertTriangle className="w-5 h-5" />
+            </div>
+            <h3 className="text-sm font-bold text-white">CI/CD Run Log Diagnostics</h3>
+            <p className="text-xs text-slate-400 leading-relaxed font-sans">
+              Instantly analyzes megabytes of raw GitHub Actions and Docker build logs. Identifies compilation errors, missing environment secrets, and dependency mismatches in seconds.
+            </p>
+          </div>
+
+          {/* Feature 2 */}
+          <div className="p-6 rounded-3xl bg-[#080412]/80 border border-purple-500/15 hover:border-purple-500/35 transition-all space-y-3">
+            <div className="w-10 h-10 rounded-2xl bg-indigo-500/10 border border-indigo-500/25 flex items-center justify-center text-indigo-400">
+              <Database className="w-5 h-5" />
+            </div>
+            <h3 className="text-sm font-bold text-white">pgvector Runbook Memory</h3>
+            <p className="text-xs text-slate-400 leading-relaxed font-sans">
+              Indexes your organization’s standard operating procedures, architectural decisions, and past incident post-mortems so fixes adhere to team standards.
+            </p>
+          </div>
+
+          {/* Feature 3 */}
+          <div className="p-6 rounded-3xl bg-[#080412]/80 border border-purple-500/15 hover:border-purple-500/35 transition-all space-y-3">
+            <div className="w-10 h-10 rounded-2xl bg-cyan-500/10 border border-cyan-500/25 flex items-center justify-center text-cyan-400">
+              <GitPullRequest className="w-5 h-5" />
+            </div>
+            <h3 className="text-sm font-bold text-white">Automated Patch Diff Generation</h3>
+            <p className="text-xs text-slate-400 leading-relaxed font-sans">
+              Generates clean, git-compliant unified patch diffs targeting only the affected configuration or source files, complete with contextual rationale.
+            </p>
+          </div>
+
+          {/* Feature 4 */}
+          <div className="p-6 rounded-3xl bg-[#080412]/80 border border-purple-500/15 hover:border-purple-500/35 transition-all space-y-3">
+            <div className="w-10 h-10 rounded-2xl bg-emerald-500/10 border border-emerald-500/25 flex items-center justify-center text-emerald-400">
+              <Shield className="w-5 h-5" />
+            </div>
+            <h3 className="text-sm font-bold text-white">Least-Privilege Security Scans</h3>
+            <p className="text-xs text-slate-400 leading-relaxed font-sans">
+              Scans Terraform definitions, IAM roles, and Kubernetes manifests for CIS benchmark violations and wildcard permissions before deployment.
+            </p>
+          </div>
+
+          {/* Feature 5 */}
+          <div className="p-6 rounded-3xl bg-[#080412]/80 border border-purple-500/15 hover:border-purple-500/35 transition-all space-y-3">
+            <div className="w-10 h-10 rounded-2xl bg-amber-500/10 border border-amber-500/25 flex items-center justify-center text-amber-400">
+              <RefreshCw className="w-5 h-5" />
+            </div>
+            <h3 className="text-sm font-bold text-white">Canary & Rollback Orchestration</h3>
+            <p className="text-xs text-slate-400 leading-relaxed font-sans">
+              Correlates telemetry spikes with recent releases, pinpointing the previous stable container image digest for immediate zero-downtime rollback.
+            </p>
+          </div>
+
+          {/* Feature 6 */}
+          <div className="p-6 rounded-3xl bg-[#080412]/80 border border-purple-500/15 hover:border-purple-500/35 transition-all space-y-3">
+            <div className="w-10 h-10 rounded-2xl bg-purple-500/10 border border-purple-500/25 flex items-center justify-center text-purple-400">
+              <Mic className="w-5 h-5" />
+            </div>
+            <h3 className="text-sm font-bold text-white">Hands-Free Voice Triage</h3>
+            <p className="text-xs text-slate-400 leading-relaxed font-sans">
+              Sub-second speech recognition pipeline engineered for on-call engineers to triage critical production alerts hands-free from anywhere.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 3: System Dataflow Architecture View */}
+      <section className="py-20 px-6 sm:px-12 max-w-6xl mx-auto relative z-10 border-t border-purple-500/15">
+        <div className="rounded-3xl bg-[#070312] border border-purple-500/20 p-8 sm:p-10 shadow-2xl space-y-8">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/[0.06] pb-6">
+            <div>
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-300 text-xs font-mono mb-2">
+                <Workflow className="w-3.5 h-3.5 text-purple-400" />
+                <span>Execution Dataflow</span>
+              </div>
+              <h3 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight">
+                Deterministic Multi-Agent Workflow
+              </h3>
+            </div>
+            <div className="flex items-center gap-2 text-xs font-mono text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20 self-start">
+              <CheckCircle2 className="w-3.5 h-3.5" />
+              <span>Read-Only Default State</span>
+            </div>
+          </div>
+
+          {/* Step Sequence Diagram */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 font-mono text-xs">
+            <div className="p-4 rounded-2xl bg-[#040209] border border-purple-500/20 space-y-2">
+              <span className="text-[10px] text-purple-400 font-bold block">PHASE 1</span>
+              <h4 className="text-white font-bold text-xs">Audio / Text Ingestion</h4>
+              <p className="text-slate-400 text-[11px] font-sans">
+                Streams 16kHz PCM audio or textual commands into Whisper STT, extracting DevOps intents and parameters.
+              </p>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-[#040209] border border-purple-500/20 space-y-2">
+              <span className="text-[10px] text-cyan-400 font-bold block">PHASE 2</span>
+              <h4 className="text-white font-bold text-xs">Context Synthesis</h4>
+              <p className="text-slate-400 text-[11px] font-sans">
+                Queries tree-sitter AST index + pgvector knowledge base + GitHub CI logs to assemble verified grounding context.
+              </p>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-[#040209] border border-purple-500/20 space-y-2">
+              <span className="text-[10px] text-indigo-400 font-bold block">PHASE 3</span>
+              <h4 className="text-white font-bold text-xs">Gemini 1.5 Pro Reasoning</h4>
+              <p className="text-slate-400 text-[11px] font-sans">
+                Performs deep causal root-cause analysis, isolating failure points and synthesizing unified patch diffs.
+              </p>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-[#040209] border border-emerald-500/30 space-y-2">
+              <span className="text-[10px] text-emerald-400 font-bold block">PHASE 4</span>
+              <h4 className="text-white font-bold text-xs">Cryptographic Approval</h4>
+              <p className="text-slate-400 text-[11px] font-sans">
+                Presents patch for human review. Only executes git branch/PR mutations upon user cryptographic signature.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 4: Engineering FAQ Accordion */}
+      <section className="py-20 px-6 sm:px-12 max-w-4xl mx-auto relative z-10 border-t border-purple-500/15">
+        <div className="text-center max-w-2xl mx-auto mb-12 space-y-2">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/25 text-purple-300 text-xs font-mono tracking-widest uppercase">
+            <span>FAQ</span>
+          </div>
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+            Frequently Asked Technical Questions
+          </h2>
+        </div>
+
+        <div className="space-y-3 font-sans">
+          {[
+            {
+              q: "Does VoiceOps have write access to my repositories or production cluster?",
+              a: "By default, VoiceOps runs in Zero-Write Strict mode. It only possesses read access to repository AST structures and CI/CD logs. Any action that modifies code, creates pull requests, or triggers deployments requires an explicit human-in-the-loop cryptographic confirmation in the console.",
+            },
+            {
+              q: "How does AST indexing differ from traditional vector search / standard RAG?",
+              a: "Standard vector search splits text into arbitrary chunks, often severing function boundaries and imports. VoiceOps parses your code into real Abstract Syntax Trees (AST) using tree-sitter, preserving full semantic relationships, cross-file imports, schema definitions, and call hierarchies.",
+            },
+            {
+              q: "How are credentials and GitHub tokens protected?",
+              a: "VoiceOps never stores credentials in plaintext. All tokens and metadata are encrypted at rest using AES-128-CBC (Fernet) encryption keys managed in isolated backend vaults, following least-privilege OAuth scopes.",
+            },
+            {
+              q: "Can I connect private repositories and internal runbooks?",
+              a: "Yes. VoiceOps integrates directly with your GitHub account via OAuth and indexes both public and private repositories. You can upload custom markdown runbooks, architectural decision records (ADRs), and post-mortems into the pgvector knowledge base.",
+            },
+            {
+              q: "What latency can I expect during voice triage?",
+              a: "VoiceOps achieves sub-second speech transcription and streaming responses through optimized Web Audio API chunking, direct AST index queries, and high-throughput LLM reasoning streams.",
+            },
+          ].map((item, idx) => {
+            const isOpen = openFaq === idx;
+            return (
+              <div
+                key={idx}
+                className="rounded-2xl bg-[#080412]/90 border border-purple-500/20 overflow-hidden transition-colors"
+              >
+                <button
+                  onClick={() => setOpenFaq(isOpen ? null : idx)}
+                  className="w-full px-5 py-4 text-left flex items-center justify-between gap-4 hover:text-purple-200 transition-colors"
+                >
+                  <span className="text-sm font-semibold text-white">{item.q}</span>
+                  <ChevronDown
+                    className={`w-4 h-4 text-purple-400 shrink-0 transition-transform duration-200 ${
+                      isOpen ? 'rotate-180' : ''
+                    }`}
+                  />
+                </button>
+                {isOpen && (
+                  <div className="px-5 pb-4 text-xs text-slate-400 leading-relaxed border-t border-white/[0.04] pt-3">
+                    {item.a}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* SECTION 5: Final Call to Action */}
+      <section className="py-20 px-6 sm:px-12 max-w-5xl mx-auto relative z-10">
+        <div className="rounded-3xl bg-gradient-to-b from-[#120726] to-[#080314] border border-purple-500/30 p-10 text-center space-y-6 shadow-2xl relative overflow-hidden">
+          <div className="w-72 h-72 rounded-full bg-purple-600/20 blur-3xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none" />
+          <div className="relative z-10 space-y-3 max-w-xl mx-auto">
+            <h2 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
+              Ready to Accelerate Incident Triage?
+            </h2>
+            <p className="text-xs sm:text-sm text-purple-200/80 font-sans">
+              Connect your repository and start resolving CI/CD failures hands-free with verifiable AST context.
+            </p>
+          </div>
+
+          <div className="relative z-10 flex flex-wrap items-center justify-center gap-4 pt-2">
+            <Link
+              href="/workspace"
+              className="px-8 py-3.5 rounded-full bg-purple-200 hover:bg-white text-slate-950 font-bold text-xs uppercase tracking-wider transition-all shadow-xl glow-purple flex items-center gap-2"
+            >
+              <span>Launch Live Studio</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+            <a
+              href="https://github.com/150ftw/VoiceOps"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-6 py-3.5 rounded-full bg-[#080412] hover:bg-purple-950/40 text-purple-200 hover:text-white border border-purple-500/30 text-xs font-semibold font-mono transition-all flex items-center gap-2"
+            >
+              <Github className="w-4 h-4" />
+              <span>View On GitHub</span>
+            </a>
           </div>
         </div>
       </section>
