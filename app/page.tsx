@@ -45,6 +45,8 @@ import {
   Menu,
   X,
   RefreshCw,
+  Plus,
+  Minus,
 } from 'lucide-react';
 import FlowingMenu from '@/components/landing/FlowingMenu';
 import { apiRequest, clearAuthToken, getAuthToken } from '@/lib/api-client';
@@ -1077,69 +1079,104 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* SECTION 4: Engineering FAQ Accordion */}
-      <section className="py-24 px-6 sm:px-12 max-w-4xl mx-auto relative z-10 border-t border-purple-500/15">
-        <div className="text-center max-w-2xl mx-auto mb-14 space-y-2">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-purple-500/10 border border-purple-500/25 text-purple-300 text-xs font-mono tracking-widest uppercase">
-            <span>FAQ</span>
-          </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-            Frequently Asked Technical Questions
-          </h2>
-        </div>
+      {/* SECTION 4: Engineering FAQ Accordion (Clean Editorial 2-Column Layout) */}
+      <section className="py-24 px-6 sm:px-12 max-w-6xl mx-auto relative z-10 border-t border-purple-500/15">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+          {/* Left Column: Heading & Context */}
+          <div className="lg:col-span-5 space-y-4 lg:sticky lg:top-24">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-300 text-xs font-mono tracking-widest uppercase">
+              <BookOpen className="w-3.5 h-3.5 text-purple-400" />
+              <span>Technical FAQ</span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+              Frequently Asked Questions
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-400 leading-relaxed font-sans">
+              Everything you need to know about AST indexing, cryptographic guardrails, and data isolation in VoiceOps.
+            </p>
 
-        <div className="space-y-3.5 font-sans">
-          {[
-            {
-              q: "Does VoiceOps have write access to my repositories or production cluster?",
-              a: "By default, VoiceOps runs in Zero-Write Strict mode. It only possesses read access to repository AST structures and CI/CD logs. Any action that modifies code, creates pull requests, or triggers deployments requires an explicit human-in-the-loop cryptographic confirmation in the console.",
-            },
-            {
-              q: "How does AST indexing differ from traditional vector search / standard RAG?",
-              a: "Standard vector search splits text into arbitrary chunks, often severing function boundaries and imports. VoiceOps parses your code into real Abstract Syntax Trees (AST) using tree-sitter, preserving full semantic relationships, cross-file imports, schema definitions, and call hierarchies.",
-            },
-            {
-              q: "How are credentials and GitHub tokens protected?",
-              a: "VoiceOps never stores credentials in plaintext. All tokens and metadata are encrypted at rest using AES-128-CBC (Fernet) encryption keys managed in isolated backend vaults, following least-privilege OAuth scopes.",
-            },
-            {
-              q: "Can I connect private repositories and internal runbooks?",
-              a: "Yes. VoiceOps integrates directly with your GitHub account via OAuth and indexes both public and private repositories. You can upload custom markdown runbooks, architectural decision records (ADRs), and post-mortems into the pgvector knowledge base.",
-            },
-            {
-              q: "What latency can I expect during voice triage?",
-              a: "VoiceOps achieves sub-second speech transcription and streaming responses through optimized Web Audio API chunking, direct AST index queries, and high-throughput LLM reasoning streams.",
-            },
-          ].map((item, idx) => {
-            const isOpen = openFaq === idx;
-            return (
-              <div
-                key={idx}
-                className={`rounded-2xl border transition-all duration-300 overflow-hidden ${
-                  isOpen
-                    ? 'bg-gradient-to-r from-purple-950/40 via-[#080412] to-[#080412] border-purple-500/40 shadow-[0_0_20px_rgba(168,85,247,0.15)]'
-                    : 'bg-[#080412]/90 border-purple-500/20 hover:border-purple-500/35'
-                }`}
-              >
-                <button
-                  onClick={() => setOpenFaq(isOpen ? null : idx)}
-                  className="w-full px-6 py-4.5 text-left flex items-center justify-between gap-4 hover:text-purple-200 transition-colors cursor-pointer"
-                >
-                  <span className="text-sm font-semibold text-white">{item.q}</span>
-                  <ChevronDown
-                    className={`w-4 h-4 text-purple-400 shrink-0 transition-transform duration-300 ${
-                      isOpen ? 'rotate-180 text-purple-300' : ''
-                    }`}
-                  />
-                </button>
-                {isOpen && (
-                  <div className="px-6 pb-5 text-xs text-slate-400 leading-relaxed border-t border-white/[0.04] pt-3.5 animate-in fade-in duration-200">
-                    {item.a}
-                  </div>
-                )}
+            <div className="p-5 rounded-2xl bg-[#080412]/80 border border-purple-500/20 space-y-3 mt-6">
+              <div className="flex items-center gap-2 text-xs font-semibold text-purple-200">
+                <ShieldCheck className="w-4 h-4 text-emerald-400" />
+                <span>Enterprise Security Standard</span>
               </div>
-            );
-          })}
+              <p className="text-[11px] text-slate-400 leading-relaxed font-sans">
+                VoiceOps never writes to branches or triggers merges without human cryptographic confirmation.
+              </p>
+              <Link
+                href="/workspace"
+                className="inline-flex items-center gap-1.5 text-xs text-purple-400 hover:text-purple-300 font-mono pt-1 transition-colors"
+              >
+                <span>Explore Live Workspace</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
+          </div>
+
+          {/* Right Column: Clean Divider Accordion List */}
+          <div className="lg:col-span-7 divide-y divide-white/[0.08] border-y border-white/[0.08]">
+            {[
+              {
+                q: "Does VoiceOps have write access to my repositories or production cluster?",
+                a: "By default, VoiceOps runs in Zero-Write Strict mode. It only possesses read access to repository AST structures and CI/CD logs. Any action that modifies code, creates pull requests, or triggers deployments requires an explicit human-in-the-loop cryptographic confirmation in the console.",
+              },
+              {
+                q: "How does AST indexing differ from traditional vector search / standard RAG?",
+                a: "Standard vector search splits text into arbitrary chunks, often severing function boundaries and imports. VoiceOps parses your code into real Abstract Syntax Trees (AST) using tree-sitter, preserving full semantic relationships, cross-file imports, schema definitions, and call hierarchies.",
+              },
+              {
+                q: "How are credentials and GitHub tokens protected?",
+                a: "VoiceOps never stores credentials in plaintext. All tokens and metadata are encrypted at rest using AES-128-CBC (Fernet) encryption keys managed in isolated backend vaults, following least-privilege OAuth scopes.",
+              },
+              {
+                q: "Can I connect private repositories and internal runbooks?",
+                a: "Yes. VoiceOps integrates directly with your GitHub account via OAuth and indexes both public and private repositories. You can upload custom markdown runbooks, architectural decision records (ADRs), and post-mortems into the pgvector knowledge base.",
+              },
+              {
+                q: "What latency can I expect during voice triage?",
+                a: "VoiceOps achieves sub-second speech transcription and streaming responses through optimized Web Audio API chunking, direct AST index queries, and high-throughput LLM reasoning streams.",
+              },
+            ].map((item, idx) => {
+              const isOpen = openFaq === idx;
+              return (
+                <div key={idx} className="py-5 transition-colors group">
+                  <button
+                    onClick={() => setOpenFaq(isOpen ? null : idx)}
+                    className="w-full text-left flex items-start justify-between gap-4 transition-colors cursor-pointer"
+                  >
+                    <div className="flex items-baseline gap-3">
+                      <span className="font-mono text-xs text-purple-400/80 font-bold shrink-0">
+                        {String(idx + 1).padStart(2, '0')}
+                      </span>
+                      <span className={`text-sm sm:text-base font-semibold transition-colors ${
+                        isOpen ? 'text-purple-200' : 'text-slate-200 group-hover:text-white'
+                      }`}>
+                        {item.q}
+                      </span>
+                    </div>
+
+                    <div className={`w-6 h-6 rounded-full border flex items-center justify-center shrink-0 transition-all duration-300 mt-0.5 ${
+                      isOpen
+                        ? 'bg-purple-500/20 border-purple-400/60 text-purple-300 rotate-90'
+                        : 'bg-white/[0.03] border-white/[0.08] text-slate-400 group-hover:border-purple-500/30 group-hover:text-white'
+                    }`}>
+                      {isOpen ? (
+                        <Minus className="w-3.5 h-3.5" />
+                      ) : (
+                        <Plus className="w-3.5 h-3.5" />
+                      )}
+                    </div>
+                  </button>
+
+                  {isOpen && (
+                    <div className="pl-7 pr-8 pt-3 pb-1 text-xs sm:text-sm text-slate-400 leading-relaxed font-sans animate-in fade-in duration-200">
+                      {item.a}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
         </div>
       </section>
 
