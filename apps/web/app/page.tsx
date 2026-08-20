@@ -842,10 +842,9 @@ export default function LandingPage() {
       {/* SECTION 1: Technical Architecture & 3-Step Pipeline */}
       <section className="py-24 px-6 sm:px-12 max-w-6xl mx-auto relative z-10">
         <div className="text-center max-w-2xl mx-auto mb-16 space-y-3">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300 text-xs font-mono tracking-widest uppercase shadow-[0_0_15px_rgba(168,85,247,0.2)] animate-pulse-subtle">
-            <Cpu className="w-3.5 h-3.5 text-purple-400" />
-            <span>Under The Hood</span>
-          </div>
+          <p className="font-mono text-xs text-purple-400 font-semibold tracking-widest uppercase">
+            // ARCHITECTURE & AST PIPELINE
+          </p>
           <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
             How VoiceOps Operates Deterministically
           </h2>
@@ -854,68 +853,77 @@ export default function LandingPage() {
           </p>
         </div>
 
-        {/* 3-Step Pipeline Cards with Hover Elevation & Ambient Glow */}
+        {/* 3-Step Pipeline Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Card 1 */}
-          <div className="p-7 rounded-3xl bg-[#080412]/90 border border-purple-500/20 shadow-xl space-y-4 relative group hover:-translate-y-2 hover:border-purple-500/50 hover:shadow-[0_15px_40px_rgba(168,85,247,0.22)] transition-all duration-500 overflow-hidden">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 rounded-full blur-2xl group-hover:bg-purple-500/30 transition-all duration-500 pointer-events-none" />
-            <div className="w-11 h-11 rounded-2xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-300 font-mono font-bold text-sm group-hover:scale-110 group-hover:bg-purple-500/20 transition-transform duration-300 shadow-md">
-              01
+          <div className="p-7 rounded-3xl bg-[#080412]/90 border border-purple-500/20 hover:border-purple-500/50 hover:-translate-y-1.5 hover:shadow-[0_15px_40px_rgba(168,85,247,0.2)] transition-all duration-400 space-y-4 flex flex-col justify-between group relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 rounded-full blur-2xl group-hover:bg-purple-500/25 transition-all duration-500 pointer-events-none" />
+            
+            <div className="flex items-center justify-between font-mono text-xs border-b border-white/[0.06] pb-3.5 relative z-10">
+              <span className="text-purple-400 font-bold tracking-wider">01 // CODEBASE GRAPH</span>
+              <span className="text-slate-500 text-[11px]">TREE-SITTER AST</span>
             </div>
+
             <div className="space-y-2 relative z-10">
-              <h3 className="text-base font-bold text-white flex items-center gap-2 group-hover:text-purple-200 transition-colors">
-                <FileCode2 className="w-4 h-4 text-purple-400 group-hover:rotate-6 transition-transform duration-300" />
-                <span>AST & Codebase Indexing</span>
+              <h3 className="text-base font-bold text-white group-hover:text-purple-200 transition-colors">
+                AST & Codebase Indexing
               </h3>
               <p className="text-xs text-slate-400 leading-relaxed font-sans">
                 VoiceOps uses tree-sitter to build a syntax graph of your repository, mapping functions, imports, dependency trees, and configuration files into high-dimensional vector embeddings.
               </p>
             </div>
-            <div className="pt-3 border-t border-white/[0.06] text-[11px] font-mono text-purple-300/80 flex items-center gap-2 relative z-10">
-              <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse" />
-              <span>Polyglot • TypeScript, Python, Go, Rust, K8s</span>
+
+            <div className="pt-3 border-t border-white/[0.06] text-[11px] font-mono text-slate-400 flex items-center justify-between relative z-10">
+              <span className="text-purple-300/90">Polyglot AST Graph</span>
+              <span className="text-slate-500">TS, PY, GO, RS</span>
             </div>
           </div>
 
           {/* Card 2 */}
-          <div className="p-7 rounded-3xl bg-[#080412]/90 border border-purple-500/20 shadow-xl space-y-4 relative group hover:-translate-y-2 hover:border-cyan-500/50 hover:shadow-[0_15px_40px_rgba(6,182,212,0.22)] transition-all duration-500 overflow-hidden">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-500/10 rounded-full blur-2xl group-hover:bg-cyan-500/30 transition-all duration-500 pointer-events-none" />
-            <div className="w-11 h-11 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-300 font-mono font-bold text-sm group-hover:scale-110 group-hover:bg-cyan-500/20 transition-transform duration-300 shadow-md">
-              02
+          <div className="p-7 rounded-3xl bg-[#080412]/90 border border-purple-500/20 hover:border-cyan-500/50 hover:-translate-y-1.5 hover:shadow-[0_15px_40px_rgba(6,182,212,0.2)] transition-all duration-400 space-y-4 flex flex-col justify-between group relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-500/10 rounded-full blur-2xl group-hover:bg-cyan-500/25 transition-all duration-500 pointer-events-none" />
+            
+            <div className="flex items-center justify-between font-mono text-xs border-b border-white/[0.06] pb-3.5 relative z-10">
+              <span className="text-cyan-400 font-bold tracking-wider">02 // TELEMETRY ISOLATION</span>
+              <span className="text-slate-500 text-[11px]">GITHUB CI/CD</span>
             </div>
+
             <div className="space-y-2 relative z-10">
-              <h3 className="text-base font-bold text-white flex items-center gap-2 group-hover:text-cyan-200 transition-colors">
-                <Activity className="w-4 h-4 text-cyan-400 group-hover:rotate-6 transition-transform duration-300" />
-                <span>Telemetry & Log Correlation</span>
+              <h3 className="text-base font-bold text-white group-hover:text-cyan-200 transition-colors">
+                Telemetry & Log Correlation
               </h3>
               <p className="text-xs text-slate-400 leading-relaxed font-sans">
                 When a voice query is received, VoiceOps queries GitHub Actions APIs and cloud metrics, isolating the exact failing stack trace line and retrieving matching organizational runbooks from pgvector.
               </p>
             </div>
-            <div className="pt-3 border-t border-white/[0.06] text-[11px] font-mono text-cyan-300/80 flex items-center gap-2 relative z-10">
-              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
-              <span>Cosine Match • Root-Cause Isolation</span>
+
+            <div className="pt-3 border-t border-white/[0.06] text-[11px] font-mono text-slate-400 flex items-center justify-between relative z-10">
+              <span className="text-cyan-300/90">Root-Cause Isolation</span>
+              <span className="text-slate-500">Cosine Match</span>
             </div>
           </div>
 
           {/* Card 3 */}
-          <div className="p-7 rounded-3xl bg-[#080412]/90 border border-purple-500/20 shadow-xl space-y-4 relative group hover:-translate-y-2 hover:border-emerald-500/50 hover:shadow-[0_15px_40px_rgba(52,211,153,0.22)] transition-all duration-500 overflow-hidden">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 rounded-full blur-2xl group-hover:bg-emerald-500/30 transition-all duration-500 pointer-events-none" />
-            <div className="w-11 h-11 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-300 font-mono font-bold text-sm group-hover:scale-110 group-hover:bg-emerald-500/20 transition-transform duration-300 shadow-md">
-              03
+          <div className="p-7 rounded-3xl bg-[#080412]/90 border border-purple-500/20 hover:border-emerald-500/50 hover:-translate-y-1.5 hover:shadow-[0_15px_40px_rgba(52,211,153,0.2)] transition-all duration-400 space-y-4 flex flex-col justify-between group relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 rounded-full blur-2xl group-hover:bg-emerald-500/25 transition-all duration-500 pointer-events-none" />
+            
+            <div className="flex items-center justify-between font-mono text-xs border-b border-white/[0.06] pb-3.5 relative z-10">
+              <span className="text-emerald-400 font-bold tracking-wider">03 // DETERMINISTIC SAFETY</span>
+              <span className="text-slate-500 text-[11px]">ZERO-WRITE</span>
             </div>
+
             <div className="space-y-2 relative z-10">
-              <h3 className="text-base font-bold text-white flex items-center gap-2 group-hover:text-emerald-200 transition-colors">
-                <ShieldCheck className="w-4 h-4 text-emerald-400 group-hover:rotate-6 transition-transform duration-300" />
-                <span>Zero-Write Guardrails</span>
+              <h3 className="text-base font-bold text-white group-hover:text-emerald-200 transition-colors">
+                Zero-Write Guardrails
               </h3>
               <p className="text-xs text-slate-400 leading-relaxed font-sans">
                 The agent proposes precise unified diffs and PR branches, but NEVER writes to production or merges code without explicit human cryptographic approval in the workspace interface.
               </p>
             </div>
-            <div className="pt-3 border-t border-white/[0.06] text-[11px] font-mono text-emerald-300/80 flex items-center gap-2 relative z-10">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              <span>Human-in-the-Loop • SOC-2 Safe</span>
+
+            <div className="pt-3 border-t border-white/[0.06] text-[11px] font-mono text-slate-400 flex items-center justify-between relative z-10">
+              <span className="text-emerald-300/90">Cryptographic Approval</span>
+              <span className="text-slate-500">SOC-2 Safe</span>
             </div>
           </div>
         </div>
@@ -924,10 +932,9 @@ export default function LandingPage() {
       {/* SECTION 2: Substantive Enterprise Capabilities Grid */}
       <section className="py-24 px-6 sm:px-12 max-w-6xl mx-auto relative z-10 border-t border-purple-500/15">
         <div className="text-center max-w-2xl mx-auto mb-16 space-y-3">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300 text-xs font-mono tracking-widest uppercase shadow-[0_0_15px_rgba(168,85,247,0.2)]">
-            <Layers className="w-3.5 h-3.5 text-purple-400" />
-            <span>DevOps Suite</span>
-          </div>
+          <p className="font-mono text-xs text-purple-400 font-semibold tracking-widest uppercase">
+            // ENTERPRISE DEVOPS SUITE
+          </p>
           <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
             Engineered for High-Velocity Engineering Teams
           </h2>
@@ -942,12 +949,9 @@ export default function LandingPage() {
           <div className="p-7 rounded-3xl bg-[#080412]/90 border border-purple-500/20 hover:border-rose-500/40 hover:-translate-y-1.5 hover:shadow-[0_15px_35px_rgba(244,63,94,0.18)] transition-all duration-400 space-y-4 flex flex-col justify-between group relative overflow-hidden">
             <div className="absolute top-0 right-0 w-32 h-32 bg-rose-500/10 rounded-full blur-2xl group-hover:bg-rose-500/25 transition-all duration-500 pointer-events-none" />
             
-            <div className="flex items-center justify-between gap-2 relative z-10">
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-rose-500/10 border border-rose-500/25 text-rose-300 text-[10px] font-mono tracking-wider uppercase font-semibold">
-                <span className="w-1.5 h-1.5 rounded-full bg-rose-400 animate-pulse" />
-                <span>OBSERVABILITY & LOGS</span>
-              </div>
-              <span className="text-[11px] font-mono text-slate-500 font-bold">01</span>
+            <div className="flex items-center justify-between font-mono text-xs border-b border-white/[0.06] pb-3 relative z-10">
+              <span className="text-rose-400 font-bold tracking-wider">01 // OBSERVABILITY</span>
+              <span className="text-slate-500 text-[11px]">ACTIONS & DOCKER</span>
             </div>
 
             <div className="space-y-2 relative z-10">
@@ -969,12 +973,9 @@ export default function LandingPage() {
           <div className="p-7 rounded-3xl bg-[#080412]/90 border border-purple-500/20 hover:border-indigo-500/40 hover:-translate-y-1.5 hover:shadow-[0_15px_35px_rgba(99,102,241,0.18)] transition-all duration-400 space-y-4 flex flex-col justify-between group relative overflow-hidden">
             <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/10 rounded-full blur-2xl group-hover:bg-indigo-500/25 transition-all duration-500 pointer-events-none" />
             
-            <div className="flex items-center justify-between gap-2 relative z-10">
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/25 text-indigo-300 text-[10px] font-mono tracking-wider uppercase font-semibold">
-                <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse" />
-                <span>KNOWLEDGE RETRIEVAL</span>
-              </div>
-              <span className="text-[11px] font-mono text-slate-500 font-bold">02</span>
+            <div className="flex items-center justify-between font-mono text-xs border-b border-white/[0.06] pb-3 relative z-10">
+              <span className="text-indigo-400 font-bold tracking-wider">02 // KNOWLEDGE BASE</span>
+              <span className="text-slate-500 text-[11px]">PGVECTOR 1536D</span>
             </div>
 
             <div className="space-y-2 relative z-10">
@@ -996,12 +997,9 @@ export default function LandingPage() {
           <div className="p-7 rounded-3xl bg-[#080412]/90 border border-purple-500/20 hover:border-cyan-500/40 hover:-translate-y-1.5 hover:shadow-[0_15px_35px_rgba(6,182,212,0.18)] transition-all duration-400 space-y-4 flex flex-col justify-between group relative overflow-hidden">
             <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-500/10 rounded-full blur-2xl group-hover:bg-cyan-500/25 transition-all duration-500 pointer-events-none" />
             
-            <div className="flex items-center justify-between gap-2 relative z-10">
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/25 text-cyan-300 text-[10px] font-mono tracking-wider uppercase font-semibold">
-                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
-                <span>CODE REMEDIATION</span>
-              </div>
-              <span className="text-[11px] font-mono text-slate-500 font-bold">03</span>
+            <div className="flex items-center justify-between font-mono text-xs border-b border-white/[0.06] pb-3 relative z-10">
+              <span className="text-cyan-400 font-bold tracking-wider">03 // CODE REMEDIATION</span>
+              <span className="text-slate-500 text-[11px]">UNIFIED DIFF</span>
             </div>
 
             <div className="space-y-2 relative z-10">
@@ -1023,12 +1021,9 @@ export default function LandingPage() {
           <div className="p-7 rounded-3xl bg-[#080412]/90 border border-purple-500/20 hover:border-emerald-500/40 hover:-translate-y-1.5 hover:shadow-[0_15px_35px_rgba(52,211,153,0.18)] transition-all duration-400 space-y-4 flex flex-col justify-between group relative overflow-hidden">
             <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 rounded-full blur-2xl group-hover:bg-emerald-500/25 transition-all duration-500 pointer-events-none" />
             
-            <div className="flex items-center justify-between gap-2 relative z-10">
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-emerald-300 text-[10px] font-mono tracking-wider uppercase font-semibold">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                <span>COMPLIANCE & SECURITY</span>
-              </div>
-              <span className="text-[11px] font-mono text-slate-500 font-bold">04</span>
+            <div className="flex items-center justify-between font-mono text-xs border-b border-white/[0.06] pb-3 relative z-10">
+              <span className="text-emerald-400 font-bold tracking-wider">04 // COMPLIANCE</span>
+              <span className="text-slate-500 text-[11px]">CIS BENCHMARKS</span>
             </div>
 
             <div className="space-y-2 relative z-10">
@@ -1050,12 +1045,9 @@ export default function LandingPage() {
           <div className="p-7 rounded-3xl bg-[#080412]/90 border border-purple-500/20 hover:border-amber-500/40 hover:-translate-y-1.5 hover:shadow-[0_15px_35px_rgba(245,158,11,0.18)] transition-all duration-400 space-y-4 flex flex-col justify-between group relative overflow-hidden">
             <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/10 rounded-full blur-2xl group-hover:bg-amber-500/25 transition-all duration-500 pointer-events-none" />
             
-            <div className="flex items-center justify-between gap-2 relative z-10">
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-500/10 border border-amber-500/25 text-amber-300 text-[10px] font-mono tracking-wider uppercase font-semibold">
-                <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
-                <span>RELEASE AUTOMATION</span>
-              </div>
-              <span className="text-[11px] font-mono text-slate-500 font-bold">05</span>
+            <div className="flex items-center justify-between font-mono text-xs border-b border-white/[0.06] pb-3 relative z-10">
+              <span className="text-amber-400 font-bold tracking-wider">05 // ORCHESTRATION</span>
+              <span className="text-slate-500 text-[11px]">CANARY ROLLBACK</span>
             </div>
 
             <div className="space-y-2 relative z-10">
@@ -1077,12 +1069,9 @@ export default function LandingPage() {
           <div className="p-7 rounded-3xl bg-[#080412]/90 border border-purple-500/20 hover:border-purple-500/50 hover:-translate-y-1.5 hover:shadow-[0_15px_35px_rgba(168,85,247,0.18)] transition-all duration-400 space-y-4 flex flex-col justify-between group relative overflow-hidden">
             <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 rounded-full blur-2xl group-hover:bg-purple-500/25 transition-all duration-500 pointer-events-none" />
             
-            <div className="flex items-center justify-between gap-2 relative z-10">
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-purple-500/10 border border-purple-500/25 text-purple-300 text-[10px] font-mono tracking-wider uppercase font-semibold">
-                <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse" />
-                <span>STREAMING INTERFACE</span>
-              </div>
-              <span className="text-[11px] font-mono text-slate-500 font-bold">06</span>
+            <div className="flex items-center justify-between font-mono text-xs border-b border-white/[0.06] pb-3 relative z-10">
+              <span className="text-purple-400 font-bold tracking-wider">06 // VOICE INTERFACE</span>
+              <span className="text-slate-500 text-[11px]">16KHZ PCM</span>
             </div>
 
             <div className="space-y-2 relative z-10">
@@ -1109,16 +1098,14 @@ export default function LandingPage() {
           
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/[0.06] pb-6 relative z-10">
             <div>
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-300 text-xs font-mono mb-2">
-                <Workflow className="w-3.5 h-3.5 text-purple-400 animate-spin" style={{ animationDuration: '8s' }} />
-                <span>Execution Dataflow</span>
-              </div>
+              <p className="font-mono text-xs text-purple-400 font-semibold tracking-widest uppercase mb-1">
+                // DETERMINISTIC PIPELINE
+              </p>
               <h3 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
                 Deterministic Multi-Agent Workflow
               </h3>
             </div>
-            <div className="flex items-center gap-2 text-xs font-mono text-emerald-400 bg-emerald-500/10 px-3.5 py-1.5 rounded-full border border-emerald-500/20 self-start shadow-xs">
-              <CheckCircle2 className="w-3.5 h-3.5" />
+            <div className="text-xs font-mono text-emerald-400 bg-emerald-500/10 px-3.5 py-1.5 rounded-full border border-emerald-500/20 self-start">
               <span>Read-Only Default State</span>
             </div>
           </div>
@@ -1126,7 +1113,7 @@ export default function LandingPage() {
           {/* Step Sequence Diagram with Animated Progression */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 font-mono text-xs relative z-10">
             <div className="p-5 rounded-2xl bg-[#040209] border border-purple-500/20 hover:border-purple-500/40 hover:scale-102 transition-all duration-300 space-y-2.5 shadow-md">
-              <span className="text-[10px] text-purple-400 font-bold tracking-widest block uppercase">PHASE 1</span>
+              <span className="text-[11px] text-purple-400 font-bold tracking-wider block uppercase">PHASE 01 // INGESTION</span>
               <h4 className="text-white font-bold text-xs">Audio / Text Ingestion</h4>
               <p className="text-slate-400 text-[11px] font-sans leading-relaxed">
                 Streams 16kHz PCM audio or textual commands into Whisper STT, extracting DevOps intents and parameters.
@@ -1134,7 +1121,7 @@ export default function LandingPage() {
             </div>
 
             <div className="p-5 rounded-2xl bg-[#040209] border border-purple-500/20 hover:border-cyan-500/40 hover:scale-102 transition-all duration-300 space-y-2.5 shadow-md">
-              <span className="text-[10px] text-cyan-400 font-bold tracking-widest block uppercase">PHASE 2</span>
+              <span className="text-[11px] text-cyan-400 font-bold tracking-wider block uppercase">PHASE 02 // SYNTHESIS</span>
               <h4 className="text-white font-bold text-xs">Context Synthesis</h4>
               <p className="text-slate-400 text-[11px] font-sans leading-relaxed">
                 Queries tree-sitter AST index + pgvector knowledge base + GitHub CI logs to assemble verified grounding context.
@@ -1142,7 +1129,7 @@ export default function LandingPage() {
             </div>
 
             <div className="p-5 rounded-2xl bg-[#040209] border border-purple-500/20 hover:border-indigo-500/40 hover:scale-102 transition-all duration-300 space-y-2.5 shadow-md">
-              <span className="text-[10px] text-indigo-400 font-bold tracking-widest block uppercase">PHASE 3</span>
+              <span className="text-[11px] text-indigo-400 font-bold tracking-wider block uppercase">PHASE 03 // REASONING</span>
               <h4 className="text-white font-bold text-xs">Gemini 1.5 Pro Reasoning</h4>
               <p className="text-slate-400 text-[11px] font-sans leading-relaxed">
                 Performs deep causal root-cause analysis, isolating failure points and synthesizing unified patch diffs.
@@ -1150,7 +1137,7 @@ export default function LandingPage() {
             </div>
 
             <div className="p-5 rounded-2xl bg-[#040209] border border-emerald-500/30 hover:border-emerald-500/60 hover:scale-102 transition-all duration-300 space-y-2.5 shadow-md">
-              <span className="text-[10px] text-emerald-400 font-bold tracking-widest block uppercase">PHASE 4</span>
+              <span className="text-[11px] text-emerald-400 font-bold tracking-wider block uppercase">PHASE 04 // VERIFICATION</span>
               <h4 className="text-white font-bold text-xs">Cryptographic Approval</h4>
               <p className="text-slate-400 text-[11px] font-sans leading-relaxed">
                 Presents patch for human review. Only executes git branch/PR mutations upon user cryptographic signature.
