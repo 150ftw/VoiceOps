@@ -936,78 +936,168 @@ export default function LandingPage() {
           </p>
         </div>
 
-        {/* 6 Grid Feature Cards with Rich Tilt & Glow Animations */}
+        {/* 6 High-Density Informative Feature Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {/* Feature 1 */}
-          <div className="p-7 rounded-3xl bg-[#080412]/80 border border-purple-500/15 hover:border-rose-500/40 hover:-translate-y-2 hover:shadow-[0_15px_35px_rgba(244,63,94,0.18)] transition-all duration-500 space-y-3.5 group relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-28 h-28 bg-rose-500/5 rounded-full blur-2xl group-hover:bg-rose-500/20 transition-all duration-500 pointer-events-none" />
-            <div className="w-11 h-11 rounded-2xl bg-rose-500/10 border border-rose-500/25 flex items-center justify-center text-rose-400 group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300 shadow-md">
-              <AlertTriangle className="w-5 h-5" />
+          {/* Card 1 */}
+          <div className="p-7 rounded-3xl bg-[#080412]/90 border border-purple-500/20 hover:border-rose-500/40 hover:-translate-y-1.5 hover:shadow-[0_15px_35px_rgba(244,63,94,0.18)] transition-all duration-400 space-y-4 flex flex-col justify-between group relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-rose-500/10 rounded-full blur-2xl group-hover:bg-rose-500/25 transition-all duration-500 pointer-events-none" />
+            
+            <div className="flex items-center justify-between gap-2 relative z-10">
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-rose-500/10 border border-rose-500/25 text-rose-300 text-[10px] font-mono tracking-wider uppercase font-semibold">
+                <span className="w-1.5 h-1.5 rounded-full bg-rose-400 animate-pulse" />
+                <span>OBSERVABILITY & LOGS</span>
+              </div>
+              <span className="text-[11px] font-mono text-slate-500 font-bold">01</span>
             </div>
-            <h3 className="text-sm font-bold text-white group-hover:text-rose-200 transition-colors">CI/CD Run Log Diagnostics</h3>
-            <p className="text-xs text-slate-400 leading-relaxed font-sans">
-              Instantly analyzes megabytes of raw GitHub Actions and Docker build logs. Identifies compilation errors, missing environment secrets, and dependency mismatches in seconds.
-            </p>
+
+            <div className="space-y-2 relative z-10">
+              <h3 className="text-base font-bold text-white group-hover:text-rose-200 transition-colors leading-snug">
+                CI/CD Run Log Diagnostics & Stacktrace Isolation
+              </h3>
+              <p className="text-xs text-slate-400 leading-relaxed font-sans">
+                Parses multi-megabyte raw GitHub Actions and Docker build logs in real-time. Automatically correlates compilation failures, syntax errors, missing environment secrets, and dependency mismatches directly to the originating file and line.
+              </p>
+            </div>
+
+            <div className="pt-3 border-t border-white/[0.06] text-[11px] font-mono text-slate-400 flex items-center justify-between relative z-10">
+              <span className="text-rose-300/90">Tree-Sitter AST Correlation</span>
+              <span className="text-slate-500">Sub-Second Scan</span>
+            </div>
           </div>
 
-          {/* Feature 2 */}
-          <div className="p-7 rounded-3xl bg-[#080412]/80 border border-purple-500/15 hover:border-indigo-500/40 hover:-translate-y-2 hover:shadow-[0_15px_35px_rgba(99,102,241,0.18)] transition-all duration-500 space-y-3.5 group relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-28 h-28 bg-indigo-500/5 rounded-full blur-2xl group-hover:bg-indigo-500/20 transition-all duration-500 pointer-events-none" />
-            <div className="w-11 h-11 rounded-2xl bg-indigo-500/10 border border-indigo-500/25 flex items-center justify-center text-indigo-400 group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300 shadow-md">
-              <Database className="w-5 h-5" />
+          {/* Card 2 */}
+          <div className="p-7 rounded-3xl bg-[#080412]/90 border border-purple-500/20 hover:border-indigo-500/40 hover:-translate-y-1.5 hover:shadow-[0_15px_35px_rgba(99,102,241,0.18)] transition-all duration-400 space-y-4 flex flex-col justify-between group relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/10 rounded-full blur-2xl group-hover:bg-indigo-500/25 transition-all duration-500 pointer-events-none" />
+            
+            <div className="flex items-center justify-between gap-2 relative z-10">
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/25 text-indigo-300 text-[10px] font-mono tracking-wider uppercase font-semibold">
+                <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse" />
+                <span>KNOWLEDGE RETRIEVAL</span>
+              </div>
+              <span className="text-[11px] font-mono text-slate-500 font-bold">02</span>
             </div>
-            <h3 className="text-sm font-bold text-white group-hover:text-indigo-200 transition-colors">pgvector Runbook Memory</h3>
-            <p className="text-xs text-slate-400 leading-relaxed font-sans">
-              Indexes your organization’s standard operating procedures, architectural decisions, and past incident post-mortems so fixes adhere to team standards.
-            </p>
+
+            <div className="space-y-2 relative z-10">
+              <h3 className="text-base font-bold text-white group-hover:text-indigo-200 transition-colors leading-snug">
+                pgvector Incident Runbook Memory & ADR Indexing
+              </h3>
+              <p className="text-xs text-slate-400 leading-relaxed font-sans">
+                Indexes standard operating procedures, architectural decision records (ADRs), and post-mortems into pgvector embeddings. Grounds fixes in your team's historical incident resolutions and architectural patterns.
+              </p>
+            </div>
+
+            <div className="pt-3 border-t border-white/[0.06] text-[11px] font-mono text-slate-400 flex items-center justify-between relative z-10">
+              <span className="text-indigo-300/90">1536-dim pgvector Store</span>
+              <span className="text-slate-500">Cosine Matched</span>
+            </div>
           </div>
 
-          {/* Feature 3 */}
-          <div className="p-7 rounded-3xl bg-[#080412]/80 border border-purple-500/15 hover:border-cyan-500/40 hover:-translate-y-2 hover:shadow-[0_15px_35px_rgba(6,182,212,0.18)] transition-all duration-500 space-y-3.5 group relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-28 h-28 bg-cyan-500/5 rounded-full blur-2xl group-hover:bg-cyan-500/20 transition-all duration-500 pointer-events-none" />
-            <div className="w-11 h-11 rounded-2xl bg-cyan-500/10 border border-cyan-500/25 flex items-center justify-center text-cyan-400 group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300 shadow-md">
-              <GitPullRequest className="w-5 h-5" />
+          {/* Card 3 */}
+          <div className="p-7 rounded-3xl bg-[#080412]/90 border border-purple-500/20 hover:border-cyan-500/40 hover:-translate-y-1.5 hover:shadow-[0_15px_35px_rgba(6,182,212,0.18)] transition-all duration-400 space-y-4 flex flex-col justify-between group relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-500/10 rounded-full blur-2xl group-hover:bg-cyan-500/25 transition-all duration-500 pointer-events-none" />
+            
+            <div className="flex items-center justify-between gap-2 relative z-10">
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/25 text-cyan-300 text-[10px] font-mono tracking-wider uppercase font-semibold">
+                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+                <span>CODE REMEDIATION</span>
+              </div>
+              <span className="text-[11px] font-mono text-slate-500 font-bold">03</span>
             </div>
-            <h3 className="text-sm font-bold text-white group-hover:text-cyan-200 transition-colors">Automated Patch Diff Generation</h3>
-            <p className="text-xs text-slate-400 leading-relaxed font-sans">
-              Generates clean, git-compliant unified patch diffs targeting only the affected configuration or source files, complete with contextual rationale.
-            </p>
+
+            <div className="space-y-2 relative z-10">
+              <h3 className="text-base font-bold text-white group-hover:text-cyan-200 transition-colors leading-snug">
+                Deterministic Unified Patch Diff Generation
+              </h3>
+              <p className="text-xs text-slate-400 leading-relaxed font-sans">
+                Generates git-compliant unified patch diffs targeting only the precise affected configuration or source files. Assembles code modifications with full contextual rationale, import safety, and test assertions.
+              </p>
+            </div>
+
+            <div className="pt-3 border-t border-white/[0.06] text-[11px] font-mono text-slate-400 flex items-center justify-between relative z-10">
+              <span className="text-cyan-300/90">Git Unified Diff Standard</span>
+              <span className="text-slate-500">AST Safe</span>
+            </div>
           </div>
 
-          {/* Feature 4 */}
-          <div className="p-7 rounded-3xl bg-[#080412]/80 border border-purple-500/15 hover:border-emerald-500/40 hover:-translate-y-2 hover:shadow-[0_15px_35px_rgba(52,211,153,0.18)] transition-all duration-500 space-y-3.5 group relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-28 h-28 bg-emerald-500/5 rounded-full blur-2xl group-hover:bg-emerald-500/20 transition-all duration-500 pointer-events-none" />
-            <div className="w-11 h-11 rounded-2xl bg-emerald-500/10 border border-emerald-500/25 flex items-center justify-center text-emerald-400 group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300 shadow-md">
-              <Shield className="w-5 h-5" />
+          {/* Card 4 */}
+          <div className="p-7 rounded-3xl bg-[#080412]/90 border border-purple-500/20 hover:border-emerald-500/40 hover:-translate-y-1.5 hover:shadow-[0_15px_35px_rgba(52,211,153,0.18)] transition-all duration-400 space-y-4 flex flex-col justify-between group relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 rounded-full blur-2xl group-hover:bg-emerald-500/25 transition-all duration-500 pointer-events-none" />
+            
+            <div className="flex items-center justify-between gap-2 relative z-10">
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-emerald-300 text-[10px] font-mono tracking-wider uppercase font-semibold">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                <span>COMPLIANCE & SECURITY</span>
+              </div>
+              <span className="text-[11px] font-mono text-slate-500 font-bold">04</span>
             </div>
-            <h3 className="text-sm font-bold text-white group-hover:text-emerald-200 transition-colors">Least-Privilege Security Scans</h3>
-            <p className="text-xs text-slate-400 leading-relaxed font-sans">
-              Scans Terraform definitions, IAM roles, and Kubernetes manifests for CIS benchmark violations and wildcard permissions before deployment.
-            </p>
+
+            <div className="space-y-2 relative z-10">
+              <h3 className="text-base font-bold text-white group-hover:text-emerald-200 transition-colors leading-snug">
+                Least-Privilege Infrastructure & IAM Scans
+              </h3>
+              <p className="text-xs text-slate-400 leading-relaxed font-sans">
+                Audits Terraform configurations, IAM policies, and Kubernetes manifests for CIS benchmark violations and wildcard access grants. Enforces zero-write guardrails and least-privilege principles before PR generation.
+              </p>
+            </div>
+
+            <div className="pt-3 border-t border-white/[0.06] text-[11px] font-mono text-slate-400 flex items-center justify-between relative z-10">
+              <span className="text-emerald-300/90">CIS Benchmark & SOC-2</span>
+              <span className="text-slate-500">Zero-Write Mode</span>
+            </div>
           </div>
 
-          {/* Feature 5 */}
-          <div className="p-7 rounded-3xl bg-[#080412]/80 border border-purple-500/15 hover:border-amber-500/40 hover:-translate-y-2 hover:shadow-[0_15px_35px_rgba(245,158,11,0.18)] transition-all duration-500 space-y-3.5 group relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-28 h-28 bg-amber-500/5 rounded-full blur-2xl group-hover:bg-amber-500/20 transition-all duration-500 pointer-events-none" />
-            <div className="w-11 h-11 rounded-2xl bg-amber-500/10 border border-amber-500/25 flex items-center justify-center text-amber-400 group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300 shadow-md">
-              <RefreshCw className="w-5 h-5" />
+          {/* Card 5 */}
+          <div className="p-7 rounded-3xl bg-[#080412]/90 border border-purple-500/20 hover:border-amber-500/40 hover:-translate-y-1.5 hover:shadow-[0_15px_35px_rgba(245,158,11,0.18)] transition-all duration-400 space-y-4 flex flex-col justify-between group relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/10 rounded-full blur-2xl group-hover:bg-amber-500/25 transition-all duration-500 pointer-events-none" />
+            
+            <div className="flex items-center justify-between gap-2 relative z-10">
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-500/10 border border-amber-500/25 text-amber-300 text-[10px] font-mono tracking-wider uppercase font-semibold">
+                <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
+                <span>RELEASE AUTOMATION</span>
+              </div>
+              <span className="text-[11px] font-mono text-slate-500 font-bold">05</span>
             </div>
-            <h3 className="text-sm font-bold text-white group-hover:text-amber-200 transition-colors">Canary & Rollback Orchestration</h3>
-            <p className="text-xs text-slate-400 leading-relaxed font-sans">
-              Correlates telemetry spikes with recent releases, pinpointing the previous stable container image digest for immediate zero-downtime rollback.
-            </p>
+
+            <div className="space-y-2 relative z-10">
+              <h3 className="text-base font-bold text-white group-hover:text-amber-200 transition-colors leading-snug">
+                Canary & Zero-Downtime Rollback Orchestration
+              </h3>
+              <p className="text-xs text-slate-400 leading-relaxed font-sans">
+                Correlates sudden production telemetry spikes with recent releases and deployment events. Automatically pinpoints the previous stable container image digest for immediate zero-downtime rollback.
+              </p>
+            </div>
+
+            <div className="pt-3 border-t border-white/[0.06] text-[11px] font-mono text-slate-400 flex items-center justify-between relative z-10">
+              <span className="text-amber-300/90">Immutable Image Digest</span>
+              <span className="text-slate-500">Instant Trigger</span>
+            </div>
           </div>
 
-          {/* Feature 6 */}
-          <div className="p-7 rounded-3xl bg-[#080412]/80 border border-purple-500/15 hover:border-purple-500/40 hover:-translate-y-2 hover:shadow-[0_15px_35px_rgba(168,85,247,0.18)] transition-all duration-500 space-y-3.5 group relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-28 h-28 bg-purple-500/5 rounded-full blur-2xl group-hover:bg-purple-500/20 transition-all duration-500 pointer-events-none" />
-            <div className="w-11 h-11 rounded-2xl bg-purple-500/10 border border-purple-500/25 flex items-center justify-center text-purple-400 group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300 shadow-md">
-              <Mic className="w-5 h-5" />
+          {/* Card 6 */}
+          <div className="p-7 rounded-3xl bg-[#080412]/90 border border-purple-500/20 hover:border-purple-500/50 hover:-translate-y-1.5 hover:shadow-[0_15px_35px_rgba(168,85,247,0.18)] transition-all duration-400 space-y-4 flex flex-col justify-between group relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 rounded-full blur-2xl group-hover:bg-purple-500/25 transition-all duration-500 pointer-events-none" />
+            
+            <div className="flex items-center justify-between gap-2 relative z-10">
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-purple-500/10 border border-purple-500/25 text-purple-300 text-[10px] font-mono tracking-wider uppercase font-semibold">
+                <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse" />
+                <span>STREAMING INTERFACE</span>
+              </div>
+              <span className="text-[11px] font-mono text-slate-500 font-bold">06</span>
             </div>
-            <h3 className="text-sm font-bold text-white group-hover:text-purple-200 transition-colors">Hands-Free Voice Triage</h3>
-            <p className="text-xs text-slate-400 leading-relaxed font-sans">
-              Sub-second speech recognition pipeline engineered for on-call engineers to triage critical production alerts hands-free from anywhere.
-            </p>
+
+            <div className="space-y-2 relative z-10">
+              <h3 className="text-base font-bold text-white group-hover:text-purple-200 transition-colors leading-snug">
+                Low-Latency Real-Time Voice Triage
+              </h3>
+              <p className="text-xs text-slate-400 leading-relaxed font-sans">
+                Sub-second speech recognition pipeline engineered for on-call engineers to triage critical production alerts hands-free. Streams 16kHz PCM audio directly into AST context reasoning engines without visual distraction.
+              </p>
+            </div>
+
+            <div className="pt-3 border-t border-white/[0.06] text-[11px] font-mono text-slate-400 flex items-center justify-between relative z-10">
+              <span className="text-purple-300/90">16kHz PCM WebSocket</span>
+              <span className="text-slate-500">Hands-Free</span>
+            </div>
           </div>
         </div>
       </section>
