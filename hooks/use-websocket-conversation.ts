@@ -163,20 +163,8 @@ export function useWebSocketConversation({
                 break;
 
               case 'agent.audio.chunk':
-                if (msg.data) {
-                  try {
-                    const audio = new Audio(`data:audio/mp3;base64,${msg.data}`);
-                    audioPlayerRef.current = audio;
-                    setIsSpeaking(true);
-                    audio.play().catch((playErr) => console.warn('Audio autoplay blocked', playErr));
-                    audio.onended = () => {
-                      setIsSpeaking(false);
-                      setAgentState('idle');
-                    };
-                  } catch (audioErr) {
-                    console.error('Audio playback error', audioErr);
-                  }
-                }
+                // Silent mode: AI responds visually in chat without synthesized audio
+                setIsSpeaking(false);
                 break;
 
               default:

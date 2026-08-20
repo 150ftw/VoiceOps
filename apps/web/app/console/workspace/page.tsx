@@ -228,9 +228,6 @@ export default function VoiceWorkspacePage() {
         }
         return [...prev, msg];
       });
-      if (msg.content) {
-        handleSpeakAloud(msg.content);
-      }
     },
   });
 
@@ -567,7 +564,6 @@ Regarding your query **"${query}"** in **\`${repoName}\`**:
             created_at: new Date().toISOString(),
           };
           setMessages((prev) => [...prev, agentMsg]);
-          handleSpeakAloud(chatData.content);
           return;
         }
       }
@@ -586,16 +582,12 @@ Regarding your query **"${query}"** in **\`${repoName}\`**:
       created_at: new Date().toISOString(),
     };
     setMessages((prev) => [...prev, fallbackAgentMsg]);
-    handleSpeakAloud(fallbackText);
   };
 
-  const handleSpeakAloud = (text: string) => {
+  const handleSpeakAloud = (_text: string) => {
+    // Disabled: AI operates in silent mode (hearing & executing text/visual responses)
     if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-      stopSpeech();
-      const clean = text.replace(/[*#`]/g, '');
-      const utterance = new SpeechSynthesisUtterance(clean);
-      utterance.rate = 1.05;
-      window.speechSynthesis.speak(utterance);
+      window.speechSynthesis.cancel();
     }
   };
 
@@ -879,7 +871,6 @@ Regarding your query **"${query}"** in **\`${repoName}\`**:
                       'https://avatars.githubusercontent.com/u/9919?v=4'
                     }
                     userName={currentUser?.full_name || 'Developer'}
-                    onSpeak={handleSpeakAloud}
                     onRespondApproval={respondToApproval}
                   />
                 ))}

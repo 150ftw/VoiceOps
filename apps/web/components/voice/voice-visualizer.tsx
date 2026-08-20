@@ -42,8 +42,8 @@ export const VoiceVisualizer: React.FC<VoiceVisualizerProps> = ({
   const getStatusInfo = () => {
     if (isSpeaking) {
       return {
-        label: 'Synthesizing Neural Audio Stream',
-        badge: 'Speaking',
+        label: 'Executing DevOps Actions & Code Stream',
+        badge: 'Active Stream',
         badgeClass: 'bg-indigo-500/15 text-indigo-300 border-indigo-500/30 shadow-[0_0_12px_rgba(99,102,241,0.2)]',
         dotClass: 'bg-indigo-400 animate-ping',
       };
