@@ -29,34 +29,55 @@ export const RepoTopologyVisualizer: React.FC<RepoTopologyVisualizerProps> = ({ 
       {/* Terminal / IDE Window Header */}
       <div className="flex items-center justify-between px-3.5 py-2 bg-[#060911] border-b border-white/[0.06]">
         {/* macOS Window Controls */}
-        <div className="flex items-center gap-1.5 group/controls">
+        <div className="flex items-center gap-2 group/controls">
           <button
             type="button"
             onClick={onClose}
             title="Close architecture preview (show suggested questions)"
-            className="w-3 h-3 rounded-full bg-[#FF5F56] hover:bg-[#FF453A] flex items-center justify-center text-[#4A0002] transition-all cursor-pointer shadow-xs active:scale-90"
+            className="w-3 h-3 rounded-full bg-[#FF5F56] border border-[#E0443E]/40 hover:brightness-110 flex items-center justify-center transition-all cursor-pointer shadow-xs active:scale-90"
           >
-            <span className="opacity-0 group-hover/controls:opacity-100 text-[9px] font-bold leading-none select-none pb-0.5">
-              &times;
-            </span>
+            <svg
+              className="w-1.5 h-1.5 text-[#4C0000] opacity-0 group-hover/controls:opacity-100 transition-opacity"
+              viewBox="0 0 6 6"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.2"
+              strokeLinecap="round"
+            >
+              <path d="M1 1L5 5M5 1L1 5" />
+            </svg>
           </button>
           <div
-            className="w-3 h-3 rounded-full bg-[#FFBD2E] flex items-center justify-center text-[#593F00] shadow-xs"
+            className="w-3 h-3 rounded-full bg-[#FFBD2E] border border-[#DEA123]/40 flex items-center justify-center shadow-xs"
             title="Minimize"
           >
-            <span className="opacity-0 group-hover/controls:opacity-100 text-[9px] font-bold leading-none select-none pb-0.5">
-              &minus;
-            </span>
+            <svg
+              className="w-1.5 h-1.5 text-[#5A3E00] opacity-0 group-hover/controls:opacity-100 transition-opacity"
+              viewBox="0 0 6 6"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.2"
+              strokeLinecap="round"
+            >
+              <path d="M1 3H5" />
+            </svg>
           </div>
           <div
-            className="w-3 h-3 rounded-full bg-[#27C93F] flex items-center justify-center text-[#0A4816] shadow-xs"
+            className="w-3 h-3 rounded-full bg-[#27C93F] border border-[#1AAB29]/40 flex items-center justify-center shadow-xs"
             title="Expand"
           >
-            <span className="opacity-0 group-hover/controls:opacity-100 text-[8px] font-bold leading-none select-none">
-              &#43;
-            </span>
+            <svg
+              className="w-1.5 h-1.5 text-[#004D11] opacity-0 group-hover/controls:opacity-100 transition-opacity"
+              viewBox="0 0 6 6"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.2"
+              strokeLinecap="round"
+            >
+              <path d="M3 1V5M1 3H5" />
+            </svg>
           </div>
-          <span className="ml-2 text-[11px] font-sans font-medium text-slate-400">
+          <span className="ml-1.5 text-[11px] font-sans font-medium text-slate-400">
             voiceops-architecture-preview
           </span>
         </div>
