@@ -65,6 +65,7 @@ export default function VoiceWorkspacePage() {
   const [syncStatus, setSyncStatus] = useState<string | null>(null);
   const [isClearingChat, setIsClearingChat] = useState(false);
   const [mobileTab, setMobileTab] = useState<'chat' | 'voice'>('chat');
+  const [isPreviewClosed, setIsPreviewClosed] = useState(false);
 
   // Inline repo connect panel
   const [showRepoPicker, setShowRepoPicker] = useState(false);
@@ -759,47 +760,103 @@ Regarding your query **"${query}"** in **\`${repoName}\`**:
           {/* Messages Stream Container */}
           <div className="flex-1 p-4 sm:p-6 overflow-y-auto space-y-4">
             {!project && !isLoadingHistory ? (
-              /* No Repository Connected Onboarding Hero with Interactive DevOps Neural Topology */
-              <div className="h-full w-full flex flex-col items-center justify-center py-3 px-2 sm:px-4 space-y-3.5 my-auto overflow-y-auto animate-in fade-in zoom-in-95 duration-300">
-                {/* 1. Dedicated Interactive DevOps Neural Topology Stage */}
-                <RepoTopologyVisualizer />
+              /* No Repository Connected Onboarding Hero */
+              <div className="h-full w-full flex flex-col items-center justify-center py-3 px-2 sm:px-4 space-y-4 my-auto overflow-y-auto animate-in fade-in zoom-in-95 duration-300">
+                {!isPreviewClosed ? (
+                  /* 1. Dedicated Interactive DevOps Architecture & Pipeline Flow Stage */
+                  <>
+                    <RepoTopologyVisualizer onClose={() => setIsPreviewClosed(true)} />
 
-                {/* 2. Action Hub & CTA Button */}
-                <div className="flex flex-col items-center text-center space-y-3 max-w-lg">
-                  <div className="space-y-1">
-                    <h3 className="text-base sm:text-lg font-bold text-white tracking-tight">
-                      Connect a Repository to Start
-                    </h3>
-                    <p className="text-xs text-slate-400 leading-relaxed max-w-md">
-                      VoiceOps maps your codebase into an AST knowledge graph with pgvector semantic memory for voice-driven DevOps triage.
-                    </p>
+                    {/* Action Hub & CTA Button */}
+                    <div className="flex flex-col items-center text-center space-y-3 max-w-lg">
+                      <div className="space-y-1">
+                        <h3 className="text-base sm:text-lg font-bold text-white tracking-tight">
+                          Connect a Repository to Start
+                        </h3>
+                        <p className="text-xs text-slate-400 leading-relaxed max-w-md">
+                          VoiceOps maps your codebase into an AST knowledge graph with pgvector semantic memory for voice-driven DevOps triage.
+                        </p>
+                      </div>
+
+                      <button
+                        onClick={handleOpenRepoPicker}
+                        className="px-6 py-2.5 rounded-2xl bg-gradient-to-r from-purple-600 via-indigo-600 to-indigo-500 hover:from-purple-500 hover:to-indigo-400 text-white font-semibold text-xs transition-all shadow-xl glow-indigo flex items-center justify-center gap-2 group active:scale-95 border border-purple-400/40"
+                      >
+                        <Github className="w-4 h-4" />
+                        <span>Connect a GitHub Repository</span>
+                        <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
+                      </button>
+
+                      {/* Micro Feature Badges */}
+                      <div className="grid grid-cols-3 gap-2.5 w-full pt-1 text-[11px] font-mono text-slate-400 max-w-md">
+                        <div className="p-2 rounded-xl bg-white/[0.02] border border-white/[0.04] space-y-0.5 text-center">
+                          <span className="text-purple-400 text-sm">⚡</span>
+                          <p className="text-[10px] text-slate-300 font-sans font-medium">1-Click Scan</p>
+                        </div>
+                        <div className="p-2 rounded-xl bg-white/[0.02] border border-white/[0.04] space-y-0.5 text-center">
+                          <span className="text-cyan-400 text-sm">🧠</span>
+                          <p className="text-[10px] text-slate-300 font-sans font-medium">AST Topology</p>
+                        </div>
+                        <div className="p-2 rounded-xl bg-white/[0.02] border border-white/[0.04] space-y-0.5 text-center">
+                          <span className="text-emerald-400 text-sm">🛡️</span>
+                          <p className="text-[10px] text-slate-300 font-sans font-medium">Zero-Write Safe</p>
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  /* 2. When user closed the preview window with red mac button: show suggested prompt questions & connect CTA */
+                  <div className="flex flex-col items-center text-center space-y-4 max-w-lg my-auto animate-in fade-in slide-in-from-bottom-2 duration-300">
+                    <div className="space-y-1.5">
+                      <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-xs font-mono">
+                        <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
+                        <span>Suggested Queries Preview</span>
+                      </div>
+                      <h3 className="text-base sm:text-lg font-bold text-white tracking-tight">
+                        Connect a Repository to Start
+                      </h3>
+                      <p className="text-xs text-slate-400 leading-relaxed max-w-md">
+                        Select a prompt below or connect a repository to run deep AST analysis and DevOps voice operations.
+                      </p>
+                    </div>
+
+                    {/* Suggested Questions Grid */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 w-full pt-1">
+                      {quickPrompts.map((prompt) => (
+                        <button
+                          key={prompt}
+                          onClick={() => {
+                            handleOpenRepoPicker();
+                          }}
+                          className="p-3 text-left rounded-2xl bg-[#090D18] hover:bg-indigo-500/10 border border-white/[0.06] hover:border-indigo-500/30 text-xs text-slate-300 transition-all flex items-center justify-between group shadow-sm hover:shadow-md"
+                        >
+                          <span className="line-clamp-1">{prompt}</span>
+                          <Zap className="w-3.5 h-3.5 text-indigo-400 opacity-0 group-hover:opacity-100 transition-opacity shrink-0 ml-1.5" />
+                        </button>
+                      ))}
+                    </div>
+
+                    <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+                      <button
+                        onClick={handleOpenRepoPicker}
+                        className="px-5 py-2.5 rounded-2xl bg-gradient-to-r from-purple-600 via-indigo-600 to-indigo-500 hover:from-purple-500 hover:to-indigo-400 text-white font-semibold text-xs transition-all shadow-xl glow-indigo flex items-center justify-center gap-2 group active:scale-95 border border-purple-400/40"
+                      >
+                        <Github className="w-4 h-4" />
+                        <span>Connect a GitHub Repository</span>
+                        <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
+                      </button>
+
+                      {/* Reopen preview button */}
+                      <button
+                        onClick={() => setIsPreviewClosed(false)}
+                        className="px-3.5 py-2.5 rounded-2xl bg-white/[0.03] hover:bg-white/[0.07] border border-white/[0.08] text-slate-300 hover:text-white text-xs font-mono transition-all"
+                        title="Reopen architecture preview"
+                      >
+                        Show Architecture
+                      </button>
+                    </div>
                   </div>
-
-                  <button
-                    onClick={handleOpenRepoPicker}
-                    className="px-6 py-2.5 rounded-2xl bg-gradient-to-r from-purple-600 via-indigo-600 to-indigo-500 hover:from-purple-500 hover:to-indigo-400 text-white font-semibold text-xs transition-all shadow-xl glow-indigo flex items-center justify-center gap-2 group active:scale-95 border border-purple-400/40"
-                  >
-                    <Github className="w-4 h-4" />
-                    <span>Connect a GitHub Repository</span>
-                    <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
-                  </button>
-
-                  {/* 3. Micro Feature Badges */}
-                  <div className="grid grid-cols-3 gap-2.5 w-full pt-1 text-[11px] font-mono text-slate-400 max-w-md">
-                    <div className="p-2 rounded-xl bg-white/[0.02] border border-white/[0.04] space-y-0.5 text-center">
-                      <span className="text-purple-400 text-sm">⚡</span>
-                      <p className="text-[10px] text-slate-300 font-sans font-medium">1-Click Scan</p>
-                    </div>
-                    <div className="p-2 rounded-xl bg-white/[0.02] border border-white/[0.04] space-y-0.5 text-center">
-                      <span className="text-cyan-400 text-sm">🧠</span>
-                      <p className="text-[10px] text-slate-300 font-sans font-medium">AST Topology</p>
-                    </div>
-                    <div className="p-2 rounded-xl bg-white/[0.02] border border-white/[0.04] space-y-0.5 text-center">
-                      <span className="text-emerald-400 text-sm">🛡️</span>
-                      <p className="text-[10px] text-slate-300 font-sans font-medium">Zero-Write Safe</p>
-                    </div>
-                  </div>
-                </div>
+                )}
               </div>
             ) : messages.length === 0 && !isLoadingHistory ? (
               <div className="h-full flex flex-col items-center justify-center text-center p-6 space-y-4 text-slate-400">

@@ -17,7 +17,11 @@ import {
 
 type TabType = 'pipeline' | 'ast' | 'vector';
 
-export const RepoTopologyVisualizer: React.FC = () => {
+interface RepoTopologyVisualizerProps {
+  onClose?: () => void;
+}
+
+export const RepoTopologyVisualizer: React.FC<RepoTopologyVisualizerProps> = ({ onClose }) => {
   const [activeTab, setActiveTab] = useState<TabType>('pipeline');
 
   return (
@@ -25,10 +29,33 @@ export const RepoTopologyVisualizer: React.FC = () => {
       {/* Terminal / IDE Window Header */}
       <div className="flex items-center justify-between px-3.5 py-2 bg-[#060911] border-b border-white/[0.06]">
         {/* macOS Window Controls */}
-        <div className="flex items-center gap-1.5">
-          <div className="w-2.5 h-2.5 rounded-full bg-[#FF5F56]/80" />
-          <div className="w-2.5 h-2.5 rounded-full bg-[#FFBD2E]/80" />
-          <div className="w-2.5 h-2.5 rounded-full bg-[#27C93F]/80" />
+        <div className="flex items-center gap-1.5 group/controls">
+          <button
+            type="button"
+            onClick={onClose}
+            title="Close architecture preview (show suggested questions)"
+            className="w-3 h-3 rounded-full bg-[#FF5F56] hover:bg-[#FF453A] flex items-center justify-center text-[#4A0002] transition-all cursor-pointer shadow-xs active:scale-90"
+          >
+            <span className="opacity-0 group-hover/controls:opacity-100 text-[9px] font-bold leading-none select-none pb-0.5">
+              &times;
+            </span>
+          </button>
+          <div
+            className="w-3 h-3 rounded-full bg-[#FFBD2E] flex items-center justify-center text-[#593F00] shadow-xs"
+            title="Minimize"
+          >
+            <span className="opacity-0 group-hover/controls:opacity-100 text-[9px] font-bold leading-none select-none pb-0.5">
+              &minus;
+            </span>
+          </div>
+          <div
+            className="w-3 h-3 rounded-full bg-[#27C93F] flex items-center justify-center text-[#0A4816] shadow-xs"
+            title="Expand"
+          >
+            <span className="opacity-0 group-hover/controls:opacity-100 text-[8px] font-bold leading-none select-none">
+              &#43;
+            </span>
+          </div>
           <span className="ml-2 text-[11px] font-sans font-medium text-slate-400">
             voiceops-architecture-preview
           </span>
