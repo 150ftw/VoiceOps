@@ -847,13 +847,13 @@ export default function LandingPage() {
       </section>
 
       {/* SECTION 1: Technical Architecture & 3-Step Pipeline */}
-      <section className="py-20 px-6 sm:px-12 max-w-6xl mx-auto relative z-10">
-        <div className="text-center max-w-2xl mx-auto mb-14 space-y-3">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-purple-500/10 border border-purple-500/25 text-purple-300 text-xs font-mono tracking-widest uppercase">
+      <section className="py-24 px-6 sm:px-12 max-w-6xl mx-auto relative z-10">
+        <div className="text-center max-w-2xl mx-auto mb-16 space-y-3">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300 text-xs font-mono tracking-widest uppercase shadow-[0_0_15px_rgba(168,85,247,0.2)] animate-pulse-subtle">
             <Cpu className="w-3.5 h-3.5 text-purple-400" />
             <span>Under The Hood</span>
           </div>
-          <h2 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
+          <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
             How VoiceOps Operates Deterministically
           </h2>
           <p className="text-xs sm:text-sm text-slate-400 font-sans leading-relaxed">
@@ -861,64 +861,67 @@ export default function LandingPage() {
           </p>
         </div>
 
-        {/* 3-Step Pipeline Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+        {/* 3-Step Pipeline Cards with Hover Elevation & Ambient Glow */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Card 1 */}
-          <div className="p-6 rounded-3xl bg-[#080412]/90 border border-purple-500/20 shadow-xl space-y-4 relative group hover:border-purple-500/40 transition-all">
-            <div className="w-10 h-10 rounded-2xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-300 font-mono font-bold text-sm">
+          <div className="p-7 rounded-3xl bg-[#080412]/90 border border-purple-500/20 shadow-xl space-y-4 relative group hover:-translate-y-2 hover:border-purple-500/50 hover:shadow-[0_15px_40px_rgba(168,85,247,0.22)] transition-all duration-500 overflow-hidden">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 rounded-full blur-2xl group-hover:bg-purple-500/30 transition-all duration-500 pointer-events-none" />
+            <div className="w-11 h-11 rounded-2xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-300 font-mono font-bold text-sm group-hover:scale-110 group-hover:bg-purple-500/20 transition-transform duration-300 shadow-md">
               01
             </div>
-            <div className="space-y-1.5">
-              <h3 className="text-base font-bold text-white flex items-center gap-2">
-                <FileCode2 className="w-4 h-4 text-purple-400" />
+            <div className="space-y-2 relative z-10">
+              <h3 className="text-base font-bold text-white flex items-center gap-2 group-hover:text-purple-200 transition-colors">
+                <FileCode2 className="w-4 h-4 text-purple-400 group-hover:rotate-6 transition-transform duration-300" />
                 <span>AST & Codebase Indexing</span>
               </h3>
               <p className="text-xs text-slate-400 leading-relaxed font-sans">
                 VoiceOps uses tree-sitter to build a syntax graph of your repository, mapping functions, imports, dependency trees, and configuration files into high-dimensional vector embeddings.
               </p>
             </div>
-            <div className="pt-2 border-t border-white/[0.06] text-[11px] font-mono text-purple-300/80 flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-purple-400" />
+            <div className="pt-3 border-t border-white/[0.06] text-[11px] font-mono text-purple-300/80 flex items-center gap-2 relative z-10">
+              <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse" />
               <span>Polyglot • TypeScript, Python, Go, Rust, K8s</span>
             </div>
           </div>
 
           {/* Card 2 */}
-          <div className="p-6 rounded-3xl bg-[#080412]/90 border border-purple-500/20 shadow-xl space-y-4 relative group hover:border-purple-500/40 transition-all">
-            <div className="w-10 h-10 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-300 font-mono font-bold text-sm">
+          <div className="p-7 rounded-3xl bg-[#080412]/90 border border-purple-500/20 shadow-xl space-y-4 relative group hover:-translate-y-2 hover:border-cyan-500/50 hover:shadow-[0_15px_40px_rgba(6,182,212,0.22)] transition-all duration-500 overflow-hidden">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-500/10 rounded-full blur-2xl group-hover:bg-cyan-500/30 transition-all duration-500 pointer-events-none" />
+            <div className="w-11 h-11 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-300 font-mono font-bold text-sm group-hover:scale-110 group-hover:bg-cyan-500/20 transition-transform duration-300 shadow-md">
               02
             </div>
-            <div className="space-y-1.5">
-              <h3 className="text-base font-bold text-white flex items-center gap-2">
-                <Activity className="w-4 h-4 text-cyan-400" />
+            <div className="space-y-2 relative z-10">
+              <h3 className="text-base font-bold text-white flex items-center gap-2 group-hover:text-cyan-200 transition-colors">
+                <Activity className="w-4 h-4 text-cyan-400 group-hover:rotate-6 transition-transform duration-300" />
                 <span>Telemetry & Log Correlation</span>
               </h3>
               <p className="text-xs text-slate-400 leading-relaxed font-sans">
                 When a voice query is received, VoiceOps queries GitHub Actions APIs and cloud metrics, isolating the exact failing stack trace line and retrieving matching organizational runbooks from pgvector.
               </p>
             </div>
-            <div className="pt-2 border-t border-white/[0.06] text-[11px] font-mono text-cyan-300/80 flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
+            <div className="pt-3 border-t border-white/[0.06] text-[11px] font-mono text-cyan-300/80 flex items-center gap-2 relative z-10">
+              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
               <span>Cosine Match • Root-Cause Isolation</span>
             </div>
           </div>
 
           {/* Card 3 */}
-          <div className="p-6 rounded-3xl bg-[#080412]/90 border border-purple-500/20 shadow-xl space-y-4 relative group hover:border-purple-500/40 transition-all">
-            <div className="w-10 h-10 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-300 font-mono font-bold text-sm">
+          <div className="p-7 rounded-3xl bg-[#080412]/90 border border-purple-500/20 shadow-xl space-y-4 relative group hover:-translate-y-2 hover:border-emerald-500/50 hover:shadow-[0_15px_40px_rgba(52,211,153,0.22)] transition-all duration-500 overflow-hidden">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 rounded-full blur-2xl group-hover:bg-emerald-500/30 transition-all duration-500 pointer-events-none" />
+            <div className="w-11 h-11 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-300 font-mono font-bold text-sm group-hover:scale-110 group-hover:bg-emerald-500/20 transition-transform duration-300 shadow-md">
               03
             </div>
-            <div className="space-y-1.5">
-              <h3 className="text-base font-bold text-white flex items-center gap-2">
-                <ShieldCheck className="w-4 h-4 text-emerald-400" />
+            <div className="space-y-2 relative z-10">
+              <h3 className="text-base font-bold text-white flex items-center gap-2 group-hover:text-emerald-200 transition-colors">
+                <ShieldCheck className="w-4 h-4 text-emerald-400 group-hover:rotate-6 transition-transform duration-300" />
                 <span>Zero-Write Guardrails</span>
               </h3>
               <p className="text-xs text-slate-400 leading-relaxed font-sans">
                 The agent proposes precise unified diffs and PR branches, but NEVER writes to production or merges code without explicit human cryptographic approval in the workspace interface.
               </p>
             </div>
-            <div className="pt-2 border-t border-white/[0.06] text-[11px] font-mono text-emerald-300/80 flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+            <div className="pt-3 border-t border-white/[0.06] text-[11px] font-mono text-emerald-300/80 flex items-center gap-2 relative z-10">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
               <span>Human-in-the-Loop • SOC-2 Safe</span>
             </div>
           </div>
@@ -926,13 +929,13 @@ export default function LandingPage() {
       </section>
 
       {/* SECTION 2: Substantive Enterprise Capabilities Grid */}
-      <section className="py-20 px-6 sm:px-12 max-w-6xl mx-auto relative z-10 border-t border-purple-500/15">
-        <div className="text-center max-w-2xl mx-auto mb-14 space-y-3">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-purple-500/10 border border-purple-500/25 text-purple-300 text-xs font-mono tracking-widest uppercase">
+      <section className="py-24 px-6 sm:px-12 max-w-6xl mx-auto relative z-10 border-t border-purple-500/15">
+        <div className="text-center max-w-2xl mx-auto mb-16 space-y-3">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300 text-xs font-mono tracking-widest uppercase shadow-[0_0_15px_rgba(168,85,247,0.2)]">
             <Layers className="w-3.5 h-3.5 text-purple-400" />
             <span>DevOps Suite</span>
           </div>
-          <h2 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
+          <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
             Engineered for High-Velocity Engineering Teams
           </h2>
           <p className="text-xs sm:text-sm text-slate-400 font-sans leading-relaxed">
@@ -940,69 +943,75 @@ export default function LandingPage() {
           </p>
         </div>
 
-        {/* 6 Grid Feature Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        {/* 6 Grid Feature Cards with Rich Tilt & Glow Animations */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* Feature 1 */}
-          <div className="p-6 rounded-3xl bg-[#080412]/80 border border-purple-500/15 hover:border-purple-500/35 transition-all space-y-3">
-            <div className="w-10 h-10 rounded-2xl bg-rose-500/10 border border-rose-500/25 flex items-center justify-center text-rose-400">
+          <div className="p-7 rounded-3xl bg-[#080412]/80 border border-purple-500/15 hover:border-rose-500/40 hover:-translate-y-2 hover:shadow-[0_15px_35px_rgba(244,63,94,0.18)] transition-all duration-500 space-y-3.5 group relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-28 h-28 bg-rose-500/5 rounded-full blur-2xl group-hover:bg-rose-500/20 transition-all duration-500 pointer-events-none" />
+            <div className="w-11 h-11 rounded-2xl bg-rose-500/10 border border-rose-500/25 flex items-center justify-center text-rose-400 group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300 shadow-md">
               <AlertTriangle className="w-5 h-5" />
             </div>
-            <h3 className="text-sm font-bold text-white">CI/CD Run Log Diagnostics</h3>
+            <h3 className="text-sm font-bold text-white group-hover:text-rose-200 transition-colors">CI/CD Run Log Diagnostics</h3>
             <p className="text-xs text-slate-400 leading-relaxed font-sans">
               Instantly analyzes megabytes of raw GitHub Actions and Docker build logs. Identifies compilation errors, missing environment secrets, and dependency mismatches in seconds.
             </p>
           </div>
 
           {/* Feature 2 */}
-          <div className="p-6 rounded-3xl bg-[#080412]/80 border border-purple-500/15 hover:border-purple-500/35 transition-all space-y-3">
-            <div className="w-10 h-10 rounded-2xl bg-indigo-500/10 border border-indigo-500/25 flex items-center justify-center text-indigo-400">
+          <div className="p-7 rounded-3xl bg-[#080412]/80 border border-purple-500/15 hover:border-indigo-500/40 hover:-translate-y-2 hover:shadow-[0_15px_35px_rgba(99,102,241,0.18)] transition-all duration-500 space-y-3.5 group relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-28 h-28 bg-indigo-500/5 rounded-full blur-2xl group-hover:bg-indigo-500/20 transition-all duration-500 pointer-events-none" />
+            <div className="w-11 h-11 rounded-2xl bg-indigo-500/10 border border-indigo-500/25 flex items-center justify-center text-indigo-400 group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300 shadow-md">
               <Database className="w-5 h-5" />
             </div>
-            <h3 className="text-sm font-bold text-white">pgvector Runbook Memory</h3>
+            <h3 className="text-sm font-bold text-white group-hover:text-indigo-200 transition-colors">pgvector Runbook Memory</h3>
             <p className="text-xs text-slate-400 leading-relaxed font-sans">
               Indexes your organization’s standard operating procedures, architectural decisions, and past incident post-mortems so fixes adhere to team standards.
             </p>
           </div>
 
           {/* Feature 3 */}
-          <div className="p-6 rounded-3xl bg-[#080412]/80 border border-purple-500/15 hover:border-purple-500/35 transition-all space-y-3">
-            <div className="w-10 h-10 rounded-2xl bg-cyan-500/10 border border-cyan-500/25 flex items-center justify-center text-cyan-400">
+          <div className="p-7 rounded-3xl bg-[#080412]/80 border border-purple-500/15 hover:border-cyan-500/40 hover:-translate-y-2 hover:shadow-[0_15px_35px_rgba(6,182,212,0.18)] transition-all duration-500 space-y-3.5 group relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-28 h-28 bg-cyan-500/5 rounded-full blur-2xl group-hover:bg-cyan-500/20 transition-all duration-500 pointer-events-none" />
+            <div className="w-11 h-11 rounded-2xl bg-cyan-500/10 border border-cyan-500/25 flex items-center justify-center text-cyan-400 group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300 shadow-md">
               <GitPullRequest className="w-5 h-5" />
             </div>
-            <h3 className="text-sm font-bold text-white">Automated Patch Diff Generation</h3>
+            <h3 className="text-sm font-bold text-white group-hover:text-cyan-200 transition-colors">Automated Patch Diff Generation</h3>
             <p className="text-xs text-slate-400 leading-relaxed font-sans">
               Generates clean, git-compliant unified patch diffs targeting only the affected configuration or source files, complete with contextual rationale.
             </p>
           </div>
 
           {/* Feature 4 */}
-          <div className="p-6 rounded-3xl bg-[#080412]/80 border border-purple-500/15 hover:border-purple-500/35 transition-all space-y-3">
-            <div className="w-10 h-10 rounded-2xl bg-emerald-500/10 border border-emerald-500/25 flex items-center justify-center text-emerald-400">
+          <div className="p-7 rounded-3xl bg-[#080412]/80 border border-purple-500/15 hover:border-emerald-500/40 hover:-translate-y-2 hover:shadow-[0_15px_35px_rgba(52,211,153,0.18)] transition-all duration-500 space-y-3.5 group relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-28 h-28 bg-emerald-500/5 rounded-full blur-2xl group-hover:bg-emerald-500/20 transition-all duration-500 pointer-events-none" />
+            <div className="w-11 h-11 rounded-2xl bg-emerald-500/10 border border-emerald-500/25 flex items-center justify-center text-emerald-400 group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300 shadow-md">
               <Shield className="w-5 h-5" />
             </div>
-            <h3 className="text-sm font-bold text-white">Least-Privilege Security Scans</h3>
+            <h3 className="text-sm font-bold text-white group-hover:text-emerald-200 transition-colors">Least-Privilege Security Scans</h3>
             <p className="text-xs text-slate-400 leading-relaxed font-sans">
               Scans Terraform definitions, IAM roles, and Kubernetes manifests for CIS benchmark violations and wildcard permissions before deployment.
             </p>
           </div>
 
           {/* Feature 5 */}
-          <div className="p-6 rounded-3xl bg-[#080412]/80 border border-purple-500/15 hover:border-purple-500/35 transition-all space-y-3">
-            <div className="w-10 h-10 rounded-2xl bg-amber-500/10 border border-amber-500/25 flex items-center justify-center text-amber-400">
+          <div className="p-7 rounded-3xl bg-[#080412]/80 border border-purple-500/15 hover:border-amber-500/40 hover:-translate-y-2 hover:shadow-[0_15px_35px_rgba(245,158,11,0.18)] transition-all duration-500 space-y-3.5 group relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-28 h-28 bg-amber-500/5 rounded-full blur-2xl group-hover:bg-amber-500/20 transition-all duration-500 pointer-events-none" />
+            <div className="w-11 h-11 rounded-2xl bg-amber-500/10 border border-amber-500/25 flex items-center justify-center text-amber-400 group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300 shadow-md">
               <RefreshCw className="w-5 h-5" />
             </div>
-            <h3 className="text-sm font-bold text-white">Canary & Rollback Orchestration</h3>
+            <h3 className="text-sm font-bold text-white group-hover:text-amber-200 transition-colors">Canary & Rollback Orchestration</h3>
             <p className="text-xs text-slate-400 leading-relaxed font-sans">
               Correlates telemetry spikes with recent releases, pinpointing the previous stable container image digest for immediate zero-downtime rollback.
             </p>
           </div>
 
           {/* Feature 6 */}
-          <div className="p-6 rounded-3xl bg-[#080412]/80 border border-purple-500/15 hover:border-purple-500/35 transition-all space-y-3">
-            <div className="w-10 h-10 rounded-2xl bg-purple-500/10 border border-purple-500/25 flex items-center justify-center text-purple-400">
+          <div className="p-7 rounded-3xl bg-[#080412]/80 border border-purple-500/15 hover:border-purple-500/40 hover:-translate-y-2 hover:shadow-[0_15px_35px_rgba(168,85,247,0.18)] transition-all duration-500 space-y-3.5 group relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-28 h-28 bg-purple-500/5 rounded-full blur-2xl group-hover:bg-purple-500/20 transition-all duration-500 pointer-events-none" />
+            <div className="w-11 h-11 rounded-2xl bg-purple-500/10 border border-purple-500/25 flex items-center justify-center text-purple-400 group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300 shadow-md">
               <Mic className="w-5 h-5" />
             </div>
-            <h3 className="text-sm font-bold text-white">Hands-Free Voice Triage</h3>
+            <h3 className="text-sm font-bold text-white group-hover:text-purple-200 transition-colors">Hands-Free Voice Triage</h3>
             <p className="text-xs text-slate-400 leading-relaxed font-sans">
               Sub-second speech recognition pipeline engineered for on-call engineers to triage critical production alerts hands-free from anywhere.
             </p>
@@ -1011,54 +1020,56 @@ export default function LandingPage() {
       </section>
 
       {/* SECTION 3: System Dataflow Architecture View */}
-      <section className="py-20 px-6 sm:px-12 max-w-6xl mx-auto relative z-10 border-t border-purple-500/15">
-        <div className="rounded-3xl bg-[#070312] border border-purple-500/20 p-8 sm:p-10 shadow-2xl space-y-8">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/[0.06] pb-6">
+      <section className="py-24 px-6 sm:px-12 max-w-6xl mx-auto relative z-10 border-t border-purple-500/15">
+        <div className="rounded-3xl bg-[#070312] border border-purple-500/20 p-8 sm:p-12 shadow-2xl space-y-8 relative overflow-hidden">
+          <div className="absolute -top-24 -right-24 w-80 h-80 bg-purple-600/10 rounded-full blur-3xl pointer-events-none" />
+          
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/[0.06] pb-6 relative z-10">
             <div>
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-300 text-xs font-mono mb-2">
-                <Workflow className="w-3.5 h-3.5 text-purple-400" />
+                <Workflow className="w-3.5 h-3.5 text-purple-400 animate-spin" style={{ animationDuration: '8s' }} />
                 <span>Execution Dataflow</span>
               </div>
-              <h3 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight">
+              <h3 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
                 Deterministic Multi-Agent Workflow
               </h3>
             </div>
-            <div className="flex items-center gap-2 text-xs font-mono text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20 self-start">
+            <div className="flex items-center gap-2 text-xs font-mono text-emerald-400 bg-emerald-500/10 px-3.5 py-1.5 rounded-full border border-emerald-500/20 self-start shadow-xs">
               <CheckCircle2 className="w-3.5 h-3.5" />
               <span>Read-Only Default State</span>
             </div>
           </div>
 
-          {/* Step Sequence Diagram */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 font-mono text-xs">
-            <div className="p-4 rounded-2xl bg-[#040209] border border-purple-500/20 space-y-2">
-              <span className="text-[10px] text-purple-400 font-bold block">PHASE 1</span>
+          {/* Step Sequence Diagram with Animated Progression */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 font-mono text-xs relative z-10">
+            <div className="p-5 rounded-2xl bg-[#040209] border border-purple-500/20 hover:border-purple-500/40 hover:scale-102 transition-all duration-300 space-y-2.5 shadow-md">
+              <span className="text-[10px] text-purple-400 font-bold tracking-widest block uppercase">PHASE 1</span>
               <h4 className="text-white font-bold text-xs">Audio / Text Ingestion</h4>
-              <p className="text-slate-400 text-[11px] font-sans">
+              <p className="text-slate-400 text-[11px] font-sans leading-relaxed">
                 Streams 16kHz PCM audio or textual commands into Whisper STT, extracting DevOps intents and parameters.
               </p>
             </div>
 
-            <div className="p-4 rounded-2xl bg-[#040209] border border-purple-500/20 space-y-2">
-              <span className="text-[10px] text-cyan-400 font-bold block">PHASE 2</span>
+            <div className="p-5 rounded-2xl bg-[#040209] border border-purple-500/20 hover:border-cyan-500/40 hover:scale-102 transition-all duration-300 space-y-2.5 shadow-md">
+              <span className="text-[10px] text-cyan-400 font-bold tracking-widest block uppercase">PHASE 2</span>
               <h4 className="text-white font-bold text-xs">Context Synthesis</h4>
-              <p className="text-slate-400 text-[11px] font-sans">
+              <p className="text-slate-400 text-[11px] font-sans leading-relaxed">
                 Queries tree-sitter AST index + pgvector knowledge base + GitHub CI logs to assemble verified grounding context.
               </p>
             </div>
 
-            <div className="p-4 rounded-2xl bg-[#040209] border border-purple-500/20 space-y-2">
-              <span className="text-[10px] text-indigo-400 font-bold block">PHASE 3</span>
+            <div className="p-5 rounded-2xl bg-[#040209] border border-purple-500/20 hover:border-indigo-500/40 hover:scale-102 transition-all duration-300 space-y-2.5 shadow-md">
+              <span className="text-[10px] text-indigo-400 font-bold tracking-widest block uppercase">PHASE 3</span>
               <h4 className="text-white font-bold text-xs">Gemini 1.5 Pro Reasoning</h4>
-              <p className="text-slate-400 text-[11px] font-sans">
+              <p className="text-slate-400 text-[11px] font-sans leading-relaxed">
                 Performs deep causal root-cause analysis, isolating failure points and synthesizing unified patch diffs.
               </p>
             </div>
 
-            <div className="p-4 rounded-2xl bg-[#040209] border border-emerald-500/30 space-y-2">
-              <span className="text-[10px] text-emerald-400 font-bold block">PHASE 4</span>
+            <div className="p-5 rounded-2xl bg-[#040209] border border-emerald-500/30 hover:border-emerald-500/60 hover:scale-102 transition-all duration-300 space-y-2.5 shadow-md">
+              <span className="text-[10px] text-emerald-400 font-bold tracking-widest block uppercase">PHASE 4</span>
               <h4 className="text-white font-bold text-xs">Cryptographic Approval</h4>
-              <p className="text-slate-400 text-[11px] font-sans">
+              <p className="text-slate-400 text-[11px] font-sans leading-relaxed">
                 Presents patch for human review. Only executes git branch/PR mutations upon user cryptographic signature.
               </p>
             </div>
@@ -1067,17 +1078,17 @@ export default function LandingPage() {
       </section>
 
       {/* SECTION 4: Engineering FAQ Accordion */}
-      <section className="py-20 px-6 sm:px-12 max-w-4xl mx-auto relative z-10 border-t border-purple-500/15">
-        <div className="text-center max-w-2xl mx-auto mb-12 space-y-2">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/25 text-purple-300 text-xs font-mono tracking-widest uppercase">
+      <section className="py-24 px-6 sm:px-12 max-w-4xl mx-auto relative z-10 border-t border-purple-500/15">
+        <div className="text-center max-w-2xl mx-auto mb-14 space-y-2">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-purple-500/10 border border-purple-500/25 text-purple-300 text-xs font-mono tracking-widest uppercase">
             <span>FAQ</span>
           </div>
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
             Frequently Asked Technical Questions
           </h2>
         </div>
 
-        <div className="space-y-3 font-sans">
+        <div className="space-y-3.5 font-sans">
           {[
             {
               q: "Does VoiceOps have write access to my repositories or production cluster?",
@@ -1104,21 +1115,25 @@ export default function LandingPage() {
             return (
               <div
                 key={idx}
-                className="rounded-2xl bg-[#080412]/90 border border-purple-500/20 overflow-hidden transition-colors"
+                className={`rounded-2xl border transition-all duration-300 overflow-hidden ${
+                  isOpen
+                    ? 'bg-gradient-to-r from-purple-950/40 via-[#080412] to-[#080412] border-purple-500/40 shadow-[0_0_20px_rgba(168,85,247,0.15)]'
+                    : 'bg-[#080412]/90 border-purple-500/20 hover:border-purple-500/35'
+                }`}
               >
                 <button
                   onClick={() => setOpenFaq(isOpen ? null : idx)}
-                  className="w-full px-5 py-4 text-left flex items-center justify-between gap-4 hover:text-purple-200 transition-colors"
+                  className="w-full px-6 py-4.5 text-left flex items-center justify-between gap-4 hover:text-purple-200 transition-colors cursor-pointer"
                 >
                   <span className="text-sm font-semibold text-white">{item.q}</span>
                   <ChevronDown
-                    className={`w-4 h-4 text-purple-400 shrink-0 transition-transform duration-200 ${
-                      isOpen ? 'rotate-180' : ''
+                    className={`w-4 h-4 text-purple-400 shrink-0 transition-transform duration-300 ${
+                      isOpen ? 'rotate-180 text-purple-300' : ''
                     }`}
                   />
                 </button>
                 {isOpen && (
-                  <div className="px-5 pb-4 text-xs text-slate-400 leading-relaxed border-t border-white/[0.04] pt-3">
+                  <div className="px-6 pb-5 text-xs text-slate-400 leading-relaxed border-t border-white/[0.04] pt-3.5 animate-in fade-in duration-200">
                     {item.a}
                   </div>
                 )}
@@ -1129,11 +1144,11 @@ export default function LandingPage() {
       </section>
 
       {/* SECTION 5: Final Call to Action */}
-      <section className="py-20 px-6 sm:px-12 max-w-5xl mx-auto relative z-10">
-        <div className="rounded-3xl bg-gradient-to-b from-[#120726] to-[#080314] border border-purple-500/30 p-10 text-center space-y-6 shadow-2xl relative overflow-hidden">
-          <div className="w-72 h-72 rounded-full bg-purple-600/20 blur-3xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none" />
+      <section className="py-24 px-6 sm:px-12 max-w-5xl mx-auto relative z-10">
+        <div className="rounded-3xl bg-gradient-to-b from-[#120726] via-[#090317] to-[#05020c] border border-purple-500/30 p-10 sm:p-14 text-center space-y-7 shadow-2xl relative overflow-hidden group">
+          <div className="w-80 h-80 rounded-full bg-purple-600/25 blur-3xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none group-hover:scale-125 transition-transform duration-700 animate-pulse-subtle" />
           <div className="relative z-10 space-y-3 max-w-xl mx-auto">
-            <h2 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
+            <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
               Ready to Accelerate Incident Triage?
             </h2>
             <p className="text-xs sm:text-sm text-purple-200/80 font-sans">
@@ -1144,7 +1159,7 @@ export default function LandingPage() {
           <div className="relative z-10 flex flex-wrap items-center justify-center gap-4 pt-2">
             <Link
               href="/workspace"
-              className="px-8 py-3.5 rounded-full bg-purple-200 hover:bg-white text-slate-950 font-bold text-xs uppercase tracking-wider transition-all shadow-xl glow-purple flex items-center gap-2"
+              className="px-8 py-3.5 rounded-full bg-purple-200 hover:bg-white text-slate-950 font-bold text-xs uppercase tracking-wider transition-all shadow-xl glow-purple hover:scale-105 active:scale-95 flex items-center gap-2"
             >
               <span>Launch Live Studio</span>
               <ArrowRight className="w-4 h-4" />
@@ -1153,7 +1168,7 @@ export default function LandingPage() {
               href="https://github.com/150ftw/VoiceOps"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-6 py-3.5 rounded-full bg-[#080412] hover:bg-purple-950/40 text-purple-200 hover:text-white border border-purple-500/30 text-xs font-semibold font-mono transition-all flex items-center gap-2"
+              className="px-6 py-3.5 rounded-full bg-[#080412] hover:bg-purple-950/50 text-purple-200 hover:text-white border border-purple-500/30 hover:border-purple-400 text-xs font-semibold font-mono transition-all flex items-center gap-2 hover:scale-105 active:scale-95"
             >
               <Github className="w-4 h-4" />
               <span>View On GitHub</span>
